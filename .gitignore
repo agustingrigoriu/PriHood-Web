@@ -2,3 +2,7 @@
 obj
 .vscode/
 bin
+
+wwwroot/scripts/site.min.js.map
+
+wwwroot/scripts/site.min.js
