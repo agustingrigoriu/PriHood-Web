@@ -13,6 +13,14 @@ La base de datos se llamará `Prihood`, recordar que es case sensitive, hay que 
 
 **Nota:** [Comandos para mysql](https://stackoverflow.com/questions/17666249/how-to-import-an-sql-file-using-the-command-line-in-mysql)
 
-# Estándar para trabajar con el script
+## Estándar para trabajar con el script
 
+Cualquier cambio sobre la BD hacerlo en el script update.sql, la modificación se hará agregando cosas, **NO** modificando las anteriores, e indicando la fecha y persona que hizo el último cambio.
 
+Ejemplo:
+
+`-- Agustín Gregorieu 09/06/2017
+CREATE TABLE HOLAMUNDO () ...
+`
+
+Si quiero modificar algo sobre dicha tabla, no toco ninguna columna, para ello utilizo un ALTER y modifico la misma. Es decir, voy pisando lo anterior, esto nos facilitará el trabajo en esta cuestión.
