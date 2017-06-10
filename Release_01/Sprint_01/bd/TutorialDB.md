@@ -1,6 +1,6 @@
-#Tutorial BD
+# Tutorial BD
 
-##Instalación
+## Instalación
 
 La base de datos se llamará `Prihood`, recordar que es case sensitive, hay que respetar mayúsculas y minúsculas. Para tener la BD instalada hay que seguir los siguientes pasos.
 
@@ -11,8 +11,8 @@ La base de datos se llamará `Prihood`, recordar que es case sensitive, hay que 
 5. Por último, haremos un "recovery" de la estructura de la BD a partir del script *update.sql*. El mismo se encuentra en el repositorio. El recovery se hace con el comando `mysql -u root -p Prihood < update.sql` 
 6. La terminal nos indicará con un mensaje que la BD ha sido creada.
 
-**Nota: ** [Comandos para mysql](https://stackoverflow.com/questions/17666249/how-to-import-an-sql-file-using-the-command-line-in-mysql)
+**Nota:** [Comandos para mysql](https://stackoverflow.com/questions/17666249/how-to-import-an-sql-file-using-the-command-line-in-mysql)
 
-#Estándar para trabajar con el script
+# Estándar para trabajar con el script
 
 
