@@ -1,71 +1,89 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PriHood</title>
 
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+<html lang="es">
+<head>
+
+<meta charset="utf-8">
+<title>PriHood - @ViewData["Title"]</title>
+<meta name="description" content="PriHood - @ViewData["Title"]">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+<link rel="icon" href="favicon.png">
 </head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">PriHood</a>
+
+<body data-spy="scroll" data-target=".navMenuCollapse">
+
+<div id="wrap"> 
+    <!-- NAVIGATION BEGIN -->
+    <nav class="navbar navbar-fixed-top navbar-slide">
+            <div class="container_fluid"> 
+                <button class="navbar-toggle menu-collapse-btn collapsed" data-toggle="collapse" data-target=".navMenuCollapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                <div class="collapse navbar-collapse navMenuCollapse">
+                    <ul class="nav">
+                        <li><a asp-controller="Home" asp-action="Index">Inicio</a> </li>
+                        <li><a href="#caracteristicas">Caracteristicas</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
+    </nav>
+    <!-- NAVIGAION END -->
+    
+    <!-- INTRO BEGIN -->
+    <header id="full-intro" class="intro-block bg-color-grad" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-12">
+                    <img class="logo" src="./images/logo.png" alt="PriHood Logo" height="100" />
+                    <h1 class="slogan">Todo en un solo lugar<br> <span class="type"></span></h1>
+                </div>
+                <div class="col-md-4 hidden-sm hidden-xs">
+                    <img class="intro-screen wow bounceInUp" data-wow-delay="0.5s" src="images/intro_screen.png" height="773" width="400" alt="" />
+                </div>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - PriHood</p>
-        </footer>
-    </div>
+        <div class="block-bg" data-stellar-ratio="0.4"></div>
+    </header>
+    <!-- INTRO END --> 
+    
+    @RenderBody()
+    
+    <!-- DOWNLOAD BEGIN -->
+    <section id="download" class="bg-color-main">
+        <div class="container-fluid wow fadeInDown">
+            <a href="#wrap" class="goto">
+                <h2>Descargar App</h2>
+            </a>
+        </div>
+        <div class="block-bg" data-stellar-ratio="0.5"></div>
+    </section>
+    <!-- DOWNLOAD END -->
+    
+    <!-- FOOTER BEGIN -->
+    <footer id="footer">
+        <div class="container"> 
+            <img class="logo" src="./images/logo.png" alt="PriHood Logo" height="48" />
+            <p class="copyright">&copy; 2017 PriHood</p>
+        </div>
+    </footer>
+    <!-- FOOTER END --> 
+</div>
 
-    <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+<script src="~/scripts/jquery-1.8.2.min.js"></script> 
+<script src="~/scripts/bootstrap.min.js"></script> 
+<script src="~/scripts/owl.carousel.min.js"></script> 
+<script src="~/scripts/jquery.validate.min.js"></script> 
+<script src="~/scripts/wow.min.js"></script> 
+<script src="~/scripts/jquery.smooth-scroll.min.js"></script> 
+<script src="~/scripts/jquery.superslides.min.js"></script>
+<script src="~/scripts/placeholders.jquery.min.js"></script>
+<script src="~/scripts/jquery.magnific-popup.min.js"></script>
+<script src="~/scripts/jquery.stellar.min.js"></script>
+<script src="~/scripts/retina.min.js"></script>
+<script src="~/scripts/site.min.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
 </body>
 </html>
