@@ -1,0 +1,169 @@
+@{ 
+  ViewData["Title"] = "Comunicaciones"; 
+  Layout = "_PanelLayout";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Comunicaciones
+            <small>Barrio La Lucinda II</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li>Inicio</li>
+            <li>La Lucinda II</li>
+            <li class="active">Comunicaciones</li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-3">
+                <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Nueva comunicación</a>
+
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Filtros</h3>
+
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="active"><a href="#"><i class="fa fa-inbox"></i> Todos</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i> No leídos <span class="label label-primary pull-right">12</span></a></li>
+                            <li><a href="#"><i class="fa fa-file-text-o"></i> Enviados</a></li>
+                            <li><a href="#"><i class="fa fa-filter"></i> Recibidos</a></li>
+                            <li><a href="#"><i class="fa fa-trash-o"></i> Borrados</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="box box-primary">
+                    <div class="box-body no-padding">
+
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Agustin Gregorieu</a></td>
+                                        <td>
+                                          Movimientos sospechosos en la calle 13 y 5
+                                        </td>
+                                        <td class="mailbox-date">hace 3 horas</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Gabriela Caballero</a></td>
+                                        <td>
+                                          Problema con la calle que llega a las canchas
+                                        </td>
+                                        <td class="mailbox-date">hace 3 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox"></td>
+                                        <td><a asp-action="verComunicacion" asp-route-id="12">Lorem ipsum</a></td>
+                                        <td>
+                                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum suscipit accusamus quia, in! Nesciunt, nihil.
+                                        </td>
+                                        <td class="mailbox-date">hace 5 días</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- /.table -->
+                        </div>
+                        <!-- /.mail-box-messages -->
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer no-padding">
+                        <div class="mailbox-controls">
+                            <!-- Check all button -->
+                            <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                            </div>
+                            
+                            <div class="pull-right">
+                                10 de 200
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.pull-right -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /. box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+    </section>
+</div>
