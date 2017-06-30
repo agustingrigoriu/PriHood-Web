@@ -197,6 +197,7 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
---  30/06/2017 Agustín Gregorieu 
+-- Agustín Gregorieu  30/06/2017 
+-- Se agrega nueva columna mail a tabla Usuario
 
 ALTER TABLE Usuario ADD email VARCHAR(150) ;
