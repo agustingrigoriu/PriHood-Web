@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+
+namespace PriHood.Controllers
+{
+  public class PanelController : Controller
+  {
+    public IActionResult Index()
+    {
+      return View();
+    }
+
+    public IActionResult Comunicaciones()
+    {
+      return View();
+    }
+
+    public IActionResult VerComunicacion(string index)
+    {
+      return View();
+    }
+
+    public IActionResult Visitas()
+    {
+      return View();
+    }
+
+    // aca cambio la ruta, ya no va a ser /Panel/Ejemplos sino /ejemplosPepe o /Panel/ejemploPepe2 nomas.
+    [Route("/ejemplosPepe")]
+    [Route("/Panel/ejemploPepe2")]
+    public IActionResult Ejemplos()
+    {
+      ViewData["mundo"] = "probando!";
+      ViewData["personas"] = new List<Persona>() {
+            new Persona{nombre = "Pato perez", email = "pato@pato.com"},
+            new Persona{nombre = "Pato2 perez", email = "pato2@pato.com"},
+            new Persona{nombre = "Pato3 perez", email = "pato3@pato.com"},
+            new Persona{nombre = "Pato4 perez", email = "pato4@pato.com"},
+            new Persona{nombre = "Pato5 perez", email = "pato5@pato.com"}
+        };
+
+      return View();
+    }
+  }
+
+  public class Persona
+  {
+    public string nombre { get; set; }
+    public string email { get; set; }
+  }
+}

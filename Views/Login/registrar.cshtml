@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "_LoginLayout";
+}
+<div class="login-box-body">
+  <form action="/Panel" method="post">
+    <div class="form-group has-feedback">
+      <input type="text" class="form-control" placeholder="Nombre">
+      <span class="glyphicon glyphicon-user form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <input type="email" class="form-control" placeholder="Email">
+      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <input type="password" class="form-control" placeholder="Contraseña">
+      <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+    </div>
+    <div class="form-group has-feedback">
+      <input type="password" class="form-control" placeholder="Repetir contraseña">
+      <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+    </div>
+    <div class="row">
+      <div class="col-xs-8">
+        <div class="checkbox icheck">
+          <label>
+            <input type="checkbox"> Acepto <a href="#">los términos</a>
+          </label>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <button type="submit" class="btn btn-primary btn-block btn-flat">Registrar</button>
+      </div>
+    </div>
+  </form>
+
+  <div>
+    @{
+      <!-- si ya tiene cuenta, lo redirijo a la accion index del controlador actual.. si quiero con asp-controller="Login" puedo definir el controlador de la acción -->
+    }
+    <a asp-action="index">Ya tengo cuenta</a>
+  </div>
+</div>
