@@ -198,6 +198,35 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- Agustín Gregorieu  30/06/2017 
+
 -- Se agrega nueva columna mail a tabla Usuario
 
 ALTER TABLE Usuario ADD email VARCHAR(150) ;
+
+-- Se agrega nueva tabla de barrios
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(100) NOT NULL,
+  `ubicacion` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC))
+ENGINE = InnoDB;
+
+-- Se agrega nueva tabla de barrios por usuario
+CREATE TABLE IF NOT EXISTS `Prihood`.`UsuarioXBarrio` (
+  `id_barrio` INT NOT NULL,
+  `id_usuario` INT NOT NULL,
+  PRIMARY KEY (`id_barrio`, `id_usuario`),
+  INDEX `fk_UsuarioXBarrio_2_idx` (`id_barrio` ASC),
+  CONSTRAINT `fk_UsuarioXBarrio_1`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_UsuarioXBarrio_2`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `Prihood`.`Usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
