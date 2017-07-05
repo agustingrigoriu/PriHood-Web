@@ -23,6 +23,11 @@ namespace PriHood.Controllers
       return View();
     }
 
+    public IActionResult RegistrarUsuario(string index)
+    {
+      return View();
+    }
+
     public IActionResult Visitas()
     {
       return View();
