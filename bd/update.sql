@@ -230,3 +230,9 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`UsuarioXBarrio` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+-- Agustín Gregorieu  05/07/2017 
+
+-- Inserción de valores a tabla PERFIL
+
+INSERT INTO Perfil (descripcion) VALUES ("Administrador"), ("Residente"), ("Encargado de Seguridad");
