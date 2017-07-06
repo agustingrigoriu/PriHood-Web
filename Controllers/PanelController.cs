@@ -24,7 +24,9 @@ namespace PriHood.Controllers
     }
 
     public IActionResult RegistrarUsuario(string index)
-    {
+    { 
+      string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad"};
+      ViewData["Perfiles"] = Perfiles;
       return View();
     }
 
