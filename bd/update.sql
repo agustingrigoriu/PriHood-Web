@@ -237,7 +237,7 @@ ENGINE = InnoDB;
 
 INSERT INTO Perfil (descripcion) VALUES ("Administrador"), ("Residente"), ("Encargado de Seguridad");
 
--- Belén Valdivia  05/07/2017 
+-- Belén Valdivia  06/07/2017 
 
 -- Inserción de valores a tabla Tipo_Documento 
 
