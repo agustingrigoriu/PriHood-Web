@@ -34,6 +34,11 @@ namespace PriHood.Controllers
       return View();
     }
 
+    public IActionResult VerUsuarios(string index)
+    { 
+      return View();
+    }
+
     public IActionResult Visitas()
     {
       return View();
