@@ -247,6 +247,9 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
+-- Agustín Gregorieu  08/07/2017 
 
+--Agrego columna para avatar a tabla Usuario
 
+ALTER TABLE Usuario ADD avatarurl VARCHAR(150) 
 
