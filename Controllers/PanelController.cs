@@ -25,6 +25,8 @@ namespace PriHood.Controllers
 
     public IActionResult RegistrarUsuario(string index)
     { 
+      string[] Residencias = {"RES 1","RES 2"};
+      ViewData["Residencias"] = Residencias;
       string[] TiposDocumento = {"DNI","PASAPORTE"};
       ViewData["TiposDocumento"] = TiposDocumento;
       string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad"};

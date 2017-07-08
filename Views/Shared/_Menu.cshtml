@@ -18,6 +18,19 @@
             <li><a href="#"><i class="fa fa-users"></i> Ver Usuarios</a></li>
           </ul>
   </li>
+  <li class="treeview">
+          <a href="#">
+            <i class="fa fa-home"></i>
+            <span>Residencias</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a asp-action="RegistrarUsuario" asp-controller="Panel"><i class="fa fa-home"></i> Registrar Residencia</a></li>
+            <li><a href="#"><i class="fa fa-home"></i> Ver Residencias</a></li>
+          </ul>
+  </li>
 
   <li class="header">VISITAS</li>
   <li><a asp-action="visitas" asp-controller="Panel"><i class="fa fa-envelope-o"></i> <span>Ver todas</span></a></li>
@@ -27,23 +40,4 @@
   <li><a asp-action="comunicaciones" asp-controller="Panel"><i class="fa fa-envelope-o"></i> <span>Ver todas</span></a></li>
   <li><a href="#"><i class="fa fa-link"></i> <span>Nueva comunicación</span></a></li>
 
-  <!--
-  <li class="header">HEADER</li>
-  <li><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-  <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-
-  <li class="treeview">
-    <a href="#">
-      <i class="fa fa-link"></i> <span>Multilevel</span>
-      <span class="pull-right-container">
-        <i class="fa fa-angle-left pull-right"></i>
-      </span>
-    </a>
-    <ul class="treeview-menu">
-      <li><a href="#">Link in level 2</a></li>
-      <li><a href="#">Link in level 2</a></li>
-    </ul>
-  </li>
-
-  -->
-</ul>
+ </ul>
