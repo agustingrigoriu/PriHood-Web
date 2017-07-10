@@ -23,19 +23,19 @@ namespace PriHood.Controllers
       return View();
     }
 
-    public IActionResult RegistrarUsuario(string index)
-    { 
-      string[] Residencias = {"RES 1","RES 2"};
+    public IActionResult Usuarios(string index)
+    {
+      string[] Residencias = { "RES 1", "RES 2" };
       ViewData["Residencias"] = Residencias;
-      string[] TiposDocumento = {"DNI","PASAPORTE"};
+      string[] TiposDocumento = { "DNI", "PASAPORTE" };
       ViewData["TiposDocumento"] = TiposDocumento;
-      string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad"};
+      string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad" };
       ViewData["Perfiles"] = Perfiles;
       return View();
     }
 
     public IActionResult VerUsuarios(string index)
-    { 
+    {
       return View();
     }
 
