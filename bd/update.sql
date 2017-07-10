@@ -24,9 +24,7 @@ USE `Prihood` ;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Perfil` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -39,14 +37,10 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `password` VARCHAR(45) NOT NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `nombre_usuario_UNIQUE` (`nombre_usuario` ASC),
-  INDEX `fk_Usuario_1_idx` (`id_perfil` ASC),
   CONSTRAINT `fk_Usuario_1`
     FOREIGN KEY (`id_perfil`)
     REFERENCES `Prihood`.`Perfil` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -56,9 +50,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `ubicacion` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `ubicacion_UNIQUE` (`ubicacion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -68,9 +60,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Documento` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -86,13 +76,10 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Persona` (
   `telefono_movil` VARCHAR(45) NULL,
   `fecha_nacimiento` DATE NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `fk_Persona_1_idx` (`id_tipo_documento` ASC),
   CONSTRAINT `fk_Persona_1`
     FOREIGN KEY (`id_tipo_documento`)
     REFERENCES `Prihood`.`Tipo_Documento` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -106,10 +93,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Residente` (
   `id_residencia` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `id_persona_UNIQUE` (`id_persona` ASC),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC),
-  INDEX `fk_Residente_2_idx` (`id_residencia` ASC),
   CONSTRAINT `fk_Residente_1`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `Prihood`.`Usuario` (`id`)
@@ -134,9 +117,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Empleado` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -150,10 +131,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   `id_usuario` INT NOT NULL,
   `id_persona` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC),
-  INDEX `fk_Empleado_2_idx` (`id_tipo_empleado` ASC),
-  UNIQUE INDEX `id_persona_UNIQUE` (`id_persona` ASC),
   CONSTRAINT `fk_Empleado_1`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `Prihood`.`Usuario` (`id`)
@@ -179,7 +156,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`ResidentesXResidencia` (
   `id_residencia` INT NOT NULL,
   `id_residente` INT NOT NULL,
   PRIMARY KEY (`id_residencia`, `id_residente`),
-  INDEX `fk_ResidentesXResidencia_2_idx` (`id_residente` ASC),
   CONSTRAINT `fk_ResidentesXResidencia_1`
     FOREIGN KEY (`id_residencia`)
     REFERENCES `Prihood`.`Residencia` (`id`)
@@ -247,9 +223,5 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
--- Agustín Gregorieu  08/07/2017 
 
---Agrego columna para avatar a tabla Usuario
-
-ALTER TABLE Usuario ADD avatarurl VARCHAR(150) 
 
