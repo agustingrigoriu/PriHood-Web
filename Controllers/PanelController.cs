@@ -23,7 +23,8 @@ namespace PriHood.Controllers
       return View();
     }
 
-    public IActionResult Usuarios(string index)
+    [HttpGet]
+    public IActionResult Usuarios(string index, int rowId)
     {
       string[] Residencias = { "RES 1", "RES 2" };
       ViewData["Residencias"] = Residencias;
@@ -31,7 +32,13 @@ namespace PriHood.Controllers
       ViewData["TiposDocumento"] = TiposDocumento;
       string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad" };
       ViewData["Perfiles"] = Perfiles;
+      int idSelected=rowId;
       return View();
+      
+      
+
+      
+
     }
 
     public IActionResult VerUsuarios(string index)
@@ -57,7 +64,7 @@ namespace PriHood.Controllers
             new Persona{nombre = "Pato4 perez", email = "pato4@pato.com"},
             new Persona{nombre = "Pato5 perez", email = "pato5@pato.com"}
         };
-
+        
       return View();
     }
   }
