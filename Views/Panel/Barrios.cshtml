@@ -1,0 +1,96 @@
+@{ ViewData["Title"] = "Barrios"; 
+   Layout = "_PanelLayout"; 
+ }
+
+<DOCTYPE html>
+<div class="content-wrapper">
+  <section class="content-header">
+    <h1>
+    <b> Barrios </b>
+    </h1>
+  </section>
+
+ <section class="content">
+<div class=" row">
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrarBarrio">
+              Registrar
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modificarBarrio">
+              Modificar
+          </button>
+          <button type="button" class="btn btn-default" >
+              Eliminar
+          </button>
+
+          
+</div>
+         
+<table class="table" id="tablaBarrios">
+    <thead>
+      <tr>
+        <th id=name>Nombre</th>
+        <th> Ubicación </th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td> La Lucinda</td>
+        <td>Av. 23 de Agosto 345</td>
+        <td colspan ='4'><img src="../../Images/delete.png" alt="deleteImage" border='3' height='50' width='50' /></td>
+      </tr>
+      <tr>
+        <td>Los Perales</td>
+        <td>El Naranjero 536</td>
+        <td colspan ='4'><img src="../../Images/delete.png" alt="deleteImage" border='3' height='50' width='50' /></td>
+      </tr>
+      <tr>
+        <td>Los Sauces</td>
+        <td>San Martin 944</td>
+        <td colspan ='4'><img src="../../Images/delete.png" alt="deleteImage" border='3' height='50' width='50' /></td>
+      </tr>
+    </tbody>
+   
+  </table>
+  </section>
+
+    
+</div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="registrarBarrio">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Registrar Barrio</h4>
+      </div>
+      <div class="modal-body">
+        @Html.Partial("ModalBarrio.cshtml")
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modificarBarrio">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modificar Barrio</h4>
+      </div>
+      <div class="modal-body">
+        @Html.Partial("ModificarBarrio.cshtml")
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Modificar</button>
+      </div>
+    </div>
+  </div>
+</div>

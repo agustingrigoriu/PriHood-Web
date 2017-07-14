@@ -18,13 +18,14 @@
 
 <div id="wrap"> 
     <!-- NAVIGATION BEGIN -->
-    <nav class="navbar navbar-fixed-top navbar-slide">
+    <nav class="navbar navbar-fixed-top">
             <div class="container_fluid"> 
                 <button class="navbar-toggle menu-collapse-btn collapsed" data-toggle="collapse" data-target=".navMenuCollapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
                 <div class="collapse navbar-collapse navMenuCollapse">
                     <ul class="nav">
-                        <li><a asp-controller="Home" asp-action="Index">Inicio</a> </li>
+                        <!-- <li><a asp-controller="Home" asp-action="Index">Inicio</a> </li> -->
                         <li><a href="#caracteristicas">Caracteristicas</a></li>
+                        <li><a asp-controller="Login" asp-action="Index">Iniciar Sesión</a></li>
                     </ul>
                 </div>
             </div>
@@ -59,6 +60,7 @@
         </div>
         <div class="block-bg" data-stellar-ratio="0.5"></div>
     </section>
+    
     <!-- DOWNLOAD END -->
     
     <!-- FOOTER BEGIN -->

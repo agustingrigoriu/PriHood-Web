@@ -32,12 +32,23 @@ namespace PriHood.Controllers
       ViewData["TiposDocumento"] = TiposDocumento;
       string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad" };
       ViewData["Perfiles"] = Perfiles;
+      int idSelected = rowId;
+      return View();
+    }
+    [HttpGet]
+    public IActionResult Barrios(string index, int rowId)
+    {
+      string[] Residencias = { "RES 1", "RES 2" };
+      ViewData["Residencias"] = Residencias;
+      string[] TiposDocumento = { "DNI", "PASAPORTE" };
+      ViewData["TiposDocumento"] = TiposDocumento;
+      string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad" };
+      ViewData["Perfiles"] = Perfiles;
       int idSelected=rowId;
       return View();
-      
-      
 
-      
+      return View();
+
 
     }
 
@@ -46,8 +57,16 @@ namespace PriHood.Controllers
       return View();
     }
 
+    public IActionResult Residencias(string index)
+    {
+      ViewData["mundo"] = "probando!";
+      return View();
+    }
+
+
     public IActionResult Visitas()
     {
+
       return View();
     }
 
@@ -64,7 +83,7 @@ namespace PriHood.Controllers
             new Persona{nombre = "Pato4 perez", email = "pato4@pato.com"},
             new Persona{nombre = "Pato5 perez", email = "pato5@pato.com"}
         };
-        
+
       return View();
     }
   }

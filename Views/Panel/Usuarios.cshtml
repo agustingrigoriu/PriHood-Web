@@ -2,21 +2,27 @@
    Layout = "_PanelLayout"; 
  }
 
+<DOCTYPE html>
 <div class="content-wrapper">
-  <section class="content-header">
+    <section class="content-header">
     <h1>
       Usuarios
     </h1>
   </section>
 
+
   <section class="content">
-<div class=" row">
+    <div class=" row">
           <button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrarUsuario">
               Registrar
           </button>
-
-          
-</div>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrarUsuario">
+              Modificar
+          </button>
+          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrarUsuario">
+              Eliminar
+          </button>
+    </div>
          
 <table class="table" id="tablaUsuarios">
     <thead>
@@ -24,39 +30,92 @@
         <th id=firstname>Firstname</th>
         <th>Lastname</th>
         <th>Email</th>
+        <th>Editar</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td> John</td>
         <td>Doe</td>
-        <td><input type="checkbox" id="rowId" name="email"/>john@example.com</td>
+        <td>john@example.com</td>
+        <td colspan ='4'><img src="../../Images/edit.png" alt="editImage" border='3' height='50' width='50' /></td>
       </tr>
       <tr>
         <td>Mary</td>
         <td>Moe</td>
-        <td><input type="checkbox" id="rowId" name="email" />mary@example.com</td>
+        <td>mary@example.com</td>
+        <td colspan ='4'><img src="../../Images/edit.png" alt="editImage" border='3' height='50' width='50' /></td>
       </tr>
       <tr>
         <td>July</td>
         <td>Dooley</td>
-        <td><input type="checkbox"   id="rowId" name="email"/>july@example.com</td>
+        <td>july@example.com</td>
+        <td colspan ='4'><img src="../../Images/edit.png" alt="editImage" border='3' height='50' width='50' /></td>
       </tr>
     </tbody>
-   
   </table>
- <input type="submit" value="Seleccionar" data-toggle="modal" data-target="#modificarUsuario">
-
-
   </section>
-
-    
 </div>
 </div>
 
+<section class="content">
+          <div class="box">
+            <div class="box-header">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-toolbar">
+                <div class="form-inline" role="form">
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#registrarUsuario" class="btn btn-block btn-default">Registrar</button>
+                  </div>
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#modificarUsuario" class="btn btn-block btn-default">Modificar</button>
+                  </div>
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#eliminarUsuario" class="btn btn-block btn-default">Eliminar</button>
+                  </div> 
+                </div>
+            </div>
+              <div id="tabla_usuarios" class="table-bordered"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          </div>
+          <!-- /.box -->
+  </section>
+</div>
+  
 
+
+<section class="content">
+          <div class="box">
+            <div class="box-header">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-toolbar">
+                <div class="form-inline" role="form">
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#registrarUsuario" class="btn btn-block btn-default">Registrar</button>
+                  </div>
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#modificarUsuario" class="btn btn-block btn-default">Modificar</button>
+                  </div>
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#eliminarUsuario" class="btn btn-block btn-default">Eliminar</button>
+                  </div> 
+                </div>
+            </div>
+              <div id="tabla_usuarios" class="table-bordered"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          </div>
+          <!-- /.box -->
+  </section>
+</div>
+  
 <div class="modal fade" tabindex="-1" role="dialog" id="registrarUsuario">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -67,27 +126,85 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Registrar</button>
       </div>
     </div>
   </div>
 </div>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modificarUsuario">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">Modificar Usuario</h4>
       </div>
       <div class="modal-body">
-        @Html.Partial("ModificarUsuario.cshtml")
+        @Html.Partial("ModalUsuario.cshtml")
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Modificar</button>
-        <button type="button" class="btn btn-primary">Eliminar</button>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="eliminarUsuario">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Eliminar Usuario</h4>
+      </div>
+      <div class="modal-body">
+        @Html.Partial("ModalUsuario.cshtml")
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  $("#tabla_usuarios").tabulator({
+    height:"320px",
+    selectable: 1,
+    fitColumns:true, //fit columns to width of table (optional)
+    columns:[ //Define Table Columns
+        {title:"Usuario", field:"username", sorter:"string"},
+        {title:"Perfil", field:"profile", sorter:"string"},
+        {title:"Email", field:"email", sorter:"string"},
+        {title:"Residencia", field:"residence", sorter:"string"},
+    ]
+  });
+
+  var tabledata= [{
+      "username": "cblessed0",
+      "profile": "Browsezoom",
+      "email": "dbirkin0@nationalgeographic.com",
+      "residence": "Corscot"
+    }, {
+      "username": "fantosik1",
+      "profile": "Kwimbee",
+      "email": "ublakeborough1@jalbum.net",
+      "residence": "1st"
+    }, {
+      "username": "dpiotrkowski2",
+      "profile": "Omba",
+      "email": "kallabarton2@va.gov",
+      "residence": "Mandrake"
+    }, {
+      "username": "sprobin3",
+      "profile": "Aivee",
+      "email": "gcreber3@cafepress.com",
+      "residence": "Pleasure"
+    }];
+
+$("#tabla_usuarios").tabulator("setData", tabledata);
+});
+
+</script>
+
+</script>
+

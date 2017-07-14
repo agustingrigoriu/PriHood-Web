@@ -12,9 +12,5 @@ namespace PriHood.Controllers
         {
             return View();
         }
-
-        public IActionResult Registrar() {
-          return View();
-        }
     }
 }
