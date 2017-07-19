@@ -70,7 +70,7 @@ namespace PriHood.Controllers
       return View();
     }
 
-    // aca cambio la ruta, ya no va a ser /Panel/Ejemplos sino /ejemplosPepe o /Panel/ejemploPepe2 nomas.
+    
     [Route("/ejemplosPepe")]
     [Route("/Panel/ejemploPepe2")]
     public IActionResult Ejemplos()
