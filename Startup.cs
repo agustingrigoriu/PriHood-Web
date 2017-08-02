@@ -52,6 +52,10 @@ namespace PriHood
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "panel",
+                    template: "panel/{page?}",
+                    defaults: new {controller = "Panel", action = "Index"});
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });

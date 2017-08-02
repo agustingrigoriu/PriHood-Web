@@ -1,7 +1,6 @@
 .DS_Store
 obj
 bin
-
 wwwroot/scripts/site.min.js.map
-
 wwwroot/scripts/site.min.js
+node_modules

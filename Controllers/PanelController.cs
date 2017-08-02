@@ -44,12 +44,8 @@ namespace PriHood.Controllers
       ViewData["TiposDocumento"] = TiposDocumento;
       string[] Perfiles = { "Administrador", "Residente", "Encagado de Seguridad" };
       ViewData["Perfiles"] = Perfiles;
-      int idSelected=rowId;
+      var idSelected=rowId;
       return View();
-
-      return View();
-
-
     }
 
     public IActionResult VerUsuarios(string index)
@@ -66,31 +62,7 @@ namespace PriHood.Controllers
 
     public IActionResult Visitas()
     {
-
       return View();
     }
-
-    
-    [Route("/ejemplosPepe")]
-    [Route("/Panel/ejemploPepe2")]
-    public IActionResult Ejemplos()
-    {
-      ViewData["mundo"] = "probando!";
-      ViewData["personas"] = new List<Persona>() {
-            new Persona{nombre = "Pato perez", email = "pato@pato.com"},
-            new Persona{nombre = "Pato2 perez", email = "pato2@pato.com"},
-            new Persona{nombre = "Pato3 perez", email = "pato3@pato.com"},
-            new Persona{nombre = "Pato4 perez", email = "pato4@pato.com"},
-            new Persona{nombre = "Pato5 perez", email = "pato5@pato.com"}
-        };
-
-      return View();
-    }
-  }
-
-  public class Persona
-  {
-    public string nombre { get; set; }
-    public string email { get; set; }
   }
 }

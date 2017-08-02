@@ -11,4 +11,13 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
   </ItemGroup>
+
+  <Target Name="Build Angular" Condition="'$(Configuration)'!='Release'" BeforeTargets="Build">    
+    <Message Text="* * * * * * Building Angular App * * * * * *" />
+    <Exec Command="ng build" />
+  </Target>
+  <Target Name="Build Angular" Condition="'$(Configuration)'=='Release'" BeforeTargets="Build">    
+    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
+    <Exec Command="ng build -prod -aot" />
+  </Target>
 </Project>
