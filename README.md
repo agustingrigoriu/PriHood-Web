@@ -18,6 +18,9 @@ Para modificar el panel, hay que tener ejecutando el servidor de C# y el compila
 Esto permite recompilar el panel con cada cambio y no tener que reiniciar el servidor cada vez que se quiera ver el cambio.
 Para esto, en una consola separada, hay que ejecutar:
 
+```npm install``` 
+(si es la primera vez)
+
 ```ng build --watch```
 
 Previamente hay que tener instalado Angular. Para hacer esto ir al sitio de angular (https://angular.io/) e instalarlo si falla el comando `ng`.

@@ -5,3 +5,6 @@ wwwroot/scripts/site.min.js.map
 wwwroot/scripts/site.min.js
 node_modules
 wwwroot/panel
+wwwroot/web/scripts/site.min.js.map
+
+wwwroot/web/scripts/site.min.js

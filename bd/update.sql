@@ -8,7 +8,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema Prihood
 -- -----------------------------------------------------
 -- Base de datos del proyecto Prihood.
-DROP SCHEMA IF EXISTS `Prihood` ;
+ DROP SCHEMA IF EXISTS `Prihood` ;
 
 -- -----------------------------------------------------
 -- Schema Prihood
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Persona` (
   `id_tipo_documento` INT NOT NULL,
   `nro_documento` VARCHAR(45) NOT NULL,
   `telefono_movil` VARCHAR(45) NULL,
-  `fecha_nacimiento` DATE NULL,
+  `fecha_nacimiento` DATETIME NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Persona_1`
     FOREIGN KEY (`id_tipo_documento`)
@@ -89,7 +89,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Residente` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_persona` INT NOT NULL,
-  `fecha_ingreso` DATE NULL,
+  `fecha_ingreso` DATETIME NULL,
   `id_residencia` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -126,7 +126,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `fecha_inicio_actividad` DATE NULL,
+  `fecha_inicio_actividad` DATETIME NULL,
   `id_tipo_empleado` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_persona` INT NOT NULL,
@@ -223,5 +223,8 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
+-- 20/07/2017
 
+-- Agrego columna para almacenar el avatar del usuario
 
+ALTER TABLE Usuario ADD COLUMN avatar VARCHAR(150);
