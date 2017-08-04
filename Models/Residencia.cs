@@ -12,6 +12,7 @@ namespace PriHood.Models
         }
 
         public int Id { get; set; }
+        public string Nombre { get; set; }
         public string Ubicacion { get; set; }
 
         public virtual ICollection<Residente> Residente { get; set; }

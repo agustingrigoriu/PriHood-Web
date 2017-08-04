@@ -7,7 +7,6 @@ namespace PriHood.Models
     public partial class PrihoodContext : DbContext
     {
         public virtual DbSet<Barrio> Barrio { get; set; }
-        public virtual DbSet<EfmigrationsHistory> EfmigrationsHistory { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
@@ -22,7 +21,7 @@ namespace PriHood.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
+            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=agustin;password=agustin123");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,20 +41,6 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(100)");
-            });
-
-            modelBuilder.Entity<EfmigrationsHistory>(entity =>
-            {
-                entity.HasKey(e => e.MigrationId)
-                    .HasName("PK___EFMigrationsHistory");
-
-                entity.ToTable("__EFMigrationsHistory");
-
-                entity.Property(e => e.MigrationId).HasColumnType("varchar(95)");
-
-                entity.Property(e => e.ProductVersion)
-                    .IsRequired()
-                    .HasColumnType("varchar(32)");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -167,6 +152,10 @@ namespace PriHood.Models
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.Nombre)
+                    .HasColumnName("nombre")
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.Ubicacion)
                     .IsRequired()
