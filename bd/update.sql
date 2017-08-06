@@ -1,5 +1,6 @@
 -- Agustín Gregorieu 09/06/2017
 
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -228,3 +229,11 @@ INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de
 -- Agrego columna para almacenar el avatar del usuario
 
 ALTER TABLE Usuario ADD COLUMN avatar VARCHAR(150);
+
+-- 04/08/2017
+
+-- Agrego columna para almacenar nombre de una residencia
+
+ALTER TABLE Residencia ADD COLUMN nombre VARCHAR(50);
+
+
