@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PriHood
 {
@@ -29,6 +31,7 @@ namespace PriHood
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,12 +51,12 @@ namespace PriHood
             }
 
             app.UseStaticFiles();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "panel",
-                    template: "panel/{page?}",
+                    template: "panel/{*page}",
                     defaults: new {controller = "Panel", action = "Index"});
                 routes.MapRoute(
                     name: "default",
