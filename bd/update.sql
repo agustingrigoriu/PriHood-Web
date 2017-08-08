@@ -35,10 +35,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   CONSTRAINT `fk_Usuario_1`
     FOREIGN KEY (`id_perfil`)
     REFERENCES `Prihood`.`Perfil` (`id`)
@@ -179,11 +181,6 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
--- Agustín Gregorieu  30/06/2017 
-
--- Se agrega nueva columna mail a tabla Usuario
-
-ALTER TABLE Usuario ADD email VARCHAR(150) ;
 
 -- Se agrega nueva tabla de barrios
 
