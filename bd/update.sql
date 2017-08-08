@@ -34,20 +34,19 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre_usuario` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
+  `nombre_usuario` VARCHAR(45) NULL,
+  `email` VARCHAR(50) UNIQUE NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   CONSTRAINT `fk_Usuario_1`
     FOREIGN KEY (`id_perfil`)
     REFERENCES `Prihood`.`Perfil` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB;
 
-INSERT INTO Usuario(nombre_usuario, password, id_perfil) VALUES("admin","8c6976e5b5410415bde908bd4dee15","1"); 
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin","8c6976e5b5410415bde908bd4dee15","1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
