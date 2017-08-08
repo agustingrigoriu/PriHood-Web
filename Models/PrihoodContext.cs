@@ -6,6 +6,9 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
+        public PrihoodContext(DbContextOptions options) : base(options){}
+        public PrihoodContext() {}
+
         public virtual DbSet<Barrio> Barrio { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
