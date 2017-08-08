@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
+  `avatar` VARCHAR(100) NOT NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_1`
@@ -50,6 +51,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -212,7 +214,7 @@ ENGINE = InnoDB;
 
 -- Inserción de valores a tabla PERFIL
 
-INSERT INTO Perfil (descripcion) VALUES ("Administrador"), ("Residente"), ("Encargado de Seguridad");
+INSERT INTO Perfil (descripcion) VALUES ("Root"), ("Administrador"), ("Residente"), ("Encargado de Seguridad");
 
 -- Belén Valdivia  06/07/2017 
 
@@ -224,16 +226,6 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
--- 20/07/2017
 
--- Agrego columna para almacenar el avatar del usuario
-
-ALTER TABLE Usuario ADD COLUMN avatar VARCHAR(150);
-
--- 04/08/2017
-
--- Agrego columna para almacenar nombre de una residencia
-
-ALTER TABLE Residencia ADD COLUMN nombre VARCHAR(50);
 
 
