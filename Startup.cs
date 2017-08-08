@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Session;
+using PriHood.Auth;
 
 namespace PriHood
 {
@@ -29,6 +33,13 @@ namespace PriHood
         {
             // Add framework services.
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.CookieHttpOnly = true;
+            });
+            services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
+            services.AddSingleton<AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,9 +59,16 @@ namespace PriHood
             }
 
             app.UseStaticFiles();
+            app.UseSession();
+            app.UseMiddleware<ApiMiddleware>();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "panel",
+                    template: "panel/{*page}",
+                    defaults: new {controller = "Panel", action = "Index"});
+                    
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

@@ -1,5 +1,6 @@
 -- Agustín Gregorieu 09/06/2017
 
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -8,7 +9,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema Prihood
 -- -----------------------------------------------------
 -- Base de datos del proyecto Prihood.
-DROP SCHEMA IF EXISTS `Prihood` ;
+ DROP SCHEMA IF EXISTS `Prihood` ;
 
 -- -----------------------------------------------------
 -- Schema Prihood
@@ -24,9 +25,7 @@ USE `Prihood` ;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Perfil` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -36,30 +35,31 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
+  `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `nombre_usuario_UNIQUE` (`nombre_usuario` ASC),
-  INDEX `fk_Usuario_1_idx` (`id_perfil` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC),
   CONSTRAINT `fk_Usuario_1`
     FOREIGN KEY (`id_perfil`)
     REFERENCES `Prihood`.`Perfil` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
+INSERT INTO Usuario(nombre_usuario, password, id_perfil) VALUES("admin","8c6976e5b5410415bde908bd4dee15","1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `ubicacion_UNIQUE` (`ubicacion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------
@@ -68,9 +68,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Documento` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -84,15 +82,12 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Persona` (
   `id_tipo_documento` INT NOT NULL,
   `nro_documento` VARCHAR(45) NOT NULL,
   `telefono_movil` VARCHAR(45) NULL,
-  `fecha_nacimiento` DATE NULL,
+  `fecha_nacimiento` DATETIME NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  INDEX `fk_Persona_1_idx` (`id_tipo_documento` ASC),
   CONSTRAINT `fk_Persona_1`
     FOREIGN KEY (`id_tipo_documento`)
     REFERENCES `Prihood`.`Tipo_Documento` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -102,14 +97,10 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Residente` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_persona` INT NOT NULL,
-  `fecha_ingreso` DATE NULL,
+  `fecha_ingreso` DATETIME NULL,
   `id_residencia` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `id_persona_UNIQUE` (`id_persona` ASC),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC),
-  INDEX `fk_Residente_2_idx` (`id_residencia` ASC),
   CONSTRAINT `fk_Residente_1`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `Prihood`.`Usuario` (`id`)
@@ -134,9 +125,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Empleado` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -145,15 +134,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `fecha_inicio_actividad` DATE NULL,
+  `fecha_inicio_actividad` DATETIME NULL,
   `id_tipo_empleado` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_persona` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  UNIQUE INDEX `id_usuario_UNIQUE` (`id_usuario` ASC),
-  INDEX `fk_Empleado_2_idx` (`id_tipo_empleado` ASC),
-  UNIQUE INDEX `id_persona_UNIQUE` (`id_persona` ASC),
   CONSTRAINT `fk_Empleado_1`
     FOREIGN KEY (`id_usuario`)
     REFERENCES `Prihood`.`Usuario` (`id`)
@@ -179,7 +164,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`ResidentesXResidencia` (
   `id_residencia` INT NOT NULL,
   `id_residente` INT NOT NULL,
   PRIMARY KEY (`id_residencia`, `id_residente`),
-  INDEX `fk_ResidentesXResidencia_2_idx` (`id_residente` ASC),
   CONSTRAINT `fk_ResidentesXResidencia_1`
     FOREIGN KEY (`id_residencia`)
     REFERENCES `Prihood`.`Residencia` (`id`)
@@ -197,11 +181,6 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
--- Agustín Gregorieu  30/06/2017 
-
--- Se agrega nueva columna mail a tabla Usuario
-
-ALTER TABLE Usuario ADD email VARCHAR(150) ;
 
 -- Se agrega nueva tabla de barrios
 
@@ -235,7 +214,7 @@ ENGINE = InnoDB;
 
 -- Inserción de valores a tabla PERFIL
 
-INSERT INTO Perfil (descripcion) VALUES ("Administrador"), ("Residente"), ("Encargado de Seguridad");
+INSERT INTO Perfil (descripcion) VALUES ("Root"), ("Administrador"), ("Residente"), ("Encargado de Seguridad");
 
 -- Belén Valdivia  06/07/2017 
 
@@ -247,9 +226,6 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
--- Agustín Gregorieu  08/07/2017 
 
---Agrego columna para avatar a tabla Usuario
 
-ALTER TABLE Usuario ADD avatarurl VARCHAR(150) 
 

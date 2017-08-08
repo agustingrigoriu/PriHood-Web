@@ -1,0 +1,43 @@
+<section class="content-header">
+    <h1>
+        Usuarios
+        <small>Prueba de usar el api de usuarios</small>
+    </h1>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listado de usuarios</h3>
+        </div>
+        <div class="box-body no-padding">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre de usuario</th>
+                        <th>Email</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="!usuarios || usuarios.length == 0">
+                        <td colspan="4">
+                            <p class="text-center">No existen usuarios.</p>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let usuario of usuarios">
+                        <td>{{usuario.id}}</td>
+                        <td>{{usuario.nombreUsuario}}</td>
+                        <td>{{usuario.email}}</td>
+                        <td>
+                            <a class="btn btn-xs btn-primary" [routerLink]="['/usuarios', usuario.id]"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-xs btn-danger" (click)="borrarUsuario(usuario)"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary" (click)="crearEjemplo()">Agregar usuario de ejemplo</button>
+        </div>
+    </div>
+</section>

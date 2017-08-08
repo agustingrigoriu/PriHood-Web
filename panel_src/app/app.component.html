@@ -1,0 +1,94 @@
+<div class="wrapper">
+    <header class="main-header">
+        <a asp-action="index" asp-controller="Panel" class="logo">
+            <span class="logo-mini"><b>P</b>HD</span>
+            <span class="logo-lg"><b>Pri</b>Hood</span>
+        </a>
+
+        <nav class="navbar navbar-static-top" role="navigation">
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span>Pato Perez</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-body">
+                                <p>
+                                    micorre@nose.com
+                                </p>
+                            </li>
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a asp-controller="Home" class="btn btn-default btn-flat">Salir</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">PROBANDO</li>
+                <li><a asp-action="index" asp-controller="Panel"><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Usuarios</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Barrios</span></a></li>
+                <li><a asp-action="ejemplos" asp-controller="Panel"><i class="fa fa-file-text"></i> <span>Ejemplos</span></a></li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>Usuarios</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="RegistrarUsuario" asp-controller="Panel"><i class="fa fa-user-plus"></i> Registrar Usuario</a></li>
+                        <li><a href="#"><i class="fa fa-users"></i> Ver Usuarios</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-home"></i>
+                        <span>Residencias</span>
+                        <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a asp-action="RegistrarUsuario" asp-controller="Panel"><i class="fa fa-home"></i> Registrar Residencia</a></li>
+                        <li><a href="#"><i class="fa fa-home"></i> Ver Residencias</a></li>
+                    </ul>
+                </li>
+
+                <li class="header">VISITAS</li>
+                <li><a asp-action="visitas" asp-controller="Panel"><i class="fa fa-envelope-o"></i> <span>Ver todas</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Registrar visita</span></a></li>
+
+                <li class="header">COMUNICACIONES</li>
+                <li><a asp-action="comunicaciones" asp-controller="Panel"><i class="fa fa-envelope-o"></i> <span>Ver todas</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Nueva comunicación</span></a></li>
+
+            </ul>
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+
+
+    <footer class="main-footer">
+        <strong>PriHood &copy;</strong> 2017
+    </footer>
+</div>

@@ -13,12 +13,6 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/panel/css/panel.min.css",
-    "inputFiles": [
-      "wwwroot/panel/css/panel.css"
-    ]
-  },
-  {
     "outputFileName": "wwwroot/web/scripts/site.min.js",
     "inputFiles": [
       "wwwroot/web/scripts/smoothscroll.js",

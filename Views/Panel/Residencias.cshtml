@@ -1,0 +1,130 @@
+@{
+   ViewData["Title"]= "Residencias"; 
+   Layout = "_PanelLayout";  
+ } 
+  
+<div class="content-wrapper">
+    <section class="content-header">
+    <h1>
+      Residencias
+    </h1>
+  </section>  
+  
+<section class="content">
+          <div class="box">
+            <div class="box-header">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-toolbar">
+                <div class="form-inline" role="form">
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#registrarResidencia" class="btn btn-block btn-default">Registrar</button>
+                  </div>
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#modificarResidencia" class="btn btn-block btn-default">Modificar</button>
+                  </div>
+                  <div class="form-group">
+                      <button type="button" data-toggle="modal" data-target="#eliminarResidencia" class="btn btn-block btn-default">Eliminar</button>
+                  </div> 
+                </div>
+            </div>
+              <div id="tabla_residencias" class="table-bordered"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          </div>
+          <!-- /.box -->
+  </section>
+</div>
+  
+<!-- Registrar Residencia -->
+<div class="modal fade" tabindex="-1" role="dialog" id="registrarResidencia">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Registrar Residencia</h4>
+      </div>
+      <div class="modal-body">
+        @Html.Partial("ModalResidencia.cshtml")
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modificar Residencia -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modificarResidencia">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modificar Residencia</h4>
+      </div>
+      <div class="modal-body">
+        @Html.Partial("ModalResidencia.cshtml")
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Eliminar Residencia -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="eliminarUsuario">
+<div class="modal fade" tabindex="-1" role="dialog" id="eliminarResidencia">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Eliminar Residencia</h4>
+      </div>
+      <div class="modal-body">
+        @Html.Partial("ModalResidencia.cshtml")
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function () {
+  $("#tabla_residencias").tabulator({
+    height:"320px",
+    selectable: 1,
+    fitColumns:true, 
+    columns:[ 
+        {title:"Residencia", field:"idResidence", sorter:"string"},
+        {title:"Direccion", field:"address", sorter:"string"},
+        {title:"Resindente", field:"name", sorter:"string"},
+    ]
+  });
+
+  var tabledata= [{
+      "idResidence": "RES1",
+      "address": "Manzana 1,lote 1",
+      "name": "La Herminia",
+    }, {
+       "idResidence": "RES2",
+       "address": "Manzana 2,lote 2",
+       "name": "Bassdf",
+    }, {
+       "idResidence": "RES3",
+       "address": "Manzana 3,lote 3",
+       "name": "Csadadad",
+    }, {
+       "idResidence": "RES4",
+       "address": "Manzana 4,lote 4",
+       "name": "Tdsdfdfdfd",
+    }];
+
+$("#tabla_residencias").tabulator("setData", tabledata);
+});
+</script>
