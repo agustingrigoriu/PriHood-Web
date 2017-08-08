@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre_usuario` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
-  `avatar` VARCHAR(100) NOT NULL,
+  `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_1`
@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
     ON DELETE CASCADE)
 ENGINE = InnoDB;
 
+INSERT INTO Usuario(nombre_usuario, password, id_perfil) VALUES("admin",MD5("admin"),"1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
@@ -55,6 +56,8 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `ubicacion` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
+
+
 
 
 -- -----------------------------------------------------
