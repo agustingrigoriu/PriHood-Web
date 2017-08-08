@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriHood.Models;
+using Newtonsoft.Json.Linq;
 
 namespace PriHood.Controllers
 {
   [Route("api/[controller]")]
   public class UsuariosController : Controller
   {
-    // GET api/usuarios
+
     [HttpGet]
     public IEnumerable<Usuario> Get()
     {
@@ -20,7 +21,6 @@ namespace PriHood.Controllers
       }
     }
 
-    // GET api/usuarios/5
     [HttpGet("{id}")]
     public Usuario Get(int id)
     {
@@ -30,22 +30,38 @@ namespace PriHood.Controllers
       }
     }
 
-    // POST api/values
     [HttpPost]
-    public void Post([FromBody]string value)
+    public void Post([FromBody]JObject value)
     {
+      Usuario posted = value.ToObject<Usuario>();
+      using (PrihoodContext db = new PrihoodContext())
+      {
+        db.Usuario.Add(posted);
+        db.SaveChanges();
+      }
     }
 
-    // PUT api/values/5
     [HttpPut("{id}")]
-    public void Put(int id, [FromBody]string value)
+    public void Put(int id, [FromBody]JObject value)
     {
+      Usuario posted = value.ToObject<Usuario>();
+      posted.Id = id;
+      using (PrihoodContext db = new PrihoodContext())
+      {
+        db.Usuario.Update(posted);
+        db.SaveChanges();
+      }
     }
 
-    // DELETE api/values/5
     [HttpDelete("{id}")]
     public void Delete(int id)
     {
+      using (PrihoodContext db = new PrihoodContext())
+      {
+        if (db.Usuario.Where(t => t.Id == id).Count() > 0) // Check if element exists
+          db.Usuario.Remove(db.Usuario.First(t => t.Id == id));
+        db.SaveChanges();
+      }
     }
   }
 }
