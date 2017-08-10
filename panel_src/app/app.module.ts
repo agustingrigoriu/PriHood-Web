@@ -11,6 +11,9 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuarioComponent } from './usuarios/usuario.component';
 import { UsuariosService } from './usuarios/usuarios.service';
 
+import {ResidenciaComponent } from './residencias/residencias.component';
+import {ResidenciasService } from './residencias/residencias.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 
 @NgModule({
@@ -30,6 +33,10 @@ import { ApiRequestService } from '../services/api.request.service';
       {
         path: 'usuarios/:id',
         component: UsuarioComponent
+      },
+      {
+        path: 'residencia',
+        component: ResidenciaComponent
       }
     ])
   ],
@@ -37,11 +44,13 @@ import { ApiRequestService } from '../services/api.request.service';
     AppComponent,
     HomeComponent,
     UsuariosComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    ResidenciaComponent
   ],
   providers: [
     ApiRequestService,
-    UsuariosService
+    UsuariosService,
+    ResidenciasService
   ],
   bootstrap: [AppComponent]
 })
