@@ -55,11 +55,9 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
+  `codigo` VARCHAR(4) NOT NULL UNIQUE,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
-
-
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Tipo_Documento`
@@ -187,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
+  `codigo` VARCHAR(4) NOT NULL UNIQUE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
@@ -209,13 +208,9 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`UsuarioXBarrio` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
--- Agustín Gregorieu  05/07/2017 
-
 -- Inserción de valores a tabla PERFIL
 
 INSERT INTO Perfil (descripcion) VALUES ("Root"), ("Administrador"), ("Residente"), ("Encargado de Seguridad");
-
--- Belén Valdivia  06/07/2017 
 
 -- Inserción de valores a tabla Tipo_Documento 
 
