@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
-  `codigo` VARCHAR(4) NOT NULL UNIQUE,
+  `codigo` VARCHAR(6) NOT NULL UNIQUE,
   `id_barrio` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Residencia_1`
@@ -191,7 +191,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
-  `codigo` VARCHAR(4) NOT NULL UNIQUE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
