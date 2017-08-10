@@ -41,15 +41,6 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpPost("codigo")]
-    public Object CodigoPorBarrio([FromBody]ModeloCodigo obj)
-    {
-      var barrio = db.Barrio.FirstOrDefault(u => u.Codigo == obj.codigo);
-      if (barrio == null)
-        return new { error = true, data = "empty" };
-      return new { error = false, data = barrio };
-    }
-
     [HttpPut("{id}")]
     public Object Put(int id, [FromBody]Barrio barrio)
     {
@@ -72,8 +63,4 @@ namespace PriHood.Controllers
     }
   }
 
-  public class ModeloCodigo
-  {
-    public string codigo { get; set; }
-  }
 }

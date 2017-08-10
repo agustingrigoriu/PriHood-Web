@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriHood.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace PriHood.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("pepe/[controller]")]
   public class ResidenciasController : Controller
   {
 
@@ -33,7 +34,9 @@ namespace PriHood.Controllers
     [HttpPost("codigo")]
     public Object CodigoPorResidencia([FromBody]ModeloCodigo obj)
     {
-      var residencia = db.Residencia.FirstOrDefault(u => u.Codigo == obj.codigo);
+      var residencia = db.Residencia.Where(u => u.Codigo.Equals(obj.codigo_residencia))
+                                    .Include("IdBarrioNavigation")
+                                    .FirstOrDefault();
       if (residencia == null)
         return new { error = true, data = "empty" };
       return new { error = false, data = residencia };
@@ -68,5 +71,10 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
+  }
+
+  public class ModeloCodigo
+  {
+    public string codigo_residencia { get; set; }
   }
 }
