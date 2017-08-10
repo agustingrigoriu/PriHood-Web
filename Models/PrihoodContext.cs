@@ -6,10 +6,8 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
-        public PrihoodContext(DbContextOptions options) : base(options){}
-        public PrihoodContext() {}
-
         public virtual DbSet<Barrio> Barrio { get; set; }
+        public virtual DbSet<EfmigrationsHistory> EfmigrationsHistory { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
@@ -21,13 +19,28 @@ namespace PriHood.Models
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<UsuarioXbarrio> UsuarioXbarrio { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Barrio>(entity =>
             {
+                entity.HasIndex(e => e.Codigo)
+                    .HasName("codigo")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.Codigo)
+                    .IsRequired()
+                    .HasColumnName("codigo")
+                    .HasColumnType("varchar(4)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
@@ -38,6 +51,20 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(100)");
+            });
+
+            modelBuilder.Entity<EfmigrationsHistory>(entity =>
+            {
+                entity.HasKey(e => e.MigrationId)
+                    .HasName("PK___EFMigrationsHistory");
+
+                entity.ToTable("__EFMigrationsHistory");
+
+                entity.Property(e => e.MigrationId).HasColumnType("varchar(95)");
+
+                entity.Property(e => e.ProductVersion)
+                    .IsRequired()
+                    .HasColumnType("varchar(32)");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -146,11 +173,21 @@ namespace PriHood.Models
 
             modelBuilder.Entity<Residencia>(entity =>
             {
+                entity.HasIndex(e => e.Codigo)
+                    .HasName("codigo")
+                    .IsUnique();
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.Codigo)
+                    .IsRequired()
+                    .HasColumnName("codigo")
+                    .HasColumnType("varchar(4)");
+
                 entity.Property(e => e.Nombre)
+                    .IsRequired()
                     .HasColumnName("nombre")
                     .HasColumnType("varchar(50)");
 
@@ -271,6 +308,10 @@ namespace PriHood.Models
 
             modelBuilder.Entity<Usuario>(entity =>
             {
+                entity.HasIndex(e => e.Email)
+                    .HasName("email")
+                    .IsUnique();
+
                 entity.HasIndex(e => e.IdPerfil)
                     .HasName("fk_Usuario_1");
 
@@ -280,18 +321,18 @@ namespace PriHood.Models
 
                 entity.Property(e => e.Avatar)
                     .HasColumnName("avatar")
-                    .HasColumnType("varchar(150)");
+                    .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Email)
+                    .IsRequired()
                     .HasColumnName("email")
-                    .HasColumnType("varchar(150)");
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.IdPerfil)
                     .HasColumnName("id_perfil")
                     .HasColumnType("int(11)");
 
                 entity.Property(e => e.NombreUsuario)
-                    .IsRequired()
                     .HasColumnName("nombre_usuario")
                     .HasColumnType("varchar(45)");
 

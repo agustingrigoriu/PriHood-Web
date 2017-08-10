@@ -25,6 +25,7 @@ namespace PriHood.Controllers
       return new { error = false, data = db.Barrio.ToList() };
     }
 
+
     [HttpGet("{id}")]
     public Object Get(int id)
     {
@@ -38,6 +39,12 @@ namespace PriHood.Controllers
       db.SaveChanges();
 
       return new { error = false, data = "ok" };
+    }
+
+    [HttpPost("codigo")]
+    public Object CodigoPorBarrio([FromBody]String codigo)
+    {
+      return new { error = false, data = db.Barrio.FirstOrDefault(u => u.Codigo == codigo) };
     }
 
     [HttpPut("{id}")]
