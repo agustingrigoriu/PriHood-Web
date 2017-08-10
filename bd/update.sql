@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
     ON DELETE CASCADE)
 ENGINE = InnoDB;
 
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin","8c6976e5b5410415bde908bd4dee15","1"); 
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
