@@ -11,6 +11,9 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuarioComponent } from './usuarios/usuario.component';
 import { UsuariosService } from './usuarios/usuarios.service';
 
+import {ResidenciaComponent } from './residencias/residencias.component';
+import {ResidenciasService } from './residencias/residencias.service';
+
 import { BarriosComponent } from './barriospato/barrios.component';
 import { BarriosService } from './barriospato/barrios.service';
 
@@ -37,6 +40,10 @@ import { ApiRequestService } from '../services/api.request.service';
       {
         path: 'usuarios/:id',
         component: UsuarioComponent
+      },
+      {
+        path: 'residencia',
+        component: ResidenciaComponent
       }
     ])
   ],
@@ -45,11 +52,13 @@ import { ApiRequestService } from '../services/api.request.service';
     HomeComponent,
     UsuariosComponent,
     UsuarioComponent,
+    ResidenciaComponent
     BarriosComponent
   ],
   providers: [
     ApiRequestService,
     UsuariosService,
+    ResidenciasService
     BarriosService
   ],
   bootstrap: [AppComponent]
