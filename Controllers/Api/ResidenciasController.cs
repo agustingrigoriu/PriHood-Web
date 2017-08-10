@@ -30,6 +30,15 @@ namespace PriHood.Controllers
       return new { error = false, data = db.Residencia.FirstOrDefault(u => u.Id == id) };
     }
 
+    [HttpPost("codigo")]
+    public Object CodigoPorResidencia([FromBody]ModeloCodigo obj)
+    {
+      var residencia = db.Residencia.FirstOrDefault(u => u.Codigo == obj.codigo);
+      if (residencia == null)
+        return new { error = true, data = "empty" };
+      return new { error = false, data = residencia };
+    }
+
     [HttpPost]
     public Object Post([FromBody]Residencia re)
     {
