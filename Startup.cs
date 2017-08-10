@@ -39,7 +39,6 @@ namespace PriHood
                 options.CookieHttpOnly = true;
             });
             services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
-
             services.AddSingleton<AuthService>();
         }
 

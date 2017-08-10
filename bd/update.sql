@@ -34,8 +34,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre_usuario` VARCHAR(45) NOT NULL,
+  `nombre_usuario` VARCHAR(45) NULL,
+  `email` VARCHAR(50) UNIQUE NOT NULL,
   `password` VARCHAR(45) NOT NULL,
+  `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_1`
@@ -44,16 +46,18 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
     ON DELETE CASCADE)
 ENGINE = InnoDB;
 
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin","8c6976e5b5410415bde908bd4dee15","1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
+  `codigo` VARCHAR(4) NOT NULL UNIQUE,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Tipo_Documento`
@@ -174,11 +178,6 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
--- Agustín Gregorieu  30/06/2017 
-
--- Se agrega nueva columna mail a tabla Usuario
-
-ALTER TABLE Usuario ADD email VARCHAR(150) ;
 
 -- Se agrega nueva tabla de barrios
 
@@ -186,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
+  `codigo` VARCHAR(4) NOT NULL UNIQUE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
@@ -208,13 +208,9 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`UsuarioXBarrio` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
--- Agustín Gregorieu  05/07/2017 
-
 -- Inserción de valores a tabla PERFIL
 
-INSERT INTO Perfil (descripcion) VALUES ("Administrador"), ("Residente"), ("Encargado de Seguridad");
-
--- Belén Valdivia  06/07/2017 
+INSERT INTO Perfil (descripcion) VALUES ("Root"), ("Administrador"), ("Residente"), ("Encargado de Seguridad");
 
 -- Inserción de valores a tabla Tipo_Documento 
 
@@ -224,16 +220,6 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
--- 20/07/2017
 
--- Agrego columna para almacenar el avatar del usuario
-
-ALTER TABLE Usuario ADD COLUMN avatar VARCHAR(150);
-
--- 04/08/2017
-
--- Agrego columna para almacenar nombre de una residencia
-
-ALTER TABLE Residencia ADD COLUMN nombre VARCHAR(50);
 
 

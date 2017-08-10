@@ -1,0 +1,30 @@
+<h1>Hola mundo! soy barriospato</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Nombre</th>
+      <th>Ubicacion</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor='let barrio of barrios'>
+      <td>{{barrio.id}}</td>
+      <td>{{barrio.nombre}}</td>
+      <td>{{barrio.ubicacion}}</td>
+      <td>
+        <button (click)='borrarBarrio(barrio)'>Borrar</button>
+        <button (click)='editarBarrio(barrio)'>Editar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="clearfix">
+  <div class="pull-right">
+    <button class="btn btn-info" (click)="agregarBarrio()">Agregar barrio</button>
+  </div>
+</div>

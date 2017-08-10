@@ -9,10 +9,12 @@ using Newtonsoft.Json.Linq;
 namespace PriHood.Controllers
 {
   [Route("api/[controller]")]
-  public class UsuariosController : Controller
+  public class BarriosController : Controller
   {
+
     private readonly PrihoodContext db;
-    public UsuariosController(PrihoodContext context)
+
+    public BarriosController(PrihoodContext context)
     {
       db = context;
     }
@@ -20,28 +22,36 @@ namespace PriHood.Controllers
     [HttpGet]
     public Object Get()
     {
-      return new { error = false, data = db.Usuario.ToList() };
+      return new { error = false, data = db.Barrio.ToList() };
     }
+
 
     [HttpGet("{id}")]
     public Object Get(int id)
     {
-      return new { error = false, data = db.Usuario.First(u => u.Id == id) };
+      return new { error = false, data = db.Barrio.FirstOrDefault(u => u.Id == id) };
     }
 
     [HttpPost]
-    public Object Post([FromBody]Usuario usuario)
+    public Object Post([FromBody]Barrio barrio)
     {
-      db.Usuario.Add(usuario);
+      db.Barrio.Add(barrio);
       db.SaveChanges();
 
       return new { error = false, data = "ok" };
     }
 
-    [HttpPut("{id}")]
-    public Object Put(int id, [FromBody]Usuario usuario)
+    [HttpPost("codigo")]
+    public Object CodigoPorBarrio([FromBody]String codigo)
     {
-      db.Usuario.Update(usuario);
+      return new { error = false, data = db.Barrio.FirstOrDefault(u => u.Codigo == codigo) };
+    }
+
+    [HttpPut("{id}")]
+    public Object Put(int id, [FromBody]Barrio barrio)
+    {
+      barrio.Id = id;
+      db.Barrio.Update(barrio);
       db.SaveChanges();
 
       return new { error = false, data = "ok" };
@@ -50,8 +60,9 @@ namespace PriHood.Controllers
     [HttpDelete("{id}")]
     public Object Delete(int id)
     {
-      if (db.Usuario.Where(t => t.Id == id).Count() > 0) // Check if element exists
-        db.Usuario.Remove(db.Usuario.First(t => t.Id == id));
+      if (db.Barrio.Where(t => t.Id == id).Count() > 0) // Check if element exists
+        db.Barrio.Remove(db.Barrio.First(t => t.Id == id));
+
       db.SaveChanges();
 
       return new { error = false, data = "ok" };

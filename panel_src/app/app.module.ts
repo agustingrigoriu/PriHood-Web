@@ -14,6 +14,9 @@ import { UsuariosService } from './usuarios/usuarios.service';
 import {ResidenciaComponent } from './residencias/residencias.component';
 import {ResidenciasService } from './residencias/residencias.service';
 
+import { BarriosComponent } from './barriospato/barrios.component';
+import { BarriosService } from './barriospato/barrios.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 
 @NgModule({
@@ -22,6 +25,10 @@ import { ApiRequestService } from '../services/api.request.service';
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
+      {
+        path: 'barriospato',
+        component: BarriosComponent
+      },
       {
         path: 'home',
         component: HomeComponent
@@ -46,11 +53,13 @@ import { ApiRequestService } from '../services/api.request.service';
     UsuariosComponent,
     UsuarioComponent,
     ResidenciaComponent
+    BarriosComponent
   ],
   providers: [
     ApiRequestService,
     UsuariosService,
     ResidenciasService
+    BarriosService
   ],
   bootstrap: [AppComponent]
 })
