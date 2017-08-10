@@ -26,6 +26,12 @@ namespace PriHood.Auth
     {
       bool isLogin = context.Session.Authenticated() != null;
 
+      if (context.Request.Method.ToUpper() == "OPTIONS")
+      {
+        context.Response.StatusCode = 200;
+        return context.Response.WriteAsync("ok");
+      }
+
       if (context.Request.Path.StartsWithSegments("/api"))
       {
         foreach (var path in noProtegidos)
