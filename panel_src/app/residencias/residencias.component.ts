@@ -29,7 +29,7 @@ export class ResidenciaComponent implements OnInit {
   crearEjemplo() {
     let residencia: Residencia = {
        id: 1,
-       ubicación: 'Manzana1, Lote1'
+       ubicacion: 'Manzana1, Lote1'
     };
 
     this.ResidenciasService.crearResidencia(residencia).then(response => {
