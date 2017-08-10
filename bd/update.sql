@@ -56,7 +56,13 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
   `codigo` VARCHAR(4) NOT NULL UNIQUE,
-  PRIMARY KEY (`id`))
+  `id_barrio` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_Residencia_1`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
