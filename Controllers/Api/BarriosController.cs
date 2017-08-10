@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace PriHood.Controllers
 {
-  [Route("pepe/[controller]")]
+  [Route("api/[controller]")]
   public class BarriosController : Controller
   {
 
@@ -44,11 +44,10 @@ namespace PriHood.Controllers
     [HttpPost("codigo")]
     public Object CodigoPorBarrio([FromBody]ModeloCodigo obj)
     {
-      // var barrio = db.Barrio.FirstOrDefault(u => u.Codigo == obj.codigo);
-      // if (barrio == null)
-      //   return new { error = true, data = "empty" };
-      // return new { error = false, data = barrio };
-      return obj.codigo;
+      var barrio = db.Barrio.FirstOrDefault(u => u.Codigo == obj.codigo);
+      if (barrio == null)
+        return new { error = true, data = "empty" };
+      return new { error = false, data = barrio };
     }
 
     [HttpPut("{id}")]
