@@ -78,7 +78,10 @@ namespace PriHood.Controllers
 
           transaction.Commit();
         }
-        catch { }
+        catch (Exception)
+        {
+          transaction.Rollback();
+        }
       }
 
       return new { error = false, data = "ok" };
