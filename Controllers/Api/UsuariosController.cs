@@ -57,4 +57,19 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
   }
+
+  public class ModeloResidente
+  {
+    public string nombre { get; set; }
+    public string apellido { get; set; }
+    public int id_tipoDocumento { get; set; }
+    public string nroDocumento { get; set; }
+    public string telefono { get; set; }
+    public DateTime fecha_nacimiento { get; set; }
+    public DateTime fecha_ingreso { get; set; }
+    public string email { get; set; }
+    public string password { get; set; }
+    public int id_residencia { get; set; }
+
+  }
 }
