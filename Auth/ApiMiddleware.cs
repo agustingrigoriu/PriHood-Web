@@ -24,25 +24,6 @@ namespace PriHood.Auth
 
     public Task Invoke(HttpContext context)
     {
-      bool isLogin = context.Session.Authenticated() != null;
-
-      if (context.Request.Path.StartsWithSegments("/api"))
-      {
-        foreach (var path in noProtegidos)
-        {
-          if (context.Request.Path.StartsWithSegments(path))
-          {
-            return this._next(context);
-          }
-        }
-
-        if (!isLogin)
-        {
-          context.Response.StatusCode = 401;
-          return context.Response.WriteAsync("sin permisos");
-        }
-      }
-
       return this._next(context);
     }
   }

@@ -52,13 +52,13 @@ import { ApiRequestService } from '../services/api.request.service';
     HomeComponent,
     UsuariosComponent,
     UsuarioComponent,
-    ResidenciaComponent
+    ResidenciaComponent,
     BarriosComponent
   ],
   providers: [
     ApiRequestService,
     UsuariosService,
-    ResidenciasService
+    ResidenciasService,
     BarriosService
   ],
   bootstrap: [AppComponent]

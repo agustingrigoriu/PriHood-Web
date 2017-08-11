@@ -5,12 +5,12 @@
 </section>
 
 <section class="content">
-     <div class="row">
+    <div class="row">
         <button type="button" data-toggle="modal" data-target="#registrarResidencia" class="btn btn-default">
             Registrar nueva residencia
         </button>
     </div>
-    
+
     <div class="box-header with-border">
         <h3 class="box-tittle"> Listado de Residencias</h3>
     </div>
@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            <!--<tr *ngIf="!usuarios || usuarios.length == 0">
+            <tr *ngIf="!usuarios || usuarios.length == 0">
                 <td colspan="4">
                     <p class="text-center">No existen usuarios.</p>
                 </td>
@@ -32,12 +32,12 @@
                 <td>{{residencia.id}}</td>
                 <td>{{residencia.alias}}</td>
                 <td>{{residencia.ubicacion}}</td>
-                <td>-->
-            <tr>
+                <td>
+                    <!--<tr>
                 <td>1</td>
                 <td>Los Caballero</td>
                 <td>Manzana 1, Lote 1</td>
-                <td>
+                <td>-->
 
                     <a class="btn btn-xs btn-primary" [routerLink]="['/residencias', residencia.id]"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                     <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)"><i class="fa fa-trash"></i></a>
@@ -45,7 +45,7 @@
             </tr>
         </tbody>
     </table>
-   
+
 </section>
 
 
@@ -60,33 +60,29 @@
             <div class="modal-body">
                 <form role="form">
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="idResidencia">Número Residencia</label>
-                                <input type="text" class="form-control" id="idResidencia" placeholder="Ingrese el número de residencia">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="direccion">Dirección</label>
-                                <input type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la residencia">
-                            </div>
-                        </div>
 
-                    </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="residente">Residente Encargado</label>
-                                <input type="text" class="form-control" id="residente" placeholder="Ingrese el residente">
+                                <label for="residente">Alias</label>
+                                <input [(ngModel)]="residencia.alias" name= "alias" type="text" class="form-control" id="residente" placeholder="Ingrese el alias de la residencia">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="direccion">Ubicación</label>
+                                <input [(ngModel)]="residencia.ubicacion" name= "ubicacion" type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la residencia">
                             </div>
                         </div>
                     </div>
+
+
                 </form>
             </div>
 
             <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia()">Aceptar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
