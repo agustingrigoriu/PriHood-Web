@@ -38,6 +38,52 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
+    [HttpPost("usuarioresidente")]
+    public Object AgregarUsuarioResidente([FromBody]ModeloResidente mres)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          Persona persona = new Persona();
+          persona.Apellido = mres.apellido;
+          persona.Nombre = mres.nombre;
+          persona.FechaNacimiento = mres.fecha_nacimiento;
+          persona.IdTipoDocumento = mres.id_tipoDocumento;
+          persona.NroDocumento = mres.nroDocumento;
+          persona.TelefonoMovil = mres.telefono;
+          db.Persona.Add(persona);
+
+          db.SaveChanges();
+
+          var id_persona = persona.Id;
+
+          Usuario usuario = new Usuario();
+          usuario.Email = mres.email;
+          usuario.Password = mres.password;
+          usuario.IdPerfil = 3; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
+          db.Usuario.Add(usuario);
+
+          db.SaveChanges();
+
+          var id_usuario = usuario.Id;
+
+          Residente residente = new Residente();
+          residente.IdResidencia = mres.id_residencia;
+          residente.IdPersona = id_persona;
+          residente.IdUsuario = id_usuario;
+          db.Residente.Add(residente);
+
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch { }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
     [HttpPut("{id}")]
     public Object Put(int id, [FromBody]Usuario usuario)
     {
