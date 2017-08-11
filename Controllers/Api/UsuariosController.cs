@@ -66,7 +66,6 @@ namespace PriHood.Controllers
     public string nroDocumento { get; set; }
     public string telefono { get; set; }
     public DateTime fecha_nacimiento { get; set; }
-    public DateTime fecha_ingreso { get; set; }
     public string email { get; set; }
     public string password { get; set; }
     public int id_residencia { get; set; }
