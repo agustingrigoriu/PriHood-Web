@@ -67,8 +67,12 @@ namespace PriHood
       app.UseStaticFiles();
       app.UseSession();
       app.UseMiddleware<ApiMiddleware>();
-      app.UseCors(b => b.WithOrigins("*"));
-
+      app.UseCors(builder => builder
+          .AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials());
+          
       app.UseMvc(routes =>
       {
         routes.MapRoute(
