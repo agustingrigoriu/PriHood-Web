@@ -40,6 +40,7 @@ namespace PriHood
             });
             services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
             services.AddSingleton<AuthService>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +62,7 @@ namespace PriHood
             app.UseStaticFiles();
             app.UseSession();
             app.UseMiddleware<ApiMiddleware>();
+            app.UseCors(b => b.WithOrigins("*"));
 
             app.UseMvc(routes =>
             {
