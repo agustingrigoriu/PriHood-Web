@@ -72,7 +72,7 @@ namespace PriHood.Controllers
 
       var token = _AuthService.getToken(usuario);
 
-      return new { error = false, data = new { token = token } };
+      return new { error = false, data = new { token = token, usuario = usuario } };
     }
 
   }

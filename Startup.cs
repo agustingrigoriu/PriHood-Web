@@ -33,6 +33,8 @@ namespace PriHood
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddCors();
+
       // Add framework services.
       services.AddMvc().AddJsonOptions(options =>
             {
@@ -46,7 +48,6 @@ namespace PriHood
       });
       services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
       services.AddSingleton<AuthService>();
-      services.AddCors();
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -64,15 +65,17 @@ namespace PriHood
         app.UseExceptionHandler("/Home/Error");
       }
 
-      app.UseStaticFiles();
-      app.UseSession();
-      app.UseMiddleware<ApiMiddleware>();
       app.UseCors(builder => builder
           .AllowAnyOrigin()
           .AllowAnyMethod()
           .AllowAnyHeader()
           .AllowCredentials());
-          
+
+      app.UseStaticFiles();
+      app.UseSession();
+      app.UseMiddleware<ApiMiddleware>();
+
+
       app.UseMvc(routes =>
       {
         routes.MapRoute(
