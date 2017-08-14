@@ -14,8 +14,6 @@ import { UsuariosService } from './usuarios/usuarios.service';
 import {ResidenciaComponent } from './residencias/residencias.component';
 import {ResidenciasService } from './residencias/residencias.service';
 
-// import { BarriosComponent } from './barriospato/barrios.component';
-// import { BarriosService } from './barriospato/barrios.service';
 import {BarriosComponent} from './barrios/barrios.component';
 import {BarriosService} from './barrios/barrios.service';
 
@@ -33,7 +31,7 @@ import { LoginService } from '../services/login.service';
         component: BarriosComponent
       },
       {
-        path: '',
+        path: 'home',
         component: HomeComponent
       },
       {
@@ -45,8 +43,12 @@ import { LoginService } from '../services/login.service';
         component: UsuarioComponent
       },
       {
-        path: 'residencia',
+        path: 'residencias/:barrio',
         component: ResidenciaComponent
+      },
+      {
+        path: '**',
+        redirectTo: 'home'
       }
     ])
   ],

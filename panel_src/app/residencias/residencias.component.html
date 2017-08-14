@@ -1,55 +1,44 @@
 <section class="content-header">
     <h1>
-        Residencias
+        Residencias para <em>{{barrio.nombre}}</em>
     </h1>
 </section>
 
 <section class="content">
-    <div class="row">
-        <button type="button" data-toggle="modal" data-target="#registrarResidencia" class="btn btn-default">
-            Registrar nueva residencia
-        </button>
+    <div class="box box-primary">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Alias</th>
+                    <th>Ubicacion</th>
+                    <th>Código de acceso</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!residencias ||residencias.length == 0">
+                    <td colspan="5">
+                        <p class="text-center">No existen residencias para este barrio.</p>
+                    </td>
+                </tr>
+                <tr *ngFor="let residencia of residencias">
+                    <td>{{residencia.id}}</td>
+                    <td>{{residencia.nombre}}</td>
+                    <td>{{residencia.ubicacion}}</td>
+                    <td>{{residencia.codigo}}</td>
+                    <td>
+                        <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="box-body">
+            <button type="button" data-toggle="modal" data-target="#registrarResidencia" class="btn btn-primary">Agregar nueva residencia</button>
+        </div>
     </div>
-
-    <div class="box-header with-border">
-        <h3 class="box-tittle"> Listado de Residencias</h3>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Alias</th>
-                <th>Ubicacion</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="!usuarios || usuarios.length == 0">
-                <td colspan="4">
-                    <p class="text-center">No existen usuarios.</p>
-                </td>
-            </tr>
-            <tr *ngFor="let usuario of usuarios">
-                <td>{{residencia.id}}</td>
-                <td>{{residencia.alias}}</td>
-                <td>{{residencia.ubicacion}}</td>
-                <td>
-                    <!--<tr>
-                <td>1</td>
-                <td>Los Caballero</td>
-                <td>Manzana 1, Lote 1</td>
-                <td>-->
-
-                    <a class="btn btn-xs btn-primary" [routerLink]="['/residencias', residencia.id]"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                    <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)"><i class="fa fa-trash"></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
 </section>
 
-
-<!-- Registrar Residencia -->
 <div class="modal fade" tabindex="-1" role="dialog" id="registrarResidencia">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -59,30 +48,19 @@
             </div>
             <div class="modal-body">
                 <form role="form">
-
-
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residente">Alias</label>
-                                <input [(ngModel)]="residencia.alias" name= "alias" type="text" class="form-control" id="residente" placeholder="Ingrese el alias de la residencia">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="direccion">Ubicación</label>
-                                <input [(ngModel)]="residencia.ubicacion" name= "ubicacion" type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la residencia">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="residente">Alias</label>
+                        <input [(ngModel)]="residencia.nombre" name="nombre" type="text" class="form-control" id="residente" placeholder="Ingrese el alias de la residencia">
                     </div>
-
-
+                    <div class="form-group">
+                        <label for="direccion">Ubicación</label>
+                        <input [(ngModel)]="residencia.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la residencia">
+                    </div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia()">Aceptar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia(residencia)">Registrar residencia</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

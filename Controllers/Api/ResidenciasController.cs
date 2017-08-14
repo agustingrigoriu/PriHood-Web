@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PriHood.Controllers
 {
-  [Route("pepe/[controller]")]
+  [Route("api/[controller]")]
   public class ResidenciasController : Controller
   {
 
@@ -19,14 +19,16 @@ namespace PriHood.Controllers
       db = context;
     }
 
-    [HttpGet]
-    public Object Get()
+    [HttpGet("barrio/{id}")]
+    public Object GetResidenciasPorBarrio(int id)
     {
-      return new { error = false, data = db.Residencia.ToList() };
+      var residencias = db.Residencia.Where(r => r.IdBarrio == id).ToList();
+      
+      return new { error = false, data = residencias };
     }
 
     [HttpGet("{id}")]
-    public Object Get(int id)
+    public Object GetResidencia(int id)
     {
       return new { error = false, data = db.Residencia.FirstOrDefault(u => u.Id == id) };
     }
@@ -45,10 +47,22 @@ namespace PriHood.Controllers
     [HttpPost]
     public Object Post([FromBody]Residencia re)
     {
-      db.Residencia.Add(re);
-      db.SaveChanges();
+      try
+      {
+        var guid = Guid.NewGuid();
+        var codigo = guid.ToString().Substring(0, 6);
 
-      return new { error = false, data = "ok" };
+        re.Codigo = codigo;
+
+        db.Residencia.Add(re);
+        db.SaveChanges();
+
+        return new { error = false, data = "ok" };
+      }
+      catch (System.Exception)
+      {
+        return new { error = true, data = null as string };
+      }
     }
 
     [HttpPut("{id}")]

@@ -6,8 +6,8 @@ import { Residencia } from './residencia.model';
 export class ResidenciasService {
   constructor(protected request: ApiRequestService) { }
 
-  getAllResidencias() {
-    return this.request.get<Residencia[]>('residencias');
+  getAllResidencias(barrio: Number) {
+    return this.request.get<Residencia[]>(`residencias/barrio/${barrio}`);
   }
 
   getResidencia(id: Number) {

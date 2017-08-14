@@ -12,8 +12,12 @@ export class BarriosComponent implements OnInit {
   constructor(protected BarriosService: BarriosService) { }
 
   barrios: Barrio[] = [];
+  barrio: Barrio = {
+    nombre: '',
+    ubicacion: ''
+  };
 
-  borrarUsuario(barrio: Barrio): void {
+  borrarBarrio(barrio: Barrio): void {
     if (confirm('¿Borrar este barrio?')) {
       this.BarriosService.deleteBarrio(barrio.id).then(response => {
         if (response.error) {
@@ -26,12 +30,7 @@ export class BarriosComponent implements OnInit {
     }
   }
 
-  crearEjemplo() {
-    let barrio: Barrio = {
-      nombre: 'La Lucinda',
-      ubicación: 'Av. 23 de Agosto 5467',
-    };
-
+  crearBarrio(barrio: Barrio) {
     this.BarriosService.crearBarrio(barrio).then(response => {
       if (response.error) {
         alert('No se pudo crear.');
