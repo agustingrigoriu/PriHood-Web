@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using PriHood.Auth;
 using System.Security.Cryptography;
 using System.Text;
+using FluentEmail.Core;
 
 namespace PriHood.Controllers
 {
@@ -107,10 +108,12 @@ namespace PriHood.Controllers
         var randomPassword = RandomString(6);
         usuario.Password = getHash(randomPassword);
         db.Usuario.Update(usuario);
+        //SendEmail("noreply@prihood.com","agustin.gregorieu@gmail.com","Cambio de Contraseña", randomPassword);
         db.SaveChanges();
         return new {error = true, data = "Contraseña generada con éxito"};
       }
     }
+
 
     [HttpPut("{id}")]
     public Object Put(int id, [FromBody]Usuario usuario)
@@ -132,6 +135,15 @@ namespace PriHood.Controllers
     }
 
     //Funciones
+    public void SendEmail(string From, string To, string Subject, string Body){
+      var email = Email
+                  .From(From)
+                  .To(To)
+                  .Subject(Subject)
+                  .Body(Body);
+
+      email.Send();
+    }
     public string RandomString(int length)
     {
         Random random = new Random();
