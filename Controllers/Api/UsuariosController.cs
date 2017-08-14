@@ -38,7 +38,7 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpPost("usuarioresidente")]
+    [HttpPost("residente")]
     public Object AgregarUsuarioResidente([FromBody]ModeloResidente mres)
     {
       using (var transaction = db.Database.BeginTransaction())
@@ -107,6 +107,14 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
+  }
+
+  public class ModeloLogin
+  {
+    public string email { get; set; }
+    public string password { get; set; }
+
+
   }
 
   public class ModeloResidente
