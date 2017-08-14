@@ -77,7 +77,7 @@ namespace PriHood.Auth
       }
     }
 
-    private static string getHash(string text)
+    public string getHash(string text)
     {
       using (var sha256 = SHA256.Create())
       {

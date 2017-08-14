@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriHood.Models;
 using Newtonsoft.Json.Linq;
+using PriHood.Auth;
 
 namespace PriHood.Controllers
 {
@@ -12,9 +13,11 @@ namespace PriHood.Controllers
   public class UsuariosController : Controller
   {
     private readonly PrihoodContext db;
-    public UsuariosController(PrihoodContext context)
+    private AuthService auth;
+    public UsuariosController(PrihoodContext context, AuthService a)
     {
       db = context;
+      auth = a;
     }
 
     [HttpGet]
@@ -45,7 +48,7 @@ namespace PriHood.Controllers
       {
         try
         {
-          Persona persona = new Persona();
+          var persona = new Persona();
           persona.Apellido = mres.apellido;
           persona.Nombre = mres.nombre;
           persona.FechaNacimiento = mres.fecha_nacimiento;
@@ -58,10 +61,11 @@ namespace PriHood.Controllers
 
           var id_persona = persona.Id;
 
-          Usuario usuario = new Usuario();
+          var perfil = db.Perfil.First(u => u.Descripcion == "RESIDENTE");
+          var usuario = new Usuario();
+
           usuario.Email = mres.email;
-          usuario.Password = mres.password;
-          Perfil perfil = db.Perfil.First(u => u.Descripcion == "RESIDENTE");
+          usuario.Password = auth.getHash(mres.password); // hasheo le password
           usuario.IdPerfil = perfil.Id; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
           db.Usuario.Add(usuario);
 
@@ -69,7 +73,7 @@ namespace PriHood.Controllers
 
           var id_usuario = usuario.Id;
 
-          Residente residente = new Residente();
+          var residente = new Residente();
           residente.IdResidencia = mres.id_residencia;
           residente.IdPersona = id_persona;
           residente.IdUsuario = id_usuario;
