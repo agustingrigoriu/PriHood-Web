@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PriHood.Models;
 using Newtonsoft.Json.Linq;
+using PriHood.Auth;
 
 namespace PriHood.Controllers
 {
@@ -12,9 +13,11 @@ namespace PriHood.Controllers
   public class UsuariosController : Controller
   {
     private readonly PrihoodContext db;
-    public UsuariosController(PrihoodContext context)
+    private AuthService auth;
+    public UsuariosController(PrihoodContext context, AuthService a)
     {
       db = context;
+      auth = a;
     }
 
     [HttpGet]
@@ -38,14 +41,14 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpPost("usuarioresidente")]
+    [HttpPost("residente")]
     public Object AgregarUsuarioResidente([FromBody]ModeloResidente mres)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
         try
         {
-          Persona persona = new Persona();
+          var persona = new Persona();
           persona.Apellido = mres.apellido;
           persona.Nombre = mres.nombre;
           persona.FechaNacimiento = mres.fecha_nacimiento;
@@ -58,17 +61,19 @@ namespace PriHood.Controllers
 
           var id_persona = persona.Id;
 
-          Usuario usuario = new Usuario();
+          var perfil = db.Perfil.First(u => u.Descripcion == "RESIDENTE");
+          var usuario = new Usuario();
+
           usuario.Email = mres.email;
-          usuario.Password = mres.password;
-          usuario.IdPerfil = 3; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
+          usuario.Password = auth.getHash(mres.password); // hasheo le password
+          usuario.IdPerfil = perfil.Id; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
           db.Usuario.Add(usuario);
 
           db.SaveChanges();
 
           var id_usuario = usuario.Id;
 
-          Residente residente = new Residente();
+          var residente = new Residente();
           residente.IdResidencia = mres.id_residencia;
           residente.IdPersona = id_persona;
           residente.IdUsuario = id_usuario;
@@ -81,6 +86,7 @@ namespace PriHood.Controllers
         catch (Exception)
         {
           transaction.Rollback();
+          return new { error = true, data = "Error" };
         }
       }
 
@@ -105,6 +111,14 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
+  }
+
+  public class ModeloLogin
+  {
+    public string email { get; set; }
+    public string password { get; set; }
+
+
   }
 
   public class ModeloResidente

@@ -35,10 +35,10 @@ namespace PriHood
     {
       // Add framework services.
       services.AddMvc().AddJsonOptions(options =>
-      {
-        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-      });
+            {
+              options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
       services.AddDistributedMemoryCache();
       services.AddSession(options =>
       {
@@ -46,9 +46,9 @@ namespace PriHood
       });
       services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
       services.AddSingleton<AuthService>();
+      services.AddCors();
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
       loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -67,14 +67,18 @@ namespace PriHood
       app.UseStaticFiles();
       app.UseSession();
       app.UseMiddleware<ApiMiddleware>();
-
+      app.UseCors(builder => builder
+          .AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials());
+          
       app.UseMvc(routes =>
       {
         routes.MapRoute(
                   name: "panel",
                   template: "panel/{*page}",
                   defaults: new { controller = "Panel", action = "Index" });
-
         routes.MapRoute(
                   name: "default",
                   template: "{controller=Home}/{action=Index}/{id?}");

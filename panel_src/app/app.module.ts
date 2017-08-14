@@ -20,6 +20,7 @@ import {BarriosComponent} from './barrios/barrios.component';
 import {BarriosService} from './barrios/barrios.service';
 
 import { ApiRequestService } from '../services/api.request.service';
+import { LoginService } from '../services/login.service';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { ApiRequestService } from '../services/api.request.service';
         component: BarriosComponent
       },
       {
-        path: 'home',
+        path: '',
         component: HomeComponent
       },
       {
@@ -59,6 +60,7 @@ import { ApiRequestService } from '../services/api.request.service';
   ],
   providers: [
     ApiRequestService,
+    LoginService,
     UsuariosService,
     ResidenciasService,
     BarriosService

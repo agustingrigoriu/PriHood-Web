@@ -13,42 +13,33 @@ export class ResidenciaComponent implements OnInit {
 
   residencias: Residencia[] = [];
 
-  borrarResidencia(residencia: Residencia): void {
-    if (confirm('¿Borrar esta Residencia?')) {
-      this.ResidenciasService.deleteResidencia(residencia.id).then(response => {
-        if (response.error) {
-          alert('No se pudo borrar.');
-        } else {
-          this.actualizarListado();
-          alert('Borrado correctamente.');
-        }
-      });
-    }
-  }
+  residencia: Residencia = {
+    codigo: "",
+    alias: "",
+    ubicacion: ""    
+  };
 
-  crearEjemplo() {
-    let residencia: Residencia = {
-       id: 1,
-       ubicacion: 'Manzana1, Lote1'
-    };
-
-    this.ResidenciasService.crearResidencia(residencia).then(response => {
+  agregarResidencia() {
+    this.ResidenciasService.crearResidencia(this.residencia).then(response => {
       if (response.error) {
-        alert('No se pudo crear.');
+        alert('No se pudo crear la residencia.');
       } else {
-        this.actualizarListado();
-        alert('Creado correctamente.');
+        alert('Se creo correctamente.');
+        this.actualizar();
       }
     });
   }
 
-  actualizarListado() {
+  actualizar() {
     this.ResidenciasService.getAllResidencias().then(response => {
-      this.residencias = response.data;
+      if (response.error) {
+        alert('No se pudo cargar las residencias.');
+      } else {
+        this.residencias = response.data;
+      }
     });
   }
-
-  ngOnInit(): void {
-    this.actualizarListado();
+ ngOnInit(): void {
+    this.actualizar();
   }
 }
