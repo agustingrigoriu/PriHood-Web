@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using PriHood.Models;
 using Newtonsoft.Json.Linq;
 using PriHood.Auth;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace PriHood.Controllers
 {
@@ -93,6 +95,23 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
+    [HttpPost("contraseña")]
+    public Object CambiarContraseña([FromBody]ModeloEmail mod)
+    {
+      var usuario = db.Usuario.Where(u => u.Email.Equals(mod.email))
+                                    .FirstOrDefault();
+
+      if (usuario == null)
+      return new { error=true, data="Usuario inexistente"};
+      else {
+        var randomPassword = RandomString(6);
+        usuario.Password = getHash(randomPassword);
+        db.Usuario.Update(usuario);
+        db.SaveChanges();
+        return new {error = true, data = "Contraseña generada con éxito"};
+      }
+    }
+
     [HttpPut("{id}")]
     public Object Put(int id, [FromBody]Usuario usuario)
     {
@@ -111,12 +130,37 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
+
+    //Funciones
+    public string RandomString(int length)
+    {
+        Random random = new Random();
+        const string chars = "abcdefghikjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return new string(Enumerable.Repeat(chars, length)
+          .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+
+    public string getHash(string text)
+    {
+      using (var sha256 = SHA256.Create())
+      {
+        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+
+        return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower().Substring(0, 30);
+      }
+    }
   }
 
   public class ModeloLogin
   {
     public string email { get; set; }
     public string password { get; set; }
+
+
+  }
+  public class ModeloEmail
+  {
+    public string email { get; set; }
 
 
   }
@@ -134,4 +178,7 @@ namespace PriHood.Controllers
     public int id_residencia { get; set; }
 
   }
+
+  
+  
 }
