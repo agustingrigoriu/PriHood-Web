@@ -7,7 +7,6 @@ namespace PriHood.Models
     public partial class PrihoodContext : DbContext
     {
         public virtual DbSet<Barrio> Barrio { get; set; }
-        public virtual DbSet<EfmigrationsHistory> EfmigrationsHistory { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
@@ -29,18 +28,9 @@ namespace PriHood.Models
         {
             modelBuilder.Entity<Barrio>(entity =>
             {
-                entity.HasIndex(e => e.Codigo)
-                    .HasName("codigo")
-                    .IsUnique();
-
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
-
-                entity.Property(e => e.Codigo)
-                    .IsRequired()
-                    .HasColumnName("codigo")
-                    .HasColumnType("varchar(4)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
@@ -51,20 +41,6 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(100)");
-            });
-
-            modelBuilder.Entity<EfmigrationsHistory>(entity =>
-            {
-                entity.HasKey(e => e.MigrationId)
-                    .HasName("PK___EFMigrationsHistory");
-
-                entity.ToTable("__EFMigrationsHistory");
-
-                entity.Property(e => e.MigrationId).HasColumnType("varchar(95)");
-
-                entity.Property(e => e.ProductVersion)
-                    .IsRequired()
-                    .HasColumnType("varchar(32)");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -177,6 +153,9 @@ namespace PriHood.Models
                     .HasName("codigo")
                     .IsUnique();
 
+                entity.HasIndex(e => e.IdBarrio)
+                    .HasName("fk_Residencia_1");
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
@@ -184,7 +163,11 @@ namespace PriHood.Models
                 entity.Property(e => e.Codigo)
                     .IsRequired()
                     .HasColumnName("codigo")
-                    .HasColumnType("varchar(4)");
+                    .HasColumnType("varchar(6)");
+
+                entity.Property(e => e.IdBarrio)
+                    .HasColumnName("id_barrio")
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
@@ -195,6 +178,12 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(100)");
+
+                entity.HasOne(d => d.IdBarrioNavigation)
+                    .WithMany(p => p.Residencia)
+                    .HasForeignKey(d => d.IdBarrio)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Residencia_1");
             });
 
             modelBuilder.Entity<Residente>(entity =>

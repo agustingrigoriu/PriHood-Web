@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
     ON DELETE CASCADE)
 ENGINE = InnoDB;
 
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin","8c6976e5b5410415bde908bd4dee15","1"); 
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
@@ -55,8 +55,14 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Residencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(50) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
-  `codigo` VARCHAR(4) NOT NULL UNIQUE,
-  PRIMARY KEY (`id`))
+  `codigo` VARCHAR(6) NOT NULL UNIQUE,
+  `id_barrio` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_Residencia_1`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
@@ -185,7 +191,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
-  `codigo` VARCHAR(4) NOT NULL UNIQUE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;

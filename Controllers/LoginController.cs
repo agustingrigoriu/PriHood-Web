@@ -51,6 +51,30 @@ namespace PriHood.Controllers
 
       return Redirect("/");
     }
+
+    [HttpGet("/api/login")]
+    public Object ApiLogin()
+    {
+      var usuario = HttpContext.Session.Authenticated();
+
+      return new { error = usuario == null, data = usuario };
+    }
+
+    [HttpPost("/api/token")]
+    public Object ApiToken([FromBody]LoginModel login)
+    {
+      var usuario = _AuthService.Login(login.email ?? "", login.password ?? "");
+
+      if (usuario == null)
+      {
+        return StatusCode(401, new { error = true, data = null as Usuario });
+      }
+
+      var token = _AuthService.getToken(usuario);
+
+      return new { error = false, data = new { token = token } };
+    }
+
   }
 
   public class LoginModel

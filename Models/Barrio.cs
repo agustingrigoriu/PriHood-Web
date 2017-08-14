@@ -7,14 +7,15 @@ namespace PriHood.Models
     {
         public Barrio()
         {
+            Residencia = new HashSet<Residencia>();
             UsuarioXbarrio = new HashSet<UsuarioXbarrio>();
         }
 
         public int Id { get; set; }
-        public string Codigo { get; set; }
         public string Nombre { get; set; }
         public string Ubicacion { get; set; }
 
+        public virtual ICollection<Residencia> Residencia { get; set; }
         public virtual ICollection<UsuarioXbarrio> UsuarioXbarrio { get; set; }
     }
 }
