@@ -28,3 +28,14 @@ Previamente hay que tener instalado Angular. Para hacer esto ir al sitio de angu
 ```npm install -g @angular/cli```
 
 en Linux/Mac puede ser que se necesite ejecutar el comando anterior como root (con sudo), ya que establece un nuevo comando en el sistema.
+
+## Actualizar base de datos
+
+Para actualizar la base de datos es necesario ejecutar el comando:
+
+```npm run update-db```
+
+El comando va a pedir la contraseña de la base de datos.
+
+Si tira error de que no existe el comando `mysql` falta agregar la ruta del bin de mysql al PATH. En Linux y Mac se puede hacer de esta forma:
+```export PATH=${PATH}:/usr/local/mysql/bin```

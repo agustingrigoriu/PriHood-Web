@@ -13,9 +13,9 @@ namespace PriHood.Controllers
     {
       // si esta logueado... muestro la vista, sino
       // redirijo al login
-      
-      //if (HttpContext.Session.Authenticated() == null)
-       // return Redirect("/Login");
+
+      if (HttpContext.Session.Authenticated() == null)
+        return Redirect("/Login");
 
       return View();
     }

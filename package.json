@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng build --watch"
+    "start": "ng build --watch",
+    "update-db": "mysql -u root -p Prihood < bd/update.sql"
   },
   "private": true,
   "dependencies": {
