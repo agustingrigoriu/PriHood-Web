@@ -12,6 +12,18 @@ export class UsuariosComponent implements OnInit {
   constructor(protected UsuariosService: UsuariosService) { }
 
   usuarios: Usuario[] = [];
+  doctipos = [
+    {name:'DNI'},
+    {name:'Pasaporte'},
+    {name:'Visa'},
+   
+];
+  perfiles = [
+    {name:'Encargado de Seguridad'},
+    {name:'Administrador'},
+    {name:'Otro'},
+   
+];
 
   borrarUsuario(usuario: Usuario): void {
     if (confirm('¿Borrar este usuario?')) {

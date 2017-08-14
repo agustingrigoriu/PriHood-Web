@@ -1,0 +1,89 @@
+<section class="content-header">
+  <h1>
+    <b> Barrios </b>
+  </h1>
+</section>
+
+<section class="content">
+  
+  <div class="box-header with-border">
+    <h3 class="box-title">Listado de barrios</h3>
+  </div>
+  <table class="table" id="tablaBarrios">
+    <thead>
+      <tr>
+        <th> Id </th>
+        <th>Nombre</th>
+        <th> Ubicación </th>
+
+      </tr>
+    </thead>
+    <tbody>
+       <tr *ngIf="!barrios ||barrios.length == 0">
+        <td colspan="4">
+          <p class="text-center">No existen barrios.</p>
+        </td>
+      </tr>
+      <tr *ngFor="let barrio of barrios">
+        <td>{{barrio.id}}</td>
+        <td>{{barrio.nombre}}</td>
+        <td>{{barrio.ubicacion}}</td>
+        <td>La Lucinda</td> 
+        <td>
+          <a class="btn btn-xs btn-primary" [routerLink]="['/barrios', barrio.id]"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+          <a class="btn btn-xs btn-danger" (click)="borrarBarrio(barrio)"><i class="fa fa-trash"></i></a>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+  <div class=" row">
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrarBarrio">
+              Registrar nuevo barrio
+          </button>
+  </div>
+</section>
+
+
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="registrarBarrio">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Registrar Barrio</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"> Registrar Barrio</h3>
+            </div>
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name"> Nombre </label>
+                    <input type="text" class="form-control" id="firstname" placeholder="Ingrese el Nombre del Barrio">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="ubication">Ubicación</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="Ingrese la Ubicación del Barrio">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
