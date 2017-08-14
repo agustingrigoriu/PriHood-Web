@@ -61,7 +61,8 @@ namespace PriHood.Controllers
           Usuario usuario = new Usuario();
           usuario.Email = mres.email;
           usuario.Password = mres.password;
-          usuario.IdPerfil = 3; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
+          Perfil perfil = db.Perfil.First(u => u.Descripcion == "RESIDENTE");
+          usuario.IdPerfil = perfil.Id; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
           db.Usuario.Add(usuario);
 
           db.SaveChanges();
