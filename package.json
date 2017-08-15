@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng build --watch",
+    "start:panel": "ng build --watch",
+    "start:web": "dotnet watch run ",
+    "start": "npm-run-all -p start:*",
     "update-db": "mysql -u root -p Prihood < bd/update.sql"
   },
   "private": true,
@@ -19,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "core-js": "^2.4.1",
+    "npm-run-all": "^4.0.2",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"
   },

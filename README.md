@@ -13,7 +13,20 @@ para instalar dependencias.
 2. Y luego para correr:
 ```dotnet run```
 
-# Modificación del panel de administración
+# Ejecutar facilmente
+Para ejecutar todo de una sola vez, se puede hacer
+
+```sh
+npm start
+```
+en donde estará ejecutandose el panel y el api a la vez.
+
+# Ejecutar por separado
+## Ejecutar solamente la web
+Para esto solo hay que correr el dotnet:
+
+```dotnet run```
+## Modificación del panel de administración
 Para modificar el panel, hay que tener ejecutando el servidor de C# y el compilador de Angular en modo escucha.
 Esto permite recompilar el panel con cada cambio y no tener que reiniciar el servidor cada vez que se quiera ver el cambio.
 Para esto, en una consola separada, hay que ejecutar:
