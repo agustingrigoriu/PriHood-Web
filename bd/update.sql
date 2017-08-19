@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
     ON DELETE CASCADE)
 ENGINE = InnoDB;
 
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1"); 
 
 -- -----------------------------------------------------
 -- Table `Prihood`.`Residencia`
@@ -215,7 +214,7 @@ ENGINE = InnoDB;
 
 -- Inserción de valores a tabla PERFIL
 
-INSERT INTO Perfil (descripcion) VALUES ("Root"), ("Administrador"), ("Residente"), ("Encargado de Seguridad");
+INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"), ("3", "Residente"), ("4", "Encargado de Seguridad");
 
 -- Inserción de valores a tabla Tipo_Documento 
 
@@ -225,6 +224,6 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
+-- Inserción de usuarios por defecto de prueba
 
-
-
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1");
