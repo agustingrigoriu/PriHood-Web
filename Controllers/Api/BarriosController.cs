@@ -57,12 +57,12 @@ namespace PriHood.Controllers
 
           var id_persona = persona.Id;
 
-          var perfil = db.Perfil.First(u => u.Descripcion == "RESIDENTE");
+          var perfil = db.Perfil.First(u => u.Descripcion == "Administrador");
           var usuario = new Usuario();
 
           usuario.Email = mba.usuario.email;
           usuario.Password = auth.getHash(mba.usuario.password); // hasheo le password
-          usuario.IdPerfil = perfil.Id; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
+          usuario.IdPerfil = perfil.Id;
           db.Usuario.Add(usuario);
 
           db.SaveChanges();
