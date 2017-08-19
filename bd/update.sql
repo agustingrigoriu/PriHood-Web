@@ -169,6 +169,80 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
 ENGINE = InnoDB;
 
 
+-- Se agrega nuevas tablas para las visitas
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`TipoVisita` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_tipo_visita` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `id_tipo_documento` INT NULL,
+  `numero_documento` INT NULL,
+  `patente` VARCHAR(45) NULL,
+  `observaciones` VARCHAR(100) NULL,
+  `fecha_visita` DATETIME NULL,
+  `avatar` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id_tipo_visita_idx` (`id_tipo_visita` ASC),
+  INDEX `id_tipo_documento_idx` (`id_tipo_documento` ASC),
+  CONSTRAINT `id_tipo_visita`
+    FOREIGN KEY (`id_tipo_visita`)
+    REFERENCES `Prihood`.`TipoVisita` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_tipo_documento`
+    FOREIGN KEY (`id_tipo_documento`)
+    REFERENCES `Prihood`.`Tipo_Documento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`EventoVisita` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Visita` (
+  `id` INT NOT NULL,
+  `id_evento` INT NOT NULL,
+  `fecha` DATETIME NOT NULL,
+  `id_visitante` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id_evento_idx` (`id_evento` ASC),
+  INDEX `id_visitante_idx` (`id_visitante` ASC),
+  CONSTRAINT `id_evento`
+    FOREIGN KEY (`id_evento`)
+    REFERENCES `Prihood`.`EventoVisita` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_visitante`
+    FOREIGN KEY (`id_visitante`)
+    REFERENCES `Prihood`.`Visitante` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`VisitasXResidente` (
+  `id_visita` INT NOT NULL,
+  `id_residente` INT NOT NULL,
+  PRIMARY KEY (`id_visita`, `id_residente`),
+  INDEX `id_residente_idx` (`id_residente` ASC),
+  CONSTRAINT `id_visita`
+    FOREIGN KEY (`id_visita`)
+    REFERENCES `Prihood`.`Visita` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_residente`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 -- Inserción de valores a tabla PERFIL
 
 INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"), ("3", "Residente"), ("4", "Encargado de Seguridad");
