@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { QRCodeModule } from 'angular2-qrcode';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -25,6 +26,7 @@ import { LoginService } from '../services/login.service';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    QRCodeModule,
     RouterModule.forRoot([
       {
         path: 'barrios',

@@ -71,6 +71,10 @@ export class ResidenciaComponent implements OnInit, OnDestroy {
     });
   }
 
+  imprimirListado() {
+    window.print();
+  }
+
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       const id = +params['barrio'];

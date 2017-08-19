@@ -1,0 +1,28 @@
+@media print {
+    .not-print {
+        display: none;
+    }
+    .print {
+        display: block!important;
+    }
+    .card-residencia {
+        width: 70%;
+        margin: 0 auto;
+        border: solid 1px #000;
+        padding: 22px;
+    }
+    .card-residencia h1,
+    .card-residencia h2,
+    .card-residencia h3 {
+        margin: 0 10px 0 0;
+    }
+    .logo {
+        width: 150px;
+        display: block;
+        margin-top: 10px;
+    }
+}
+
+.print {
+    display: none;
+}
