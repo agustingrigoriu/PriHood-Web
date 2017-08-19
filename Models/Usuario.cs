@@ -16,7 +16,6 @@ namespace PriHood.Models
         public string Avatar { get; set; }
         public string Email { get; set; }
         public int IdPerfil { get; set; }
-        public string NombreUsuario { get; set; }
         public string Password { get; set; }
 
         public virtual ICollection<Empleado> Empleado { get; set; }

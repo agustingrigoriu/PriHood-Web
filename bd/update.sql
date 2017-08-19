@@ -34,7 +34,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre_usuario` VARCHAR(45) NULL,
   `email` VARCHAR(50) UNIQUE NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `avatar` VARCHAR(100) NULL,

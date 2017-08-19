@@ -335,10 +335,6 @@ namespace PriHood.Models
                     .HasColumnName("id_perfil")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.NombreUsuario)
-                    .HasColumnName("nombre_usuario")
-                    .HasColumnType("varchar(45)");
-
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasColumnName("password")
