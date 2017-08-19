@@ -47,6 +47,13 @@
                 <li routerLinkActive='active'><a routerLink='/barrios'><i class="fa fa-link"></i> <span>Barrios</span></a></li>
             </ul>
 
+            <!-- Si es administrador de barrio... -->
+            <ul class="sidebar-menu" *ngIf="usuario.idPerfil === 2">
+                <li class="header">Administración</li>
+
+                <li routerLinkActive='active'><a routerLink='/home'><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
+                <li routerLinkActive='active'><a routerLink='/barrios'><i class="fa fa-link"></i> <span>Barrios</span></a></li>
+            </ul>
         </section>
     </aside>
 

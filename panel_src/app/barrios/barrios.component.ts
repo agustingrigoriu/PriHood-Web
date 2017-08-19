@@ -11,11 +11,28 @@ import { Barrio } from './barrio.model';
 export class BarriosComponent implements OnInit {
   constructor(protected BarriosService: BarriosService) { }
 
+  usuario = {
+    nombre: '',
+    apellido: '',
+    id_tipo_documento: '',
+    numero_documento: '',
+    telefono: '',
+    fecha_nacimiento: '',
+    password: '',
+  };
+
   barrios: Barrio[] = [];
   barrio: Barrio = {
     nombre: '',
     ubicacion: ''
   };
+
+  doctipos = [
+    { name: 'Documento único', id: 1 },
+    { name: 'Libreta de enrolamiento', id: 2 },
+    { name: 'Libreta Cívica', id: 3 },
+    { name: 'Otros', id: 4 }
+  ];
 
   borrarBarrio(barrio: Barrio): void {
     if (confirm('¿Borrar este barrio?')) {
@@ -30,8 +47,8 @@ export class BarriosComponent implements OnInit {
     }
   }
 
-  crearBarrio(barrio: Barrio) {
-    this.BarriosService.crearBarrio(barrio).then(response => {
+  crearBarrio(barrio: Barrio, usuario: any) {
+    this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
         alert('No se pudo crear.');
       } else {

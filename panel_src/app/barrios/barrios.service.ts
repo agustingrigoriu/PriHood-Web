@@ -18,7 +18,7 @@ export class BarriosService {
     return this.request.delete<any>(`barrios/${id}`);
   }
 
-  crearBarrio(barrio: Barrio) {
-    return this.request.post<any>(`barrios`, barrio);
+  crearBarrio(barrio: Barrio, usuario: any) {
+    return this.request.post<any>(`barrios`, { barrio: barrio, usuario: usuario });
   }
 }
