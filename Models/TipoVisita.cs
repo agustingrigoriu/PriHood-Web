@@ -3,18 +3,16 @@ using System.Collections.Generic;
 
 namespace PriHood.Models
 {
-    public partial class TipoDocumento
+    public partial class TipoVisita
     {
-        public TipoDocumento()
+        public TipoVisita()
         {
-            Persona = new HashSet<Persona>();
             Visitante = new HashSet<Visitante>();
         }
 
         public int Id { get; set; }
-        public string Descripcion { get; set; }
+        public string Nombre { get; set; }
 
-        public virtual ICollection<Persona> Persona { get; set; }
         public virtual ICollection<Visitante> Visitante { get; set; }
     }
 }
