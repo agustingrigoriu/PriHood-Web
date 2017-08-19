@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   `id_tipo_empleado` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_persona` INT NOT NULL,
+  `id_barrio` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Empleado_1`
     FOREIGN KEY (`id_usuario`)
@@ -154,6 +155,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   CONSTRAINT `fk_Empleado_3`
     FOREIGN KEY (`id_persona`)
     REFERENCES `Prihood`.`Persona` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Empleado_4`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
