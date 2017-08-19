@@ -18,7 +18,7 @@ export class UsuariosService {
     return this.request.delete<any>(`usuarios/${id}`);
   }
 
-  crearUsuario(usuario: Usuario) {
+  crearUsuario(usuario: any) {
     return this.request.post<any>(`usuarios`, usuario);
   }
 }

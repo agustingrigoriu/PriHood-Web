@@ -11,19 +11,27 @@ import { Usuario } from './usuario.model';
 export class UsuariosComponent implements OnInit {
   constructor(protected UsuariosService: UsuariosService) { }
 
+  usuario = {
+    nombre: '',
+    apellido: '',
+    id_tipo_documento: '',
+    numero_documento: '',
+    telefono: '',
+    fecha_nacimiento: '',
+    password: '',
+    id_perfil: '',
+  };
   usuarios: Usuario[] = [];
   doctipos = [
-    {name:'DNI'},
-    {name:'Pasaporte'},
-    {name:'Visa'},
-   
-];
+    { name: 'Documento único', id: 1 },
+    { name: 'Libreta de enrolamiento', id: 2 },
+    { name: 'Libreta Cívica', id: 3 },
+    { name: 'Otros', id: 4 }
+  ];
   perfiles = [
-    {name:'Encargado de Seguridad'},
-    {name:'Administrador'},
-    {name:'Otro'},
-   
-];
+    { nombre: 'Administrador', id: 1 },
+    { nombre: 'Encargado de Seguridad', id: 2 }
+  ];
 
   borrarUsuario(usuario: Usuario): void {
     if (confirm('¿Borrar este usuario?')) {
@@ -38,15 +46,9 @@ export class UsuariosComponent implements OnInit {
     }
   }
 
-  crearEjemplo() {
-    let usuario: Usuario = {
-      avatar: 'no',
-      email: 'nose@micorreo.com',
-      idPerfil: 2,
-      nombreUsuario: 'probandoesto',
-      password: 'mipassword123$'
-    };
+  crearUsuario(usuario: Usuario) {
 
+    console.log(usuario);
     this.UsuariosService.crearUsuario(usuario).then(response => {
       if (response.error) {
         alert('No se pudo crear.');
