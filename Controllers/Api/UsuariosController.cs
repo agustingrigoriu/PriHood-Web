@@ -55,8 +55,8 @@ namespace PriHood.Controllers
           persona.Apellido = mres.apellido;
           persona.Nombre = mres.nombre;
           persona.FechaNacimiento = mres.fecha_nacimiento;
-          persona.IdTipoDocumento = mres.id_tipoDocumento;
-          persona.NroDocumento = mres.nroDocumento;
+          persona.IdTipoDocumento = mres.id_tipo_documento;
+          persona.NroDocumento = mres.numero_documento;
           persona.TelefonoMovil = mres.telefono;
           db.Persona.Add(persona);
 
@@ -103,14 +103,15 @@ namespace PriHood.Controllers
                                     .FirstOrDefault();
 
       if (usuario == null)
-      return new { error=true, data="Usuario inexistente"};
-      else {
+        return new { error = true, data = "Usuario inexistente" };
+      else
+      {
         var randomPassword = RandomString(6);
         usuario.Password = getHash(randomPassword);
         db.Usuario.Update(usuario);
         //SendEmail("noreply@prihood.com","agustin.gregorieu@gmail.com","Cambio de Contraseña", randomPassword);
         db.SaveChanges();
-        return new {error = true, data = "Contraseña generada con éxito"};
+        return new { error = true, data = "Contraseña generada con éxito" };
       }
     }
 
@@ -135,7 +136,8 @@ namespace PriHood.Controllers
     }
 
     //Funciones
-    public void SendEmail(string From, string To, string Subject, string Body){
+    public void SendEmail(string From, string To, string Subject, string Body)
+    {
       var email = Email
                   .From(From)
                   .To(To)
@@ -146,10 +148,10 @@ namespace PriHood.Controllers
     }
     public string RandomString(int length)
     {
-        Random random = new Random();
-        const string chars = "abcdefghikjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        return new string(Enumerable.Repeat(chars, length)
-          .Select(s => s[random.Next(s.Length)]).ToArray());
+      Random random = new Random();
+      const string chars = "abcdefghikjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      return new string(Enumerable.Repeat(chars, length)
+        .Select(s => s[random.Next(s.Length)]).ToArray());
     }
 
     public string getHash(string text)
@@ -162,35 +164,4 @@ namespace PriHood.Controllers
       }
     }
   }
-
-  public class ModeloLogin
-  {
-    public string email { get; set; }
-    public string password { get; set; }
-
-
-  }
-  public class ModeloEmail
-  {
-    public string email { get; set; }
-
-
-  }
-
-  public class ModeloResidente
-  {
-    public string nombre { get; set; }
-    public string apellido { get; set; }
-    public int id_tipoDocumento { get; set; }
-    public string nroDocumento { get; set; }
-    public string telefono { get; set; }
-    public DateTime fecha_nacimiento { get; set; }
-    public string email { get; set; }
-    public string password { get; set; }
-    public int id_residencia { get; set; }
-
-  }
-
-  
-  
 }
