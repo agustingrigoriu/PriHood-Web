@@ -21,11 +21,14 @@ import {BarriosService} from './barrios/barrios.service';
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    Ng2SearchPipeModule,
     QRCodeModule,
     RouterModule.forRoot([
       {
