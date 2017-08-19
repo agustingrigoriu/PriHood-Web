@@ -63,19 +63,17 @@ namespace PriHood.Controllers
           usuario.Email = mba.usuario.email;
           usuario.Password = auth.getHash(mba.usuario.password); // hasheo le password
           usuario.IdPerfil = perfil.Id;
+          usuario.IdBarrio = mba.barrio.Id;
           db.Usuario.Add(usuario);
 
           db.SaveChanges();
 
-          var tipo_empleado = db.TipoEmpleado.First(te => te.Descripcion == "Administrador");
           var id_usuario = usuario.Id;
-          var id_tipo_empleado = tipo_empleado.Id;
 
           var empleado = new Empleado();
           empleado.IdBarrio = mba.barrio.Id;
           empleado.IdPersona = id_persona;
           empleado.IdUsuario = id_usuario;
-          empleado.IdTipoEmpleado = id_tipo_empleado;
           db.Empleado.Add(empleado);
 
           db.SaveChanges();

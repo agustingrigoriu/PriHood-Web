@@ -64,12 +64,14 @@ namespace PriHood.Controllers
 
           var id_persona = persona.Id;
 
+          var residencia = db.Residencia.Where(r => r.Id == mres.id_residencia).First();
           var perfil = db.Perfil.First(u => u.Descripcion == "RESIDENTE");
           var usuario = new Usuario();
 
           usuario.Email = mres.email;
           usuario.Password = auth.getHash(mres.password); // hasheo le password
           usuario.IdPerfil = perfil.Id; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
+          usuario.IdBarrio = residencia.IdBarrio;
           db.Usuario.Add(usuario);
 
           db.SaveChanges();

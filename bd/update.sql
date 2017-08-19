@@ -38,8 +38,14 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `password` VARCHAR(45) NOT NULL,
   `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
+  `id_barrio` INT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_1`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Usuario_2`
     FOREIGN KEY (`id_perfil`)
     REFERENCES `Prihood`.`Perfil` (`id`)
     ON DELETE CASCADE)
@@ -121,22 +127,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Prihood`.`Tipo_Empleado`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Empleado` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `Prihood`.`Empleado`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fecha_inicio_actividad` DATETIME NULL,
-  `id_tipo_empleado` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_persona` INT NOT NULL,
   `id_barrio` INT NOT NULL,
@@ -147,42 +142,16 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Empleado_2`
-    FOREIGN KEY (`id_tipo_empleado`)
-    REFERENCES `Prihood`.`Tipo_Empleado` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Empleado_3`
     FOREIGN KEY (`id_persona`)
     REFERENCES `Prihood`.`Persona` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Empleado_4`
+  CONSTRAINT `fk_Empleado_3`
     FOREIGN KEY (`id_barrio`)
     REFERENCES `Prihood`.`Barrio` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Prihood`.`ResidentesXResidencia`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Prihood`.`ResidentesXResidencia` (
-  `id_residencia` INT NOT NULL,
-  `id_residente` INT NOT NULL,
-  PRIMARY KEY (`id_residencia`, `id_residente`),
-  CONSTRAINT `fk_ResidentesXResidencia_1`
-    FOREIGN KEY (`id_residencia`)
-    REFERENCES `Prihood`.`Residencia` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ResidentesXResidencia_2`
-    FOREIGN KEY (`id_residente`)
-    REFERENCES `Prihood`.`Residente` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
@@ -199,23 +168,80 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
 
--- Se agrega nueva tabla de barrios por usuario
-CREATE TABLE IF NOT EXISTS `Prihood`.`UsuarioXBarrio` (
-  `id_barrio` INT NOT NULL,
-  `id_usuario` INT NOT NULL,
-  PRIMARY KEY (`id_barrio`, `id_usuario`),
-  INDEX `fk_UsuarioXBarrio_2_idx` (`id_barrio` ASC),
-  CONSTRAINT `fk_UsuarioXBarrio_1`
-    FOREIGN KEY (`id_barrio`)
-    REFERENCES `Prihood`.`Barrio` (`id`)
+
+-- Se agrega nuevas tablas para las visitas
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`TipoVisita` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_tipo_visita` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `id_tipo_documento` INT NULL,
+  `numero_documento` INT NULL,
+  `patente` VARCHAR(45) NULL,
+  `observaciones` VARCHAR(100) NULL,
+  `fecha_visita` DATETIME NULL,
+  `avatar` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id_tipo_visita_idx` (`id_tipo_visita` ASC),
+  INDEX `id_tipo_documento_idx` (`id_tipo_documento` ASC),
+  CONSTRAINT `id_tipo_visita`
+    FOREIGN KEY (`id_tipo_visita`)
+    REFERENCES `Prihood`.`TipoVisita` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_UsuarioXBarrio_2`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `Prihood`.`Usuario` (`id`)
+  CONSTRAINT `id_tipo_documento`
+    FOREIGN KEY (`id_tipo_documento`)
+    REFERENCES `Prihood`.`Tipo_Documento` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`EventoVisita` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`));
+
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Visita` (
+  `id` INT NOT NULL,
+  `id_evento` INT NOT NULL,
+  `fecha` DATETIME NOT NULL,
+  `id_visitante` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `id_evento_idx` (`id_evento` ASC),
+  INDEX `id_visitante_idx` (`id_visitante` ASC),
+  CONSTRAINT `id_evento`
+    FOREIGN KEY (`id_evento`)
+    REFERENCES `Prihood`.`EventoVisita` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_visitante`
+    FOREIGN KEY (`id_visitante`)
+    REFERENCES `Prihood`.`Visitante` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`VisitasXResidente` (
+  `id_visita` INT NOT NULL,
+  `id_residente` INT NOT NULL,
+  PRIMARY KEY (`id_visita`, `id_residente`),
+  INDEX `id_residente_idx` (`id_residente` ASC),
+  CONSTRAINT `id_visita`
+    FOREIGN KEY (`id_visita`)
+    REFERENCES `Prihood`.`Visita` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_residente`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 -- Inserción de valores a tabla PERFIL
 
@@ -225,9 +251,6 @@ INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"
 
 INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta de Enrolamiento"), ("Libreta Cívica"), ("Otro");
 
--- Inserción de valores a tabla Tipo_Empleado
-
-INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
 -- Inserción de usuarios por defecto de prueba
 

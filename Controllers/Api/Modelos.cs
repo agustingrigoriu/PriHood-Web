@@ -29,7 +29,7 @@ namespace PriHood.Controllers
 
   public class ModeloEmpleado : ModeloUsuario
   {
-    public int id_barrio { get; set; }
+    public int? id_barrio { get; set; }
   }
 
   public class ModeloBarrioAdministrador
@@ -48,5 +48,6 @@ namespace PriHood.Controllers
     public DateTime fecha_nacimiento { get; set; }
     public string email { get; set; }
     public string password { get; set; }
+    public int? id_perfil { get; set; }
   }
 }
