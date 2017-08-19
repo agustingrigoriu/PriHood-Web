@@ -67,22 +67,25 @@ namespace PriHood.Controllers
 
           db.SaveChanges();
 
+          var tipo_empleado = db.TipoEmpleado.First(te => te.Descripcion == "Administrador");
           var id_usuario = usuario.Id;
+          var id_tipo_empleado = tipo_empleado.Id;
 
           var empleado = new Empleado();
           empleado.IdBarrio = mba.barrio.Id;
           empleado.IdPersona = id_persona;
           empleado.IdUsuario = id_usuario;
+          empleado.IdTipoEmpleado = id_tipo_empleado;
           db.Empleado.Add(empleado);
 
           db.SaveChanges();
 
           transaction.Commit();
         }
-        catch (Exception)
+        catch (Exception err)
         {
           transaction.Rollback();
-          return new { error = true, data = "Error" };
+          return new { error = true, data = "Error", message = err.Message };
         }
       }
 
