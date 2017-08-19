@@ -8,9 +8,8 @@ import { QRCodeModule } from 'angular2-qrcode';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
-import { UsuariosComponent } from './usuarios/usuarios.component';
-import { UsuarioComponent } from './usuarios/usuario.component';
-import { UsuariosService } from './usuarios/usuarios.service';
+import { EmpleadosComponent } from './empleados/empleados.component';
+import { EmpleadosService } from './empleados/empleados.service';
 
 import {ResidenciaComponent } from './residencias/residencias.component';
 import {ResidenciasService } from './residencias/residencias.service';
@@ -40,12 +39,8 @@ import { LoginService } from '../services/login.service';
         component: HomeComponent
       },
       {
-        path: 'usuarios',
-        component: UsuariosComponent
-      },
-      {
-        path: 'usuarios/:id',
-        component: UsuarioComponent
+        path: 'empleados',
+        component: EmpleadosComponent
       },
       {
         path: 'residencias/:barrio',
@@ -64,8 +59,7 @@ import { LoginService } from '../services/login.service';
   declarations: [
     AppComponent,
     HomeComponent,
-    UsuariosComponent,
-    UsuarioComponent,
+    EmpleadosComponent,
     ResidenciaComponent,
     BarriosComponent,
     VisitasComponent
@@ -73,7 +67,7 @@ import { LoginService } from '../services/login.service';
   providers: [
     ApiRequestService,
     LoginService,
-    UsuariosService,
+    EmpleadosService,
     ResidenciasService,
     BarriosService,
     VisitasService

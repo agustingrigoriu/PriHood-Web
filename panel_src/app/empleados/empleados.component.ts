@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuariosService } from './usuarios.service';
-import { Usuario } from './usuario.model';
+import { EmpleadosService } from './empleados.service';
 
 @Component({
-  selector: 'app-usuarios',
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.css']
+  selector: 'app-empleados',
+  templateUrl: './empleados.component.html',
+  styleUrls: ['./empleados.component.css']
 })
 
-export class UsuariosComponent implements OnInit {
-  constructor(protected UsuariosService: UsuariosService) { }
+export class EmpleadosComponent implements OnInit {
+  constructor(protected EmpleadosService: EmpleadosService) { }
 
-  usuario = {
+  empleado = {
     nombre: '',
     apellido: '',
     id_tipo_documento: '',
@@ -21,7 +20,7 @@ export class UsuariosComponent implements OnInit {
     password: '',
     id_perfil: '',
   };
-  usuarios: Usuario[] = [];
+  empleados = [];
   doctipos = [
     { name: 'Documento único', id: 1 },
     { name: 'Libreta de enrolamiento', id: 2 },
@@ -29,13 +28,13 @@ export class UsuariosComponent implements OnInit {
     { name: 'Otros', id: 4 }
   ];
   perfiles = [
-    { nombre: 'Administrador', id: 1 },
-    { nombre: 'Encargado de Seguridad', id: 2 }
+    { nombre: 'Administrador', id: 2 },
+    { nombre: 'Encargado de Seguridad', id: 4 }
   ];
 
-  borrarUsuario(usuario: Usuario): void {
+  borrarEmpleado(empleado: any): void {
     if (confirm('¿Borrar este usuario?')) {
-      this.UsuariosService.deleteUsuario(usuario.id).then(response => {
+      this.EmpleadosService.deleteEmpleado(empleado.id).then(response => {
         if (response.error) {
           alert('No se pudo borrar.');
         } else {
@@ -46,10 +45,8 @@ export class UsuariosComponent implements OnInit {
     }
   }
 
-  crearUsuario(usuario: Usuario) {
-
-    console.log(usuario);
-    this.UsuariosService.crearUsuario(usuario).then(response => {
+  crearEmpleado(empleado: any) {
+    this.EmpleadosService.crearEmpleado(empleado).then(response => {
       if (response.error) {
         alert('No se pudo crear.');
       } else {
@@ -60,8 +57,8 @@ export class UsuariosComponent implements OnInit {
   }
 
   actualizarListado() {
-    this.UsuariosService.getAllUsuarios().then(response => {
-      this.usuarios = response.data;
+    this.EmpleadosService.getAllEmpleados().then(response => {
+      this.empleados = response.data;
     });
   }
 
