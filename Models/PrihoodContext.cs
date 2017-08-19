@@ -21,7 +21,6 @@ namespace PriHood.Models
         public virtual DbSet<Residente> Residente { get; set; }
         public virtual DbSet<ResidentesXresidencia> ResidentesXresidencia { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
-        public virtual DbSet<TipoEmpleado> TipoEmpleado { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<UsuarioXbarrio> UsuarioXbarrio { get; set; }
 
@@ -47,12 +46,9 @@ namespace PriHood.Models
             modelBuilder.Entity<Empleado>(entity =>
             {
                 entity.HasIndex(e => e.IdBarrio)
-                    .HasName("fk_Empleado_4");
-
-                entity.HasIndex(e => e.IdPersona)
                     .HasName("fk_Empleado_3");
 
-                entity.HasIndex(e => e.IdTipoEmpleado)
+                entity.HasIndex(e => e.IdPersona)
                     .HasName("fk_Empleado_2");
 
                 entity.HasIndex(e => e.IdUsuario)
@@ -74,10 +70,6 @@ namespace PriHood.Models
                     .HasColumnName("id_persona")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.IdTipoEmpleado)
-                    .HasColumnName("id_tipo_empleado")
-                    .HasColumnType("int(11)");
-
                 entity.Property(e => e.IdUsuario)
                     .HasColumnName("id_usuario")
                     .HasColumnType("int(11)");
@@ -86,17 +78,11 @@ namespace PriHood.Models
                     .WithMany(p => p.Empleado)
                     .HasForeignKey(d => d.IdBarrio)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_Empleado_4");
+                    .HasConstraintName("fk_Empleado_3");
 
                 entity.HasOne(d => d.IdPersonaNavigation)
                     .WithMany(p => p.Empleado)
                     .HasForeignKey(d => d.IdPersona)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_Empleado_3");
-
-                entity.HasOne(d => d.IdTipoEmpleadoNavigation)
-                    .WithMany(p => p.Empleado)
-                    .HasForeignKey(d => d.IdTipoEmpleado)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_Empleado_2");
 
@@ -284,20 +270,6 @@ namespace PriHood.Models
             modelBuilder.Entity<TipoDocumento>(entity =>
             {
                 entity.ToTable("Tipo_Documento");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
-
-                entity.Property(e => e.Descripcion)
-                    .IsRequired()
-                    .HasColumnName("descripcion")
-                    .HasColumnType("varchar(45)");
-            });
-
-            modelBuilder.Entity<TipoEmpleado>(entity =>
-            {
-                entity.ToTable("Tipo_Empleado");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")

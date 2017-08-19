@@ -121,22 +121,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Prihood`.`Tipo_Empleado`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Empleado` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `descripcion` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `Prihood`.`Empleado`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `fecha_inicio_actividad` DATETIME NULL,
-  `id_tipo_empleado` INT NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_persona` INT NOT NULL,
   `id_barrio` INT NOT NULL,
@@ -147,16 +136,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Empleado_2`
-    FOREIGN KEY (`id_tipo_empleado`)
-    REFERENCES `Prihood`.`Tipo_Empleado` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Empleado_3`
     FOREIGN KEY (`id_persona`)
     REFERENCES `Prihood`.`Persona` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Empleado_4`
+  CONSTRAINT `fk_Empleado_3`
     FOREIGN KEY (`id_barrio`)
     REFERENCES `Prihood`.`Barrio` (`id`)
     ON DELETE NO ACTION
@@ -225,9 +209,6 @@ INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"
 
 INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta de Enrolamiento"), ("Libreta Cívica"), ("Otro");
 
--- Inserción de valores a tabla Tipo_Empleado
-
-INSERT INTO Tipo_Empleado (descripcion) VALUES ("Administrador"), ("Encargado de Seguridad");
 
 -- Inserción de usuarios por defecto de prueba
 
