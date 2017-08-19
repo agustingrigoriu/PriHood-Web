@@ -46,6 +46,9 @@ namespace PriHood.Models
 
             modelBuilder.Entity<Empleado>(entity =>
             {
+                entity.HasIndex(e => e.IdBarrio)
+                    .HasName("fk_Empleado_4");
+
                 entity.HasIndex(e => e.IdPersona)
                     .HasName("fk_Empleado_3");
 
@@ -63,6 +66,10 @@ namespace PriHood.Models
                     .HasColumnName("fecha_inicio_actividad")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.IdBarrio)
+                    .HasColumnName("id_barrio")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.IdPersona)
                     .HasColumnName("id_persona")
                     .HasColumnType("int(11)");
@@ -74,6 +81,12 @@ namespace PriHood.Models
                 entity.Property(e => e.IdUsuario)
                     .HasColumnName("id_usuario")
                     .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdBarrioNavigation)
+                    .WithMany(p => p.Empleado)
+                    .HasForeignKey(d => d.IdBarrio)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Empleado_4");
 
                 entity.HasOne(d => d.IdPersonaNavigation)
                     .WithMany(p => p.Empleado)
@@ -321,10 +334,6 @@ namespace PriHood.Models
                 entity.Property(e => e.IdPerfil)
                     .HasColumnName("id_perfil")
                     .HasColumnType("int(11)");
-
-                entity.Property(e => e.NombreUsuario)
-                    .HasColumnName("nombre_usuario")
-                    .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
