@@ -38,8 +38,14 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `password` VARCHAR(45) NOT NULL,
   `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
+  `id_barrio` INT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_1`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Usuario_2`
     FOREIGN KEY (`id_perfil`)
     REFERENCES `Prihood`.`Perfil` (`id`)
     ON DELETE CASCADE)
@@ -147,27 +153,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Empleado` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `Prihood`.`ResidentesXResidencia`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Prihood`.`ResidentesXResidencia` (
-  `id_residencia` INT NOT NULL,
-  `id_residente` INT NOT NULL,
-  PRIMARY KEY (`id_residencia`, `id_residente`),
-  CONSTRAINT `fk_ResidentesXResidencia_1`
-    FOREIGN KEY (`id_residencia`)
-    REFERENCES `Prihood`.`Residencia` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ResidentesXResidencia_2`
-    FOREIGN KEY (`id_residente`)
-    REFERENCES `Prihood`.`Residente` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
@@ -183,23 +168,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
 
--- Se agrega nueva tabla de barrios por usuario
-CREATE TABLE IF NOT EXISTS `Prihood`.`UsuarioXBarrio` (
-  `id_barrio` INT NOT NULL,
-  `id_usuario` INT NOT NULL,
-  PRIMARY KEY (`id_barrio`, `id_usuario`),
-  INDEX `fk_UsuarioXBarrio_2_idx` (`id_barrio` ASC),
-  CONSTRAINT `fk_UsuarioXBarrio_1`
-    FOREIGN KEY (`id_barrio`)
-    REFERENCES `Prihood`.`Barrio` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_UsuarioXBarrio_2`
-    FOREIGN KEY (`id_usuario`)
-    REFERENCES `Prihood`.`Usuario` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 -- Inserción de valores a tabla PERFIL
 

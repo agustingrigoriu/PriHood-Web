@@ -9,7 +9,7 @@ namespace PriHood.Models
         {
             Empleado = new HashSet<Empleado>();
             Residencia = new HashSet<Residencia>();
-            UsuarioXbarrio = new HashSet<UsuarioXbarrio>();
+            Usuario = new HashSet<Usuario>();
         }
 
         public int Id { get; set; }
@@ -18,6 +18,6 @@ namespace PriHood.Models
 
         public virtual ICollection<Empleado> Empleado { get; set; }
         public virtual ICollection<Residencia> Residencia { get; set; }
-        public virtual ICollection<UsuarioXbarrio> UsuarioXbarrio { get; set; }
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }
