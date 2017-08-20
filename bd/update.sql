@@ -179,10 +179,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`TipoVisita` (
 CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_tipo_visita` INT NOT NULL,
+  `id_residente` INT NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
   `apellido` VARCHAR(45) NOT NULL,
   `id_tipo_documento` INT NULL,
-  `numero_documento` INT NULL,
+  `numero_documento` VARCHAR(45) NULL,
   `patente` VARCHAR(45) NULL,
   `observaciones` VARCHAR(100) NULL,
   `fecha_visita` DATETIME NULL,
@@ -193,6 +194,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   CONSTRAINT `id_tipo_visita`
     FOREIGN KEY (`id_tipo_visita`)
     REFERENCES `Prihood`.`TipoVisita` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_residente`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `id_tipo_documento`
@@ -232,12 +238,12 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`VisitasXResidente` (
   `id_residente` INT NOT NULL,
   PRIMARY KEY (`id_visita`, `id_residente`),
   INDEX `id_residente_idx` (`id_residente` ASC),
-  CONSTRAINT `id_visita`
+  CONSTRAINT `id_visita_2`
     FOREIGN KEY (`id_visita`)
     REFERENCES `Prihood`.`Visita` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `id_residente`
+  CONSTRAINT `id_residente_3`
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION

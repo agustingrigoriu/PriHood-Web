@@ -13,14 +13,6 @@ export class VisitasComponent implements OnInit {
 
     visitas: Visita[] = [];
 
-    visita = {
-        nombre: '',
-        apellido: '',
-        numero_documento: '',
-        patente: '',
-        telefono: '',
-    };
-
     actualizarListado() {
         this.VisitasService.getAllVisitas().then(response => {
             this.visitas = response.data;

@@ -7,6 +7,7 @@ namespace PriHood.Models
     {
         public Residente()
         {
+            Visitante = new HashSet<Visitante>();
             VisitasXresidente = new HashSet<VisitasXresidente>();
         }
 
@@ -16,6 +17,7 @@ namespace PriHood.Models
         public int IdResidencia { get; set; }
         public int IdUsuario { get; set; }
 
+        public virtual ICollection<Visitante> Visitante { get; set; }
         public virtual ICollection<VisitasXresidente> VisitasXresidente { get; set; }
         public virtual Persona IdPersonaNavigation { get; set; }
         public virtual Residencia IdResidenciaNavigation { get; set; }

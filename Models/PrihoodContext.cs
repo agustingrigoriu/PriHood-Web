@@ -365,6 +365,9 @@ namespace PriHood.Models
 
             modelBuilder.Entity<Visitante>(entity =>
             {
+                entity.HasIndex(e => e.IdResidente)
+                    .HasName("id_residente");
+
                 entity.HasIndex(e => e.IdTipoDocumento)
                     .HasName("id_tipo_documento_idx");
 
@@ -388,6 +391,10 @@ namespace PriHood.Models
                     .HasColumnName("fecha_visita")
                     .HasColumnType("datetime");
 
+                entity.Property(e => e.IdResidente)
+                    .HasColumnName("id_residente")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.IdTipoDocumento)
                     .HasColumnName("id_tipo_documento")
                     .HasColumnType("int(11)");
@@ -403,7 +410,7 @@ namespace PriHood.Models
 
                 entity.Property(e => e.NumeroDocumento)
                     .HasColumnName("numero_documento")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("varchar(45)");
 
                 entity.Property(e => e.Observaciones)
                     .HasColumnName("observaciones")
@@ -412,6 +419,12 @@ namespace PriHood.Models
                 entity.Property(e => e.Patente)
                     .HasColumnName("patente")
                     .HasColumnType("varchar(45)");
+
+                entity.HasOne(d => d.IdResidenteNavigation)
+                    .WithMany(p => p.Visitante)
+                    .HasForeignKey(d => d.IdResidente)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("id_residente");
 
                 entity.HasOne(d => d.IdTipoDocumentoNavigation)
                     .WithMany(p => p.Visitante)
@@ -447,13 +460,13 @@ namespace PriHood.Models
                     .WithMany(p => p.VisitasXresidente)
                     .HasForeignKey(d => d.IdResidente)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("id_residente");
+                    .HasConstraintName("id_residente_3");
 
                 entity.HasOne(d => d.IdVisitaNavigation)
                     .WithMany(p => p.VisitasXresidente)
                     .HasForeignKey(d => d.IdVisita)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("id_visita");
+                    .HasConstraintName("id_visita_2");
             });
         }
     }

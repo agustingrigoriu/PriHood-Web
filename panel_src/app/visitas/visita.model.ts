@@ -1,10 +1,13 @@
-import { Visita } from '../visitas/visita.model';
-
 export interface Visita {
-    id?: number;
-    nombre: string;
+    id: number;
     apellido: string;
-    dni: number;
-    patente?: number;
-    telefono?: number;
+    avatar: string;
+    fecha_visita?: string;
+    documento?: string;
+    tipo_visita: string;
+    nombre: string;
+    numero_documento?: number;
+    observaciones: string;
+    patente: string;
+    estado: string;
 }
