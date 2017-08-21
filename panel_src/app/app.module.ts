@@ -20,6 +20,9 @@ import {BarriosService} from './barrios/barrios.service';
 import {VisitantesComponent} from './visitantes/visitantes.component';
 import {VisitantesService} from './visitantes/visitantes.service';
 
+import {VisitasComponent} from './visitas/visitas.component';
+import {VisitasService} from './visitas/visitas.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 
@@ -51,6 +54,10 @@ import { LoginService } from '../services/login.service';
         component: VisitantesComponent
       },
       {
+        path: 'visitas',
+        component: VisitasComponent
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }
@@ -62,7 +69,8 @@ import { LoginService } from '../services/login.service';
     EmpleadosComponent,
     ResidenciaComponent,
     BarriosComponent,
-    VisitantesComponent
+    VisitantesComponent,
+    VisitasComponent
   ],
   providers: [
     ApiRequestService,
@@ -70,7 +78,8 @@ import { LoginService } from '../services/login.service';
     EmpleadosService,
     ResidenciasService,
     BarriosService,
-    VisitantesService
+    VisitantesService,
+    VisitasService
   ],
   bootstrap: [AppComponent]
 })
