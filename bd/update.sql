@@ -179,25 +179,28 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`TipoVisita` (
 CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_tipo_visita` INT NOT NULL,
-  `nombre` VARCHAR(45) NOT NULL,
-  `apellido` VARCHAR(45) NOT NULL,
-  `id_tipo_documento` INT NULL,
-  `numero_documento` INT NULL,
+  `id_residente` INT NOT NULL,
+  `id_persona` INT NOT NULL,
   `patente` VARCHAR(45) NULL,
   `observaciones` VARCHAR(100) NULL,
   `fecha_visita` DATETIME NULL,
   `avatar` VARCHAR(100) NULL,
+  `estado` VARCHAR(30) DEFAULT 'esperando',
   PRIMARY KEY (`id`),
   INDEX `id_tipo_visita_idx` (`id_tipo_visita` ASC),
-  INDEX `id_tipo_documento_idx` (`id_tipo_documento` ASC),
   CONSTRAINT `id_tipo_visita`
     FOREIGN KEY (`id_tipo_visita`)
     REFERENCES `Prihood`.`TipoVisita` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `id_tipo_documento`
-    FOREIGN KEY (`id_tipo_documento`)
-    REFERENCES `Prihood`.`Tipo_Documento` (`id`)
+  CONSTRAINT `id_residente`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_persona`
+    FOREIGN KEY (`id_persona`)
+    REFERENCES `Prihood`.`Persona` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -232,12 +235,12 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`VisitasXResidente` (
   `id_residente` INT NOT NULL,
   PRIMARY KEY (`id_visita`, `id_residente`),
   INDEX `id_residente_idx` (`id_residente` ASC),
-  CONSTRAINT `id_visita`
+  CONSTRAINT `id_visita_2`
     FOREIGN KEY (`id_visita`)
     REFERENCES `Prihood`.`Visita` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `id_residente`
+  CONSTRAINT `id_residente_3`
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION
@@ -251,7 +254,10 @@ INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"
 
 INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta de Enrolamiento"), ("Libreta Cívica"), ("Otro");
 
-
 -- Inserción de usuarios por defecto de prueba
 
 INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1");
+
+-- Inserción de tipos de visita
+
+INSERT INTO  TipoVisita(id, nombre) VALUES ("1", "Frecuente"), ("2", "Actual");

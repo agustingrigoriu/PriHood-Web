@@ -50,4 +50,18 @@ namespace PriHood.Controllers
     public string password { get; set; }
     public int? id_perfil { get; set; }
   }
+
+  public class ModeloVisitante
+  {
+    public string nombre { get; set; }
+    public string apellido { get; set; }
+    public int id_tipo_documento { get; set; }
+    public int id_tipo_visita { get; set; }
+    public string numero_documento { get; set; }
+    public DateTime? fecha_visita { get; set; }
+    public string avatar { get; set; }
+    public string observaciones { get; set; }
+    public string patente { get; set; }
+
+  }
 }
