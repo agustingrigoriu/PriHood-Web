@@ -13,6 +13,7 @@ namespace PriHood.Models
         public int Id { get; set; }
         public string Apellido { get; set; }
         public string Avatar { get; set; }
+        public string Estado { get; set; }
         public DateTime? FechaVisita { get; set; }
         public int IdResidente { get; set; }
         public int? IdTipoDocumento { get; set; }

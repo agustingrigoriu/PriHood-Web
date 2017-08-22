@@ -185,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   `observaciones` VARCHAR(100) NULL,
   `fecha_visita` DATETIME NULL,
   `avatar` VARCHAR(100) NULL,
+  `estado` VARCHAR(30) DEFAULT 'esperando',
   PRIMARY KEY (`id`),
   INDEX `id_tipo_visita_idx` (`id_tipo_visita` ASC),
   CONSTRAINT `id_tipo_visita`

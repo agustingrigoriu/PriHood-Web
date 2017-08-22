@@ -387,6 +387,11 @@ namespace PriHood.Models
                     .HasColumnName("avatar")
                     .HasColumnType("varchar(100)");
 
+                entity.Property(e => e.Estado)
+                    .HasColumnName("estado")
+                    .HasColumnType("varchar(30)")
+                    .HasDefaultValueSql("esperando");
+
                 entity.Property(e => e.FechaVisita)
                     .HasColumnName("fecha_visita")
                     .HasColumnType("datetime");
