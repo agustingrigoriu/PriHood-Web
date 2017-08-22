@@ -10,7 +10,7 @@
             <h3 class="box-title">Listado de barrios</h3>
         </div>
 
-        <input type="text" [(ngModel)]="term">
+        
 
         <table class="table" id="tablaBarrios">
             <thead>
@@ -27,7 +27,7 @@
                         <p class="text-center">No existen barrios.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let barrio of barrios | filter : term">
+                <tr *ngFor="let barrio of barrios ">
                     <td>{{barrio.id}}</td>
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
