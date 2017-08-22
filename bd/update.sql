@@ -180,13 +180,13 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_tipo_visita` INT NOT NULL,
   `id_residente` INT NOT NULL,
+  `id_persona` INT NOT NULL,
   `patente` VARCHAR(45) NULL,
   `observaciones` VARCHAR(100) NULL,
   `fecha_visita` DATETIME NULL,
   `avatar` VARCHAR(100) NULL,
   PRIMARY KEY (`id`),
   INDEX `id_tipo_visita_idx` (`id_tipo_visita` ASC),
-  INDEX `id_tipo_documento_idx` (`id_tipo_documento` ASC),
   CONSTRAINT `id_tipo_visita`
     FOREIGN KEY (`id_tipo_visita`)
     REFERENCES `Prihood`.`TipoVisita` (`id`)
@@ -195,6 +195,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   CONSTRAINT `id_residente`
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `id_persona`
+    FOREIGN KEY (`id_persona`)
+    REFERENCES `Prihood`.`Persona` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
