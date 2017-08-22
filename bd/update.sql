@@ -253,7 +253,10 @@ INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"
 
 INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta de Enrolamiento"), ("Libreta Cívica"), ("Otro");
 
-
 -- Inserción de usuarios por defecto de prueba
 
 INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1");
+
+-- Inserción de tipos de visita
+
+INSERT INTO  TipoVisita(id, nombre) VALUES ("1", "Frecuente"), ("2", "Actual");
