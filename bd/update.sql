@@ -196,11 +196,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `id_tipo_documento`
-    FOREIGN KEY (`id_tipo_documento`)
-    REFERENCES `Prihood`.`Tipo_Documento` (`id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
 
