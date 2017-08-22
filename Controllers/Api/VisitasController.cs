@@ -21,33 +21,40 @@ namespace PriHood.Controllers
     }
 
     [HttpPost]
-    public Object RegistrarVisita([FromBody]ModeloVisitante mv)
+    public Object RegistrarVisitante([FromBody]ModeloVisitante mv)
     {
-      try
+      using (var transaction = db.Database.BeginTransaction())
       {
-        var logueado = HttpContext.Session.Authenticated();
-        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
-        var visitante = new Visitante();
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          var visitante = new Visitante();
 
-        visitante.Apellido = mv.apellido;
-        visitante.Avatar = mv.avatar;
-        visitante.FechaVisita = mv.fecha_visita;
-        visitante.IdTipoDocumento = mv.id_tipo_documento;
-        visitante.IdTipoVisita = mv.id_tipo_visita;
-        visitante.Nombre = mv.nombre;
-        visitante.NumeroDocumento = mv.numero_documento;
-        visitante.Observaciones = mv.observaciones;
-        visitante.Patente = mv.patente;
-        visitante.IdResidente = residente.Id;
+          visitante.Apellido = mv.apellido;
+          visitante.Avatar = mv.avatar;
+          visitante.FechaVisita = mv.fecha_visita;
+          visitante.IdTipoDocumento = mv.id_tipo_documento;
+          visitante.IdTipoVisita = mv.id_tipo_visita;
+          visitante.Nombre = mv.nombre;
+          visitante.NumeroDocumento = mv.numero_documento;
+          visitante.Observaciones = mv.observaciones;
+          visitante.Patente = mv.patente;
+          visitante.IdResidente = residente.Id;
 
-        db.Visitante.Add(visitante);
-        db.SaveChanges();
+          db.Visitante.Add(visitante);
+          db.SaveChanges();
 
-        return new { error = false, data = visitante };
-      }
-      catch (Exception)
-      {
-        return new { error = true, data = "fail" };
+          transaction.Commit();
+
+          return new { error = false, data = visitante };
+        }
+        catch (Exception err)
+        {
+          transaction.Rollback();
+
+          return new { error = true, data = "fail"};
+        }
       }
     }
 
