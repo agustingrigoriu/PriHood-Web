@@ -19,6 +19,8 @@ import {BarriosService} from './barrios/barrios.service';
 
 import {VisitantesComponent} from './visitantes/visitantes.component';
 import {VisitantesService} from './visitantes/visitantes.service';
+import {VisitasComponent} from './visitas/visitas.component';
+import {VisitasService} from './visitas/visitas.service';
 
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
@@ -49,8 +51,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
         component: ResidenciaComponent
       },
       {
-        path: 'visitantes',
-        component: VisitantesComponent
+        path: 'visitas',
+        component: VisitasComponent
       },
       {
         path: '**',
@@ -65,6 +67,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ResidenciaComponent,
     BarriosComponent,
     VisitantesComponent,
+    VisitasComponent
   ],
   providers: [
     ApiRequestService,
@@ -73,6 +76,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ResidenciasService,
     BarriosService,
     VisitantesService,
+    VisitasService
   ],
   bootstrap: [AppComponent]
 })

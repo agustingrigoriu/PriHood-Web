@@ -4,8 +4,8 @@ import { Visita } from './visita.model';
 
 @Component({
     selector: 'app-visitas',
-    templateUrl: './visitas.component.html',
-    styleUrls: ['./visitas.component.css']
+    templateUrl: '/visitas.component.html',
+    styleUrls: ['/visitas.component.css']
 })
 
 export class VisitasComponent implements OnInit {
@@ -15,7 +15,7 @@ export class VisitasComponent implements OnInit {
 
     actualizarListado() {
         this.VisitasService.getAllVisitas().then(response => {
-            this.visitas = response.data;
+            this.visitas = response.error? [] : response.data;
         });
     }
 
