@@ -41,6 +41,7 @@ namespace PriHood.Controllers
           visitante.Observaciones = mv.observaciones;
           visitante.Patente = mv.patente;
           visitante.IdResidente = residente.Id;
+          visitante.Estado = "esperando";
 
           db.Visitante.Add(visitante);
           db.SaveChanges();
@@ -49,16 +50,16 @@ namespace PriHood.Controllers
 
           return new { error = false, data = visitante };
         }
-        catch (Exception err)
+        catch (Exception)
         {
           transaction.Rollback();
 
-          return new { error = true, data = "fail"};
+          return new { error = true, data = "fail" };
         }
       }
     }
 
-    [HttpPost("{id}/{evento}")]
+    [HttpPost("marcar/{id}/{evento}")]
     public Object MarcarEvento(int id, string evento)
     {
       using (var transaction = db.Database.BeginTransaction())
@@ -66,6 +67,7 @@ namespace PriHood.Controllers
         try
         {
           var evento_visita = db.EventoVisita.Where(e => e.Nombre == evento).First();
+          var visitante = db.Visitante.First(v => v.Id == id);
 
           var visita = new Visita();
           visita.Fecha = DateTime.Now;
@@ -77,12 +79,19 @@ namespace PriHood.Controllers
 
           if (evento == "ingreso")
           {
-            var visitante = db.Visitante.First(v => v.Id == id);
 
             var visitaxresidente = new VisitasXresidente();
             visitaxresidente.IdVisita = visita.Id;
             visitaxresidente.IdResidente = visitante.IdResidente;
+            
             db.VisitasXresidente.Add(visitaxresidente);
+            
+            visitante.Estado = "ingreso";
+
+            db.SaveChanges();
+          } else {
+            visitante.Estado = "egreso";
+
             db.SaveChanges();
           }
 
@@ -101,18 +110,24 @@ namespace PriHood.Controllers
 
 
     [HttpGet]
-    public Object ListarVisitas()
+    public Object ListarVisitantes()
     {
       try
       {
         var hoy = DateTime.Today;
+        var logueado = HttpContext.Session.Authenticated();
 
         var visitas = (
           from v in db.Visita
+
           join vs in db.Visitante on v.IdVisitante equals vs.Id
           join tv in db.TipoVisita on vs.IdTipoVisita equals tv.Id
           join td in db.TipoDocumento on vs.IdTipoDocumento equals td.Id
-          where v.Fecha.Date == hoy || tv.Nombre == "frecuente"
+          join rs in db.Residente on vs.IdResidente equals rs.Id
+          join us in db.Usuario on rs.IdUsuario equals us.Id
+
+          where (v.Fecha.Date == hoy || tv.Nombre == "frecuente") && us.IdBarrio == logueado.IdBarrio
+
           select new
           {
             apellido = vs.Apellido,
@@ -123,7 +138,43 @@ namespace PriHood.Controllers
             patente = vs.Patente,
             tipo_visita = tv.Nombre,
             tipo_documento = td.Descripcion,
-            estado = "-" // por ahora no se calcula.. pero debe decir si ingreso o egreso o no llego
+            estado = vs.Estado
+          }
+        ).ToList();
+
+        return new { error = false, data = visitas };
+      }
+      catch (Exception)
+      {
+        return new { error = true, data = "fail" };
+      }
+    }
+
+    [HttpGet("tipo-visita/{id_tipo_visita}")]
+    public Object ListarVisitantesPorTipo(int id_tipo_visita)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+
+        var visitas = (
+          from v in db.Visita
+          join vs in db.Visitante on v.IdVisitante equals vs.Id
+          join tv in db.TipoVisita on vs.IdTipoVisita equals tv.Id
+          join td in db.TipoDocumento on vs.IdTipoDocumento equals td.Id
+          where (vs.Estado == "esperando" || tv.Nombre == "frecuente") && vs.IdTipoVisita == id_tipo_visita && vs.IdResidente == residente.Id
+          select new
+          {
+            apellido = vs.Apellido,
+            nombre = vs.Nombre,
+            id = vs.Id,
+            numero_documento = vs.NumeroDocumento,
+            observaciones = vs.Observaciones,
+            patente = vs.Patente,
+            id_tipo_documento = vs.IdTipoDocumento,
+            avatar = vs.Avatar,
+            fecha_visita = vs.FechaVisita
           }
         ).ToList();
 
