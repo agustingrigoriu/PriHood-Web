@@ -118,15 +118,14 @@ namespace PriHood.Controllers
         var logueado = HttpContext.Session.Authenticated();
 
         var visitas = (
-          from v in db.Visita
+          from vs in db.Visitante
 
-          join vs in db.Visitante on v.IdVisitante equals vs.Id
           join tv in db.TipoVisita on vs.IdTipoVisita equals tv.Id
           join td in db.TipoDocumento on vs.IdTipoDocumento equals td.Id
           join rs in db.Residente on vs.IdResidente equals rs.Id
           join us in db.Usuario on rs.IdUsuario equals us.Id
 
-          where (v.Fecha.Date == hoy || tv.Nombre == "frecuente") && us.IdBarrio == logueado.IdBarrio
+          where ((vs.FechaVisita.HasValue && vs.FechaVisita.Value.Date == hoy) || tv.Nombre == "Frecuente") && us.IdBarrio == logueado.IdBarrio
 
           select new
           {
@@ -150,8 +149,8 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("tipo-visita/{id_tipo_visita}")]
-    public Object ListarVisitantesPorTipo(int id_tipo_visita)
+    [HttpGet("tipo-visita/{id}")]
+    public Object ListarVisitantesPorTipo(int id)
     {
       try
       {
@@ -159,11 +158,10 @@ namespace PriHood.Controllers
         var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
         var visitas = (
-          from v in db.Visita
-          join vs in db.Visitante on v.IdVisitante equals vs.Id
+          from vs in db.Visitante
           join tv in db.TipoVisita on vs.IdTipoVisita equals tv.Id
           join td in db.TipoDocumento on vs.IdTipoDocumento equals td.Id
-          where (vs.Estado == "esperando" || tv.Nombre == "frecuente") && vs.IdTipoVisita == id_tipo_visita && vs.IdResidente == residente.Id
+          where (vs.Estado == "esperando" || tv.Nombre == "frecuente") && vs.IdTipoVisita == id && vs.IdResidente == residente.Id
           select new
           {
             apellido = vs.Apellido,
@@ -180,9 +178,9 @@ namespace PriHood.Controllers
 
         return new { error = false, data = visitas };
       }
-      catch (Exception)
+      catch (Exception err)
       {
-        return new { error = true, data = "fail" };
+        return new { error = true, data = "fail", err.Message, asd = err.Data, err.InnerException, err.Source };
       }
     }
   }
