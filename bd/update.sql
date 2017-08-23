@@ -180,7 +180,10 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_tipo_visita` INT NOT NULL,
   `id_residente` INT NOT NULL,
-  `id_persona` INT NOT NULL,
+  `nombre` VARCHAR(45) NOT NULL,
+  `apellido` VARCHAR(45) NOT NULL,
+  `id_tipo_documento` INT NULL,
+  `numero_documento` VARCHAR(45) NULL,
   `patente` VARCHAR(45) NULL,
   `observaciones` VARCHAR(100) NULL,
   `fecha_visita` DATETIME NULL,
@@ -188,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
   `estado` VARCHAR(30) DEFAULT 'esperando',
   PRIMARY KEY (`id`),
   INDEX `id_tipo_visita_idx` (`id_tipo_visita` ASC),
+  INDEX `id_tipo_documento_idx` (`id_tipo_documento` ASC),
   CONSTRAINT `id_tipo_visita`
     FOREIGN KEY (`id_tipo_visita`)
     REFERENCES `Prihood`.`TipoVisita` (`id`)
@@ -198,9 +202,9 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Visitante` (
     REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `id_persona`
-    FOREIGN KEY (`id_persona`)
-    REFERENCES `Prihood`.`Persona` (`id`)
+  CONSTRAINT `id_tipo_documento`
+    FOREIGN KEY (`id_tipo_documento`)
+    REFERENCES `Prihood`.`Tipo_Documento` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -253,6 +257,7 @@ INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"
 -- Inserción de valores a tabla Tipo_Documento 
 
 INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta de Enrolamiento"), ("Libreta Cívica"), ("Otro");
+
 
 -- Inserción de usuarios por defecto de prueba
 
