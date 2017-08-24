@@ -43,7 +43,7 @@ import { LoginService } from '../services/login.service';
         component: EmpleadosComponent
       },
       {
-        path: 'residencias/:barrio',
+        path: 'residencias',
         component: ResidenciaComponent
       },
       {
