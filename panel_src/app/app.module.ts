@@ -27,11 +27,14 @@ import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { DatePipe } from '@angular/common';
 
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    Ng2SearchPipeModule,
     QRCodeModule,
     Ng2SearchPipeModule,
     DatePipe,

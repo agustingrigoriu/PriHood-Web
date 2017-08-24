@@ -9,6 +9,9 @@
         <div class="box-header with-border">
             <h3 class="box-title">Listado de barrios</h3>
         </div>
+
+        
+
         <table class="table" id="tablaBarrios">
             <thead>
                 <tr>
@@ -24,7 +27,7 @@
                         <p class="text-center">No existen barrios.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let barrio of barrios">
+                <tr *ngFor="let barrio of barrios ">
                     <td>{{barrio.id}}</td>
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
@@ -125,7 +128,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="password">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password"placeholder="Ingrese la contraseña">
+                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password" placeholder="Ingrese la contraseña">
                             </div>
                         </div>
 
