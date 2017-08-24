@@ -25,6 +25,7 @@ import {VisitasService} from './visitas/visitas.service';
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     HttpClientModule,
     QRCodeModule,
     Ng2SearchPipeModule,
+    DatePipe,
     RouterModule.forRoot([
       {
         path: 'barrios',

@@ -4,16 +4,16 @@
     </h1>
 </section>
 <div class="container-top-5">
-    <div class="box" id=boxsearch>
+    <div class="box-w5" id=boxsearch>
         <div class="container-1">
             <span class="icon"><i class="fa fa-search"></i></span>
-            <input type="search" id="search" placeholder="Buscar..." />
+            <input type="search" id="search" [(ngModel)]="filtro" placeholder="Buscar..." />
         </div>
     </div>
 </div>
 <section class="content">
 
-    <div class="panel panel-default">
+    <!-- <div class="panel panel-default">
         <div class="panel-body">
             <div class="pull-right">
                 <h3>Listado de Visitas para el dia 23 de Agosto</h3>
@@ -26,7 +26,7 @@
                                 <p class="text-center">No existen visitas.</p>
                             </td>
                         </tr> -->
-                        <tr>
+                        <!-- <tr>
                             <td>
                                 <div class="ckbox">
                                     <input type="checkbox" id="checkbox1">
@@ -39,13 +39,13 @@
 													<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
 												</a>
                                     <div class="media-body">
-                                         <span class="media pull-right" >Febrero 13, 2016</span> 
+                                         <span class="media-meta pull-right" >Febrero 13, 2016</span> 
                                         
                                         <h4 class="title">
                                             Pato Perez
                                             <span class="pull-right ">(Esperando)</span>
                                         </h4>
-                                        <p class="summary">Residente: Gabriela Caballero</p>
+                                        <p class="summary">Viene en un bmw negro</p>
                                     </div>
                                 </div>
                             </td>
@@ -57,11 +57,11 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> --> 
 
-    <!-- <div class="box box-primary">
+     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Listado de visitas</h3>
+            <h3 class="box-title">Listado de visitas del día {{fecha_actual | date}}</h3>
         </div>
         <table class="table" id="tablaBarrios">
             <thead>
@@ -80,7 +80,7 @@
                         <p class="text-center">No existen visitas.</p>
                     </td>
                 </tr> 
-                 <tr *ngFor="let visita of visitas">
+                 <tr *ngFor="let visita of visitas | filter:filtro">
                     <td>
                         <div>{{visita.nombre}} {{visita.apellido}}</div>
                         {{visita.tipo_visita}}
@@ -97,5 +97,5 @@
                 </tr> 
             </tbody>
         </table>
-    </div> -->
+    </div> 
 </section>

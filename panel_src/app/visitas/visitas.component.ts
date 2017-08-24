@@ -12,6 +12,7 @@ export class VisitasComponent implements OnInit {
     constructor(protected VisitasService: VisitasService) { }
 
     visitas: Visita[] = [];
+    fecha_actual=new Date();
 
     actualizarListado() {
         this.VisitasService.getAllVisitas().then(response => {

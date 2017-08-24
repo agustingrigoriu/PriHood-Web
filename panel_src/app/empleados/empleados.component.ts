@@ -22,7 +22,7 @@ export class EmpleadosComponent implements OnInit {
   };
   empleados = [];
   doctipos = [
-    { name: 'Documento único', id: 1 },
+    { name: 'Documento unico', id: 1 },
     { name: 'Libreta de enrolamiento', id: 2 },
     { name: 'Libreta Cívica', id: 3 },
     { name: 'Otros', id: 4 }
