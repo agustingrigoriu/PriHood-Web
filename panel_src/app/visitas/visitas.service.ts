@@ -14,4 +14,12 @@ export class VisitasService {
         return this.request.get<Visita>(`visitas/${id}`);
     }
 
+    marcarIngreso(id: Number) {
+        return this.request.post<any>(`visitas/marcar/${id}/ingreso`);
+    }
+
+    marcarEgreso(id: Number) {
+        return this.request.post<any>(`visitas/marcar/${id}/egreso`);
+    }
+
 }

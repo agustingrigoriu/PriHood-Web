@@ -17,17 +17,21 @@ import {ResidenciasService } from './residencias/residencias.service';
 import {BarriosComponent} from './barrios/barrios.component';
 import {BarriosService} from './barrios/barrios.service';
 
+import {VisitantesComponent} from './visitantes/visitantes.component';
+import {VisitantesService} from './visitantes/visitantes.service';
 import {VisitasComponent} from './visitas/visitas.component';
 import {VisitasService} from './visitas/visitas.service';
 
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
+import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    Ng2SearchPipeModule,
     QRCodeModule,
     RouterModule.forRoot([
       {
@@ -62,6 +66,7 @@ import { LoginService } from '../services/login.service';
     EmpleadosComponent,
     ResidenciaComponent,
     BarriosComponent,
+    VisitantesComponent,
     VisitasComponent
   ],
   providers: [
@@ -70,6 +75,7 @@ import { LoginService } from '../services/login.service';
     EmpleadosService,
     ResidenciasService,
     BarriosService,
+    VisitantesService,
     VisitasService
   ],
   bootstrap: [AppComponent]

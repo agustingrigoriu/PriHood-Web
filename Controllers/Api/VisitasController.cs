@@ -66,7 +66,7 @@ namespace PriHood.Controllers
       {
         try
         {
-          var evento_visita = db.EventoVisita.Where(e => e.Nombre == evento).First();
+          var evento_visita = db.EventoVisita.Where(e => e.Nombre.ToLower() == evento).First();
           var visitante = db.Visitante.First(v => v.Id == id);
 
           var visita = new Visita();
@@ -129,6 +129,7 @@ namespace PriHood.Controllers
 
           select new
           {
+            avatar = vs.Avatar,
             apellido = vs.Apellido,
             nombre = vs.Nombre,
             id = vs.Id,

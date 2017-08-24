@@ -53,7 +53,21 @@
 
                 <li routerLinkActive='active'><a routerLink='/home'><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
                 <li routerLinkActive='active'><a routerLink='/empleados'><i class="fa fa-link"></i> <span>Empleados</span></a></li>
+
+                <li class="header">Barrio</li>
                 <li routerLinkActive='active'><a routerLink='/residencias'><i class="fa fa-link"></i> <span>Residencias</span></a></li>
+
+                <li class="header">Seguridad</li>
+                <li routerLinkActive='active'><a routerLink='/visitas'><i class="fa fa-link"></i> <span>Visitas</span></a></li>
+            </ul>
+
+            <!-- Si es el encargado de seguridad... -->
+            <ul class="sidebar-menu" *ngIf="usuario.idPerfil === 4">
+                <li class="header">Administración</li>
+                <li routerLinkActive='active'><a routerLink='/home'><i class="fa fa-link"></i> <span>Dashboard</span></a></li>
+
+                <li class="header">Seguridad</li>
+                <li routerLinkActive='active'><a routerLink='/visitas'><i class="fa fa-link"></i> <span>Visitas</span></a></li>
             </ul>
         </section>
     </aside>

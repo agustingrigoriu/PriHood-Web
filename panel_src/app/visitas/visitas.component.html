@@ -1,17 +1,24 @@
 <section class="content-header">
     <h1>
-        Visitas
+        Visitas al día de hoy (<em>{{fecha_actual | date | lowercase}}</em>)
     </h1>
 </section>
 
 <section class="content">
     <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">Listado de visitas</h3>
+        <div class="box-body">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="search" class="form-control" [(ngModel)]="filtro" placeholder="Buscar..." />
+            </div>
         </div>
+    </div>
+
+    <div class="box box-default">
         <table class="table" id="tablaBarrios">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Nombre y apellido</th>
                     <th>Documento</th>
                     <th>Observaciones</th>
@@ -22,23 +29,33 @@
             </thead>
             <tbody>
                 <tr *ngIf="!visitas ||visitas.length == 0">
-                    <td colspan="5">
+                    <td colspan="7">
                         <p class="text-center">No existen visitas.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let visita of visitas">
+                <tr *ngFor="let visita of visitas | filter: filtro">
                     <td>
-                        <div>{{visita.nombre}} {{visita.apellido}}</div>
+                        Avatar
+                    </td>
+                    <td>
+                        <div>
+                            <strong>{{visita.nombre}} {{visita.apellido}}</strong>
+                        </div>
                         {{visita.tipo_visita}}
                     </td>
                     <td>
                         <strong>{{visita.documento}}</strong> {{visita.numero_documento}}
                     </td>
                     <td>{{visita.observaciones}}</td>
+                    <td>{{visita.patente}}</td>
                     <td>{{visita.estado}}</td>
-                    <td>
+                    <td *ngIf="visita.tipo_visita == 'Frecuente'">
                         <a class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
                         <a class="btn btn-xs btn-info" (click)="marcarEgreso(visita)"><i class="fa fa-sign-out"></i> Marcar egreso</a>
+                    </td>
+                    <td *ngIf="visita.tipo_visita != 'Frecuente'">
+                        <a *ngIf="visita.estado == 'esperando'" class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
+                        <a *ngIf="visita.estado == 'ingreso'" class="btn btn-xs btn-info" (click)="marcarEgreso(visita)"><i class="fa fa-sign-out"></i> Marcar egreso</a>
                     </td>
                 </tr>
             </tbody>

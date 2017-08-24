@@ -1,0 +1,64 @@
+<section class="content-header">
+    <h1>
+        Visitantes
+    </h1>
+
+        <div class="container">
+            
+                <div class="col-md-6 col-md-offset-5">
+                    <form action="" class="search-form">
+                        <div class="form-group has-feedback">
+                            <label for="search" class="sr-only">Search</label>
+                            <input type="text" class="form-control" name="search" id="search" placeholder="search">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </form>
+                </div>
+            
+        </div>
+    
+
+</section>
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listado de visitantes</h3>
+        </div>
+
+
+        <table class="table" id="tablaVisitantes">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Avatar</th>
+                    <th>Tipo Documento</th>
+                    <th>Numero Documento</th>
+                    <th>Patente</th>
+                    <th>Telefono</th>
+                    <th>Tipo Visita</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!visitantes ||visitantes.length == 0">
+                    <td colspan="9">
+                        <p class="text-center">No existen visitas.</p>
+                    </td>
+                </tr>
+                <tr *ngFor="let visitante of visitantes">
+                    <td>{{visitante.nombre}}</td>
+                    <td>{{visitante.apellido}}</td>
+                    <td>{{visitante.avatar}}</td>
+                    <td>{{visitante.id_tipo_documento}}</td>
+                    <td>{{visitante.numero_documento}}</td>
+                    <td>{{visitante.patente}}</td>
+                    <td>{{visitante.telefono}}</td>
+                    <td>{{visitante.tipo_visita}}</td>
+                    <td>{{visitante.observaciones}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

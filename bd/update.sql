@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`EventoVisita` (
 
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Visita` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `id_evento` INT NOT NULL,
   `fecha` DATETIME NOT NULL,
   `id_visitante` INT NOT NULL,
@@ -266,3 +266,7 @@ INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976
 -- Inserción de tipos de visita
 
 INSERT INTO  TipoVisita(id, nombre) VALUES ("1", "Frecuente"), ("2", "Actual");
+
+-- Inserción de eventos visita
+
+INSERT INTO  EventoVisita(id, nombre) VALUES ("1", "Ingreso"), ("2", "Egreso");
