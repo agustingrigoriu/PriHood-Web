@@ -1,9 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-
-import { BarriosService } from '../barrios/barrios.service';
-import { Barrio } from '../barrios/barrio.model';
-
+import { Component, OnInit } from '@angular/core';
 
 import { ResidenciasService } from './residencias.service';
 import { Residencia } from './residencia.model';
@@ -14,10 +9,8 @@ import { Residencia } from './residencia.model';
   styleUrls: ['./residencias.component.css']
 })
 
-export class ResidenciaComponent implements OnInit, OnDestroy {
-  constructor(protected router: Router, protected route: ActivatedRoute, protected ResidenciasService: ResidenciasService, protected BarriosService: BarriosService) { }
-
-  sub: any;
+export class ResidenciaComponent implements OnInit {
+  constructor(protected ResidenciasService: ResidenciasService) { }
 
   residencias: Residencia[] = [];
 
@@ -26,18 +19,7 @@ export class ResidenciaComponent implements OnInit, OnDestroy {
     ubicacion: ''
   };
 
-  barrio: Barrio = {
-    nombre: '',
-    ubicacion: ''
-  };
-
-  agregarResidencia(res: Residencia) {
-    const residencia: Residencia = {
-      nombre: res.nombre,
-      ubicacion: res.ubicacion,
-      idBarrio: this.barrio.id
-    };
-
+  agregarResidencia(residencia: Residencia) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {
       if (response.error) {
         alert('No se pudo crear la residencia.');
@@ -62,7 +44,7 @@ export class ResidenciaComponent implements OnInit, OnDestroy {
   }
 
   actualizar() {
-    this.ResidenciasService.getAllResidencias(this.barrio.id).then(response => {
+    this.ResidenciasService.getAllResidencias().then(response => {
       if (response.error) {
         alert('No se pudo cargar las residencias.');
       } else {
@@ -76,22 +58,6 @@ export class ResidenciaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.route.params.subscribe(params => {
-      const id = +params['barrio'];
-
-      this.BarriosService.getBarrio(id).then(response => {
-        if (response.error || !response.data) {
-          alert('El barrio no existe.');
-          return this.router.navigate(['/barrios']);
-        }
-
-        this.barrio = response.data;
-        this.actualizar();
-      });
-    });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.actualizar();
   }
 }

@@ -47,7 +47,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
         component: EmpleadosComponent
       },
       {
-        path: 'residencias/:barrio',
+        path: 'residencias',
         component: ResidenciaComponent
       },
       {

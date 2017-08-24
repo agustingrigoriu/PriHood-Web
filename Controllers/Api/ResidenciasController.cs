@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PriHood.Models;
 using Newtonsoft.Json.Linq;
 using Microsoft.EntityFrameworkCore;
+using PriHood.Auth;
 
 namespace PriHood.Controllers
 {
@@ -19,12 +20,20 @@ namespace PriHood.Controllers
       db = context;
     }
 
-    [HttpGet("barrio/{id}")]
-    public Object GetResidenciasPorBarrio(int id)
+    [HttpGet]
+    public Object GetResidencias()
     {
-      var residencias = db.Residencia.Where(r => r.IdBarrio == id).ToList();
-      
-      return new { error = false, data = residencias };
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var residencias = db.Residencia.Where(r => r.IdBarrio == logueado.IdBarrio.Value).ToList();
+
+        return new { error = false, data = residencias };
+      }
+      catch (System.Exception)
+      {
+        return new { error = true, data = "fail" };
+      }
     }
 
     [HttpGet("{id}")]
@@ -51,8 +60,10 @@ namespace PriHood.Controllers
       {
         var guid = Guid.NewGuid();
         var codigo = guid.ToString().Substring(0, 6);
+        var logueado = HttpContext.Session.Authenticated();
 
         re.Codigo = codigo;
+        re.IdBarrio = logueado.IdBarrio.Value;
 
         db.Residencia.Add(re);
         db.SaveChanges();

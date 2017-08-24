@@ -85,13 +85,14 @@ namespace PriHood.Controllers
           usuario.Email = me.email;
           usuario.Password = auth.getHash(me.password); // hasheo le password
           usuario.IdPerfil = me.id_perfil.Value;
+          usuario.IdBarrio = logueado.IdBarrio.Value;
           db.Usuario.Add(usuario);
 
           db.SaveChanges();
 
           var empleado = new Empleado();
           empleado.FechaInicioActividad = DateTime.Now;
-          empleado.IdBarrio = logueado.IdBarrio.Value; // @TODO: warning.. hardcode in progress.. fixme!!
+          empleado.IdBarrio = logueado.IdBarrio.Value;
           empleado.IdPersona = persona.Id;
           empleado.IdUsuario = usuario.Id;
           db.Empleado.Add(empleado);
