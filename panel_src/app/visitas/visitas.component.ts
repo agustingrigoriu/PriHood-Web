@@ -20,6 +20,26 @@ export class VisitasComponent implements OnInit {
         });
     }
 
+    marcarIngreso(visita: Visita) {
+        this.VisitasService.marcarIngreso(visita.id).then(response => {
+            if(response.error) {
+                alert('No se pudo marcar la visita como ingresada.');
+            }
+
+            return this.actualizarListado();
+        });
+    }
+
+    marcarEgreso(visita: Visita) {
+        this.VisitasService.marcarEgreso(visita.id).then(response => {
+            if(response.error) {
+                alert('No se pudo marcar la visita como egresada.');
+            }
+
+            return this.actualizarListado();
+        });
+    }
+
     ngOnInit(): void {
         this.actualizarListado();
     }
