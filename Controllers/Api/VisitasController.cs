@@ -141,7 +141,7 @@ namespace PriHood.Controllers
           }
         ).ToList();
 
-        return new { error = false, data = visitas };
+        return new { error = false, data = visitas, logueado  };
       }
       catch (Exception)
       {
