@@ -24,7 +24,7 @@ import {VisitasService} from './visitas/visitas.service';
 
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
 
 @NgModule({
   imports: [
