@@ -64,4 +64,17 @@ namespace PriHood.Controllers
     public string patente { get; set; }
 
   }
+
+  public class ModeloProveedor
+  {
+    public string nombre { get; set; }
+    public string descripcion { get; set; }
+    public string telefono { get; set; }
+    public int id_tipo_servicio { get; set; }
+    public int id_residente_recomienda { get; set; }
+    public string avatar { get; set; }
+    public int rating { get; set; }
+
+
+  }
 }
