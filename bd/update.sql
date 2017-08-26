@@ -250,6 +250,52 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`VisitasXResidente` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+  CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Servicio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+  CREATE TABLE IF NOT EXISTS `Prihood`.`Proveedor` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(20) NOT NULL,
+  `descripcion` text NULL,
+  `id_tipo_servicio` INT NOT NULL,
+  `id_residente_recomienda` INT NOT NULL,
+  `avatar` VARCHAR(20) NOT NULL,
+  `rating_promedio` FLOAT NOT NULL,
+  `rating_total` INT NOT NULL,
+  `cantidad_votos` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_id_tipo_servicio`
+    FOREIGN KEY (`id_tipo_servicio`)
+    REFERENCES `Prihood`.`Tipo_Servicio` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_residente_recomienda`
+    FOREIGN KEY (`id_residente_recomienda`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+   CREATE TABLE IF NOT EXISTS `Prihood`.`RegistroVotos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATETIME NOT NULL,
+  `id_proveedor` INT NOT NULL,
+  `id_residente` INT NOT NULL,
+  `rating` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_id_proveedor`
+    FOREIGN KEY (`id_proveedor`)
+    REFERENCES `Prihood`.`Proveedor` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_residente`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 -- Inserción de valores a tabla PERFIL
 
 INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"), ("3", "Residente"), ("4", "Encargado de Seguridad");
