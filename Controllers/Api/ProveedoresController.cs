@@ -44,14 +44,15 @@ namespace PriHood.Controllers
           {
             nombre = pr.Nombre,
             descripcion = pr.Descripcion,
+            telefono = pr.Telefono,
             tipo_servicio = ts.Descripcion,
-            residente = p.Apellido + ", " + p.Nombre,
-            rating = (int)Math.Round(pr.RatingTotal / pr.CantidadVotos), //Quizás acá debería hacer el cálculo del rating total, o desde la BD
-
+            residente_recomienda = p.Apellido + ", " + p.Nombre,
+            rating = (int)Math.Round((decimal)pr.RatingTotal / (decimal)pr.CantidadVotos), //Quizás acá debería hacer el cálculo del rating total, o desde la BD
+            avatar = pr.Avatar,
           }
         ).ToList();
 
-        return new { error = false, data = empleados };
+        return new { error = false, data = proveedores };
 
       }
       catch (Exception err)
@@ -61,40 +62,31 @@ namespace PriHood.Controllers
     }
 
     [HttpPost]
-    public Object AgregarProveedor([FromBody]ModeloEmpleado me)
+    public Object AgregarProveedor([FromBody]ModeloProveedor me)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
         try
         {
           var logueado = HttpContext.Session.Authenticated();
-          var persona = new Persona();
-          persona.Apellido = me.apellido;
-          persona.Nombre = me.nombre;
-          persona.FechaNacimiento = me.fecha_nacimiento;
-          persona.IdTipoDocumento = me.id_tipo_documento;
-          persona.NroDocumento = me.numero_documento;
-          persona.TelefonoMovil = me.telefono;
-          db.Persona.Add(persona);
+          var proveedor = new Proveedor();
+          proveedor.Nombre = me.nombre;
+          proveedor.Descripcion = me.descripcion;
+          proveedor.Telefono = me.telefono;
+          proveedor.Avatar = me.avatar;
+          proveedor.IdResidenteRecomienda = me.id_residente_recomienda;
+          proveedor.IdTipoServicio = me.id_tipo_servicio;
+          proveedor.CantidadVotos = 1;
+          proveedor.RatingTotal = me.rating;
+          db.Proveedor.Add(proveedor);
 
           db.SaveChanges();
 
-          var usuario = new Usuario();
-
-          usuario.Email = me.email;
-          usuario.Password = auth.getHash(me.password); // hasheo le password
-          usuario.IdPerfil = me.id_perfil.Value;
-          usuario.IdBarrio = logueado.IdBarrio.Value;
-          db.Usuario.Add(usuario);
-
-          db.SaveChanges();
-
-          var empleado = new Empleado();
-          empleado.FechaInicioActividad = DateTime.Now;
-          empleado.IdBarrio = logueado.IdBarrio.Value;
-          empleado.IdPersona = persona.Id;
-          empleado.IdUsuario = usuario.Id;
-          db.Empleado.Add(empleado);
+          var registro_votos = new RegistroVotos();
+          registro_votos.Fecha = DateTime.Today;
+          registro_votos.IdProveedor = proveedor.Id;
+          registro_votos.IdResidente = proveedor.IdResidenteRecomienda;
+          db.RegistroVotos.Add(registro_votos);
 
           db.SaveChanges();
 
