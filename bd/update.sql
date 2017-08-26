@@ -264,7 +264,6 @@ ENGINE = InnoDB;
   `id_tipo_servicio` INT NOT NULL,
   `id_residente_recomienda` INT NOT NULL,
   `avatar` VARCHAR(20) NOT NULL,
-  `rating_promedio` FLOAT NOT NULL,
   `rating_total` INT NOT NULL,
   `cantidad_votos` INT NOT NULL,
   PRIMARY KEY (`id`),
