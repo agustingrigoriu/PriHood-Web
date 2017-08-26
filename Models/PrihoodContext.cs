@@ -208,6 +208,10 @@ namespace PriHood.Models
                     .HasColumnName("rating_total")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.Telefono)
+                    .HasColumnName("telefono")
+                    .HasColumnType("varchar(15)");
+
                 entity.HasOne(d => d.IdResidenteRecomiendaNavigation)
                     .WithMany(p => p.Proveedor)
                     .HasForeignKey(d => d.IdResidenteRecomienda)

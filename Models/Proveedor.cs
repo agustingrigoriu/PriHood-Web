@@ -19,6 +19,7 @@ namespace PriHood.Models
         public string Nombre { get; set; }
         public float RatingPromedio { get; set; }
         public int RatingTotal { get; set; }
+        public string Telefono { get; set; }
 
         public virtual ICollection<RegistroVotos> RegistroVotos { get; set; }
         public virtual Residente IdResidenteRecomiendaNavigation { get; set; }
