@@ -41,20 +41,19 @@
 
     <div class="print">
         <div class="card-residencia clearfix" *ngFor="let residencia of residencias">
-            <div class="pull-right">
-                <qr-code [value]="residencia.codigo" [size]="150"></qr-code>
+            <div class='info-prihood'>
                 <img src="/web/images/logo_dark.png" class="logo" />
+                <p class="slogan">Elegiste calidad de vida. Elegiste PriHood<br>
+                    <span class="instrucciones">Para comenzar a disfrutar introduce este código o escanea el QR</span>
+                </p>
             </div>
-            <h3>{{residencia.nombre}}</h3>
-            <h4>{{residencia.ubicacion}}</h4>
-            <p>
-                <strong>Codigo:</strong> {{residencia.codigo}}
-            </p>
-            <p>
-                Para comenzar a disfrutar introduce este código o escanea el QR.
-            </p>
+            <div class="pull-right">
+                <qr-code [value]="residencia.codigo" [size]="100"></qr-code>
+            </div>
+            <h4>{{residencia.nombre}}</h4>
+            <h6>{{residencia.ubicacion}}</h6>
+            <h3>Código: <span class="codigo-residencia">{{residencia.codigo}}</span></h3>
 
-            <p class="info">Todo lo que necesitas para tu barrio en un solo lugar</p>
         </div>
     </div>
 </section>

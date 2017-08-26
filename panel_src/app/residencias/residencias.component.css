@@ -4,22 +4,44 @@
     }
     .print {
         display: block!important;
+        position: relative !important;
     }
     .card-residencia {
-        width: 70%;
+        width: 500px;
         margin: 0 auto;
         border: solid 1px #000;
         padding: 22px;
     }
-    .card-residencia h1,
-    .card-residencia h2,
-    .card-residencia h3 {
+    .card-residencia h3,
+    .card-residencia h4,
+    .card-residencia h6{
+        color: #000 !important;
         margin: 0 10px 0 0;
+        line-height: 1.8 !important;
+    }
+    .info-prihood{
+        text-align: center;
+    }
+    .codigo-residencia{
+        color: #007aff !important;
+        margin: 0 10px 0 0;
+        line-height: 1.8 !important;
     }
     .logo {
         width: 150px;
         display: block;
         margin-top: 10px;
+        margin: 0 auto 10px !important;
+    }
+    .slogan{
+        color: #000 !important;
+        margin: 0 0 15px!important;
+        font-size: 15px !important;
+    }
+    .instrucciones{
+        color: #000 !important;
+        margin: 0 0 15px!important;
+        font-size: 12px !important;
     }
 }
 
