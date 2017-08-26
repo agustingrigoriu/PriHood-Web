@@ -202,8 +202,6 @@ namespace PriHood.Models
                     .HasColumnName("nombre")
                     .HasColumnType("varchar(20)");
 
-                entity.Property(e => e.RatingPromedio).HasColumnName("rating_promedio");
-
                 entity.Property(e => e.RatingTotal)
                     .HasColumnName("rating_total")
                     .HasColumnType("int(11)");

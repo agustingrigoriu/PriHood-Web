@@ -17,7 +17,6 @@ namespace PriHood.Models
         public int IdResidenteRecomienda { get; set; }
         public int IdTipoServicio { get; set; }
         public string Nombre { get; set; }
-        public float RatingPromedio { get; set; }
         public int RatingTotal { get; set; }
         public string Telefono { get; set; }
 
