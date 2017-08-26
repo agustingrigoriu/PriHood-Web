@@ -260,6 +260,7 @@ ENGINE = InnoDB;
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(20) NOT NULL,
   `descripcion` text NULL,
+  `telefono` VARCHAR(15) NULL,
   `id_tipo_servicio` INT NOT NULL,
   `id_residente_recomienda` INT NOT NULL,
   `avatar` VARCHAR(20) NOT NULL,
