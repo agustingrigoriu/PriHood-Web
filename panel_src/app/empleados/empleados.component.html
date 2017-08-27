@@ -39,7 +39,7 @@
                     <td>{{empleado.email}}</td>
                     <td>{{empleado.perfil}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="borrarEmpleado(empleado)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="borrarEmpleado(empleado)" (click)="openBorrar(empleadoborrado)"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -110,9 +110,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="birthday">Perfil</label>
-                                 <select class="form-control" id="perfil" [(ngModel)]="empleado.id_perfil" name="perfil">
+                                <select class="form-control" id="perfil" [(ngModel)]="empleado.id_perfil" name="perfil">
                                 <option *ngFor="let perfil of perfiles" [ngValue]="perfil.id">{{perfil.nombre}}</option>
-                                 </select>  
+                                 </select>
                             </div>
                         </div>
 
@@ -135,8 +135,42 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearEmpleado(empleado)">Crear empleado</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearEmpleado(empleado)" (click)="open(empleadocreado)">Crear empleado</button>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #empleadocreado let-c="close" let-d="dismiss" class="in">
+    <div class="modal-header">
+        <h4 class="modal-title">Notificación</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>{{mensaje}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+<hr>
+<pre>{{closeResult}}</pre>
+
+<ng-template #empledoborrado let-c="close" let-d="dismiss" class= "in">
+    <div class="modal-header">
+        <h4 class="modal-title">Notificación</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>{{mensaje}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+<hr>
+<pre>{{closeResult}}</pre>
