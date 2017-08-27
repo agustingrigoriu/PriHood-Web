@@ -74,7 +74,14 @@ namespace PriHood.Controllers
     public int id_residente_recomienda { get; set; }
     public string avatar { get; set; }
     public int rating { get; set; }
+  }
 
+  public class ModeloVoto
+  {
+    public int rating { get; set; }
+    public int id_proveedor { get; set; }
+    public int id_residente_vota { get; set; }
 
   }
+
 }
