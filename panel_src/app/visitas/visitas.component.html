@@ -50,8 +50,8 @@
                     <td>{{visita.patente}}</td>
                     <td>{{visita.estado}}</td>
                     <td *ngIf="visita.tipo_visita == 'Frecuente'">
-                        <a class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
-                        <a class="btn btn-xs btn-info" (click)="marcarEgreso(visita)"><i class="fa fa-sign-out"></i> Marcar egreso</a>
+                        <a class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)" (click)="open(marcarestado)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
+                        <a class="btn btn-xs btn-info" (click)="marcarEgreso(visita)" (click)="open(marcarestado)"><i class="fa fa-sign-out"></i> Marcar egreso</a>
                     </td>
                     <td *ngIf="visita.tipo_visita != 'Frecuente'">
                         <a *ngIf="visita.estado == 'esperando'" class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
@@ -62,3 +62,17 @@
         </table>
     </div>
 </section>
+<ng-template #marcarestado let-c="close" let-d="dismiss">
+    <div [ngClass]="headerClass" class="modal-header modal-content panel-warning">
+        <h4 class="modal-title">Notificacion</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>{{mensaje}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cerrar</button>
+    </div>
+</ng-template>

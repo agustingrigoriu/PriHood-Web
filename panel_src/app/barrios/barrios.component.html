@@ -9,9 +9,6 @@
         <div class="box-header with-border">
             <h3 class="box-title">Listado de barrios</h3>
         </div>
-
-        
-
         <table class="table" id="tablaBarrios">
             <thead>
                 <tr>
@@ -32,8 +29,7 @@
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
                     <td>
-                        
-                        <a class="btn btn-xs btn-danger" (click)="borrarBarrio(barrio)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="borrarBarrio(barrio)" (click)="open(barriocreado)"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -137,8 +133,23 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario)">Crear barrio</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario)" (click)="open(barriocreado)">Crear barrio</button>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #barriocreado let-c="close" let-d="dismiss">
+    <div [ngClass]="headerClass" class="modal-header modal-content panel-warning">
+        <h4 class="modal-title">Notificacion</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>{{mensaje}}</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
