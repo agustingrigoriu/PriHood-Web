@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpleadosService } from './empleados.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-empleados',
@@ -8,7 +9,9 @@ import { EmpleadosService } from './empleados.service';
 })
 
 export class EmpleadosComponent implements OnInit {
-  constructor(protected EmpleadosService: EmpleadosService) { }
+  constructor(protected EmpleadosService: EmpleadosService, private modalService: NgbModal) { }
+
+  mensaje: string;
 
   empleado = {
     nombre: '',
@@ -36,10 +39,10 @@ export class EmpleadosComponent implements OnInit {
     if (confirm('¿Borrar este usuario?')) {
       this.EmpleadosService.deleteEmpleado(empleado.id).then(response => {
         if (response.error) {
-          alert('No se pudo borrar.');
+          this.mensaje = 'No se pudo borrar.';
         } else {
           this.actualizarListado();
-          alert('Borrado correctamente.');
+          this.mensaje = 'Borrado correctamente.';
         }
       });
     }
@@ -48,10 +51,10 @@ export class EmpleadosComponent implements OnInit {
   crearEmpleado(empleado: any) {
     this.EmpleadosService.crearEmpleado(empleado).then(response => {
       if (response.error) {
-        alert('No se pudo crear.');
+        this.mensaje = 'No se pudo crear.';
       } else {
         this.actualizarListado();
-        alert('Creado correctamente.');
+        this.mensaje = 'Creado correctamente.';
       }
     });
   }
@@ -62,7 +65,16 @@ export class EmpleadosComponent implements OnInit {
     });
   }
 
+  open(empleadocreado) {
+    this.modalService.open(empleadocreado, { windowClass: 'in' });
+  }
+
+  openBorrar(empleadoborrado) {
+    this.modalService.open(empleadoborrado, { windowClass: 'in' });
+  }
+
   ngOnInit(): void {
     this.actualizarListado();
   }
+
 }
