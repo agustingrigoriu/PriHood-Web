@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using PriHood.Auth;
 using System.Security.Cryptography;
 using System.Text;
-using PriHood.Mailer;
 
 namespace PriHood.Controllers
 {
@@ -97,64 +96,30 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
-
-    [HttpPost("contraseña")]
-    public Object CambiarContraseña([FromBody]ModeloEmail mod)
+    
+    [HttpPost("push/token")]
+    public Object RegistrarTokenPush([FromBody]ModeloToken mt)
     {
-      Mailer.Mailer mailer = Mailer.Mailer.Instance;
-      var usuario = db.Usuario.Where(u => u.Email.Equals(mod.email))
-                                    .FirstOrDefault();
-
-      if (usuario == null)
-        return new { error = true, data = "Usuario inexistente" };
-      else
+      using (var transaction = db.Database.BeginTransaction())
       {
-        var randomPassword = RandomString(6);
-        usuario.Password = getHash(randomPassword);
-        //mailer.SendEmail();
-        db.Usuario.Update(usuario);
-        db.SaveChanges();
-        return new { error = true, data = "Contraseña generada con éxito" };
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          logueado.Token = mt.token;
+
+          db.Usuario.Update(logueado);
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error" };
+        }
       }
-    }
-
-
-    [HttpPut("{id}")]
-    public Object Put(int id, [FromBody]Usuario usuario)
-    {
-      db.Usuario.Update(usuario);
-      db.SaveChanges();
 
       return new { error = false, data = "ok" };
-    }
-
-    [HttpDelete("{id}")]
-    public Object Delete(int id)
-    {
-      if (db.Usuario.Where(t => t.Id == id).Count() > 0) // Check if element exists
-        db.Usuario.Remove(db.Usuario.First(t => t.Id == id));
-      db.SaveChanges();
-
-      return new { error = false, data = "ok" };
-    }
-
-    //Funciones
-    public string RandomString(int length)
-    {
-      Random random = new Random();
-      const string chars = "abcdefghikjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      return new string(Enumerable.Repeat(chars, length)
-        .Select(s => s[random.Next(s.Length)]).ToArray());
-    }
-
-    public string getHash(string text)
-    {
-      using (var sha256 = SHA256.Create())
-      {
-        var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
-
-        return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower().Substring(0, 30);
-      }
     }
   }
 }
