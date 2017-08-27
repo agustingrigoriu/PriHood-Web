@@ -142,7 +142,7 @@
 </div>
 
 <ng-template #empleadocreado let-c="close" let-d="dismiss" class="in">
-    <div class="modal-header">
+    <div class="modal-header" [ngClass]="headerClass">
         <h4 class="modal-title">Notificación</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
@@ -152,7 +152,7 @@
         <p>{{mensaje}}</p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cerrar</button>
     </div>
 </ng-template>
 <hr>

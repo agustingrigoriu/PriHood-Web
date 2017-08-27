@@ -26,8 +26,6 @@ import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     BrowserModule,
