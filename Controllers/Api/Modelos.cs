@@ -71,8 +71,8 @@ namespace PriHood.Controllers
     public string descripcion { get; set; }
     public string telefono { get; set; }
     public int id_tipo_servicio { get; set; }
-    public int id_residente_recomienda { get; set; }
     public string avatar { get; set; }
+    public string direccion { get; set; }
     public int rating { get; set; }
   }
 
@@ -80,7 +80,6 @@ namespace PriHood.Controllers
   {
     public int rating { get; set; }
     public int id_proveedor { get; set; }
-    public int id_residente_vota { get; set; }
 
   }
 

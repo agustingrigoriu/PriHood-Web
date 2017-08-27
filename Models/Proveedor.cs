@@ -14,6 +14,7 @@ namespace PriHood.Models
         public string Avatar { get; set; }
         public int CantidadVotos { get; set; }
         public string Descripcion { get; set; }
+        public string Direccion { get; set; }
         public int IdResidenteRecomienda { get; set; }
         public int IdTipoServicio { get; set; }
         public string Nombre { get; set; }

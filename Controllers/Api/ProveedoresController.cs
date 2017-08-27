@@ -69,12 +69,14 @@ namespace PriHood.Controllers
         try
         {
           var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
           var proveedor = new Proveedor();
           proveedor.Nombre = me.nombre;
           proveedor.Descripcion = me.descripcion;
           proveedor.Telefono = me.telefono;
+          proveedor.Direccion = me.direccion;
           proveedor.Avatar = me.avatar;
-          proveedor.IdResidenteRecomienda = me.id_residente_recomienda;
+          proveedor.IdResidenteRecomienda = residente.Id;
           proveedor.IdTipoServicio = me.id_tipo_servicio;
           proveedor.CantidadVotos = 1;
           proveedor.RatingTotal = me.rating;
@@ -110,9 +112,10 @@ namespace PriHood.Controllers
         try
         {
           var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
           //Un usuario no puede votar dos veces al mismo proveedor, realizo control
-          if (db.RegistroVotos.Count(r => r.IdResidente == mv.id_residente_vota) > 0)
+          if (db.RegistroVotos.Count(r => r.IdResidente == residente.Id) > 0)
             return new { error = true, data = "Ya ha votado a este proveedor anteriormente" };
 
           var proveedor = db.Proveedor.First(p => p.Id == mv.id_proveedor);
@@ -125,7 +128,7 @@ namespace PriHood.Controllers
           var registro_votos = new RegistroVotos();
           registro_votos.Fecha = DateTime.Today;
           registro_votos.IdProveedor = proveedor.Id;
-          registro_votos.IdResidente = mv.id_residente_vota;
+          registro_votos.IdResidente = residente.Id;
           db.RegistroVotos.Add(registro_votos);
 
           transaction.Commit();

@@ -6,6 +6,7 @@ namespace PriHood.Models
     public partial class RegistroVotos
     {
         public int Id { get; set; }
+        public string Comentario { get; set; }
         public DateTime Fecha { get; set; }
         public int IdProveedor { get; set; }
         public int IdResidente { get; set; }

@@ -6,6 +6,13 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
+        public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options)
+        {
+        }
+
+        public PrihoodContext() : base()
+        {
+        }
         public virtual DbSet<Barrio> Barrio { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<EventoVisita> EventoVisita { get; set; }
@@ -22,12 +29,6 @@ namespace PriHood.Models
         public virtual DbSet<Visita> Visita { get; set; }
         public virtual DbSet<Visitante> Visitante { get; set; }
         public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -189,6 +190,10 @@ namespace PriHood.Models
                     .HasColumnName("descripcion")
                     .HasColumnType("text");
 
+                entity.Property(e => e.Direccion)
+                    .HasColumnName("direccion")
+                    .HasColumnType("varchar(40)");
+
                 entity.Property(e => e.IdResidenteRecomienda)
                     .HasColumnName("id_residente_recomienda")
                     .HasColumnType("int(11)");
@@ -234,6 +239,10 @@ namespace PriHood.Models
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.Comentario)
+                    .HasColumnName("comentario")
+                    .HasColumnType("text");
 
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
