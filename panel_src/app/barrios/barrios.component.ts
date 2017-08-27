@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarriosService } from './barrios.service';
 import { Barrio } from './barrio.model';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-barrios',
@@ -9,7 +10,7 @@ import { Barrio } from './barrio.model';
 })
 
 export class BarriosComponent implements OnInit {
-  constructor(protected BarriosService: BarriosService) { }
+  constructor(protected BarriosService: BarriosService, private modalService: NgbModal) { }
 
   usuario = {
     nombre: '',
@@ -33,15 +34,20 @@ export class BarriosComponent implements OnInit {
     { name: 'Libreta Cívica', id: 3 },
     { name: 'Otros', id: 4 }
   ];
+  mensaje: string;
+  mensajeBorrado: string;
+  headerClass = ""
 
-  borrarBarrio(barrio: Barrio): void {
+  borrarBarrio(barrio: Barrio, barriocreado): void {
     if (confirm('¿Borrar este barrio?')) {
       this.BarriosService.deleteBarrio(barrio.id).then(response => {
         if (response.error) {
-          alert('No se pudo borrar.');
+          this.mensajeBorrado = "No se pudo borrar";
+          this.modalService.open(barriocreado);
         } else {
           this.actualizarListado();
-          alert('Borrado correctamente.');
+          this.mensajeBorrado = "No se pudo borrar";
+          this.modalService.open(barriocreado);
         }
       });
     }
@@ -50,12 +56,15 @@ export class BarriosComponent implements OnInit {
   crearBarrio(barrio: Barrio, usuario: any) {
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
-        alert('No se pudo crear.');
+        this.mensaje = "No se pudo crear";
+        this.headerClass = "alert-danger";
       } else {
         this.actualizarListado();
-        alert('Creado correctamente.');
+        this.mensaje = "Se creo correctamente";
+        this.headerClass = "alert-success";
       }
     });
+
   }
 
   actualizarListado() {
@@ -66,5 +75,9 @@ export class BarriosComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualizarListado();
+  }
+
+  open(barriocreado) {
+    this.modalService.open(barriocreado, { windowClass: 'in' });
   }
 }

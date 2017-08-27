@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Usuario` (
   `avatar` VARCHAR(100) NULL,
   `id_perfil` INT NOT NULL,
   `id_barrio` INT NULL,
+  `token` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_Usuario_1`
     FOREIGN KEY (`id_barrio`)

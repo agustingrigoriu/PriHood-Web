@@ -34,15 +34,18 @@ export class EmpleadosComponent implements OnInit {
     { nombre: 'Administrador', id: 2 },
     { nombre: 'Encargado de Seguridad', id: 4 }
   ];
+  headerClass:string="";
 
   borrarEmpleado(empleado: any): void {
     if (confirm('¿Borrar este usuario?')) {
       this.EmpleadosService.deleteEmpleado(empleado.id).then(response => {
         if (response.error) {
           this.mensaje = 'No se pudo borrar.';
+          this.headerClass="alert-danger";
         } else {
           this.actualizarListado();
           this.mensaje = 'Borrado correctamente.';
+          this.headerClass="alert-success";
         }
       });
     }
@@ -52,9 +55,11 @@ export class EmpleadosComponent implements OnInit {
     this.EmpleadosService.crearEmpleado(empleado).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo crear.';
+        this.headerClass="alert-danger";
       } else {
         this.actualizarListado();
         this.mensaje = 'Creado correctamente.';
+        this.headerClass="alert-success";
       }
     });
   }

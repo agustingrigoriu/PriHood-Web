@@ -22,13 +22,16 @@ export class ResidenciaComponent implements OnInit {
     nombre: '',
     ubicacion: ''
   };
+  headerClass:string="";
 
   agregarResidencia(residencia: Residencia) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo crear la residencia.';
+        this.headerClass="alert-danger";
       } else {
         this.mensaje = 'Se creo correctamente.';
+        this.headerClass="alert-success";
         this.actualizar();
       }
     });
@@ -39,9 +42,11 @@ export class ResidenciaComponent implements OnInit {
       this.ResidenciasService.deleteResidencia(res.id).then(response => {
         if (response.error) {
           this.mensaje = 'No se pudo borrar.';
+          this.headerClass="alert-danger";
         } else {
           this.mensaje = 'Borrado correctamente.';
           this.actualizar();
+          this.headerClass="alert-success";
         }
       });
     }

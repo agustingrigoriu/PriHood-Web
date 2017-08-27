@@ -14,10 +14,12 @@ namespace PriHood.Controllers
 
     private readonly PrihoodContext db;
     private AuthService auth;
-    public VisitasController(PrihoodContext context, AuthService a)
+    private PushService push;
+    public VisitasController(PrihoodContext context, AuthService a, PushService p)
     {
       db = context;
       auth = a;
+      push = p;
     }
 
     [HttpPost]
@@ -83,13 +85,25 @@ namespace PriHood.Controllers
             var visitaxresidente = new VisitasXresidente();
             visitaxresidente.IdVisita = visita.Id;
             visitaxresidente.IdResidente = visitante.IdResidente;
-            
+
             db.VisitasXresidente.Add(visitaxresidente);
-            
+
             visitante.Estado = "ingreso";
 
             db.SaveChanges();
-          } else {
+
+            var usuario = (
+              from us in db.Usuario
+              join rs in db.Residente on us.Id equals rs.IdUsuario
+              where rs.Id == visitante.IdResidente
+              select us
+              ).First();
+
+            var mensaje = "El visitante " + visitante.Nombre + " ha ingresado al barrio.";
+            this.push.enviarMensaje(usuario, mensaje);
+          }
+          else
+          {
             visitante.Estado = "egreso";
 
             db.SaveChanges();

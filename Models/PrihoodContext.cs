@@ -440,6 +440,10 @@ namespace PriHood.Models
                     .HasColumnName("password")
                     .HasColumnType("varchar(45)");
 
+                entity.Property(e => e.Token)
+                    .HasColumnName("token")
+                    .HasColumnType("varchar(255)");
+
                 entity.HasOne(d => d.IdBarrioNavigation)
                     .WithMany(p => p.Usuario)
                     .HasForeignKey(d => d.IdBarrio)
