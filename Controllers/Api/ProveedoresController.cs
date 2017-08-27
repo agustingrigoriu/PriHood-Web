@@ -102,7 +102,7 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpPost]
+    [HttpPost("votar")]
     public Object VotarProveedor([FromBody]ModeloVoto mv)
     {
       using (var transaction = db.Database.BeginTransaction())
