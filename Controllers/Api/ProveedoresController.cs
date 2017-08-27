@@ -101,5 +101,44 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
+
+    [HttpPost]
+    public Object VotarProveedor([FromBody]ModeloVoto mv)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+
+          //Un usuario no puede votar dos veces al mismo proveedor, realizo control
+          if (db.RegistroVotos.Count(r => r.IdResidente == mv.id_residente_vota) > 0)
+            return new { error = true, data = "Ya ha votado a este proveedor anteriormente" };
+
+          var proveedor = db.Proveedor.First(p => p.Id == mv.id_proveedor);
+          proveedor.CantidadVotos += 1;
+          proveedor.RatingTotal += mv.rating;
+
+          db.Proveedor.Update(proveedor);
+          db.SaveChanges();
+
+          var registro_votos = new RegistroVotos();
+          registro_votos.Fecha = DateTime.Today;
+          registro_votos.IdProveedor = proveedor.Id;
+          registro_votos.IdResidente = mv.id_residente_vota;
+          db.RegistroVotos.Add(registro_votos);
+
+          transaction.Commit();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error" };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
   }
+
 }
