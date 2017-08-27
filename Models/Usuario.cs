@@ -17,6 +17,7 @@ namespace PriHood.Models
         public int? IdBarrio { get; set; }
         public int IdPerfil { get; set; }
         public string Password { get; set; }
+        public string Token { get; set; }
 
         public virtual ICollection<Empleado> Empleado { get; set; }
         public virtual ICollection<Residente> Residente { get; set; }

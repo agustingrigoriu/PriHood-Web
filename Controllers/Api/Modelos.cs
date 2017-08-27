@@ -62,6 +62,10 @@ namespace PriHood.Controllers
     public string avatar { get; set; }
     public string observaciones { get; set; }
     public string patente { get; set; }
+  }
 
+  public class ModeloToken
+  {
+    public string token { get; set; }
   }
 }
