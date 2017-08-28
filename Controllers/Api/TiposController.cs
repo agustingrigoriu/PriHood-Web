@@ -36,15 +36,15 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("empleado")]
+    [HttpGet("perfil")]
     public Object GetTipoEmpleado()
     {
       try
       {
         var logueado = HttpContext.Session.Authenticated();
-        var tiposEmpleado = db.TipoEmpleado.ToList();
+        var tiposPerfil = db.Perfil.ToList();
 
-        return new { error = false, data = tiposEmpleado };
+        return new { error = false, data = tiposPerfil };
       }
       catch (System.Exception)
       {
