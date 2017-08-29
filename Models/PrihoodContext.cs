@@ -18,9 +18,12 @@ namespace PriHood.Models
         public virtual DbSet<EventoVisita> EventoVisita { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
+        public virtual DbSet<Proveedor> Proveedor { get; set; }
+        public virtual DbSet<RegistroVotos> RegistroVotos { get; set; }
         public virtual DbSet<Residencia> Residencia { get; set; }
         public virtual DbSet<Residente> Residente { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
+        public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<TipoVisita> TipoVisita { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Visita> Visita { get; set; }
@@ -162,6 +165,114 @@ namespace PriHood.Models
                     .HasConstraintName("fk_Persona_1");
             });
 
+            modelBuilder.Entity<Proveedor>(entity =>
+            {
+                entity.HasIndex(e => e.IdResidenteRecomienda)
+                    .HasName("fk_id_residente_recomienda");
+
+                entity.HasIndex(e => e.IdTipoServicio)
+                    .HasName("fk_id_tipo_servicio");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Avatar)
+                    .IsRequired()
+                    .HasColumnName("avatar")
+                    .HasColumnType("varchar(20)");
+
+                entity.Property(e => e.CantidadVotos)
+                    .HasColumnName("cantidad_votos")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .HasColumnName("descripcion")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Direccion)
+                    .HasColumnName("direccion")
+                    .HasColumnType("varchar(40)");
+
+                entity.Property(e => e.IdResidenteRecomienda)
+                    .HasColumnName("id_residente_recomienda")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdTipoServicio)
+                    .HasColumnName("id_tipo_servicio")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasColumnType("varchar(20)");
+
+                entity.Property(e => e.RatingTotal)
+                    .HasColumnName("rating_total")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Telefono)
+                    .HasColumnName("telefono")
+                    .HasColumnType("varchar(15)");
+
+                entity.HasOne(d => d.IdResidenteRecomiendaNavigation)
+                    .WithMany(p => p.Proveedor)
+                    .HasForeignKey(d => d.IdResidenteRecomienda)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_residente_recomienda");
+
+                entity.HasOne(d => d.IdTipoServicioNavigation)
+                    .WithMany(p => p.Proveedor)
+                    .HasForeignKey(d => d.IdTipoServicio)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_tipo_servicio");
+            });
+
+            modelBuilder.Entity<RegistroVotos>(entity =>
+            {
+                entity.HasIndex(e => e.IdProveedor)
+                    .HasName("fk_id_proveedor");
+
+                entity.HasIndex(e => e.IdResidente)
+                    .HasName("fk_id_residente");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Comentario)
+                    .HasColumnName("comentario")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdProveedor)
+                    .HasColumnName("id_proveedor")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdResidente)
+                    .HasColumnName("id_residente")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Rating)
+                    .HasColumnName("rating")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdProveedorNavigation)
+                    .WithMany(p => p.RegistroVotos)
+                    .HasForeignKey(d => d.IdProveedor)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_proveedor");
+
+                entity.HasOne(d => d.IdResidenteNavigation)
+                    .WithMany(p => p.RegistroVotos)
+                    .HasForeignKey(d => d.IdResidente)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_residente");
+            });
+
             modelBuilder.Entity<Residencia>(entity =>
             {
                 entity.HasIndex(e => e.Codigo)
@@ -265,6 +376,20 @@ namespace PriHood.Models
                     .HasColumnType("varchar(45)");
             });
 
+            modelBuilder.Entity<TipoServicio>(entity =>
+            {
+                entity.ToTable("Tipo_Servicio");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasColumnType("varchar(45)");
+            });
+
             modelBuilder.Entity<TipoVisita>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -314,6 +439,10 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("password")
                     .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Token)
+                    .HasColumnName("token")
+                    .HasColumnType("varchar(255)");
 
                 entity.HasOne(d => d.IdBarrioNavigation)
                     .WithMany(p => p.Usuario)

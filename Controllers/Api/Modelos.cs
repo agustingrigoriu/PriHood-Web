@@ -62,6 +62,29 @@ namespace PriHood.Controllers
     public string avatar { get; set; }
     public string observaciones { get; set; }
     public string patente { get; set; }
+  }
+
+  public class ModeloToken
+  {
+    public string token { get; set; }
+  }
+
+  public class ModeloProveedor
+  {
+    public string nombre { get; set; }
+    public string descripcion { get; set; }
+    public string telefono { get; set; }
+    public int id_tipo_servicio { get; set; }
+    public string avatar { get; set; }
+    public string direccion { get; set; }
+    public int rating { get; set; }
+  }
+
+  public class ModeloVoto
+  {
+    public int rating { get; set; }
+    public int id_proveedor { get; set; }
 
   }
+
 }
