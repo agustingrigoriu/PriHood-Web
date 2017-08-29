@@ -34,7 +34,7 @@ export class EmpleadosComponent implements OnInit {
     { nombre: 'Administrador', id: 2 },
     { nombre: 'Encargado de Seguridad', id: 4 }
   ];
-  headerClass:string="alert-info";
+  headerClass:string=" ";
 
   borrarEmpleado(empleado: any): void {
     if (confirm('¿Borrar este usuario?')) {
