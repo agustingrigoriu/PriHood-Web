@@ -45,6 +45,7 @@ namespace PriHood.Controllers
             nombre = pr.Nombre,
             descripcion = pr.Descripcion,
             telefono = pr.Telefono,
+            direccion = pr.Direccion,
             tipo_servicio = ts.Descripcion,
             residente_recomienda = p.Apellido + ", " + p.Nombre,
             rating = (int)Math.Round((decimal)pr.RatingTotal / (decimal)pr.CantidadVotos), //Quizás acá debería hacer el cálculo del rating total, o desde la BD
@@ -81,6 +82,7 @@ namespace PriHood.Controllers
             nombre = pr.Nombre,
             descripcion = pr.Descripcion,
             telefono = pr.Telefono,
+            direccion = pr.Direccion,
             tipo_servicio = ts.Descripcion,
             residente_recomienda = p.Apellido + ", " + p.Nombre,
             rating = (int)Math.Round((decimal)pr.RatingTotal / (decimal)pr.CantidadVotos), //Quizás acá debería hacer el cálculo del rating total, o desde la BD

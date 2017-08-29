@@ -264,7 +264,7 @@ ENGINE = InnoDB;
   `telefono` VARCHAR(15) NULL,
   `id_tipo_servicio` INT NOT NULL,
   `id_residente_recomienda` INT NOT NULL,
-  `avatar` VARCHAR(20) NOT NULL,
+  `avatar` VARCHAR(50) NOT NULL,
   `direccion` VARCHAR(40) NULL,
   `rating_total` INT NOT NULL,
   `cantidad_votos` INT NOT NULL,
