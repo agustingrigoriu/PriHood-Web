@@ -15,7 +15,7 @@ export class VisitasComponent implements OnInit {
     visitas: Visita[] = [];
     fecha_actual = new Date();
     mensaje: string;
-    headerClass = ""
+    headerClass = " "
 
     actualizarListado() {
         this.VisitasService.getAllVisitas().then(response => {

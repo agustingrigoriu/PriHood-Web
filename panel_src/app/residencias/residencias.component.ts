@@ -22,7 +22,7 @@ export class ResidenciaComponent implements OnInit {
     nombre: '',
     ubicacion: ''
   };
-  headerClass:string="";
+  headerClass:string=" ";
 
   agregarResidencia(residencia: Residencia) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {

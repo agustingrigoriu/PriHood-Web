@@ -36,7 +36,7 @@ export class BarriosComponent implements OnInit {
   ];
   mensaje: string;
   mensajeBorrado: string;
-  headerClass = ""
+  headerClass = " "
 
   borrarBarrio(barrio: Barrio, barriocreado): void {
     if (confirm('¿Borrar este barrio?')) {
