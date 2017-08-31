@@ -87,4 +87,13 @@ namespace PriHood.Controllers
 
   }
 
+  public class ModeloPublicacion
+  {
+
+  }
+
+  public class ModeloContraseña
+  {
+    public string email { get; set; }
+  }
 }

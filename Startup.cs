@@ -49,6 +49,7 @@ namespace PriHood
       services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
       services.AddSingleton<AuthService>();
       services.AddSingleton<PushService>();
+      services.AddSingleton<EmailService>();
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

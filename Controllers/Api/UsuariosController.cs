@@ -16,10 +16,13 @@ namespace PriHood.Controllers
   {
     private readonly PrihoodContext db;
     private AuthService auth;
-    public UsuariosController(PrihoodContext context, AuthService a)
+
+    private EmailService email;
+    public UsuariosController(PrihoodContext context, AuthService a, EmailService e)
     {
       db = context;
       auth = a;
+      email = e;
     }
 
     [HttpGet]
@@ -96,7 +99,7 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
-    
+
     [HttpPost("push/token")]
     public Object RegistrarTokenPush([FromBody]ModeloToken mt)
     {
@@ -120,6 +123,41 @@ namespace PriHood.Controllers
       }
 
       return new { error = false, data = "ok" };
+    }
+
+    [HttpPost("contraseña")]
+    public Object CambiarContraseña([FromBody]ModeloContraseña mc)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var nuevaContraseña = RandomString(6);
+          var usuario = db.Usuario.FirstOrDefault(u => u.Email == mc.email);
+          if (usuario == null) return new { error = true, data = "No existe usuario registrado con ese email" };
+
+          usuario.Password = auth.getHash(nuevaContraseña);
+          db.Usuario.Update(usuario);
+          db.SaveChanges();
+          email.SendEmail(usuario.Email, "PriHood - Cambio de Contraseña", "Su nueva contraseña es: " + nuevaContraseña);
+          transaction.Commit();
+        }
+        catch (Exception e)
+        {
+          transaction.Rollback();
+          return new { error = true, data = e.Message };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
+    public string RandomString(int length)
+    {
+      Random random = new Random();
+      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnñopqrstuvwxyz";
+      return new string(Enumerable.Repeat(chars, length)
+        .Select(s => s[random.Next(s.Length)]).ToArray());
     }
   }
 }
