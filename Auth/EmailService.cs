@@ -20,7 +20,7 @@ namespace PriHood.Auth
     public void SendEmail(string To, string Subject, string Msg)
     {
       var message = new MimeMessage();
-      message.From.Add(new MailboxAddress("PriHood", "prihood@zoho.com"));
+      message.From.Add(new MailboxAddress("PriHood", "no-reply@prihood.com"));
       message.To.Add(new MailboxAddress(To));
       message.Subject = Subject;
 
@@ -41,7 +41,7 @@ namespace PriHood.Auth
         client.AuthenticationMechanisms.Remove("XOAUTH2");
 
         // Note: only needed if the SMTP server requires authentication
-        client.Authenticate("prihood@zoho.com", "prihood2017");
+        client.Authenticate("no-reply@prihood.com", "prihood2017");
 
         client.Send(message);
         client.Disconnect(true);
