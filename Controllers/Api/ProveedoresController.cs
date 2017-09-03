@@ -80,17 +80,9 @@ namespace PriHood.Controllers
           proveedor.Avatar = me.avatar;
           proveedor.IdResidenteRecomienda = residente.Id;
           proveedor.IdTipoServicio = me.id_tipo_servicio;
-          proveedor.CantidadVotos = 1;
-          proveedor.RatingTotal = me.rating;
+          proveedor.CantidadVotos = 0;
+          proveedor.RatingTotal = 0;
           db.Proveedor.Add(proveedor);
-
-          db.SaveChanges();
-
-          var registro_votos = new RegistroVotos();
-          registro_votos.Fecha = DateTime.Today;
-          registro_votos.IdProveedor = proveedor.Id;
-          registro_votos.IdResidente = proveedor.IdResidenteRecomienda;
-          db.RegistroVotos.Add(registro_votos);
 
           db.SaveChanges();
 
@@ -131,6 +123,7 @@ namespace PriHood.Controllers
           registro_votos.Fecha = DateTime.Today;
           registro_votos.IdProveedor = proveedor.Id;
           registro_votos.IdResidente = residente.Id;
+          registro_votos.Comentario = mv.comentario;
           db.RegistroVotos.Add(registro_votos);
 
           transaction.Commit();

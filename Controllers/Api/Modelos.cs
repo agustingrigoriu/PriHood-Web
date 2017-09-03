@@ -77,13 +77,14 @@ namespace PriHood.Controllers
     public int id_tipo_servicio { get; set; }
     public string avatar { get; set; }
     public string direccion { get; set; }
-    public int rating { get; set; }
+
   }
 
   public class ModeloVoto
   {
     public int rating { get; set; }
     public int id_proveedor { get; set; }
+    public string comentario { get; set; }
 
   }
 
