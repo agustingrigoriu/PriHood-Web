@@ -110,6 +110,7 @@ namespace PriHood.Controllers
           var votos = db.RegistroVotos.Count(r => r.IdResidente == residente.Id && r.IdProveedor == id_proveedor);
 
           //Un usuario no puede votar dos veces al mismo proveedor, realizo control
+          if(votos > 0)
             return new { error = true, data = "Ya ha votado a este proveedor anteriormente" };
 
           var proveedor = db.Proveedor.First(p => p.Id == id_proveedor);
