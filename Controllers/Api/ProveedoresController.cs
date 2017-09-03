@@ -160,7 +160,7 @@ namespace PriHood.Controllers
             apellido = p.Apellido,
             avatar = u.Avatar,
             rating = rv.Rating,
-            message = rv.Comentario,
+            mensaje = rv.Comentario,
             fecha = rv.Fecha
           }
         ).ToList();
