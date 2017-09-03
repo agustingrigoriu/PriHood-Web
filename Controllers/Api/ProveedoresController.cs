@@ -25,7 +25,7 @@ namespace PriHood.Controllers
       auth = a;
     }
 
-   
+
     [HttpGet("{id_tipo_servicio?}")]
     public Object ListarProveedoresPorTipoServicio(int? id_tipo_servicio)
     {
@@ -40,7 +40,7 @@ namespace PriHood.Controllers
           join p in db.Persona on r.IdPersona equals p.Id
           join ts in db.TipoServicio on pr.IdTipoServicio equals ts.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
-          where u.IdBarrio == id_barrio && ((id_tipo_servicio.HasValue && pr.IdTipoServicio == id_tipo_servicio.Value) || !id_tipo_servicio.HasValue)
+          where u.IdBarrio == id_barrio && ((id_tipo_servicio.HasValue && pr.IdTipoServicio == id_tipo_servicio.Value) || !id_tipo_servicio.HasValue)
           select new
           {
             nombre = pr.Nombre,
@@ -49,13 +49,12 @@ namespace PriHood.Controllers
             direccion = pr.Direccion,
             tipo_servicio = ts.Descripcion,
             residente_recomienda = p.Apellido + ", " + p.Nombre,
-            rating = pr.CantidadVotos > 0? pr.RatingTotal / pr.CantidadVotos : 0,
+            rating = pr.CantidadVotos > 0 ? pr.RatingTotal / pr.CantidadVotos : 0,
             avatar = pr.Avatar
           }
         ).ToList();
 
         return new { error = false, data = proveedores };
-
       }
       catch (Exception err)
       {
@@ -107,9 +106,10 @@ namespace PriHood.Controllers
         {
           var logueado = HttpContext.Session.Authenticated();
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          var votos = db.RegistroVotos.Count(r => r.IdResidente == residente.Id && r.IdProveedor == mv.id_proveedor);
 
           //Un usuario no puede votar dos veces al mismo proveedor, realizo control
-          if (db.RegistroVotos.Count(r => r.IdResidente == residente.Id) > 0)
+          if (votos > 0)
             return new { error = true, data = "Ya ha votado a este proveedor anteriormente" };
 
           var proveedor = db.Proveedor.First(p => p.Id == mv.id_proveedor);
@@ -124,18 +124,53 @@ namespace PriHood.Controllers
           registro_votos.IdProveedor = proveedor.Id;
           registro_votos.IdResidente = residente.Id;
           registro_votos.Comentario = mv.comentario;
+          registro_votos.Rating = mv.rating;
           db.RegistroVotos.Add(registro_votos);
+
+          db.SaveChanges();
 
           transaction.Commit();
         }
-        catch (Exception)
+        catch (Exception err)
         {
           transaction.Rollback();
-          return new { error = true, data = "Error" };
+          return new { error = true, data = "Error", err };
         }
       }
 
       return new { error = false, data = "ok" };
+    }
+
+    [HttpGet("{id_proveedor}/comentarios")]
+    public Object ListarComentarios(int id_proveedor)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var comentarios = (
+          from rv in db.RegistroVotos
+          join r in db.Residente on rv.IdResidente equals r.Id
+          join p in db.Persona on r.IdPersona equals p.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          where u.IdBarrio == id_barrio && rv.IdProveedor == id_proveedor
+          select new
+          {
+            nombre = p.Nombre,
+            apellido = p.Apellido,
+            avatar = u.Avatar,
+            rating = rv.Rating,
+            message = rv.Comentario,
+            fecha = rv.Fecha
+          }
+        ).ToList();
+
+        return new { error = false, data = comentarios };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
     }
   }
 
