@@ -43,6 +43,7 @@ namespace PriHood.Controllers
           where u.IdBarrio == id_barrio && ((id_tipo_servicio.HasValue && pr.IdTipoServicio == id_tipo_servicio.Value) || !id_tipo_servicio.HasValue)
           select new
           {
+            id = pr.Id,
             nombre = pr.Nombre,
             descripcion = pr.Descripcion,
             telefono = pr.Telefono,
