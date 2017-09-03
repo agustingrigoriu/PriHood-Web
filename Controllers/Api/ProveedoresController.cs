@@ -25,8 +25,9 @@ namespace PriHood.Controllers
       auth = a;
     }
 
-    [HttpGet]
-    public Object ListarProveedores()
+   
+    [HttpGet("{id_tipo_servicio?}")]
+    public Object ListarProveedoresPorTipoServicio(int? id_tipo_servicio)
     {
       try
       {
@@ -39,7 +40,7 @@ namespace PriHood.Controllers
           join p in db.Persona on r.IdPersona equals p.Id
           join ts in db.TipoServicio on pr.IdTipoServicio equals ts.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
-          where r.Id == id_barrio
+          where u.IdBarrio == id_barrio && ((id_tipo_servicio.HasValue && pr.IdTipoServicio == id_tipo_servicio.Value) || !id_tipo_servicio.HasValue)
           select new
           {
             nombre = pr.Nombre,
@@ -48,45 +49,8 @@ namespace PriHood.Controllers
             direccion = pr.Direccion,
             tipo_servicio = ts.Descripcion,
             residente_recomienda = p.Apellido + ", " + p.Nombre,
-            rating = (int)Math.Round((decimal)pr.RatingTotal / (decimal)pr.CantidadVotos), //Quizás acá debería hacer el cálculo del rating total, o desde la BD
-            avatar = pr.Avatar,
-          }
-        ).ToList();
-
-        return new { error = false, data = proveedores };
-
-      }
-      catch (Exception err)
-      {
-        return new { error = true, data = "fail", message = err.Message };
-      }
-    }
-
-    [HttpGet("{id_tipo_servicio}")]
-    public Object ListarProveedoresPorTipoServicio(int id_tipo_servicio)
-    {
-      try
-      {
-        //Obtengo todos los proveedores recomendados por alguien perteneciente al barrio del usuario
-        var logueado = HttpContext.Session.Authenticated();
-        var id_barrio = logueado.IdBarrio.Value;
-        var proveedores = (
-          from pr in db.Proveedor
-          join r in db.Residente on pr.IdResidenteRecomienda equals r.Id
-          join p in db.Persona on r.IdPersona equals p.Id
-          join ts in db.TipoServicio on pr.IdTipoServicio equals ts.Id
-          join u in db.Usuario on r.IdUsuario equals u.Id
-          where r.Id == id_barrio && pr.IdTipoServicio == id_tipo_servicio
-          select new
-          {
-            nombre = pr.Nombre,
-            descripcion = pr.Descripcion,
-            telefono = pr.Telefono,
-            direccion = pr.Direccion,
-            tipo_servicio = ts.Descripcion,
-            residente_recomienda = p.Apellido + ", " + p.Nombre,
-            rating = (int)Math.Round((decimal)pr.RatingTotal / (decimal)pr.CantidadVotos), //Quizás acá debería hacer el cálculo del rating total, o desde la BD
-            avatar = pr.Avatar,
+            rating = pr.CantidadVotos > 0? pr.RatingTotal / pr.CantidadVotos : 0,
+            avatar = pr.Avatar
           }
         ).ToList();
 
