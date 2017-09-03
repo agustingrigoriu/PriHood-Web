@@ -97,8 +97,8 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpPost("votar")]
-    public Object VotarProveedor([FromBody]ModeloVoto mv)
+    [HttpPost("{id_proveedor}/votar")]
+    public Object VotarProveedor(int id_proveedor, [FromBody]ModeloVoto mv)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
@@ -106,13 +106,12 @@ namespace PriHood.Controllers
         {
           var logueado = HttpContext.Session.Authenticated();
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
-          var votos = db.RegistroVotos.Count(r => r.IdResidente == residente.Id && r.IdProveedor == mv.id_proveedor);
+          var votos = db.RegistroVotos.Count(r => r.IdResidente == residente.Id && r.IdProveedor == id_proveedor);
 
           //Un usuario no puede votar dos veces al mismo proveedor, realizo control
-          if (votos > 0)
             return new { error = true, data = "Ya ha votado a este proveedor anteriormente" };
 
-          var proveedor = db.Proveedor.First(p => p.Id == mv.id_proveedor);
+          var proveedor = db.Proveedor.First(p => p.Id == id_proveedor);
           proveedor.CantidadVotos += 1;
           proveedor.RatingTotal += mv.rating;
 

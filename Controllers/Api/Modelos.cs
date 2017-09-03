@@ -83,7 +83,6 @@ namespace PriHood.Controllers
   public class ModeloVoto
   {
     public int rating { get; set; }
-    public int id_proveedor { get; set; }
     public string comentario { get; set; }
 
   }
