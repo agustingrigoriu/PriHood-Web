@@ -13,18 +13,24 @@ namespace PriHood.Models
         public PrihoodContext() : base()
         {
         }
+        public virtual DbSet<Amenity> Amenity { get; set; }
         public virtual DbSet<Barrio> Barrio { get; set; }
+        public virtual DbSet<DiaSemana> DiaSemana { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
+        public virtual DbSet<EstadoReserva> EstadoReserva { get; set; }
         public virtual DbSet<EventoVisita> EventoVisita { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
         public virtual DbSet<RegistroVotos> RegistroVotos { get; set; }
+        public virtual DbSet<Reserva> Reserva { get; set; }
         public virtual DbSet<Residencia> Residencia { get; set; }
         public virtual DbSet<Residente> Residente { get; set; }
+        public virtual DbSet<TipoAmenity> TipoAmenity { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<TipoVisita> TipoVisita { get; set; }
+        public virtual DbSet<Turno> Turno { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Visita> Visita { get; set; }
         public virtual DbSet<Visitante> Visitante { get; set; }
@@ -32,6 +38,44 @@ namespace PriHood.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Amenity>(entity =>
+            {
+                entity.HasIndex(e => e.IdTipoAmenity)
+                    .HasName("fk_id_tipo_amenity");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .HasColumnName("descripcion")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.IdTipoAmenity)
+                    .HasColumnName("id_tipo_amenity")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasColumnType("varchar(20)");
+
+                entity.Property(e => e.Telefono)
+                    .HasColumnName("telefono")
+                    .HasColumnType("varchar(15)");
+
+                entity.Property(e => e.Ubicacion)
+                    .IsRequired()
+                    .HasColumnName("ubicacion")
+                    .HasColumnType("varchar(20)");
+
+                entity.HasOne(d => d.IdTipoAmenityNavigation)
+                    .WithMany(p => p.Amenity)
+                    .HasForeignKey(d => d.IdTipoAmenity)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_tipo_amenity");
+            });
+
             modelBuilder.Entity<Barrio>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -47,6 +91,20 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(100)");
+            });
+
+            modelBuilder.Entity<DiaSemana>(entity =>
+            {
+                entity.ToTable("Dia_Semana");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasColumnType("varchar(45)");
             });
 
             modelBuilder.Entity<Empleado>(entity =>
@@ -97,6 +155,20 @@ namespace PriHood.Models
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_Empleado_1");
+            });
+
+            modelBuilder.Entity<EstadoReserva>(entity =>
+            {
+                entity.ToTable("Estado_Reserva");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasColumnType("varchar(45)");
             });
 
             modelBuilder.Entity<EventoVisita>(entity =>
@@ -180,7 +252,7 @@ namespace PriHood.Models
                 entity.Property(e => e.Avatar)
                     .IsRequired()
                     .HasColumnName("avatar")
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(50)");
 
                 entity.Property(e => e.CantidadVotos)
                     .HasColumnName("cantidad_votos")
@@ -273,6 +345,62 @@ namespace PriHood.Models
                     .HasConstraintName("fk_id_residente");
             });
 
+            modelBuilder.Entity<Reserva>(entity =>
+            {
+                entity.HasIndex(e => e.IdEstadoReserva)
+                    .HasName("fk_id_estado_reserva");
+
+                entity.HasIndex(e => e.IdResidente)
+                    .HasName("fk_id_residente_1");
+
+                entity.HasIndex(e => e.IdTurno)
+                    .HasName("fk_id_turno");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Costo).HasColumnName("costo");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdEstadoReserva)
+                    .HasColumnName("id_estado_reserva")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdResidente)
+                    .HasColumnName("id_residente")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdTurno)
+                    .HasColumnName("id_turno")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasColumnType("text");
+
+                entity.HasOne(d => d.IdEstadoReservaNavigation)
+                    .WithMany(p => p.Reserva)
+                    .HasForeignKey(d => d.IdEstadoReserva)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_estado_reserva");
+
+                entity.HasOne(d => d.IdResidenteNavigation)
+                    .WithMany(p => p.Reserva)
+                    .HasForeignKey(d => d.IdResidente)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_residente_1");
+
+                entity.HasOne(d => d.IdTurnoNavigation)
+                    .WithMany(p => p.Reserva)
+                    .HasForeignKey(d => d.IdTurno)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_turno");
+            });
+
             modelBuilder.Entity<Residencia>(entity =>
             {
                 entity.HasIndex(e => e.Codigo)
@@ -362,6 +490,20 @@ namespace PriHood.Models
                     .HasConstraintName("fk_Residente_1");
             });
 
+            modelBuilder.Entity<TipoAmenity>(entity =>
+            {
+                entity.ToTable("Tipo_Amenity");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .IsRequired()
+                    .HasColumnName("descripcion")
+                    .HasColumnType("varchar(45)");
+            });
+
             modelBuilder.Entity<TipoDocumento>(entity =>
             {
                 entity.ToTable("Tipo_Documento");
@@ -400,6 +542,54 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasColumnType("varchar(45)");
+            });
+
+            modelBuilder.Entity<Turno>(entity =>
+            {
+                entity.HasIndex(e => e.IdAmenity)
+                    .HasName("fk_id_amenity");
+
+                entity.HasIndex(e => e.IdDiaSemana)
+                    .HasName("fk_id_dia_semana");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Costo).HasColumnName("costo");
+
+                entity.Property(e => e.Duracion)
+                    .HasColumnName("duracion")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.HoraDesde)
+                    .HasColumnName("hora_desde")
+                    .HasColumnType("time");
+
+                entity.Property(e => e.IdAmenity)
+                    .HasColumnName("id_amenity")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdDiaSemana)
+                    .HasColumnName("id_dia_semana")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasColumnName("nombre")
+                    .HasColumnType("varchar(20)");
+
+                entity.HasOne(d => d.IdAmenityNavigation)
+                    .WithMany(p => p.Turno)
+                    .HasForeignKey(d => d.IdAmenity)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_amenity");
+
+                entity.HasOne(d => d.IdDiaSemanaNavigation)
+                    .WithMany(p => p.Turno)
+                    .HasForeignKey(d => d.IdDiaSemana)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_dia_semana");
             });
 
             modelBuilder.Entity<Usuario>(entity =>

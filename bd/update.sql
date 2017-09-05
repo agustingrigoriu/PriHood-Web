@@ -299,6 +299,87 @@ ENGINE = InnoDB;
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+-- -----------------------------------------------------
+-- Módulo Amenities
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Amenity` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Estado_Reserva` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Dia_Semana` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Amenity` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(20) NOT NULL,
+  `ubicacion` VARCHAR(20) NOT NULL,
+  `descripcion` text NULL,
+  `telefono` VARCHAR(15) NULL,
+  `id_tipo_amenity` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_id_tipo_amenity`
+    FOREIGN KEY (`id_tipo_amenity`)
+    REFERENCES `Prihood`.`Tipo_Amenity` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Turno` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(20) NOT NULL,
+  `hora_desde` TIME NOT NULL,
+  `duracion` INT NOT NULL,
+  `costo` FLOAT NOT NULL,
+  `id_amenity` INT NOT NULL,
+  `id_dia_semana` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_id_amenity`
+    FOREIGN KEY (`id_amenity`)
+    REFERENCES `Prihood`.`Amenity` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_dia_semana`
+    FOREIGN KEY (`id_dia_semana`)
+    REFERENCES `Prihood`.`Dia_Semana` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION); 
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Reserva` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fecha` DATETIME NOT NULL,
+  `observaciones` text NULL,
+  `costo` FLOAT NOT NULL,
+  `id_turno` INT NOT NULL,
+  `id_residente` INT NOT NULL,
+  `id_estado_reserva` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_id_turno`
+    FOREIGN KEY (`id_turno`)
+    REFERENCES `Prihood`.`Turno` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_residente_1`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_estado_reserva`
+    FOREIGN KEY (`id_estado_reserva`)
+    REFERENCES `Prihood`.`Estado_Reserva` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    );     
+
 -- Inserción de valores a tabla PERFIL
 
 INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"), ("3", "Residente"), ("4", "Encargado de Seguridad");
