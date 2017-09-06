@@ -305,6 +305,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Amenity` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
+  `imagen` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -412,4 +413,4 @@ INSERT INTO  EventoVisita(id, nombre) VALUES ("1", "Ingreso"), ("2", "Egreso");
 
 -- Inserción de tipoes de amenities
 
-INSERT INTO  Tipo_Amenity(id, descripcion) VALUES ("1", "Cancha de tenis"), ("2", "Cancha de fútbol"), ("3", "Cancha de paddle"), ("4", "Salón"), ("5", "Cancha de futbol"), ("6", "Piscinas");
+INSERT INTO  Tipo_Amenity(id, descripcion, imagen) VALUES ("1", "Cancha de tenis", "assets/img/pruebas/amenities/tennis.png"), ("2", "Cancha de fútbol", "assets/img/pruebas/amenities/futbol.png"), ("3", "Cancha de paddle", "assets/img/pruebas/amenities/paddle.png"), ("4", "Salón", "assets/img/pruebas/amenities/salon.png"), ("5", "Piscinas", "assets/img/pruebas/amenities/piscina.png");

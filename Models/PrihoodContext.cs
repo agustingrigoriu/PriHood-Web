@@ -515,6 +515,11 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("descripcion")
                     .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Imagen)
+                    .IsRequired()
+                    .HasColumnName("imagen")
+                    .HasColumnType("varchar(100)");
             });
 
             modelBuilder.Entity<TipoDocumento>(entity =>
