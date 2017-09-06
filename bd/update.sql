@@ -327,10 +327,16 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Amenity` (
   `descripcion` text NULL,
   `telefono` VARCHAR(15) NULL,
   `id_tipo_amenity` INT NOT NULL,
+  `id_barrio` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_id_tipo_amenity`
     FOREIGN KEY (`id_tipo_amenity`)
     REFERENCES `Prihood`.`Tipo_Amenity` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_barrio_amenity`
+    FOREIGN KEY (`id_barrio`)
+    REFERENCES `Prihood`.`Barrio` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -403,3 +409,7 @@ INSERT INTO  TipoVisita(id, nombre) VALUES ("1", "Frecuente"), ("2", "Actual");
 -- Inserción de eventos visita
 
 INSERT INTO  EventoVisita(id, nombre) VALUES ("1", "Ingreso"), ("2", "Egreso");
+
+-- Inserción de tipoes de amenities
+
+INSERT INTO  Tipo_Amenity(id, descripcion) VALUES ("1", "Cancha de tenis"), ("2", "Cancha de fútbol"), ("3", "Cancha de paddle"), ("4", "Salón"), ("5", "Cancha de futbol"), ("6", "Piscinas");

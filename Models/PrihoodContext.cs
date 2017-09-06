@@ -40,6 +40,9 @@ namespace PriHood.Models
         {
             modelBuilder.Entity<Amenity>(entity =>
             {
+                entity.HasIndex(e => e.IdBarrio)
+                    .HasName("fk_id_barrio_amenity");
+
                 entity.HasIndex(e => e.IdTipoAmenity)
                     .HasName("fk_id_tipo_amenity");
 
@@ -50,6 +53,10 @@ namespace PriHood.Models
                 entity.Property(e => e.Descripcion)
                     .HasColumnName("descripcion")
                     .HasColumnType("text");
+
+                entity.Property(e => e.IdBarrio)
+                    .HasColumnName("id_barrio")
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.IdTipoAmenity)
                     .HasColumnName("id_tipo_amenity")
@@ -68,6 +75,12 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(20)");
+
+                entity.HasOne(d => d.IdBarrioNavigation)
+                    .WithMany(p => p.Amenity)
+                    .HasForeignKey(d => d.IdBarrio)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_id_barrio_amenity");
 
                 entity.HasOne(d => d.IdTipoAmenityNavigation)
                     .WithMany(p => p.Amenity)
