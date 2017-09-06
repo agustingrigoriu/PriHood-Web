@@ -84,5 +84,27 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("amenities")]
+    public Object GetTiposAmenities()
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var tipos = (
+          from a in db.Amenity
+          join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
+          where a.IdBarrio == id_barrio
+          select ta
+        ).ToList();
+
+        return new { error = false, data = tipos };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
   }
 }
