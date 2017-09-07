@@ -42,7 +42,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("{id_tipo_amenities?}")]
+    [HttpGet("{id_tipo_amenity?}")]
     public Object ListarAmenities(int? id_tipo_amenity)
     {
       try
