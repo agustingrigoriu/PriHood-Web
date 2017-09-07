@@ -96,7 +96,7 @@ namespace PriHood.Controllers
           join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
           where a.IdBarrio == id_barrio
           select ta
-        ).ToList();
+        ).Distinct().ToList();
 
         return new { error = false, data = tipos };
       }

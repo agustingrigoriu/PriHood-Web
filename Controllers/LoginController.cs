@@ -11,10 +11,11 @@ namespace PriHood.Controllers
   public class LoginController : Controller
   {
     private AuthService _AuthService;
-
-    public LoginController(AuthService AuthService)
+    private PrihoodContext _db;
+    public LoginController(PrihoodContext db, AuthService AuthService)
     {
       this._AuthService = AuthService;
+      this._db = db;
     }
 
     public IActionResult Index()
@@ -56,6 +57,28 @@ namespace PriHood.Controllers
     public Object ApiLogin()
     {
       var usuario = HttpContext.Session.Authenticated();
+
+      if (usuario == null) return new { error = true, data = "" };
+      if (usuario.IdBarrio != null)
+      {
+        var datos_empleado = (
+          from u in _db.Usuario
+          join e in _db.Empleado on u.Id equals e.IdUsuario
+          join p in _db.Persona on e.IdPersona equals p.Id
+          join per in _db.Perfil on u.IdPerfil equals per.Id
+          select new
+          {
+            nombre = p.Nombre,
+            apellido = p.Apellido,
+            idPerfil = u.IdPerfil,
+            email = u.Email,
+            avatar = u.Avatar,
+            perfil = per.Descripcion
+          }
+        ).First();
+
+        return new { error = usuario == null, data = datos_empleado };
+      }
 
       return new { error = usuario == null, data = usuario };
     }
