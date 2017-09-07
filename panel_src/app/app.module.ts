@@ -22,6 +22,9 @@ import {VisitantesService} from './visitantes/visitantes.service';
 import {VisitasComponent} from './visitas/visitas.component';
 import {VisitasService} from './visitas/visitas.service';
 
+import{AmenitiesComponent} from './amenities/amenities.component';
+import{AmenitiesService} from './amenities/amenities.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
@@ -57,6 +60,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         component: VisitasComponent
       },
       {
+        path: 'amenities',
+        component: AmenitiesComponent
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }
@@ -69,7 +76,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ResidenciaComponent,
     BarriosComponent,
     VisitantesComponent,
-    VisitasComponent
+    VisitasComponent,
+    AmenitiesComponent
   ],
   providers: [
     ApiRequestService,
@@ -79,6 +87,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     BarriosService,
     VisitantesService,
     VisitasService,
+    AmenitiesService,
   
   ],
   bootstrap: [AppComponent]
