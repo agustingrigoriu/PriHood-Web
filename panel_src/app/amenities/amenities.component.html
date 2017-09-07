@@ -1,0 +1,99 @@
+<section class="content-header">
+    <h1>
+        Amenities
+    </h1>
+</section>
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listado de amenities</h3>
+        </div>
+        <table class="table" id="tablaAmenities">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripcion </th>
+                    <th>Ubicación</th>
+                    <th>Tipo Amenity</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!amenities ||amenities.length == 0">
+                    <td colspan="5">
+                        <p class="text-center">No existen amenities.</p>
+                    </td>
+                </tr>
+                <tr *ngFor="let amenity of amenities">
+                    <td>{{amenity.id}}</td>
+                    <td>{{amenity.nombre}}</td>
+                    <td>{{amenity.descripcion}}</td>
+                    <td>{{amenity.ubicacion}}</td>
+                    <td>{{amenity.tipo_amenity}}</td>
+                    <td>
+                        <a class="btn btn-xs btn-danger" (click)="borrarAmenity(amenity)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-info" (click)="cargarTurnos" > Cargar Turnos <i class="fa fa-calendar"></i></a>
+                        <a class="btn btn-xs btn-info" (click)="verTurnos" > Ver Turnos <i class="fa fa-eye"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="box-body">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarAmenity">
+              Agregar amenity
+          </button>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="registrarAmenity">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Registrar Amenity</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="amenity.nombre" placeholder="Ingrese el nombre del amenity">
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="ubication">Ubicación</label>
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" [(ngModel)]="amenity.ubicacion" placeholder="Ingrese la ubicación del amenity">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="firstname">Descripcion</label>
+                                <input type="text" class="form-control" id="firstname" name="firstName" [(ngModel)]="amenity.descripcion" placeholder="Ingrese la descripción">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tipoamenity">Tipo Amenity</label>
+                                <select class="form-control" id="tipoAmenity" [(ngModel)]="amenity.idTipoAmenity" name="tipoAmenity">
+                                <option *ngFor="let tipo of tipos" [ngValue]="tipo.id">{{tipo.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearAmenity(amenity)" >Crear amenity</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -23,7 +23,7 @@ namespace PriHood.Controllers
     }
 
     [HttpPost]
-    public Object CrearAmenity(Amenity amenity)
+    public Object CrearAmenity([FromBody]Amenity amenity)
     {
       try
       {
@@ -39,7 +39,7 @@ namespace PriHood.Controllers
       }
       catch (Exception err)
       {
-        return new { error = true, data = "fail", message = err.Message };
+        return new { error = true, data = "fail" };
       }
     }
 
