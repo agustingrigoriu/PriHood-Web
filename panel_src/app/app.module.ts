@@ -20,10 +20,14 @@ import { BarriosService } from './barrios/barrios.service';
 import { VisitasComponent } from './visitas/visitas.component';
 import { VisitasService } from './visitas/visitas.service';
 
+import { TurnosComponent } from './turnos/turnos.component';
+import { TurnosService } from './turnos/turnos.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarModule } from "ap-angular2-fullcalendar";
 
 @NgModule({
   imports: [
@@ -32,6 +36,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     Ng2SearchPipeModule,
     QRCodeModule,
+    CalendarModule,
     NgbModule.forRoot(),
     RouterModule.forRoot([
       {
@@ -55,6 +60,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         component: VisitasComponent
       },
       {
+        path: 'turnos/:amenity',
+        component: TurnosComponent
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }
@@ -66,7 +75,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EmpleadosComponent,
     ResidenciaComponent,
     BarriosComponent,
-    VisitasComponent
+    VisitasComponent,
+    TurnosComponent
   ],
   providers: [
     ApiRequestService,
@@ -74,7 +84,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EmpleadosService,
     ResidenciasService,
     BarriosService,
-    VisitasService
+    VisitasService,
+    TurnosService
   ],
   bootstrap: [AppComponent]
 })
