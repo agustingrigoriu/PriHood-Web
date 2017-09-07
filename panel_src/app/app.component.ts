@@ -15,14 +15,17 @@ export class AppComponent implements OnInit {
 
   public usuario: Usuario = {
     email: '',
-    idPerfil: -1
+    idPerfil: -1,
+    nombre: '',
+    apellido: '',
+    perfil: ''
   };
 
   async ngOnInit() {
     try {
       const { error, data: usuario } = await this.LoginService.getUserLogin();
 
-      if (error ||  !usuario) {
+      if (error || !usuario) {
         throw 'Usuario no logueado.';
       }
 
