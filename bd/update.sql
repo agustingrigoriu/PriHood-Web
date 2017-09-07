@@ -323,10 +323,10 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Amenity` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(20) NOT NULL,
-  `ubicacion` VARCHAR(20) NOT NULL,
+  `nombre` VARCHAR(100) NOT NULL,
+  `ubicacion` VARCHAR(100) NULL,
   `descripcion` text NULL,
-  `telefono` VARCHAR(15) NULL,
+  `telefono` VARCHAR(40) NULL,
   `id_tipo_amenity` INT NOT NULL,
   `id_barrio` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -401,7 +401,13 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 -- Inserción de usuarios por defecto de prueba
 
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1");
+INSERT INTO Barrio(nombre, ubicacion) VALUES("BarrioPrueba","ubicacion prueba");
+
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
+
+INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("prihood@prihood.com","8c6976e5b5410415bde908bd4dee15",2, 1);
+
+
 
 -- Inserción de tipos de visita
 

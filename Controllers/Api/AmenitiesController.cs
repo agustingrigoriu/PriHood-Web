@@ -22,8 +22,28 @@ namespace PriHood.Controllers
       db = context;
     }
 
-    [HttpGet("{id_tipo_amenities}")]
-    public Object ListarAmenities(int id_tipo_amenity)
+    public Object CrearAmenity(Amenity amenity)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+
+        amenity.IdBarrio = id_barrio;
+
+        db.Amenity.Add(amenity);
+        db.SaveChanges();
+
+        return new { error = false, data = amenity };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    [HttpGet("{id_tipo_amenity?}")]
+    public Object ListarAmenities(int? id_tipo_amenity)
     {
       try
       {
@@ -32,13 +52,15 @@ namespace PriHood.Controllers
         var tipos = (
           from a in db.Amenity
           join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
-          where a.IdBarrio == id_barrio && ta.Id == id_tipo_amenity
-          select new {
-            a.Descripcion,
-            a.Id,
-            a.IdTipoAmenity,
-            a.Nombre,
-            a.Ubicacion
+          where a.IdBarrio == id_barrio && ((id_tipo_amenity.HasValue && a.IdTipoAmenity == id_tipo_amenity.Value) || !id_tipo_amenity.HasValue)
+          select new
+          {
+            id = a.Id,
+            nombre = a.Nombre,
+            descripcion = a.Descripcion,
+            telefono = a.Telefono,
+            ubicacion = a.Ubicacion,
+            tipo_amenity = ta.Descripcion
           }
         ).ToList();
 
@@ -50,6 +72,35 @@ namespace PriHood.Controllers
       }
     }
 
-  
+    // [HttpGet("{id_amenity}")]
+    // public Object ListarReservasParaAmenity(int id_amenity)
+    // {
+    //   try
+    //   {
+    //     var logueado = HttpContext.Session.Authenticated();
+    //     var id_barrio = logueado.IdBarrio.Value;
+    //     var tipos = (
+    //       from a in db.Amenity
+    //       join t in db.Turno on 
+    //       where a.IdBarrio == id_barrio && a.Id == id_amenity
+    //       select new
+    //       {
+    //         a.Descripcion,
+    //         a.Id,
+    //         a.IdTipoAmenity,
+    //         a.Nombre,
+    //         a.Ubicacion
+    //       }
+    //     ).ToList();
+
+    //     return new { error = false, data = tipos };
+    //   }
+    //   catch (Exception err)
+    //   {
+    //     return new { error = true, data = "fail", message = err.Message };
+    //   }
+    // }
+
+
   }
 }
