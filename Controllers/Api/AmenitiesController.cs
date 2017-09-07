@@ -33,12 +33,13 @@ namespace PriHood.Controllers
           from a in db.Amenity
           join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
           where a.IdBarrio == id_barrio && ta.Id == id_tipo_amenity
-          select new {
-            a.Descripcion,
-            a.Id,
-            a.IdTipoAmenity,
-            a.Nombre,
-            a.Ubicacion
+          select new
+          {
+            id = a.Id,
+            nombre = a.Nombre,
+            descripcion = a.Descripcion,
+            telefono = a.Telefono,
+            ubicacion = a.Ubicacion,
           }
         ).ToList();
 
@@ -50,6 +51,35 @@ namespace PriHood.Controllers
       }
     }
 
-  
+    // [HttpGet("{id_amenity}")]
+    // public Object ListarReservasParaAmenity(int id_amenity)
+    // {
+    //   try
+    //   {
+    //     var logueado = HttpContext.Session.Authenticated();
+    //     var id_barrio = logueado.IdBarrio.Value;
+    //     var tipos = (
+    //       from a in db.Amenity
+    //       join t in db.Turno on 
+    //       where a.IdBarrio == id_barrio && a.Id == id_amenity
+    //       select new
+    //       {
+    //         a.Descripcion,
+    //         a.Id,
+    //         a.IdTipoAmenity,
+    //         a.Nombre,
+    //         a.Ubicacion
+    //       }
+    //     ).ToList();
+
+    //     return new { error = false, data = tipos };
+    //   }
+    //   catch (Exception err)
+    //   {
+    //     return new { error = true, data = "fail", message = err.Message };
+    //   }
+    // }
+
+
   }
 }

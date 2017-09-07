@@ -323,10 +323,10 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Amenity` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(20) NOT NULL,
-  `ubicacion` VARCHAR(20) NOT NULL,
+  `nombre` VARCHAR(100) NOT NULL,
+  `ubicacion` VARCHAR(100) NULL,
   `descripcion` text NULL,
-  `telefono` VARCHAR(15) NULL,
+  `telefono` VARCHAR(40) NULL,
   `id_tipo_amenity` INT NOT NULL,
   `id_barrio` INT NOT NULL,
   PRIMARY KEY (`id`),
