@@ -65,15 +65,16 @@ namespace PriHood.Models
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnName("nombre")
-                    .HasColumnType("varchar(100)");
+                    .HasColumnType("varchar(20)");
 
                 entity.Property(e => e.Telefono)
                     .HasColumnName("telefono")
-                    .HasColumnType("varchar(40)");
+                    .HasColumnType("varchar(15)");
 
                 entity.Property(e => e.Ubicacion)
+                    .IsRequired()
                     .HasColumnName("ubicacion")
-                    .HasColumnType("varchar(100)");
+                    .HasColumnType("varchar(20)");
 
                 entity.HasOne(d => d.IdBarrioNavigation)
                     .WithMany(p => p.Amenity)
@@ -514,11 +515,6 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("descripcion")
                     .HasColumnType("varchar(45)");
-
-                entity.Property(e => e.Icono)
-                    .IsRequired()
-                    .HasColumnName("icono")
-                    .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Imagen)
                     .IsRequired()
