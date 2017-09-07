@@ -22,6 +22,26 @@ namespace PriHood.Controllers
       db = context;
     }
 
+    public Object CrearAmenity(Amenity amenity)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+
+        amenity.IdBarrio = id_barrio;
+
+        db.Amenity.Add(amenity);
+        db.SaveChanges();
+
+        return new { error = false, data = amenity };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
     [HttpGet("{id_tipo_amenities}")]
     public Object ListarAmenities(int id_tipo_amenity)
     {
