@@ -42,8 +42,8 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("{id_tipo_amenities}")]
-    public Object ListarAmenities(int id_tipo_amenity)
+    [HttpGet("{id_tipo_amenities?}")]
+    public Object ListarAmenities(int? id_tipo_amenity)
     {
       try
       {
@@ -52,7 +52,7 @@ namespace PriHood.Controllers
         var tipos = (
           from a in db.Amenity
           join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
-          where a.IdBarrio == id_barrio && ta.Id == id_tipo_amenity
+          where a.IdBarrio == id_barrio && ((id_tipo_amenity.HasValue && a.IdTipoAmenity == id_tipo_amenity.Value) || !id_tipo_amenity.HasValue)
           select new
           {
             id = a.Id,
@@ -60,6 +60,7 @@ namespace PriHood.Controllers
             descripcion = a.Descripcion,
             telefono = a.Telefono,
             ubicacion = a.Ubicacion,
+            tipo_amenity = ta.Descripcion
           }
         ).ToList();
 
