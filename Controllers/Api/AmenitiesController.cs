@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using PriHood.Models;
+using Newtonsoft.Json.Linq;
+using PriHood.Auth;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+
+namespace PriHood.Controllers
+{
+  [Route("api/[controller]")]
+  public class AmenitiesController : Controller
+  {
+    private readonly PrihoodContext db;
+    public AmenitiesController(PrihoodContext context)
+    {
+      db = context;
+    }
+
+    [HttpGet("{id_tipo_amenities}")]
+    public Object ListarAmenities(int id_tipo_amenity)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var tipos = (
+          from a in db.Amenity
+          join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
+          where a.IdBarrio == id_barrio && ta.Id == id_tipo_amenity
+          select new {
+            a.Descripcion,
+            a.Id,
+            a.IdTipoAmenity,
+            a.Nombre,
+            a.Ubicacion
+          }
+        ).ToList();
+
+        return new { error = false, data = tipos };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+  
+  }
+}
