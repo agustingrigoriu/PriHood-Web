@@ -10,3 +10,4 @@ wwwroot/web/scripts/site.min.js.map
 wwwroot/web/scripts/site.min.js
 wwwroot/web/css/site.min.css
 npm-debug.log
+*.orig
