@@ -22,6 +22,7 @@ namespace PriHood.Controllers
       db = context;
     }
 
+    [HttpPost]
     public Object CrearAmenity(Amenity amenity)
     {
       try
