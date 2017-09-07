@@ -401,7 +401,13 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 -- Inserción de usuarios por defecto de prueba
 
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15","1");
+INSERT INTO Barrio(nombre, ubicacion) VALUES("BarrioPrueba","ubicacion prueba");
+
+INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
+
+INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("prihood@prihood.com","8c6976e5b5410415bde908bd4dee15",2, 1);
+
+
 
 -- Inserción de tipos de visita
 
