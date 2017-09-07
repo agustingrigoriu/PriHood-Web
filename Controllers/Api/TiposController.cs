@@ -95,7 +95,8 @@ namespace PriHood.Controllers
           from a in db.Amenity
           join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
           where a.IdBarrio == id_barrio
-          select ta
+          group ta by ta.Id into g
+          select g
         ).ToList();
 
         return new { error = false, data = tipos };
