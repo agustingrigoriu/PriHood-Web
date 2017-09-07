@@ -48,7 +48,7 @@
 
             <div class="user-panel">
                 <div class="pull-left info">
-                    <p>Nombre de Barrio</p>
+                    <p>{{usuario.barrio}}</p>
                 </div>
             </div>
 
@@ -91,6 +91,9 @@
 
 
     <footer class="main-footer">
-        <strong>PriHood &copy;</strong> 2017
+        <strong>PriHood &copy;</strong>
+        <script>
+            document.write(new Date().getFullYear)
+        </script>
     </footer>
 </div>

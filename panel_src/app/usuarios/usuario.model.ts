@@ -8,4 +8,5 @@ export interface Usuario {
   nombre: string;
   apellido: string;
   perfil: string;
+  barrio: string;
 }

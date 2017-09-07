@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
     idPerfil: -1,
     nombre: '',
     apellido: '',
-    perfil: ''
+    perfil: '',
+    barrio: ''
   };
 
   async ngOnInit() {

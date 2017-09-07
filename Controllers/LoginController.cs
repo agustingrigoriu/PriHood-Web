@@ -66,6 +66,7 @@ namespace PriHood.Controllers
           join e in _db.Empleado on u.Id equals e.IdUsuario
           join p in _db.Persona on e.IdPersona equals p.Id
           join per in _db.Perfil on u.IdPerfil equals per.Id
+          join b in _db.Barrio on u.IdBarrio equals b.Id
           select new
           {
             nombre = p.Nombre,
@@ -73,14 +74,33 @@ namespace PriHood.Controllers
             idPerfil = u.IdPerfil,
             email = u.Email,
             avatar = u.Avatar,
-            perfil = per.Descripcion
+            perfil = per.Descripcion,
+            barrio = b.Nombre
           }
         ).First();
 
         return new { error = usuario == null, data = datos_empleado };
       }
+      else
+      {
+        var datos_root = (
+          from u in _db.Usuario
+          join per in _db.Perfil on u.IdPerfil equals per.Id
+          select new
+          {
+            nombre = "ROOT",
+            apellido = "",
+            idPerfil = u.IdPerfil,
+            email = u.Email,
+            avatar = u.Avatar,
+            perfil = per.Descripcion,
+            barrio = "Súper Administrador"
+          }
+        ).First();
 
-      return new { error = usuario == null, data = usuario };
+        return new { error = usuario == null, data = datos_root };
+      }
+
     }
 
     [HttpPost("/api/token")]
