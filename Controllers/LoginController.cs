@@ -75,7 +75,7 @@ namespace PriHood.Controllers
             avatar = u.Avatar,
             perfil = per.Descripcion
           }
-        ).ToList();
+        ).First();
 
         return new { error = usuario == null, data = datos_empleado };
       }
