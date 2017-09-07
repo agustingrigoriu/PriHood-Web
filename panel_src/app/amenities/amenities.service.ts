@@ -19,6 +19,6 @@ export class AmenitiesService {
   }
 
   crearAmenity(amenity: Amenity) {
-    return this.request.post<any>(`amenities`, { amenity: amenity});
+    return this.request.post<any>(`amenities`, amenity);
   }
 }

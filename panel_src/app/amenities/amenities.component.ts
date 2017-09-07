@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AmenitiesService } from './amenities.service';
 import { Amenity } from './amenity.model';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-amenities',
@@ -10,9 +9,10 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class AmenitiesComponent implements OnInit {
-    constructor(protected AmenitiesService: AmenitiesService, private modalService: NgbModal) { }
+    constructor(protected AmenitiesService: AmenitiesService) { }
 
     amenities: Amenity[] = [];
+
     amenity: Amenity = {
         nombre: '',
         descripcion: '',
@@ -50,7 +50,14 @@ export class AmenitiesComponent implements OnInit {
                 alert('Se creó correctamente');
             }
         });
+    }
 
+    cargarTurnos(idAmenity:number){
+
+    }
+
+    verTurnos(idAmenity:number){
+        
     }
 
     actualizarListado() {
