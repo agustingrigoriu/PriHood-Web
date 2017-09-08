@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
     barrio: ''
   };
 
+  year: string;
+
   async ngOnInit() {
     try {
       const { error, data: usuario } = await this.LoginService.getUserLogin();
@@ -31,6 +33,8 @@ export class AppComponent implements OnInit {
       }
 
       this.usuario = usuario;
+      this.year = new Date().getFullYear().toString();
+
     } catch (error) {
       window.location.href = '/Login';
     }
