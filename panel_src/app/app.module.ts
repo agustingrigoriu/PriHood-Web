@@ -23,14 +23,15 @@ import { VisitasService } from './visitas/visitas.service';
 import { TurnosComponent } from './turnos/turnos.component';
 import { TurnosService } from './turnos/turnos.service';
 
-import{AmenitiesComponent} from './amenities/amenities.component';
-import{AmenitiesService} from './amenities/amenities.service';
+import { AmenitiesComponent } from './amenities/amenities.component';
+import { AmenitiesService } from './amenities/amenities.service';
 
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
@@ -74,7 +75,10 @@ import { CalendarModule } from "ap-angular2-fullcalendar";
         path: '**',
         redirectTo: 'home'
       }
-    ])
+    ]),
+    AgmCoreModule.forRoot({
+      apiKey: ' AIzaSyAjh36i6_opNvfB29a0GbS2FtJtVKWGU2c '
+    })
   ],
   declarations: [
     AppComponent,

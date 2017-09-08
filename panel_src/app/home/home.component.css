@@ -2,7 +2,6 @@
     color: #003777;
 }
 
-.imagen-fondo-barrio{
-    opacity: 0.5;
+agm-map {
+  height: 300px;
 }
-
