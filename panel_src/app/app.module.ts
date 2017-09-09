@@ -32,6 +32,7 @@ import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
 import { AgmCoreModule } from '@agm/core';
+import { UsuarioComponent } from './usuario/usuario.component';
 
 @NgModule({
   imports: [
@@ -68,6 +69,10 @@ import { AgmCoreModule } from '@agm/core';
         component: AmenitiesComponent
       },
       {
+        path: 'usuario',
+        component: UsuarioComponent
+      },
+      {
         path: 'turnos/:amenity',
         component: TurnosComponent
       },
@@ -88,7 +93,8 @@ import { AgmCoreModule } from '@agm/core';
     BarriosComponent,
     VisitasComponent,
     AmenitiesComponent,
-    TurnosComponent
+    TurnosComponent,
+    UsuarioComponent
   ],
   providers: [
     ApiRequestService,
