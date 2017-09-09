@@ -118,7 +118,7 @@ namespace PriHood.Controllers
 
         if (amenity == null) return new { error = true, data = "No existe ese amenity" };
 
-        return new { error = false, data = tipos };
+        return new { error = false, data = amenity };
       }
       catch (Exception err)
       {
@@ -142,7 +142,7 @@ namespace PriHood.Controllers
           return new { error = false, data = amenity };
         }
 
-        return new { error = false, data = "No existe ese amenity" }
+        return new { error = false, data = "No existe ese amenity" };
 
       }
       catch (Exception err)
