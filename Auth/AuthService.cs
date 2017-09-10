@@ -10,6 +10,10 @@ using Microsoft.EntityFrameworkCore;
 using JWT;
 using JWT.Algorithms;
 using JWT.Serializers;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
+
 
 namespace PriHood.Auth
 {
@@ -86,5 +90,6 @@ namespace PriHood.Auth
         return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower().Substring(0, 30);
       }
     }
+
   }
 }

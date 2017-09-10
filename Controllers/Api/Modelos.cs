@@ -96,4 +96,13 @@ namespace PriHood.Controllers
     public string Nombre { get; set; }
   }
 
+  public class ModeloPublicacion
+  {
+
+  }
+
+  public class ModeloContraseña
+  {
+    public string email { get; set; }
+  }
 }
