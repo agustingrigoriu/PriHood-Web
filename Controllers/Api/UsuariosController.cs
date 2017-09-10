@@ -126,20 +126,20 @@ namespace PriHood.Controllers
     }
 
     [HttpPost("password")]
-    public Object CambiarContraseña([FromBody]ModeloContraseña mc)
+    public Object CambiarPassword([FromBody]ModeloPassword mc)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
         try
         {
-          var nuevaContraseña = RandomString(6);
+          var nuevoPassword = RandomString(6);
           var usuario = db.Usuario.FirstOrDefault(u => u.Email == mc.email);
           if (usuario == null) return new { error = true, data = "No existe usuario registrado con ese email" };
 
-          usuario.Password = auth.getHash(nuevaContraseña);
+          usuario.Password = auth.getHash(nuevoPassword);
           db.Usuario.Update(usuario);
           db.SaveChanges();
-          email.SendEmailPwdChanged(usuario.Email, nuevaContraseña);
+          email.SendEmailPwdChanged(usuario.Email, nuevoPassword);
           transaction.Commit();
         }
         catch (Exception e)

@@ -101,7 +101,7 @@ namespace PriHood.Controllers
 
   }
 
-  public class ModeloContraseña
+  public class ModeloPassword
   {
     public string email { get; set; }
   }
