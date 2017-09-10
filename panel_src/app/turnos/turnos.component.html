@@ -1,1 +1,106 @@
-<angular2-fullcalendar [options]="calendarOptions" (initialized)="onCalendarInit($event)"></angular2-fullcalendar>
+<section class="content-header clearfix">
+    <button type="button" class="btn btn-primary pull-right" (click)="abrirModalTurno()"><i class="fa fa-plus"></i></button>
+    <h1>
+        Turnos para el amenity
+    </h1>
+</section>
+
+<section class="content">
+    <div class="box box-default" *ngIf="!turnos || turnos.length === 0">
+        <div class="box-header with-border">
+            <h3 class="box-title">Tip!</h3>
+        </div>
+        <div class="box-body">
+            <p>Estos serán todos los posibles turnos que los residentes pueden reservar a través de la aplicación. <a href='#' (click)="abrirModalTurno(); false">Crear un turno</a> o arrastra en el calendario para definir el horario.</p>
+        </div>
+    </div>
+
+    <div class="box box-primary">
+        <angular2-fullcalendar [options]="calendarOptions" (initialized)="onCalendarInit($event)"></angular2-fullcalendar>
+    </div>
+</section>
+
+<ng-template #crearTurnoModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Agregar turno</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="form-group">
+                <label for="residente">Nombre</label>
+                <input [(ngModel)]="turno.nombre" name="nombre" type="text" class="form-control" placeholder="Ingrese el nombre. Ej. Turno tarde">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Costo</label>
+                <input [(ngModel)]="turno.costo" name="costo" type="number" class="form-control" placeholder="Ingrese el costo">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dia de la semana</label>
+                <select class="form-control" [(ngModel)]="turno.dia" name="dia">
+                  <option *ngFor="let dia of dias" [ngValue]="dia.id">{{dia.descripcion}}</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Hora desde</label>
+                        <input [(ngModel)]="turno.desde" name="desde" type="time" class="form-control" placeholder="Desde">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Hasta</label>
+                        <input [(ngModel)]="turno.hasta" name="hasta" type="time" class="form-control" placeholder="Hasta">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="crearTurno(turno)">Registrar turno</button>
+        <button type="button" class="btn btn-default" (click)="d()">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #actualizarTurnoModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Actualizar turno</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="form-group">
+                <label for="residente">Nombre</label>
+                <input [(ngModel)]="turno.nombre" name="nombre" type="text" class="form-control" placeholder="Ingrese el nombre. Ej. Turno tarde">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Costo</label>
+                <input [(ngModel)]="turno.costo" name="costo" type="number" class="form-control" placeholder="Ingrese el costo">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dia de la semana</label>
+                <select class="form-control" [(ngModel)]="turno.dia" name="dia">
+                  <option *ngFor="let dia of dias" [ngValue]="dia.id">{{dia.descripcion}}</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Hora desde</label>
+                        <input [(ngModel)]="turno.desde" name="desde" type="time" class="form-control" placeholder="Desde">
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Hasta</label>
+                        <input [(ngModel)]="turno.hasta" name="hasta" type="time" class="form-control" placeholder="Hasta">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger pull-left" (click)="borrarTurno(turno)">Borrar turno</button>
+        <button type="button" class="btn btn-primary" (click)="actualizarTurno(turno)">Actualizar turno</button>
+        <button type="button" class="btn btn-default" (click)="d()">Cerrar</button>
+    </div>
+</ng-template>

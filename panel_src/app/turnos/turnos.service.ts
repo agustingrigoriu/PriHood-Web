@@ -18,7 +18,15 @@ export class TurnosService {
     return this.request.delete<any>(`turnos/${id}`);
   }
 
-  crearTurno(turno: Turno) {
-    return this.request.post<any>(`turnos`, turno);
+  crearTurno(amenity: number, turno: Turno) {
+    return this.request.post<any>(`turnos/${amenity}`, turno);
+  }
+
+  actualizarTurno(id: number, turno: Turno) {
+    return this.request.put<any>(`turnos/${id}`, turno);
+  }
+
+  getAllDias() {
+    return this.request.get<any>(`tipos/dias`);
   }
 }
