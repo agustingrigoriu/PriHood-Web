@@ -125,7 +125,7 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpPost("contraseña")]
+    [HttpPost("password")]
     public Object CambiarContraseña([FromBody]ModeloContraseña mc)
     {
       using (var transaction = db.Database.BeginTransaction())
