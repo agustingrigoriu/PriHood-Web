@@ -1,104 +1,206 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { TurnosService } from './turnos.service';
 import { Turno } from './turno.model';
 import { ActivatedRoute } from '@angular/router';
+import { CalendarComponent } from "ap-angular2-fullcalendar";
+import * as moment from 'moment';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-turnos',
   templateUrl: './turnos.component.html',
-  styleUrls: ['./turnos.component.css']
+  styleUrls: ['./turnos.component.scss']
 })
 
 export class TurnosComponent implements OnInit {
+  @ViewChild('crearTurnoModal') crearTurnoModal: TemplateRef<NgbModalRef>;
+  @ViewChild('actualizarTurnoModal') actualizarTurnoModal: TemplateRef<NgbModalRef>;
+  @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
+
   constructor(
     protected TurnosService: TurnosService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) { }
 
   private sub;
   private amenity: number;
-  public turnos: Turno[] = [];
+  private modalRef: NgbModalRef;
+  private defaultDate = new Date(2017, 1, 6);
 
-  actualizarListado() {
-    this.TurnosService.getAllTurnos(this.amenity).then(response => {
-      this.turnos = response.data;
-    });
+  public turnos = [];
+  public dias = [];
+  public turno = {};
+
+  async traerDias() {
+    const response = await this.TurnosService.getAllDias();
+
+    this.dias = response.data;
+  }
+
+  async actualizarListado() {
+    const { data: turnos } = await this.TurnosService.getAllTurnos(this.amenity);
+
+    this.myCalendar.fullCalendar('removeEvents');
+
+    for (let turno of turnos) {
+      this.myCalendar.fullCalendar('renderEvent', this.buildEvent(turno), true);
+    }
+
+    this.turnos = turnos;
+  }
+
+  buildEvent(turno: Turno) {
+    const [hours, minutes] = turno.horaDesde.split(':');
+    const start = moment(this.defaultDate).clone().add(+hours, 'hours').add(+minutes, 'minutes').add(turno.idDiaSemana - 1, 'days');
+    const end = start.clone().add(turno.duracion, 'minutes');
+
+    return {
+      title: turno.costo ? `${turno.nombre} - $${turno.costo.toFixed(2)}` : turno.nombre,
+      start,
+      end,
+      id: turno.id,
+      turno
+    };
+  }
+
+  abrirModalTurno(start?: moment.Moment, end?: moment.Moment) {
+    this.turno = {
+      desde: start && start.format('HH:mm'),
+      hasta: end && end.format('HH:mm'),
+      dia: (start && start.weekday() + 1) || 1
+    };
+
+    this.myCalendar.fullCalendar('unselect');
+    this.modalRef = this.modalService.open(this.crearTurnoModal, { windowClass: 'in' });
+  }
+
+  async eventChange({ start, end, id }: { id: number, start: moment.Moment, end: moment.Moment }, delta: moment.Duration, revertFunc: Function) {
+    const turno: Turno = {
+      duracion: end.diff(start) / 1000 / 60,
+      horaDesde: start.format('HH:mm'),
+      idDiaSemana: start.weekday() + 1
+    };
+
+    try {
+      const response = await this.TurnosService.actualizarTurno(id, turno);
+
+      await this.actualizarListado();
+
+      console.log(response);
+    } catch (error) {
+      revertFunc();
+    }
+  }
+
+  async crearTurno(turnoObj) {
+    const duracion = moment(turnoObj.hasta, 'HH:mm').diff(moment(turnoObj.desde, 'HH:mm')) / 1000 / 60;
+    const turno: Turno = {
+      nombre: turnoObj.nombre,
+      costo: turnoObj.costo,
+      duracion,
+      horaDesde: turnoObj.desde,
+      idDiaSemana: turnoObj.dia
+    };
+
+    const response = await this.TurnosService.crearTurno(this.amenity, turno);
+
+    this.modalRef.close();
+    this.actualizarListado();
+  }
+
+  async actualizarTurno(turnoObj) {
+    const duracion = moment(turnoObj.hasta, 'HH:mm').diff(moment(turnoObj.desde, 'HH:mm')) / 1000 / 60;
+    const turno: Turno = {
+      nombre: turnoObj.nombre,
+      costo: turnoObj.costo,
+      duracion,
+      horaDesde: turnoObj.desde,
+      idDiaSemana: turnoObj.dia
+    };
+
+    const response = await this.TurnosService.actualizarTurno(turnoObj.id, turno);
+
+    this.modalRef.close();
+    this.actualizarListado();
+  }
+
+  async borrarTurno(turnoObj) {
+    if (!confirm('¿Seguro de borrar el turno?')) {
+      return;
+    }
+    const response = await this.TurnosService.deleteTurno(turnoObj.id);
+
+    this.modalRef.close();
+    this.actualizarListado();
+  }
+
+  openTurno({ turno }: { turno: Turno }) {
+    const [hours, minutes] = turno.horaDesde.split(':');
+    const start = moment(this.defaultDate).clone().add(+hours, 'hours').add(+minutes, 'minutes').add(turno.idDiaSemana - 1, 'days');
+    const end = start.clone().add(turno.duracion, 'minutes');
+
+    this.turno = {
+      nombre: turno.nombre,
+      costo: turno.costo,
+      dia: turno.idDiaSemana,
+      desde: start.format('HH:mm'),
+      hasta: end.format('HH:mm'),
+      id: turno.id
+    }
+    this.modalRef = this.modalService.open(this.actualizarTurnoModal, { windowClass: 'in' });
   }
 
   ngOnInit(): void {
-    this.sub = this.route.queryParams.subscribe(params => {
+    this.sub = this.route.params.subscribe(params => {
       this.amenity = +params['amenity'];
-
-      this.actualizarListado();
     });
+
+    this.traerDias();
   }
-
-
-  calendarOptions:Object = {
-    height: 'parent',
-    fixedWeekCount : false,
-    defaultDate: '2016-09-12',
-    editable: true,
-    eventLimit: true, // allow "more" link when too many events
-    events: [
-      {
-        title: 'All Day Event',
-        start: '2016-09-01'
-      },
-      {
-        title: 'Long Event',
-        start: '2016-09-07',
-        end: '2016-09-10'
-      },
-      {
-        id: 999,
-        title: 'Repeating Event',
-        start: '2016-09-09T16:00:00'
-      },
-      {
-        id: 999,
-        title: 'Repeating Event',
-        start: '2016-09-16T16:00:00'
-      },
-      {
-        title: 'Conference',
-        start: '2016-09-11',
-        end: '2016-09-13'
-      },
-      {
-        title: 'Meeting',
-        start: '2016-09-12T10:30:00',
-        end: '2016-09-12T12:30:00'
-      },
-      {
-        title: 'Lunch',
-        start: '2016-09-12T12:00:00'
-      },
-      {
-        title: 'Meeting',
-        start: '2016-09-12T14:30:00'
-      },
-      {
-        title: 'Happy Hour',
-        start: '2016-09-12T17:30:00'
-      },
-      {
-        title: 'Dinner',
-        start: '2016-09-12T20:00:00'
-      },
-      {
-        title: 'Birthday Party',
-        start: '2016-09-13T07:00:00'
-      },
-      {
-        title: 'Click for Google',
-        url: 'http://google.com/',
-        start: '2016-09-28'
-      }
-    ]
-  };
 
   onCalendarInit() {
-    console.log('Calendar initialized');
+    if (!this.amenity) {
+      return setTimeout(() => this.onCalendarInit(), 1000);
+    }
+
+    this.actualizarListado();
   }
+
+  calendarOptions = {
+    locale: 'es',
+    defaultDate: this.defaultDate,
+    eventOverlap: false,
+    selectOverlap: false,
+    header: false,
+    allDaySlot: false,
+    editable: true,
+    views: {
+      settimana: {
+        type: 'agendaWeek',
+        duration: {
+          days: 7
+        },
+        startOf: 'week',
+        title: 'Apertura',
+        columnFormat: 'dddd',
+        firstDay: 1
+      }
+    },
+    defaultView: 'settimana',
+    selectable: true,
+    selectHelper: true,
+    select: this.abrirModalTurno.bind(this),
+    eventConstraint: {
+      start: '00:00',
+      end: '24:00',
+    },
+    selectConstraint: {
+      start: '00:00',
+      end: '24:00',
+    },
+    eventResize: this.eventChange.bind(this),
+    eventDrop: this.eventChange.bind(this),
+    eventClick: this.openTurno.bind(this)
+  };
 }

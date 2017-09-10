@@ -39,7 +39,7 @@
                     <td>{{amenity.tipo_amenity}}</td>
                     <td>
                         <a class="btn btn-xs btn-danger" (click)="borrarAmenity(amenity)"><i class="fa fa-trash"></i></a>
-                        <a class="btn btn-xs btn-info" (click)="cargarTurnos"> Cargar Turnos <i class="fa fa-calendar"></i></a>
+                        <a class="btn btn-xs btn-info" [routerLink]="['/turnos', amenity.id]"> Cargar Turnos <i class="fa fa-calendar"></i></a>
                         <a class="btn btn-xs btn-info" (click)="verTurnos"> Ver Turnos <i class="fa fa-eye"></i></a>
                     </td>
                 </tr>

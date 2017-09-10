@@ -106,5 +106,23 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("dias")]
+    public Object GetDiasSemana()
+    {
+      try
+      {
+        var dias = (
+          from d in db.DiaSemana
+          select d
+        ).ToList();
+
+        return new { error = false, data = dias };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
   }
 }

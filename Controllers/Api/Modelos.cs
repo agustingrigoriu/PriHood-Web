@@ -87,6 +87,15 @@ namespace PriHood.Controllers
 
   }
 
+  public class ModeloTurnoUpdate
+  {
+    public float? Costo { get; set; }
+    public int? Duracion { get; set; }
+    public TimeSpan? HoraDesde { get; set; }
+    public int? IdDiaSemana { get; set; }
+    public string Nombre { get; set; }
+  }
+
   public class ModeloPublicacion
   {
 

@@ -423,3 +423,7 @@ INSERT INTO  EventoVisita(id, nombre) VALUES ("1", "Ingreso"), ("2", "Egreso");
 -- Inserción de tipoes de amenities
 
 INSERT INTO  Tipo_Amenity(id, descripcion, imagen) VALUES ("1", "Cancha de tenis", "assets/img/pruebas/amenities/tennis.png"), ("2", "Cancha de fútbol", "assets/img/pruebas/amenities/futbol.png"), ("3", "Cancha de paddle", "assets/img/pruebas/amenities/paddle.png"), ("4", "Salón", "assets/img/pruebas/amenities/salon.png"), ("5", "Piscinas", "assets/img/pruebas/amenities/piscina.png");
+
+-- Inserción de dias de la semana
+
+INSERT INTO  Dia_Semana(id, descripcion) VALUES ("1", "Lunes"), ("2", "Martes"), ("3", "Miercoles"), ("4", "Jueves"), ("5", "Viernes"), ("6", "Sabado"), ("7", "Domingo");
