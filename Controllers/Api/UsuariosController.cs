@@ -139,7 +139,7 @@ namespace PriHood.Controllers
           usuario.Password = auth.getHash(nuevaContraseña);
           db.Usuario.Update(usuario);
           db.SaveChanges();
-          email.SendEmail(usuario.Email, "PriHood - Cambio de Contraseña", "Su nueva contraseña es: " + nuevaContraseña);
+          email.SendEmailPwdChanged(usuario.Email, nuevaContraseña);
           transaction.Commit();
         }
         catch (Exception e)
