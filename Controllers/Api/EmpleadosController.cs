@@ -52,6 +52,11 @@ namespace PriHood.Controllers
           }
         ).ToList();
 
+        if (id_empleado.HasValue)
+        {
+          return new { error = false, data = empleados.First() };
+        }
+
         return new { error = false, data = empleados };
 
       }
