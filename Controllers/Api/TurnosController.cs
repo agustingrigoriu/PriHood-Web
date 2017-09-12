@@ -101,5 +101,61 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("{id_amenity}/{fecha:DateTime}")]
+    public Object ListarAmenitiesFechaTurnos(int id_amenity, DateTime fecha)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var id_dia = this.fecha2IdDay(fecha);
+        var amenities = (
+          from a in db.Amenity
+          where a.IdBarrio == id_barrio && a.Id == id_amenity
+          select new
+          {
+            id = a.Id,
+            nombre = a.Nombre,
+            descripcion = a.Descripcion,
+            telefono = a.Telefono,
+            ubicacion = a.Ubicacion,
+            turnos = (
+              from t in db.Turno
+              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id
+              select t
+            )
+          }
+        ).First();
+
+        return new { error = false, data = amenities };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    private int fecha2IdDay(DateTime fecha)
+    {
+      switch (fecha.DayOfWeek)
+      {
+        case DayOfWeek.Monday:
+          return 1;
+        case DayOfWeek.Tuesday:
+          return 2;
+        case DayOfWeek.Wednesday:
+          return 3;
+        case DayOfWeek.Thursday:
+          return 4;
+        case DayOfWeek.Friday:
+          return 5;
+        case DayOfWeek.Saturday:
+          return 6;
+        case DayOfWeek.Sunday:
+        default:
+          return 7;
+      }
+    }
   }
 }
