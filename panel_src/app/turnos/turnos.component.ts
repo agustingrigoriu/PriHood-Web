@@ -72,7 +72,7 @@ export class TurnosComponent implements OnInit {
     };
 
     this.myCalendar.fullCalendar('unselect');
-    this.modalRef = this.modalService.open(this.crearTurnoModal, { windowClass: 'in' });
+    this.modalRef = this.modalService.open(this.crearTurnoModal);
   }
 
   async eventChange({ start, end, id }: { id: number, start: moment.Moment, end: moment.Moment }, delta: moment.Duration, revertFunc: Function) {
@@ -148,7 +148,7 @@ export class TurnosComponent implements OnInit {
       hasta: end.format('HH:mm'),
       id: turno.id
     }
-    this.modalRef = this.modalService.open(this.actualizarTurnoModal, { windowClass: 'in' });
+    this.modalRef = this.modalService.open(this.actualizarTurnoModal);
   }
 
   ngOnInit(): void {
