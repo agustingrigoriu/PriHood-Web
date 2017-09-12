@@ -25,8 +25,8 @@ namespace PriHood.Controllers
       auth = a;
     }
 
-    [HttpGet]
-    public Object ListarEmpleados()
+    [HttpGet("{id_empleado?}")]
+    public Object ListarEmpleados(int? id_empleado)
     {
       try
       {
@@ -38,7 +38,7 @@ namespace PriHood.Controllers
           join u in db.Usuario on e.IdUsuario equals u.Id
           join pf in db.Perfil on u.IdPerfil equals pf.Id
           join td in db.TipoDocumento on p.IdTipoDocumento equals td.Id
-          where e.IdBarrio == id_barrio
+          where e.IdBarrio == id_barrio && ((id_empleado.HasValue && e.Id == id_empleado.Value) || !id_empleado.HasValue)
           select new
           {
             apellido = p.Apellido,
@@ -109,6 +109,75 @@ namespace PriHood.Controllers
       }
 
       return new { error = false, data = "ok" };
+    }
+
+    [HttpPut("{id_empleado}")]
+    public Object ActualizarEmpleado(int id_empleado, [FromBody]ModeloEmpleado me)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+
+          var empleado = db.Empleado.FirstOrDefault(e => e.Id == id_empleado);
+          if (empleado == null) return new { error = true, data = "No existe ese empleado" };
+
+          var persona = new Persona();
+          persona.Id = empleado.IdPersona;
+          persona.Apellido = me.apellido;
+          persona.Nombre = me.nombre;
+          persona.FechaNacimiento = me.fecha_nacimiento;
+          persona.IdTipoDocumento = me.id_tipo_documento;
+          persona.NroDocumento = me.numero_documento;
+          persona.TelefonoMovil = me.telefono;
+
+          db.Persona.Update(persona);
+          db.SaveChanges();
+
+          var usuario = new Usuario();
+          usuario.Id = empleado.IdUsuario;
+          usuario.Email = me.email;
+          usuario.Password = auth.getHash(me.password); // hasheo le password
+          usuario.IdPerfil = me.id_perfil.Value;
+
+          db.Usuario.Update(usuario);
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error" };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
+    [HttpDelete("{id_empleado}")]
+    public Object EliminarEmpleado(int id_empleado)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio;
+
+        if (db.Empleado.Where(a => a.Id == id_empleado).Count() > 0)
+        {
+          var empleado = db.Empleado.First(t => t.Id == id_empleado);
+          db.Empleado.Remove(empleado);
+          db.SaveChanges();
+          return new { error = false, data = empleado };
+        }
+
+        return new { error = false, data = "No existe ese empleado" };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
     }
   }
 }
