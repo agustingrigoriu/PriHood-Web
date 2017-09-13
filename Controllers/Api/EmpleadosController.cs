@@ -170,8 +170,13 @@ namespace PriHood.Controllers
 
         if (db.Empleado.Where(a => a.Id == id_empleado).Count() > 0)
         {
+
           var empleado = db.Empleado.First(t => t.Id == id_empleado);
+          var usuario = db.Usuario.First(u => u.Id == empleado.IdUsuario);
+          var persona = db.Persona.First(p => p.Id == empleado.IdPersona);
           db.Empleado.Remove(empleado);
+          db.Usuario.Remove(usuario);
+          db.Persona.Remove(persona);
           db.SaveChanges();
           return new { error = false, data = empleado };
         }
