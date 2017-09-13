@@ -121,8 +121,10 @@ namespace PriHood.Controllers
             ubicacion = a.Ubicacion,
             turnos = (
               from t in db.Turno
+              join r in db.Reserva on t.Id equals r.IdTurno into ps
+              from r in ps.DefaultIfEmpty()
               where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id
-              select t
+              select new { turno = t, reservado = r == null ? false : true }
             )
           }
         ).First();
