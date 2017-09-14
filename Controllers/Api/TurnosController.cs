@@ -83,7 +83,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpDelete("{id_turno}")]
+    [HttpDelete("{  }")]
     public Object BorrarTurno(int id_turno)
     {
       try
@@ -123,7 +123,7 @@ namespace PriHood.Controllers
               from t in db.Turno
               join r in db.Reserva on t.Id equals r.IdTurno into ps
               from r in ps.DefaultIfEmpty()
-              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id
+              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id && r.Fecha == fecha
               select new { turno = t, reservado = r == null ? false : true }
             )
           }

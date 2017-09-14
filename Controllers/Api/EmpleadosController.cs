@@ -163,30 +163,35 @@ namespace PriHood.Controllers
     [HttpDelete("{id_empleado}")]
     public Object EliminarEmpleado(int id_empleado)
     {
-      try
+      using (var transaction = db.Database.BeginTransaction())
       {
-        var logueado = HttpContext.Session.Authenticated();
-        var id_barrio = logueado.IdBarrio;
-
-        if (db.Empleado.Where(a => a.Id == id_empleado).Count() > 0)
+        try
         {
+          var logueado = HttpContext.Session.Authenticated();
+          var id_barrio = logueado.IdBarrio;
 
-          var empleado = db.Empleado.First(t => t.Id == id_empleado);
-          var usuario = db.Usuario.First(u => u.Id == empleado.IdUsuario);
-          var persona = db.Persona.First(p => p.Id == empleado.IdPersona);
-          db.Empleado.Remove(empleado);
-          db.Usuario.Remove(usuario);
-          db.Persona.Remove(persona);
-          db.SaveChanges();
-          return new { error = false, data = empleado };
+          if (db.Empleado.Where(a => a.Id == id_empleado).Count() > 0)
+          {
+
+            var empleado = db.Empleado.First(t => t.Id == id_empleado);
+            var usuario = db.Usuario.First(u => u.Id == empleado.IdUsuario);
+            var persona = db.Persona.First(p => p.Id == empleado.IdPersona);
+            db.Empleado.Remove(empleado);
+            db.Usuario.Remove(usuario);
+            db.Persona.Remove(persona);
+            db.SaveChanges();
+            transaction.Commit();
+            return new { error = false, data = empleado };
+          }
+
+          return new { error = false, data = "No existe ese empleado" };
+
         }
-
-        return new { error = false, data = "No existe ese empleado" };
-
-      }
-      catch (Exception err)
-      {
-        return new { error = true, data = "fail", message = err.Message };
+        catch (Exception err)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "fail", message = err.Message };
+        }
       }
     }
   }
