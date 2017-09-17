@@ -50,7 +50,7 @@
                 <h4 class="modal-title">Registrar Barrio</h4>
             </div>
             <div class="modal-body">
-                <form role="form">
+                <form role="form" #barrioForm="ngForm" name="barrioForm" id="barrioForm">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -133,7 +133,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario)" (click)="open(barriocreado)">Crear barrio</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario, barrioForm)" (click)="open(barriocreado)">Crear barrio</button>
             </div>
         </div>
     </div>

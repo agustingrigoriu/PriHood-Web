@@ -4,6 +4,7 @@ import { ResidenciasService } from './residencias.service';
 import { Residencia } from './residencia.model';
 
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from "@angular/forms/forms";
 
 @Component({
   selector: 'app-residencias',
@@ -15,16 +16,15 @@ export class ResidenciaComponent implements OnInit {
   constructor(protected ResidenciasService: ResidenciasService, private modalService: NgbModal) { }
 
   mensaje: string;
-
   residencias: Residencia[] = [];
-
   residencia: Residencia = {
     nombre: '',
     ubicacion: ''
   };
+  residenciaSeleccionada: Residencia;
   headerClass:string=" ";
 
-  agregarResidencia(residencia: Residencia) {
+  agregarResidencia(residencia: Residencia, form: NgForm) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo crear la residencia.';
@@ -33,6 +33,7 @@ export class ResidenciaComponent implements OnInit {
         this.mensaje = 'Se creo correctamente.';
         this.headerClass="alert-success";
         this.actualizar();
+        form.reset();
       }
     });
   }
@@ -50,6 +51,24 @@ export class ResidenciaComponent implements OnInit {
         }
       });
     }
+  }
+
+  onSelectedRes(residencia:Residencia){
+    this.residenciaSeleccionada=residencia;
+  }
+
+  modificarResidencia(residencia:Residencia){
+    console.log(residencia);
+    this.ResidenciasService.updateResidencia(this.residenciaSeleccionada.id, residencia).then(response => {
+      if (response.error) {
+        this.mensaje = 'No se pudo modificar la residencia.';
+        this.headerClass="alert-danger";
+      } else {
+        this.mensaje = 'Se modificó correctamente.';
+        this.headerClass="alert-success";
+        this.actualizar();
+      }
+    });
   }
 
   actualizar() {

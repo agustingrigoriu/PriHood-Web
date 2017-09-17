@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpleadosService } from './empleados.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from "@angular/forms/forms";
 
 @Component({
   selector: 'app-empleados',
@@ -51,13 +52,14 @@ export class EmpleadosComponent implements OnInit {
     }
   }
 
-  crearEmpleado(empleado: any) {
+  crearEmpleado(empleado: any, form:NgForm) {
     this.EmpleadosService.crearEmpleado(empleado).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo crear.';
         this.headerClass="alert-danger";
       } else {
         this.actualizarListado();
+        form.reset();
         this.mensaje = 'Creado correctamente.';
         this.headerClass="alert-success";
       }

@@ -21,4 +21,8 @@ export class ResidenciasService {
   crearResidencia(residencia: Residencia) {
     return this.request.post<any>(`residencias`, residencia);
   }
+
+  updateResidencia(id:Number, residencia:Residencia) {
+    return this.request.put<any>(`residencias/${id}`, residencia);
+  }
 }

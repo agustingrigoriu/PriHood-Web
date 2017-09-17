@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BarriosService } from './barrios.service';
 import { Barrio } from './barrio.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgForm } from "@angular/forms/forms";
 
 @Component({
   selector: 'app-barrios',
@@ -53,13 +54,14 @@ export class BarriosComponent implements OnInit {
     }
   }
 
-  crearBarrio(barrio: Barrio, usuario: any) {
+  crearBarrio(barrio: Barrio, usuario: any, form:NgForm) {
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
         this.mensaje = "No se pudo crear";
         this.headerClass = "alert-danger";
       } else {
         this.actualizarListado();
+        form.reset();
         this.mensaje = "Se creo correctamente";
         this.headerClass = "alert-success";
       }

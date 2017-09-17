@@ -45,6 +45,8 @@
                     <td>{{empleado.email}}</td>
                     <td>
                         <a class="btn btn-xs btn-danger" (click)="borrarEmpleado(empleado)" (click)="openBorrar(empleadoborrado)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-info"  data-toggle="modal" data-target="#editarEmpleado" (click)="onSelectedEmp(empleado)" ><i class="fa fa-pencil"></i></a>
+
                     </td>
                 </tr>
             </tbody>
@@ -60,7 +62,7 @@
                 <h4 class="modal-title">Registrar Empleado</h4>
             </div>
             <div class="modal-body">
-                <form role="form">
+                <form role="form" role="form" #empForm="ngForm" name="empForm" id="empForm">
                     <div class="row">
 
                         <div class="col-md-6">
@@ -135,7 +137,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearEmpleado(empleado)" (click)="open(empleadocreado)">Crear empleado</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearEmpleado(empleado, empForm)" (click)="open(empleadocreado)">Crear empleado</button>
             </div>
         </div>
     </div>

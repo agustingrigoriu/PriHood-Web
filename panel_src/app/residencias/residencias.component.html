@@ -36,6 +36,7 @@
                     <td>{{residencia.codigo}}</td>
                     <td>
                         <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)" (click)="openBorrar(residenciaborrada)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-info" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#editarResidencia"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -69,20 +70,48 @@
                 <h4 class="modal-title">Registrar Residencia</h4>
             </div>
             <div class="modal-body">
-                <form role="form">
+                <form role="form" #resForm="ngForm" name="resForm" id="resForm" >
                     <div class="form-group">
                         <label for="residente">Alias</label>
-                        <input [(ngModel)]="residencia.nombre" name="nombre" type="text" class="form-control" id="residente" placeholder="Ingrese el alias de la residencia">
+                        <input title= "Se necesita un alias" [(ngModel)]="residencia.nombre" required name="nombre" type="text" class="form-control" id="residente" placeholder="Ingrese el alias de la residencia" required/>
                     </div>
                     <div class="form-group">
                         <label for="direccion">Ubicación</label>
-                        <input [(ngModel)]="residencia.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" placeholder="Ingrese la dirección de la residencia">
+                        <input [(ngModel)]="residencia.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" placeholder="Ingrese la ubicacion de la residencia">
                     </div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia(residencia)" (click)="open(rescreada)">Registrar residencia</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia(residencia, resForm)" (click)="open(rescreada)">Registrar residencia</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editarResidencia">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modificar Residencia</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
+                    <div class="form-group">
+                        <label for="residente">Alias</label>
+                        <input [(ngModel)]="residenciaSeleccionada.nombre" required name="nombre" type="text" class="form-control" id="residente" value={{residenciaSeleccionada.nombre}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Ubicación</label>
+                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" value={{residenciaSeleccionada.ubicacion}}>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residencia)">Modificar residencia</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
