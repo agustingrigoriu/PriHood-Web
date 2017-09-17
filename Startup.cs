@@ -50,6 +50,7 @@ namespace PriHood
       services.AddSingleton<AuthService>();
       services.AddSingleton<PushService>();
       services.AddSingleton<EmailService>();
+      services.AddSingleton<UploadService>();
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

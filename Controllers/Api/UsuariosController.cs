@@ -8,6 +8,9 @@ using Newtonsoft.Json.Linq;
 using PriHood.Auth;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace PriHood.Controllers
 {
@@ -18,11 +21,13 @@ namespace PriHood.Controllers
     private AuthService auth;
 
     private EmailService email;
-    public UsuariosController(PrihoodContext context, AuthService a, EmailService e)
+    private IHostingEnvironment _hostingEnvironment;
+    public UsuariosController(PrihoodContext context, AuthService a, EmailService e, IHostingEnvironment environment)
     {
       db = context;
       auth = a;
       email = e;
+      _hostingEnvironment = environment;
     }
 
     [HttpGet]
@@ -151,7 +156,6 @@ namespace PriHood.Controllers
 
       return new { error = false, data = "ok" };
     }
-
     public string RandomString(int length)
     {
       Random random = new Random();
