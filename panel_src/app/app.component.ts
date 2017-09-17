@@ -32,9 +32,6 @@ export class AppComponent implements OnInit {
         throw 'Usuario no logueado.';
       }
 
-      //Si usuario tiene perfil de residente, redirecciono, no puede acceder
-      if (usuario.idPerfil === 3) window.location.href = '/Login';
-
       this.usuario = usuario;
       this.year = new Date().getFullYear().toString();
 

@@ -31,6 +31,12 @@ namespace PriHood.Controllers
     {
       var usuario = _AuthService.Login(login.email ?? "", login.password ?? "");
 
+      if (usuario.IdPerfil == 3)
+      {
+        ViewData["error"] = "Los residentes no pueden acceder";
+        return View();
+      }
+
       if (usuario != null)
       {
         HttpContext.Session.LogInAccount(usuario);
@@ -38,7 +44,6 @@ namespace PriHood.Controllers
       }
 
       ViewData["error"] = "Email o contraseña incorrectos.";
-
       return View();
     }
 
