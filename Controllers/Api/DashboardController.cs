@@ -35,7 +35,12 @@ namespace PriHood.Controllers
           select b
         ).Count();
 
-        var data = new { cantidad_barrios = cantidad_barrios };
+        var cantidad_residentes = (
+          from r in db.Residente
+          select r
+        ).Count();
+
+        var data = new { cantidad_barrios = cantidad_barrios, cantidad_residentes = cantidad_residentes };
 
         return new { error = false, data = data };
 

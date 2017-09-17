@@ -7,6 +7,7 @@ import { QRCodeModule } from 'angular2-qrcode';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardService } from './home/home.service';
 
 import { EmpleadosComponent } from './empleados/empleados.component';
 import { EmpleadosService } from './empleados/empleados.service';
@@ -104,7 +105,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
     BarriosService,
     VisitasService,
     AmenitiesService,
-    TurnosService
+    TurnosService,
+    DashboardService
   ],
   bootstrap: [AppComponent]
 })
