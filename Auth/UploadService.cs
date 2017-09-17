@@ -22,26 +22,19 @@ namespace PriHood.Auth
     }
 
     [HttpPost]
-    public Object UploadFiles(IList<IFormFile> files, string folder)
+    public Object UploadFiles(IFormFile file, string folder)
     {
       try
+
       {
-        var filename = "";
-        long size = 0;
-        foreach (var file in files)
+        var filename = _hostingEnvironment.WebRootPath + folder + "/" + file.FileName;
+
+        using (FileStream fs = System.IO.File.Create(filename))
         {
-          filename = ContentDispositionHeaderValue
-                          .Parse(file.ContentDisposition)
-                          .FileName
-                          .Trim('"');
-          filename = _hostingEnvironment.WebRootPath + folder;
-          size += file.Length;
-          using (FileStream fs = System.IO.File.Create(filename))
-          {
-            file.CopyTo(fs);
-            fs.Flush();
-          }
+          file.CopyTo(fs);
+          fs.Flush();
         }
+
 
         return new { error = false, data = filename };
       }
