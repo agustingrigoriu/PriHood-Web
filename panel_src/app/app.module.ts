@@ -34,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
 import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { ComunicacionComponent } from './comunicacion/comunicacion.component';
 
 @NgModule({
   imports: [
@@ -78,6 +79,10 @@ import { UsuarioComponent } from './usuario/usuario.component';
         component: TurnosComponent
       },
       {
+        path: 'comunicacion',
+        component: ComunicacionComponent
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }
@@ -95,7 +100,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
     VisitasComponent,
     AmenitiesComponent,
     TurnosComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    ComunicacionComponent
   ],
   providers: [
     ApiRequestService,
