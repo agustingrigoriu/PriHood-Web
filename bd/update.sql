@@ -387,7 +387,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Reserva` (
     ON UPDATE NO ACTION
     );     
 
-
 CREATE TABLE IF NOT EXISTS `Prihood`.`Muro` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_barrio` INT NOT NULL,
@@ -397,7 +396,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Muro` (
     FOREIGN KEY (`id_barrio`)
     REFERENCES `Prihood`.`Barrio` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Publicacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -418,7 +417,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Publicacion` (
     FOREIGN KEY (`id_usuario`)
     REFERENCES `Prihood`.`Usuario` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
@@ -440,7 +439,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
     FOREIGN KEY (`id_usuario`)
     REFERENCES `Prihood`.`Usuario` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 -- Inserción de valores a tabla PERFIL

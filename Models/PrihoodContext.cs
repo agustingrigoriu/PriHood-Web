@@ -6,22 +6,18 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
-        public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options)
-        {
-        }
-
-        public PrihoodContext() : base()
-        {
-        }
         public virtual DbSet<Amenity> Amenity { get; set; }
         public virtual DbSet<Barrio> Barrio { get; set; }
+        public virtual DbSet<Comentario> Comentario { get; set; }
         public virtual DbSet<DiaSemana> DiaSemana { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<EstadoReserva> EstadoReserva { get; set; }
         public virtual DbSet<EventoVisita> EventoVisita { get; set; }
+        public virtual DbSet<Muro> Muro { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
+        public virtual DbSet<Publicacion> Publicacion { get; set; }
         public virtual DbSet<RegistroVotos> RegistroVotos { get; set; }
         public virtual DbSet<Reserva> Reserva { get; set; }
         public virtual DbSet<Residencia> Residencia { get; set; }
@@ -35,6 +31,12 @@ namespace PriHood.Models
         public virtual DbSet<Visita> Visita { get; set; }
         public virtual DbSet<Visitante> Visitante { get; set; }
         public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,16 +67,15 @@ namespace PriHood.Models
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnName("nombre")
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Telefono)
                     .HasColumnName("telefono")
-                    .HasColumnType("varchar(15)");
+                    .HasColumnType("varchar(40)");
 
                 entity.Property(e => e.Ubicacion)
-                    .IsRequired()
                     .HasColumnName("ubicacion")
-                    .HasColumnType("varchar(20)");
+                    .HasColumnType("varchar(100)");
 
                 entity.HasOne(d => d.IdBarrioNavigation)
                     .WithMany(p => p.Amenity)
@@ -104,6 +105,52 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("ubicacion")
                     .HasColumnType("varchar(100)");
+            });
+
+            modelBuilder.Entity<Comentario>(entity =>
+            {
+                entity.HasIndex(e => e.IdPublicacion)
+                    .HasName("fk_Comentario_1_idx");
+
+                entity.HasIndex(e => e.IdUsuario)
+                    .HasName("fk_Comentario_2_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Comentario1)
+                    .IsRequired()
+                    .HasColumnName("comentario")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Hora)
+                    .HasColumnName("hora")
+                    .HasColumnType("time");
+
+                entity.Property(e => e.IdPublicacion)
+                    .HasColumnName("id_publicacion")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUsuario)
+                    .HasColumnName("id_usuario")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdPublicacionNavigation)
+                    .WithMany(p => p.Comentario)
+                    .HasForeignKey(d => d.IdPublicacion)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Comentario_1");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Comentario)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Comentario_2");
             });
 
             modelBuilder.Entity<DiaSemana>(entity =>
@@ -194,6 +241,26 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasColumnType("varchar(45)");
+            });
+
+            modelBuilder.Entity<Muro>(entity =>
+            {
+                entity.HasIndex(e => e.IdBarrio)
+                    .HasName("fk_Muro_1_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdBarrio)
+                    .HasColumnName("id_barrio")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdBarrioNavigation)
+                    .WithMany(p => p.Muro)
+                    .HasForeignKey(d => d.IdBarrio)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Muro_1");
             });
 
             modelBuilder.Entity<Perfil>(entity =>
@@ -311,6 +378,52 @@ namespace PriHood.Models
                     .HasForeignKey(d => d.IdTipoServicio)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_id_tipo_servicio");
+            });
+
+            modelBuilder.Entity<Publicacion>(entity =>
+            {
+                entity.HasIndex(e => e.IdMuro)
+                    .HasName("fk_Publicacion_1_idx");
+
+                entity.HasIndex(e => e.IdUsuario)
+                    .HasName("fk_Publicacion_2_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Hora)
+                    .HasColumnName("hora")
+                    .HasColumnType("time");
+
+                entity.Property(e => e.IdMuro)
+                    .HasColumnName("id_muro")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUsuario)
+                    .HasColumnName("id_usuario")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Publicacion1)
+                    .IsRequired()
+                    .HasColumnName("publicacion")
+                    .HasColumnType("text");
+
+                entity.HasOne(d => d.IdMuroNavigation)
+                    .WithMany(p => p.Publicacion)
+                    .HasForeignKey(d => d.IdMuro)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Publicacion_1");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Publicacion)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Publicacion_2");
             });
 
             modelBuilder.Entity<RegistroVotos>(entity =>
