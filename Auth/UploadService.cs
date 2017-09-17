@@ -24,24 +24,32 @@ namespace PriHood.Auth
     [HttpPost]
     public Object UploadFiles(IList<IFormFile> files, string folder)
     {
-      var filename = "";
-      long size = 0;
-      foreach (var file in files)
+      try
       {
-        filename = ContentDispositionHeaderValue
-                        .Parse(file.ContentDisposition)
-                        .FileName
-                        .Trim('"');
-        filename = _hostingEnvironment.WebRootPath + folder;
-        size += file.Length;
-        using (FileStream fs = System.IO.File.Create(filename))
+        var filename = "";
+        long size = 0;
+        foreach (var file in files)
         {
-          file.CopyTo(fs);
-          fs.Flush();
+          filename = ContentDispositionHeaderValue
+                          .Parse(file.ContentDisposition)
+                          .FileName
+                          .Trim('"');
+          filename = _hostingEnvironment.WebRootPath + folder;
+          size += file.Length;
+          using (FileStream fs = System.IO.File.Create(filename))
+          {
+            file.CopyTo(fs);
+            fs.Flush();
+          }
         }
+
+        return new { error = false, data = filename };
+      }
+      catch (Exception e)
+      {
+        return new { error = true, data = e.Message };
       }
 
-      return new { filename = filename };
     }
 
   }
