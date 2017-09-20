@@ -22,16 +22,16 @@ export class ResidenciaComponent implements OnInit {
     ubicacion: ''
   };
   residenciaSeleccionada: Residencia;
-  headerClass:string=" ";
+  headerClass: string = " ";
 
   agregarResidencia(residencia: Residencia, form: NgForm) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo crear la residencia.';
-        this.headerClass="alert-danger";
+        this.headerClass = "alert-danger";
       } else {
         this.mensaje = 'Se creo correctamente.';
-        this.headerClass="alert-success";
+        this.headerClass = "alert-success";
         this.actualizar();
         form.reset();
       }
@@ -43,29 +43,28 @@ export class ResidenciaComponent implements OnInit {
       this.ResidenciasService.deleteResidencia(res.id).then(response => {
         if (response.error) {
           this.mensaje = 'No se pudo borrar.';
-          this.headerClass="alert-danger";
+          this.headerClass = "alert-danger";
         } else {
           this.mensaje = 'Borrado correctamente.';
           this.actualizar();
-          this.headerClass="alert-success";
+          this.headerClass = "alert-success";
         }
       });
     }
   }
 
-  onSelectedRes(residencia:Residencia){
-    this.residenciaSeleccionada=residencia;
+  onSelectedRes(residencia: Residencia) {
+    this.residenciaSeleccionada = { ...residencia };
   }
 
-  modificarResidencia(residencia:Residencia){
-    console.log(residencia);
-    this.ResidenciasService.updateResidencia(this.residenciaSeleccionada.id, residencia).then(response => {
+  modificarResidencia(residencia: Residencia) {
+    this.ResidenciasService.updateResidencia(residencia.id, residencia).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo modificar la residencia.';
-        this.headerClass="alert-danger";
+        this.headerClass = "alert-danger";
       } else {
         this.mensaje = 'Se modificó correctamente.';
-        this.headerClass="alert-success";
+        this.headerClass = "alert-success";
         this.actualizar();
       }
     });

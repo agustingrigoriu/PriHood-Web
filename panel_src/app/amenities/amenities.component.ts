@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AmenitiesService } from './amenities.service';
 import { Amenity } from './amenity.model';
+import { NgForm } from "@angular/forms/forms";
 
 @Component({
     selector: 'app-amenities',
@@ -41,12 +42,13 @@ export class AmenitiesComponent implements OnInit {
         }
     }
 
-    crearAmenity(amenity: Amenity) {
+    crearAmenity(amenity: Amenity, form:NgForm) {
         this.AmenitiesService.crearAmenity(amenity).then(response => {
             if (response.error) {
                 alert('No se pudo crear');
             } else {
                 this.actualizarListado();
+                form.reset();
                 alert('Se creó correctamente');
             }
         });

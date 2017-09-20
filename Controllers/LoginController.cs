@@ -72,6 +72,7 @@ namespace PriHood.Controllers
           join p in _db.Persona on e.IdPersona equals p.Id
           join per in _db.Perfil on u.IdPerfil equals per.Id
           join b in _db.Barrio on u.IdBarrio equals b.Id
+          where u.Id == usuario.Id
           select new
           {
             nombre = p.Nombre,

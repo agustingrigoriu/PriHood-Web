@@ -101,17 +101,17 @@
                 <form role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
                     <div class="form-group">
                         <label for="residente">Alias</label>
-                        <input [(ngModel)]="residenciaSeleccionada.nombre" required name="nombre" type="text" class="form-control" id="residente" value={{residenciaSeleccionada.nombre}}>
+                        <input [(ngModel)]="residenciaSeleccionada.nombre" required name="nombre" type="text" class="form-control" id="residente">
                     </div>
                     <div class="form-group">
                         <label for="direccion">Ubicación</label>
-                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" value={{residenciaSeleccionada.ubicacion}}>
+                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion">
                     </div>
                 </form>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residencia)">Modificar residencia</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Modificar residencia</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
