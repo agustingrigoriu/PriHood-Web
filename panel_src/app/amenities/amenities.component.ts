@@ -13,6 +13,7 @@ export class AmenitiesComponent implements OnInit {
     constructor(protected AmenitiesService: AmenitiesService) { }
 
     amenities: Amenity[] = [];
+    
 
     amenity: Amenity = {
         nombre: '',
@@ -20,6 +21,7 @@ export class AmenitiesComponent implements OnInit {
         ubicacion: '',
         idTipoAmenity: 1,
     };
+    amenitySeleccionada: Amenity;
 
     tipos = [
         { name: 'Cancha de tenis', id: 1 },
@@ -53,6 +55,22 @@ export class AmenitiesComponent implements OnInit {
             }
         });
     }
+
+    onSelectedAme(amenity: Amenity) {
+    this.amenitySeleccionada = { ...amenity };
+  }
+
+  modificarAmenity(amenity: Amenity) {
+    this.AmenitiesService.updateAmenity(amenity.id, amenity).then(response => {
+      if (response.error) {
+       alert('No se pudo modificar');
+      } else {
+        alert('Se modificó correctamente')
+        this.actualizarListado();
+      }
+    });
+  }
+
 
     cargarTurnos(idAmenity:number){
 

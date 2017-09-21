@@ -39,8 +39,9 @@ export class EmpleadosComponent implements OnInit {
   headerClass: string = " ";
   empleadoSeleccionado: Empleado;
 
-  borrarEmpleado(empleado: any): void {
-    if (confirm('¿Borrar este usuario?')) {
+  borrarEmpleado(empleado: Empleado): void {
+    console.log(empleado.id);
+    if (confirm('¿Borrar este empleado?')) {
       this.EmpleadosService.deleteEmpleado(empleado.id).then(response => {
         if (response.error) {
           this.mensaje = 'No se pudo borrar.';
@@ -69,10 +70,11 @@ export class EmpleadosComponent implements OnInit {
   }
 
   onSelectedEmp(empleado: Empleado) {
+    console.log(empleado.id);
     this.empleadoSeleccionado = { ...empleado };
   }
 
-  modificarResidencia(empleado: Empleado) {
+  modificarEmpleado(empleado: Empleado) {
     this.EmpleadosService.updateEmpleado(empleado.id, empleado).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo modificar el empleado.';
@@ -92,10 +94,6 @@ export class EmpleadosComponent implements OnInit {
 
   open(empleadocreado) {
     this.modalService.open(empleadocreado, { windowClass: 'in' });
-  }
-
-  openBorrar(empleadoborrado) {
-    this.modalService.open(empleadoborrado, { windowClass: 'in' });
   }
 
   ngOnInit(): void {

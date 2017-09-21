@@ -21,4 +21,8 @@ export class AmenitiesService {
   crearAmenity(amenity: Amenity) {
     return this.request.post<any>(`amenities`, amenity);
   }
+
+  updateAmenity(id:Number, amenity:Amenity) {
+    return this.request.put<any>(`amenities/${id}`, amenity);
+  }
 }
