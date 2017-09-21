@@ -13,7 +13,6 @@ export class AmenitiesComponent implements OnInit {
     constructor(protected AmenitiesService: AmenitiesService) { }
 
     amenities: Amenity[] = [];
-    
 
     amenity: Amenity = {
         nombre: '',
@@ -44,7 +43,7 @@ export class AmenitiesComponent implements OnInit {
         }
     }
 
-    crearAmenity(amenity: Amenity, form:NgForm) {
+    crearAmenity(amenity: Amenity, form: NgForm) {
         this.AmenitiesService.crearAmenity(amenity).then(response => {
             if (response.error) {
                 alert('No se pudo crear');
@@ -57,27 +56,34 @@ export class AmenitiesComponent implements OnInit {
     }
 
     onSelectedAme(amenity: Amenity) {
-    this.amenitySeleccionada = { ...amenity };
-  }
+        this.amenitySeleccionada = { ...amenity };
+    }
 
-  modificarAmenity(amenity: Amenity) {
-    this.AmenitiesService.updateAmenity(amenity.id, amenity).then(response => {
-      if (response.error) {
-       alert('No se pudo modificar');
-      } else {
-        alert('Se modificó correctamente')
-        this.actualizarListado();
-      }
-    });
-  }
+    modificarAmenity(amenity: Amenity) {
+        console.log(amenity);
+        const amenityUpdate: Amenity = {
+            descripcion: amenity.descripcion,
+            idTipoAmenity: amenity.idTipoAmenity,
+            ubicacion: amenity.ubicacion,
+            nombre: amenity.nombre
+        };
+        this.AmenitiesService.updateAmenity(amenity.id, amenityUpdate).then(response => {
+            if (response.error) {
+                alert('No se pudo modificar');
+            } else {
+                alert('Se modificó correctamente')
+                this.actualizarListado();
+            }
+        });
+    }
 
 
-    cargarTurnos(idAmenity:number){
+    cargarTurnos(idAmenity: number) {
 
     }
 
-    verTurnos(idAmenity:number){
-        
+    verTurnos(idAmenity: number) {
+
     }
 
     actualizarListado() {

@@ -1,7 +1,7 @@
 import { Barrio } from '../barrios/barrio.model';
 
 export interface Empleado {
-   id?:number; 
+   id_empleado?:number; 
    apellido:string;
    nombre: string;
    fecha_nacimiento: Date;

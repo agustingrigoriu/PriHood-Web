@@ -40,9 +40,9 @@ export class EmpleadosComponent implements OnInit {
   empleadoSeleccionado: Empleado;
 
   borrarEmpleado(empleado: Empleado): void {
-    console.log(empleado.id);
+    console.log(empleado.id_empleado);
     if (confirm('¿Borrar este empleado?')) {
-      this.EmpleadosService.deleteEmpleado(empleado.id).then(response => {
+      this.EmpleadosService.deleteEmpleado(empleado.id_empleado).then(response => {
         if (response.error) {
           this.mensaje = 'No se pudo borrar.';
           this.headerClass = "alert-danger";
@@ -70,12 +70,13 @@ export class EmpleadosComponent implements OnInit {
   }
 
   onSelectedEmp(empleado: Empleado) {
-    console.log(empleado.id);
+    console.log(empleado.id_empleado);
     this.empleadoSeleccionado = { ...empleado };
   }
 
   modificarEmpleado(empleado: Empleado) {
-    this.EmpleadosService.updateEmpleado(empleado.id, empleado).then(response => {
+    console.log(empleado.id_empleado);
+    this.EmpleadosService.updateEmpleado(empleado.id_empleado, empleado).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo modificar el empleado.';
         this.headerClass = "alert-danger";

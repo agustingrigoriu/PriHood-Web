@@ -51,7 +51,9 @@ namespace PriHood.Controllers
         var logueado = HttpContext.Session.Authenticated();
         var id_barrio = logueado.IdBarrio.Value;
 
+        amenity.IdBarrio = id_barrio;
         amenity.Id = id_amenity;
+        
         db.Amenity.Update(amenity);
         db.SaveChanges();
 
@@ -82,7 +84,7 @@ namespace PriHood.Controllers
             telefono = a.Telefono,
             ubicacion = a.Ubicacion,
             tipo_amenity = ta.Descripcion,
-            id_tipo_amenity = a.IdTipoAmenity
+            idTipoAmenity = a.IdTipoAmenity
           }
         ).ToList();
 
