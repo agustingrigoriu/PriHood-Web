@@ -81,7 +81,8 @@ namespace PriHood.Controllers
             descripcion = a.Descripcion,
             telefono = a.Telefono,
             ubicacion = a.Ubicacion,
-            tipo_amenity = ta.Descripcion
+            tipo_amenity = ta.Descripcion,
+            id_tipo_amenity = a.IdTipoAmenity
           }
         ).ToList();
 
