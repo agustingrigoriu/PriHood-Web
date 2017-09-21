@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmpleadosService } from './empleados.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/forms";
+import { Empleado } from './empleado.model';
 
 @Component({
   selector: 'app-empleados',
@@ -35,37 +36,54 @@ export class EmpleadosComponent implements OnInit {
     { nombre: 'Administrador', id: 2 },
     { nombre: 'Encargado de Seguridad', id: 4 }
   ];
-  headerClass:string=" ";
+  headerClass: string = " ";
+  empleadoSeleccionado: Empleado;
 
   borrarEmpleado(empleado: any): void {
     if (confirm('¿Borrar este usuario?')) {
       this.EmpleadosService.deleteEmpleado(empleado.id).then(response => {
         if (response.error) {
           this.mensaje = 'No se pudo borrar.';
-          this.headerClass="alert-danger";
+          this.headerClass = "alert-danger";
         } else {
           this.actualizarListado();
           this.mensaje = 'Borrado correctamente.';
-          this.headerClass="alert-success";
+          this.headerClass = "alert-success";
         }
       });
     }
   }
 
-  crearEmpleado(empleado: any, form:NgForm) {
+  crearEmpleado(empleado: any, form: NgForm) {
     this.EmpleadosService.crearEmpleado(empleado).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo crear.';
-        this.headerClass="alert-danger";
+        this.headerClass = "alert-danger";
       } else {
         this.actualizarListado();
         form.reset();
         this.mensaje = 'Creado correctamente.';
-        this.headerClass="alert-success";
+        this.headerClass = "alert-success";
       }
     });
   }
 
+  onSelectedEmp(empleado: Empleado) {
+    this.empleadoSeleccionado = { ...empleado };
+  }
+
+  modificarResidencia(empleado: Empleado) {
+    this.EmpleadosService.updateEmpleado(empleado.id, empleado).then(response => {
+      if (response.error) {
+        this.mensaje = 'No se pudo modificar el empleado.';
+        this.headerClass = "alert-danger";
+      } else {
+        this.mensaje = 'Se modificó correctamente.';
+        this.headerClass = "alert-success";
+        this.actualizarListado();
+      }
+    });
+  }
   actualizarListado() {
     this.EmpleadosService.getAllEmpleados().then(response => {
       this.empleados = response.data;

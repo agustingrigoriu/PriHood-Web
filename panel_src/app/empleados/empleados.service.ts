@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiRequestService } from '../../services/api.request.service';
+import {Empleado} from './empleado.model';
 
 @Injectable()
 export class EmpleadosService {
@@ -19,5 +20,9 @@ export class EmpleadosService {
 
   crearEmpleado(empleado: any) {
     return this.request.post<any>(`empleados`, empleado);
+  }
+
+  updateEmpleado(id:Number, empleado:Empleado) {
+    return this.request.put<any>(`empleados/${id}`, empleado);
   }
 }
