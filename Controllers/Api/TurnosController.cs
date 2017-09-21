@@ -83,7 +83,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpDelete("{  }")]
+    [HttpDelete]
     public Object BorrarTurno(int id_turno)
     {
       try
@@ -102,7 +102,7 @@ namespace PriHood.Controllers
     }
 
     [HttpGet("{id_amenity}/{fecha:DateTime}")]
-    public Object ListarAmenitiesFechaTurnos(int id_amenity, DateTime fecha)
+    public Object ListarAmenityFechaTurnos(int id_amenity, DateTime fecha)
     {
       try
       {
@@ -121,10 +121,23 @@ namespace PriHood.Controllers
             ubicacion = a.Ubicacion,
             turnos = (
               from t in db.Turno
-              join r in db.Reserva on t.Id equals r.IdTurno into ps
-              from r in ps.DefaultIfEmpty()
-              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id && r.Fecha.Date == fecha.Date
-              select new { turno = t, reservado = r == null ? false : true }
+              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id
+              select new
+              {
+                t.Costo,
+                t.Duracion,
+                t.HoraDesde,
+                t.Id,
+                t.IdAmenity,
+                t.IdDiaSemana,
+                t.Nombre,
+                reservado = (
+                  from r in db.Reserva
+                  join er in db.EstadoReserva on r.IdEstadoReserva equals er.Id
+                  where r.Fecha.Date == fecha.Date && r.IdTurno == t.Id && er.Descripcion == "creada"
+                  select r
+                ).Count() > 0
+              }
             )
           }
         ).First();
