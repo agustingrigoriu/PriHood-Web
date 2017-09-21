@@ -34,7 +34,8 @@
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="borrarBarrio(barrio)" (click)="open(barriocreado)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="borrarBarrio(barrio)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-info" (click)="onSelectedBar(barrio)" data-toggle="modal" data-target="#editarBarrio"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -134,6 +135,35 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario, barrioForm)" (click)="open(barriocreado)">Crear barrio</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="editarBarrio">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Modificar Barrio</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" #barrioForm="ngForm" name="barrioForm" id="barrioForm" *ngIf="barrioSeleccionado">
+                    <div class="form-group">
+                        <label for="barrio">Nombre</label>
+                        <input [(ngModel)]="barrioSeleccionado.nombre" required name="nombre" type="text" class="form-control" id="nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">Ubicación</label>
+                        <input [(ngModel)]="barrioSeleccionado.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarBarrio(barrioSeleccionado)">Modificar barrio</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

@@ -21,4 +21,8 @@ export class BarriosService {
   crearBarrio(barrio: Barrio, usuario: any) {
     return this.request.post<any>(`barrios`, { barrio: barrio, usuario: usuario });
   }
+
+  updateBarrio(id:Number, barrio:Barrio) {
+    return this.request.put<any>(`barrios/${id}`, barrio);
+  }
 }

@@ -38,23 +38,24 @@ export class BarriosComponent implements OnInit {
   mensaje: string;
   mensajeBorrado: string;
   headerClass = " "
+  barrioSeleccionado: Barrio;
 
-  borrarBarrio(barrio: Barrio, barriocreado): void {
+
+  borrarBarrio(barrio: Barrio): void {
+     console.log(barrio.id);
     if (confirm('¿Borrar este barrio?')) {
       this.BarriosService.deleteBarrio(barrio.id).then(response => {
         if (response.error) {
           this.mensajeBorrado = "No se pudo borrar";
-          this.modalService.open(barriocreado);
         } else {
           this.actualizarListado();
           this.mensajeBorrado = "No se pudo borrar";
-          this.modalService.open(barriocreado);
         }
       });
     }
   }
 
-  crearBarrio(barrio: Barrio, usuario: any, form:NgForm) {
+  crearBarrio(barrio: Barrio, usuario: any, form: NgForm) {
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
         this.mensaje = "No se pudo crear";
@@ -66,7 +67,23 @@ export class BarriosComponent implements OnInit {
         this.headerClass = "alert-success";
       }
     });
+  }
 
+  onSelectedBar(barrio: Barrio) {
+    this.barrioSeleccionado = { ...barrio };
+  }
+
+  modificarBarrio(barrio: Barrio) {
+    this.BarriosService.updateBarrio(barrio.id, barrio).then(response => {
+      if (response.error) {
+        this.mensaje = 'No se pudo modificar el barrio.';
+        this.headerClass = "alert-danger";
+      } else {
+        this.mensaje = 'Se modificó correctamente.';
+        this.headerClass = "alert-success";
+        this.actualizarListado();
+      }
+    });
   }
 
   actualizarListado() {
@@ -81,5 +98,9 @@ export class BarriosComponent implements OnInit {
 
   open(barriocreado) {
     this.modalService.open(barriocreado, { windowClass: 'in' });
+  }
+
+  openBorrar(barrioborrado) {
+    this.modalService.open(barrioborrado, { windowClass: 'in' });
   }
 }

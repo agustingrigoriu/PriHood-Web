@@ -88,7 +88,7 @@ import { ComunicacionComponent } from './comunicacion/comunicacion.component';
       }
     ]),
     AgmCoreModule.forRoot({
-      apiKey: ' AIzaSyAjh36i6_opNvfB29a0GbS2FtJtVKWGU2c '
+      apiKey: 'AIzaSyAAMmwIYbNte2GOoB1vYoAK5Sz5oPpZ6JA'
     })
   ],
   declarations: [

@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.3" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.4.337" />
     <PackageReference Include="fluentemail.razor" Version="2.1.0" />
     <PackageReference Include="JWT" Version="3.0.2" />
