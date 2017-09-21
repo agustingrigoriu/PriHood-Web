@@ -151,6 +151,37 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpPost("{id_turno}/reservar")]
+    public Object CrearReservaTurno(int id_turno, [FromBody]Reserva reserva)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+        var estado = db.EstadoReserva.First(e => e.Descripcion == "creada");
+        var turno = (
+          from t in db.Turno
+          join a in db.Amenity on t.IdAmenity equals a.Id
+          where t.Id == id_turno && a.IdBarrio == logueado.IdBarrio
+          select t
+        ).First();
+
+        reserva.IdResidente = residente.Id;
+        reserva.IdTurno = id_turno;
+        reserva.Costo = turno.Costo;
+        reserva.IdEstadoReserva = estado.Id;
+
+        db.Reserva.Add(reserva);
+        db.SaveChanges();
+
+        return new { error = false, data = reserva };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
+      }
+    }
+
     private int fecha2IdDay(DateTime fecha)
     {
       switch (fecha.DayOfWeek)
