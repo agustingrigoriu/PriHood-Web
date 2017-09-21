@@ -40,9 +40,7 @@ export class BarriosComponent implements OnInit {
   headerClass = " "
   barrioSeleccionado: Barrio;
 
-
   borrarBarrio(barrio: Barrio): void {
-     console.log(barrio.id);
     if (confirm('¿Borrar este barrio?')) {
       this.BarriosService.deleteBarrio(barrio.id).then(response => {
         if (response.error) {
@@ -74,7 +72,7 @@ export class BarriosComponent implements OnInit {
   }
 
   modificarBarrio(barrio: Barrio) {
-    this.BarriosService.updateBarrio(barrio.id, barrio).then(response => {
+     this.BarriosService.updateBarrio(barrio.id, barrio).then(response => {
       if (response.error) {
         this.mensaje = 'No se pudo modificar el barrio.';
         this.headerClass = "alert-danger";
