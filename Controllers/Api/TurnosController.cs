@@ -40,7 +40,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("{id_amenity}")]
+    [HttpGet("{id_amenity:int}")]
     public Object ListarTurnos(int id_amenity)
     {
       try
@@ -83,7 +83,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpDelete("{  }")]
+    [HttpDelete]
     public Object BorrarTurno(int id_turno)
     {
       try
@@ -102,7 +102,7 @@ namespace PriHood.Controllers
     }
 
     [HttpGet("{id_amenity}/{fecha:DateTime}")]
-    public Object ListarAmenitiesFechaTurnos(int id_amenity, DateTime fecha)
+    public Object ListarAmenityFechaTurnos(int id_amenity, DateTime fecha)
     {
       try
       {
@@ -121,15 +121,92 @@ namespace PriHood.Controllers
             ubicacion = a.Ubicacion,
             turnos = (
               from t in db.Turno
-              join r in db.Reserva on t.Id equals r.IdTurno into ps
-              from r in ps.DefaultIfEmpty()
-              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id && r.Fecha.Date == fecha.Date
-              select new { turno = t, reservado = r == null ? false : true }
+              where t.IdDiaSemana == id_dia && t.IdAmenity == a.Id
+              select new
+              {
+                t.Costo,
+                t.Duracion,
+                t.HoraDesde,
+                t.Id,
+                t.IdAmenity,
+                t.IdDiaSemana,
+                t.Nombre,
+                reservado = (
+                  from r in db.Reserva
+                  join er in db.EstadoReserva on r.IdEstadoReserva equals er.Id
+                  where r.Fecha.Date == fecha.Date && r.IdTurno == t.Id && er.Descripcion == "creada"
+                  select r
+                ).Count() > 0
+              }
             )
           }
         ).First();
 
         return new { error = false, data = amenities };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    [HttpPost("{id_turno}/reservar")]
+    public Object CrearReservaTurno(int id_turno, [FromBody]Reserva reserva)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+        var estado = db.EstadoReserva.First(e => e.Descripcion == "creada");
+        var turno = (
+          from t in db.Turno
+          join a in db.Amenity on t.IdAmenity equals a.Id
+          where t.Id == id_turno && a.IdBarrio == logueado.IdBarrio
+          select t
+        ).First();
+
+        reserva.IdResidente = residente.Id;
+        reserva.IdTurno = id_turno;
+        reserva.Costo = turno.Costo;
+        reserva.IdEstadoReserva = estado.Id;
+
+        db.Reserva.Add(reserva);
+        db.SaveChanges();
+
+        return new { error = false, data = reserva };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
+      }
+    }
+
+    [HttpGet("reservas")]
+    public Object ListarReservasResidente()
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+        var data = (
+          from r in db.Reserva
+          join t in db.Turno on r.IdTurno equals t.Id
+          join er in db.EstadoReserva on r.IdEstadoReserva equals er.Id
+          join a in db.Amenity on t.IdAmenity equals a.Id
+          where r.IdResidente == residente.Id
+          select new
+          {
+            r.Costo,
+            r.Fecha,
+            r.Id,
+            estado = er.Descripcion,
+            amenity = a,
+            turno = t
+          }
+        ).First();
+
+        return new { error = false, data };
 
       }
       catch (Exception err)
