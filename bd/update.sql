@@ -482,3 +482,7 @@ INSERT INTO  Tipo_Amenity(id, descripcion, imagen) VALUES ("1", "Cancha de tenis
 -- Inserción de dias de la semana
 
 INSERT INTO  Dia_Semana(id, descripcion) VALUES ("1", "Lunes"), ("2", "Martes"), ("3", "Miercoles"), ("4", "Jueves"), ("5", "Viernes"), ("6", "Sabado"), ("7", "Domingo");
+
+-- Inserción de estados de reserva
+
+INSERT INTO  Estado_Reserva(id, descripcion) VALUES ("1", "creada"), ("2", "cancelada"), ("3", "denegada");
