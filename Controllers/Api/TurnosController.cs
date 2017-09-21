@@ -194,17 +194,20 @@ namespace PriHood.Controllers
           join t in db.Turno on r.IdTurno equals t.Id
           join er in db.EstadoReserva on r.IdEstadoReserva equals er.Id
           join a in db.Amenity on t.IdAmenity equals a.Id
-          where r.IdResidente == residente.Id
+          where r.IdResidente == residente.Id && r.Fecha.Date >= DateTime.Now.Date
           select new
           {
-            r.Costo,
-            r.Fecha,
-            r.Id,
-            estado = er.Descripcion,
+            reserva = new
+            {
+              r.Costo,
+              r.Fecha,
+              r.Id,
+              estado = er.Descripcion
+            },
             amenity = a,
             turno = t
           }
-        ).First();
+        ).OrderBy(r => r.reserva.Fecha);
 
         return new { error = false, data };
 
