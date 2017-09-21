@@ -48,7 +48,9 @@ namespace PriHood.Controllers
             telefono = p.TelefonoMovil,
             perfil = pf.Descripcion,
             tipo_documento = td.Descripcion,
-            email = u.Email
+            email = u.Email,
+            id_perfil = pf.Id,
+            id_tipo_documento = td.Id
           }
         ).ToList();
 
