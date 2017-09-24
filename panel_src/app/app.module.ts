@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,6 +37,8 @@ import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { ComunicacionComponent } from './comunicacion/comunicacion.component';
 
+import { SimpleNotificationsModule } from 'angular2-notifications';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -44,6 +47,8 @@ import { ComunicacionComponent } from './comunicacion/comunicacion.component';
     Ng2SearchPipeModule,
     QRCodeModule,
     CalendarModule,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot([
       {
