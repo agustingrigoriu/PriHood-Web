@@ -389,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Reserva` (
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Publicacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `publicacion` TEXT NOT NULL,
+  `texto` TEXT NOT NULL,
   `id_personal` INT NOT NULL,
   `id_residente` INT NULL,
   `fecha` DATETIME NOT NULL,
@@ -410,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Publicacion` (
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `comentario` TEXT NOT NULL,
+  `texto` TEXT NOT NULL,
   `id_usuario` INT NOT NULL,
   `id_publicacion` INT NOT NULL,
   `fecha` DATETIME NOT NULL,

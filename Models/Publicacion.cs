@@ -14,7 +14,7 @@ namespace PriHood.Models
         public DateTime Fecha { get; set; }
         public int IdPersonal { get; set; }
         public int? IdResidente { get; set; }
-        public string Publicacion1 { get; set; }
+        public string Texto { get; set; }
         public string Titulo { get; set; }
 
         public virtual ICollection<Comentario> Comentario { get; set; }

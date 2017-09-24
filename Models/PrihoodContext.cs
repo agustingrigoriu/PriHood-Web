@@ -120,11 +120,6 @@ namespace PriHood.Models
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.Comentario1)
-                    .IsRequired()
-                    .HasColumnName("comentario")
-                    .HasColumnType("text");
-
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
                     .HasColumnType("datetime");
@@ -136,6 +131,11 @@ namespace PriHood.Models
                 entity.Property(e => e.IdUsuario)
                     .HasColumnName("id_usuario")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.Texto)
+                    .IsRequired()
+                    .HasColumnName("texto")
+                    .HasColumnType("text");
 
                 entity.HasOne(d => d.IdPublicacionNavigation)
                     .WithMany(p => p.Comentario)
@@ -381,9 +381,9 @@ namespace PriHood.Models
                     .HasColumnName("id_residente")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.Publicacion1)
+                entity.Property(e => e.Texto)
                     .IsRequired()
-                    .HasColumnName("publicacion")
+                    .HasColumnName("texto")
                     .HasColumnType("text");
 
                 entity.Property(e => e.Titulo)
