@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Session;
 using PriHood.Auth;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-using Amazon.S3;
-
 
 namespace PriHood
 {
@@ -52,9 +50,6 @@ namespace PriHood
       services.AddSingleton<AuthService>();
       services.AddSingleton<PushService>();
       services.AddSingleton<EmailService>();
-      services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-      services.AddAWSService<IAmazonS3>();
-
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
