@@ -6,6 +6,8 @@ import { Residencia } from './residencia.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/forms";
 
+import { SweetAlertService } from 'ng2-sweetalert2';
+
 @Component({
   selector: 'app-residencias',
   templateUrl: './residencias.component.html',
@@ -13,7 +15,7 @@ import { NgForm } from "@angular/forms/forms";
 })
 
 export class ResidenciaComponent implements OnInit {
-  constructor(protected ResidenciasService: ResidenciasService, private modalService: NgbModal) { }
+  constructor(protected ResidenciasService: ResidenciasService, private modalService: NgbModal, private alert: SweetAlertService) { }
 
   mensaje: string;
   residencias: Residencia[] = [];

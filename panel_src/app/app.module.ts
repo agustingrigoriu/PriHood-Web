@@ -28,6 +28,9 @@ import { TurnosService } from './turnos/turnos.service';
 import { AmenitiesComponent } from './amenities/amenities.component';
 import { AmenitiesService } from './amenities/amenities.service';
 
+import { PublicacionesComponent } from './publicaciones/publicaciones.component';
+import { PublicacionesService } from './publicaciones/publicacion.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
@@ -35,7 +38,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
 import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
-import { ComunicacionComponent } from './comunicacion/comunicacion.component';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 
@@ -84,8 +86,12 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
         component: TurnosComponent
       },
       {
-        path: 'comunicacion',
-        component: ComunicacionComponent
+        path: 'publicaciones',
+        component: PublicacionesComponent
+      },
+      {
+        path: 'publicaciones/:id',
+        component: PublicacionesComponent
       },
       {
         path: '**',
@@ -106,7 +112,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
     AmenitiesComponent,
     TurnosComponent,
     UsuarioComponent,
-    ComunicacionComponent
+    PublicacionesComponent
   ],
   providers: [
     ApiRequestService,
@@ -117,7 +123,8 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
     VisitasService,
     AmenitiesService,
     TurnosService,
-    DashboardService
+    DashboardService,
+    PublicacionesService
   ],
   bootstrap: [AppComponent]
 })
