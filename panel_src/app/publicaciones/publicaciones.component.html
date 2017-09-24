@@ -21,10 +21,10 @@
                 <div class="timeline-item">
                     <span class="time"><i class="fa fa-clock-o"></i> {{publicacion.fecha | date: 'hh:mm'}}</span>
 
-                    <h3 class="timeline-header"><a href="#">Support Team</a> ...</h3>
+                    <h3 class="timeline-header"><a href="#">{{publicacion.titulo}}</a></h3>
 
                     <div class="timeline-body">
-                        ... Content goes here
+                        {{publicacion.texto.substr(0, 200)}}...
                     </div>
 
                     <div class="timeline-footer">

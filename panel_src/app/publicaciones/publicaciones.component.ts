@@ -28,7 +28,7 @@ export class PublicacionesComponent implements OnInit {
       }
 
       const publicacionesAgrupadas = response.data.reduce<any>((obj, publicacion) => {
-        const fecha = moment(publicacion.fecha).format('MMM Do YY');
+        const fecha = moment(publicacion.fecha).format('DD MMM YY');
 
         if (!(fecha in obj)) {
           obj[fecha] = [];
