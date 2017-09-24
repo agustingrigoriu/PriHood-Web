@@ -12,13 +12,13 @@ namespace PriHood.Models
 
         public int Id { get; set; }
         public DateTime Fecha { get; set; }
-        public TimeSpan Hora { get; set; }
-        public int IdMuro { get; set; }
-        public int IdUsuario { get; set; }
+        public int IdPersonal { get; set; }
+        public int? IdResidente { get; set; }
         public string Publicacion1 { get; set; }
+        public string Titulo { get; set; }
 
         public virtual ICollection<Comentario> Comentario { get; set; }
-        public virtual Muro IdMuroNavigation { get; set; }
-        public virtual Usuario IdUsuarioNavigation { get; set; }
+        public virtual Usuario IdPersonalNavigation { get; set; }
+        public virtual Usuario IdResidenteNavigation { get; set; }
     }
 }

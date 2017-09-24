@@ -387,38 +387,26 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Reserva` (
     ON UPDATE NO ACTION
     );     
 
-CREATE TABLE IF NOT EXISTS `Prihood`.`Muro` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `id_barrio` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Muro_1_idx` (`id_barrio` ASC),
-  CONSTRAINT `fk_Muro_1`
-    FOREIGN KEY (`id_barrio`)
-    REFERENCES `Prihood`.`Barrio` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
 CREATE TABLE IF NOT EXISTS `Prihood`.`Publicacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `publicacion` TEXT NOT NULL,
-  `id_usuario` INT NOT NULL,
-  `id_muro` INT NOT NULL,
+  `id_personal` INT NOT NULL,
+  `id_residente` INT NULL,
   `fecha` DATETIME NOT NULL,
-  `hora` TIME NOT NULL,
+  `titulo` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Publicacion_1_idx` (`id_muro` ASC),
-  INDEX `fk_Publicacion_2_idx` (`id_usuario` ASC),
+  INDEX `fk_Publicacion_1_idx` (`id_residente` ASC),
+  INDEX `fk_Publicacion_2_idx` (`id_personal` ASC),
   CONSTRAINT `fk_Publicacion_1`
-    FOREIGN KEY (`id_muro`)
-    REFERENCES `Prihood`.`Muro` (`id`)
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Usuario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Publicacion_2`
-    FOREIGN KEY (`id_usuario`)
+    FOREIGN KEY (`id_personal`)
     REFERENCES `Prihood`.`Usuario` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -426,7 +414,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
   `id_usuario` INT NOT NULL,
   `id_publicacion` INT NOT NULL,
   `fecha` DATETIME NOT NULL,
-  `hora` TIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Comentario_1_idx` (`id_publicacion` ASC),
   INDEX `fk_Comentario_2_idx` (`id_usuario` ASC),
