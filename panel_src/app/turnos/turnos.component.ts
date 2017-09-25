@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CalendarComponent } from "ap-angular2-fullcalendar";
 import * as moment from 'moment';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-turnos',
@@ -20,7 +21,8 @@ export class TurnosComponent implements OnInit {
   constructor(
     protected TurnosService: TurnosService,
     private route: ActivatedRoute,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private notificaciones: NotificationsService
   ) { }
 
   private sub;
@@ -86,10 +88,10 @@ export class TurnosComponent implements OnInit {
       const response = await this.TurnosService.actualizarTurno(id, turno);
 
       await this.actualizarListado();
-
-      console.log(response);
+      this.notificaciones.success("Éxito", "Se modificó correctamente el turno");
     } catch (error) {
       revertFunc();
+      this.notificaciones.error("Error", "No se pudo modificar el turno");
     }
   }
 
@@ -103,10 +105,15 @@ export class TurnosComponent implements OnInit {
       idDiaSemana: turnoObj.dia
     };
 
-    const response = await this.TurnosService.crearTurno(this.amenity, turno);
+    try {
+      const response = await this.TurnosService.crearTurno(this.amenity, turno);
 
-    this.modalRef.close();
-    this.actualizarListado();
+      this.modalRef.close();
+      this.actualizarListado();
+      this.notificaciones.success("Éxito", "Se creó correctamente el turno");
+    } catch (error) {
+      this.notificaciones.error("Error", "No se pudo crear el turno");  
+    }
   }
 
   async actualizarTurno(turnoObj) {
@@ -119,20 +126,31 @@ export class TurnosComponent implements OnInit {
       idDiaSemana: turnoObj.dia
     };
 
-    const response = await this.TurnosService.actualizarTurno(turnoObj.id, turno);
+    try {
+      const response = await this.TurnosService.actualizarTurno(turnoObj.id, turno);
 
-    this.modalRef.close();
-    this.actualizarListado();
+      this.modalRef.close();
+      this.actualizarListado();
+      this.notificaciones.success("Éxito", "Se pudo modificar correctamente el turno");
+    } catch (error) {
+      this.notificaciones.error("Error", "No se pudo modificar el turno");
+    }
   }
 
   async borrarTurno(turnoObj) {
     if (!confirm('¿Seguro de borrar el turno?')) {
       return;
     }
-    const response = await this.TurnosService.deleteTurno(turnoObj.id);
+    
+    try {
+      const response = await this.TurnosService.deleteTurno(turnoObj.id);
 
-    this.modalRef.close();
-    this.actualizarListado();
+      this.modalRef.close();
+      this.actualizarListado();
+      this.notificaciones.success("Éxito", "Se borró correctamente el turno");
+    } catch (error) {
+      this.notificaciones.error("Error", "No se pudo borrar el turno");
+    }
   }
 
   openTurno({ turno }: { turno: Turno }) {

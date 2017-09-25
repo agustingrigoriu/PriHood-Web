@@ -35,7 +35,7 @@
                     <td>{{residencia.ubicacion}}</td>
                     <td>{{residencia.codigo}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)" (click)="openBorrar(residenciaborrada)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)"><i class="fa fa-trash"></i></a>
                         <a class="btn btn-xs btn-info" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#editarResidencia"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia(residencia, resForm)" (click)="open(rescreada)">Registrar residencia</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarResidencia(residencia, resForm)" >Registrar residencia</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -117,32 +117,3 @@
         </div>
     </div>
 </div>
-
-<ng-template #rescreada let-c="close" let-d="dismiss" class="in">
-    <div class="modal-header" [ngClass]="headerClass">
-        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Notificación</h4>
-
-    </div>
-    <div class="modal-body">
-        <p>{{mensaje}}</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cerrar</button>
-    </div>
-</ng-template>
-
-<ng-template #residenciaborrada let-c="close" let-d="dismiss" class="in">
-    <div class="modal-header">
-        <h4 class="modal-title">Notificación</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p>{{mensaje}}</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-    </div>
-</ng-template>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BarriosService } from './barrios.service';
 import { Barrio } from './barrio.model';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/forms";
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-barrios',
@@ -11,7 +11,7 @@ import { NgForm } from "@angular/forms/forms";
 })
 
 export class BarriosComponent implements OnInit {
-  constructor(protected BarriosService: BarriosService, private modalService: NgbModal) { }
+  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService) { }
 
   usuario = {
     nombre: '',
@@ -35,19 +35,16 @@ export class BarriosComponent implements OnInit {
     { name: 'Libreta Cívica', id: 3 },
     { name: 'Otros', id: 4 }
   ];
-  mensaje: string;
-  mensajeBorrado: string;
-  headerClass = " "
   barrioSeleccionado: Barrio;
 
   borrarBarrio(barrio: Barrio): void {
     if (confirm('¿Borrar este barrio?')) {
       this.BarriosService.deleteBarrio(barrio.id).then(response => {
         if (response.error) {
-          this.mensajeBorrado = "No se pudo borrar";
+          this.notificaciones.error("Error", "No se pudo borrar el barrio");
         } else {
           this.actualizarListado();
-          this.mensajeBorrado = "No se pudo borrar";
+          this.notificaciones.success("Éxito", "Se borró correctamente el barrio");
         }
       });
     }
@@ -56,13 +53,11 @@ export class BarriosComponent implements OnInit {
   crearBarrio(barrio: Barrio, usuario: any, form: NgForm) {
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
-        this.mensaje = "No se pudo crear";
-        this.headerClass = "alert-danger";
+        this.notificaciones.error("Error", "No se pudo crear el barrio");
       } else {
         this.actualizarListado();
         form.reset();
-        this.mensaje = "Se creo correctamente";
-        this.headerClass = "alert-success";
+        this.notificaciones.success("Éxito", "Se creó correctamente el barrio");
       }
     });
   }
@@ -72,13 +67,11 @@ export class BarriosComponent implements OnInit {
   }
 
   modificarBarrio(barrio: Barrio) {
-     this.BarriosService.updateBarrio(barrio.id, barrio).then(response => {
+    this.BarriosService.updateBarrio(barrio.id, barrio).then(response => {
       if (response.error) {
-        this.mensaje = 'No se pudo modificar el barrio.';
-        this.headerClass = "alert-danger";
+        this.notificaciones.error("Error", "No se pudo modificar el barrio");
       } else {
-        this.mensaje = 'Se modificó correctamente.';
-        this.headerClass = "alert-success";
+        this.notificaciones.success("Éxito", "Se modificó correctamente el barrio");
         this.actualizarListado();
       }
     });
@@ -92,13 +85,5 @@ export class BarriosComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualizarListado();
-  }
-
-  open(barriocreado) {
-    this.modalService.open(barriocreado, { windowClass: 'in' });
-  }
-
-  openBorrar(barrioborrado) {
-    this.modalService.open(barrioborrado, { windowClass: 'in' });
   }
 }
