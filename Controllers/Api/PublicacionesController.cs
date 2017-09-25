@@ -106,7 +106,7 @@ namespace PriHood.Controllers
       }
     }
 
-    /*[HttpGet("comentarios/{id_publicacion}")]
+    [HttpGet("comentarios/{id_publicacion}")]
     public Object ListarComentarios(int id_publicacion)
     {
       try
@@ -122,9 +122,8 @@ namespace PriHood.Controllers
           orderby p.Fecha descending
           select new
           {
-            comentario = c.Comentario1,
+            comentario = c.Texto,
             fecha = c.Fecha,
-            hora = c.Hora,
             usuario = u.Email,
             perfil = pe.Descripcion
           }
@@ -141,7 +140,7 @@ namespace PriHood.Controllers
     }
 
     [HttpPost("{id_publicacion}/comentar")]
-    public Object RegistrarComentario([FromBody]ModeloComentario mc)
+    public Object RegistrarComentario(int id_publicacion, [FromBody]Comentario comentario)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
@@ -149,12 +148,9 @@ namespace PriHood.Controllers
         {
           var logueado = HttpContext.Session.Authenticated();
 
-          var comentario = new Comentario();
-          comentario.Comentario1 = mc.comentario;
-          comentario.IdPublicacion = mc.id_publicacion;
-          comentario.Fecha = mc.fecha;
-          comentario.Hora = mc.hora;
-          comentario.IdUsuario = mc.id_usuario;
+          comentario.IdPublicacion = id_publicacion;
+          comentario.Fecha = DateTime.Now;
+          comentario.IdUsuario = logueado.Id;
           db.Comentario.Add(comentario);
 
           db.SaveChanges();
@@ -169,7 +165,7 @@ namespace PriHood.Controllers
       }
 
       return new { error = false, data = "ok" };
-    }*/
+    }
 
 
   }
