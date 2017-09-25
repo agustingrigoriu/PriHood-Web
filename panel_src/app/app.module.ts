@@ -29,6 +29,7 @@ import { AmenitiesComponent } from './amenities/amenities.component';
 import { AmenitiesService } from './amenities/amenities.service';
 
 import { PublicacionesComponent } from './publicaciones/publicaciones.component';
+import { PublicacionComponent } from './publicacion/publicacion.component';
 import { PublicacionesService } from './publicaciones/publicacion.service';
 
 import { ApiRequestService } from '../services/api.request.service';
@@ -90,8 +91,8 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
         component: PublicacionesComponent
       },
       {
-        path: 'publicaciones/:id',
-        component: PublicacionesComponent
+        path: 'publicaciones/:publicacion',
+        component: PublicacionComponent
       },
       {
         path: '**',
@@ -112,7 +113,8 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
     AmenitiesComponent,
     TurnosComponent,
     UsuarioComponent,
-    PublicacionesComponent
+    PublicacionesComponent,
+    PublicacionComponent
   ],
   providers: [
     ApiRequestService,

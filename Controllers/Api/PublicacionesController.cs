@@ -42,6 +42,37 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("{id_publicacion:int}")]
+    public Object GetPublicacion(int id_publicacion)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var publicacion = (
+          from p in db.Publicacion
+          join u in db.Usuario on p.IdPersonal equals u.Id
+          join pe in db.Perfil on u.IdPerfil equals pe.Id
+          where u.IdBarrio == id_barrio && p.IdResidente == null && p.Id == id_publicacion
+          orderby p.Fecha descending
+          select new
+          {
+            p.Id,
+            p.Titulo,
+            p.Texto,
+            p.Fecha,
+            perfil = pe.Descripcion
+          }
+        ).First();
+
+        return new { error = false, data = publicacion };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
 
     [HttpGet("listado")]
     public Object ListarPublicaciones()

@@ -10,6 +10,10 @@ export class PublicacionesService {
     return this.request.get<Publicacion[]>(`publicaciones/listado`);
   }
 
+  getPublicacion(id: number) {
+    return this.request.get<Publicacion>(`publicaciones/${id}`);
+  }
+
   crearPublicacion(publicacion: Publicacion) {
     return this.request.post<Publicacion>(`publicaciones/publicar`, publicacion);
   }
