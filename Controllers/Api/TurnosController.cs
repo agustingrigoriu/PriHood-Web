@@ -83,7 +83,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id_turno}")]
     public Object BorrarTurno(int id_turno)
     {
       try

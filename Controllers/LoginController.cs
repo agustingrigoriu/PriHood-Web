@@ -120,10 +120,10 @@ namespace PriHood.Controllers
       }
 
       var token = _AuthService.getToken(usuario);
+      var barrio = _db.Barrio.First(b => b.Id == usuario.IdBarrio);
 
-      return new { error = false, data = new { token = token, usuario = usuario } };
+      return new { error = false, data = new { token, usuario, barrio } };
     }
-
   }
 
   public class LoginModel

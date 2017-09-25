@@ -1,4 +1,5 @@
-<section class="content-header">
+<section class="content-header clearfix">
+    <button type="button" class="btn btn-primary pull-right" (click)="abrirModal()"><i class="fa fa-plus"></i></button>
     <h1>
         Publicaciones
     </h1>
@@ -21,14 +22,14 @@
                 <div class="timeline-item">
                     <span class="time"><i class="fa fa-clock-o"></i> {{publicacion.fecha | date: 'hh:mm'}}</span>
 
-                    <h3 class="timeline-header"><a href="#">Support Team</a> ...</h3>
+                    <h3 class="timeline-header"><a [routerLink]="['/publicaciones', publicacion.id]">{{publicacion.titulo}}</a></h3>
 
                     <div class="timeline-body">
-                        ... Content goes here
+                        {{publicacion.texto.substr(0, 200)}}...
                     </div>
 
                     <div class="timeline-footer">
-                        <a class="btn btn-primary btn-xs">...</a>
+                        <a class="btn btn-primary btn-xs" [routerLink]="['/publicaciones', publicacion.id]">...</a>
                     </div>
                 </div>
             </li>
@@ -39,3 +40,24 @@
         </li>
     </ul>
 </section>
+
+<ng-template #crearPublicacion let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Agregar publicacion</h4>
+    </div>
+    <div class="modal-body">
+        <form role="form">
+            <div class="form-group">
+                <label for="residente">Titulo</label>
+                <input [(ngModel)]="publicacion.titulo" name="titulo" type="text" class="form-control" placeholder="Ingrese el titulo">
+            </div>
+            <div class="form-group">
+                <textarea rows="10" [(ngModel)]="publicacion.texto" name="texto" class="form-control" placeholder="Ingrese el contenido de la publicacion"></textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="registrarPublicacion(publicacion)">Registrar publicacion</button>
+        <button type="button" class="btn btn-default" (click)="d()">Cerrar</button>
+    </div>
+</ng-template>
