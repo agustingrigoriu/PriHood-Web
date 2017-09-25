@@ -96,15 +96,6 @@ namespace PriHood.Controllers
     public string Nombre { get; set; }
   }
 
-  public class ModeloPublicacion
-  {
-    public string publicacion { get; set; }
-    public TimeSpan hora { get; set; }
-    public DateTime fecha { get; set; }
-    public int id_usuario { get; set; }
-
-  }
-
   public class ModeloComentario
   {
     public string comentario { get; set; }
