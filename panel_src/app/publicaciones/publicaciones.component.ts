@@ -70,16 +70,21 @@ export class PublicacionesComponent implements OnInit {
   getFormatDate(date) {
     const momentDate = moment(date);
     const momentToday = moment(Date.now());
+    const momentYesterday = momentToday.clone().add(-1, 'day');
 
     if (momentToday.format('YYYYMMDD') === momentDate.format('YYYYMMDD')) {
       return 'Hoy';
     }
 
-    if (momentToday.format('YYYY') !== momentDate.format('YYYY')) {
-      return moment(date).format('DD MM YY');
+    if (momentYesterday.format('YYYYMMDD') === momentDate.format('YYYYMMDD')) {
+      return 'Ayer';
     }
 
-    return moment(date).format('DD MM');
+    if (momentToday.format('YYYY') !== momentDate.format('YYYY')) {
+      return moment(date).format('DD [de] MMMM [del] YY');
+    }
+
+    return moment(date).format('DD [de] MMMM');
   }
 
 }
