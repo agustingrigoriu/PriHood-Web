@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AmenitiesService } from './amenities.service';
 import { Amenity } from './amenity.model';
 import { NgForm } from "@angular/forms/forms";
+import { NotificationsService } from 'angular2-notifications';
+
 
 @Component({
     selector: 'app-amenities',
@@ -10,7 +12,7 @@ import { NgForm } from "@angular/forms/forms";
 })
 
 export class AmenitiesComponent implements OnInit {
-    constructor(protected AmenitiesService: AmenitiesService) { }
+    constructor(protected AmenitiesService: AmenitiesService,  private notificaciones: NotificationsService) { }
 
     amenities: Amenity[] = [];
 
@@ -34,10 +36,10 @@ export class AmenitiesComponent implements OnInit {
         if (confirm('¿Borrar este amenity?')) {
             this.AmenitiesService.deleteAmenity(amenity.id).then(response => {
                 if (response.error) {
-                    alert('No se pudo borrar el Amenity');
+                    this.notificaciones.error("Error", "No se pudo borrar el amenity");
                 } else {
                     this.actualizarListado();
-                    alert('Se borró correctamente');
+                    this.notificaciones.success("Éxito", "Se borró correctamente el amenity");
                 }
             });
         }
@@ -46,11 +48,11 @@ export class AmenitiesComponent implements OnInit {
     crearAmenity(amenity: Amenity, form: NgForm) {
         this.AmenitiesService.crearAmenity(amenity).then(response => {
             if (response.error) {
-                alert('No se pudo crear');
+                this.notificaciones.error("Error", "No se pudo crear el amenity");
             } else {
                 this.actualizarListado();
                 form.reset();
-                alert('Se creó correctamente');
+                this.notificaciones.success("Éxito", "Se creó correctamente el amenity");
             }
         });
     }
@@ -69,9 +71,9 @@ export class AmenitiesComponent implements OnInit {
         };
         this.AmenitiesService.updateAmenity(amenity.id, amenityUpdate).then(response => {
             if (response.error) {
-                alert('No se pudo modificar');
+                this.notificaciones.error("Error", "No se pudo modificar rl amenity");
             } else {
-                alert('Se modificó correctamente')
+                this.notificaciones.success("Éxito", "Se modificó correctamente el amenity");
                 this.actualizarListado();
             }
         });

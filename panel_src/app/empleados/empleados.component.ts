@@ -3,6 +3,7 @@ import { EmpleadosService } from './empleados.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/forms";
 import { Empleado } from './empleado.model';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-empleados',
@@ -11,9 +12,7 @@ import { Empleado } from './empleado.model';
 })
 
 export class EmpleadosComponent implements OnInit {
-  constructor(protected EmpleadosService: EmpleadosService, private modalService: NgbModal) { }
-
-  mensaje: string;
+  constructor(protected EmpleadosService: EmpleadosService, private notificaciones: NotificationsService) { }
 
   empleado = {
     nombre: '',
@@ -36,7 +35,6 @@ export class EmpleadosComponent implements OnInit {
     { nombre: 'Administrador', id: 2 },
     { nombre: 'Encargado de Seguridad', id: 4 }
   ];
-  headerClass: string = " ";
   empleadoSeleccionado: Empleado;
 
   borrarEmpleado(empleado: Empleado): void {
@@ -44,12 +42,10 @@ export class EmpleadosComponent implements OnInit {
     if (confirm('¿Borrar este empleado?')) {
       this.EmpleadosService.deleteEmpleado(empleado.id_empleado).then(response => {
         if (response.error) {
-          this.mensaje = 'No se pudo borrar.';
-          this.headerClass = "alert-danger";
+          this.notificaciones.error("Error", "No se pudo borrar el empleado");
         } else {
           this.actualizarListado();
-          this.mensaje = 'Borrado correctamente.';
-          this.headerClass = "alert-success";
+          this.notificaciones.success("Éxito", "Se borró correctamente el empleado");
         }
       });
     }
@@ -58,13 +54,11 @@ export class EmpleadosComponent implements OnInit {
   crearEmpleado(empleado: any, form: NgForm) {
     this.EmpleadosService.crearEmpleado(empleado).then(response => {
       if (response.error) {
-        this.mensaje = 'No se pudo crear.';
-        this.headerClass = "alert-danger";
+        this.notificaciones.error("Error", "No se pudo crear el empleado");
       } else {
         this.actualizarListado();
         form.reset();
-        this.mensaje = 'Creado correctamente.';
-        this.headerClass = "alert-success";
+        this.notificaciones.success("Éxito", "Se creó correctamente el empleado");
       }
     });
   }
@@ -76,25 +70,22 @@ export class EmpleadosComponent implements OnInit {
 
   modificarEmpleado(empleado: Empleado) {
     console.log(empleado.id_empleado);
+    console.log(empleado.nombre);
     this.EmpleadosService.updateEmpleado(empleado.id_empleado, empleado).then(response => {
       if (response.error) {
-        this.mensaje = 'No se pudo modificar el empleado.';
-        this.headerClass = "alert-danger";
+        this.notificaciones.error("Error", "No se pudo modificar el empleado");
       } else {
-        this.mensaje = 'Se modificó correctamente.';
-        this.headerClass = "alert-success";
+        this.notificaciones.success("Éxito", "Se modificó correctamente el empleado");
         this.actualizarListado();
       }
     });
   }
+  
   actualizarListado() {
     this.EmpleadosService.getAllEmpleados().then(response => {
       this.empleados = response.data;
+      console.log(this.empleados);
     });
-  }
-
-  open(empleadocreado) {
-    this.modalService.open(empleadocreado, { windowClass: 'in' });
   }
 
   ngOnInit(): void {

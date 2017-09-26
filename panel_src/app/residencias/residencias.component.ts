@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ResidenciasService } from './residencias.service';
 import { Residencia } from './residencia.model';
-
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/forms";
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-residencias',
@@ -13,25 +11,21 @@ import { NgForm } from "@angular/forms/forms";
 })
 
 export class ResidenciaComponent implements OnInit {
-  constructor(protected ResidenciasService: ResidenciasService, private modalService: NgbModal) { }
+  constructor(protected ResidenciasService: ResidenciasService, private notificaciones: NotificationsService) { }
 
-  mensaje: string;
   residencias: Residencia[] = [];
   residencia: Residencia = {
     nombre: '',
     ubicacion: ''
   };
   residenciaSeleccionada: Residencia;
-  headerClass: string = " ";
 
   agregarResidencia(residencia: Residencia, form: NgForm) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {
       if (response.error) {
-        this.mensaje = 'No se pudo crear la residencia.';
-        this.headerClass = "alert-danger";
+        this.notificaciones.error("Error", "No se pudo crear la residencia");
       } else {
-        this.mensaje = 'Se creo correctamente.';
-        this.headerClass = "alert-success";
+        this.notificaciones.success("Éxito", "Se creó correctamente la residencia");
         this.actualizar();
         form.reset();
       }
@@ -42,12 +36,10 @@ export class ResidenciaComponent implements OnInit {
     if (confirm('¿Borrar esta residencia?')) {
       this.ResidenciasService.deleteResidencia(res.id).then(response => {
         if (response.error) {
-          this.mensaje = 'No se pudo borrar.';
-          this.headerClass = "alert-danger";
+          this.notificaciones.error("Error", "No se pudo borrar la residencia");
         } else {
-          this.mensaje = 'Borrado correctamente.';
+          this.notificaciones.success("Éxito", "Se borró correctamente la residencia");
           this.actualizar();
-          this.headerClass = "alert-success";
         }
       });
     }
@@ -60,11 +52,9 @@ export class ResidenciaComponent implements OnInit {
   modificarResidencia(residencia: Residencia) {
     this.ResidenciasService.updateResidencia(residencia.id, residencia).then(response => {
       if (response.error) {
-        this.mensaje = 'No se pudo modificar la residencia.';
-        this.headerClass = "alert-danger";
+        this.notificaciones.error("Error", "No se pudo modificar la residencia");
       } else {
-        this.mensaje = 'Se modificó correctamente.';
-        this.headerClass = "alert-success";
+        this.notificaciones.success("Éxito", "Se modificó correctamente la residencia");
         this.actualizar();
       }
     });
@@ -82,15 +72,6 @@ export class ResidenciaComponent implements OnInit {
 
   imprimirListado() {
     window.print();
-  }
-
-  open(rescreada) {
-    this.modalService.open(rescreada, { windowClass: 'in' })
-      ;
-  }
-
-  openBorrar(residenciaborrada) {
-    this.modalService.open(residenciaborrada, { windowClass: 'in' });
   }
 
   ngOnInit(): void {

@@ -83,7 +83,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id_turno}")]
     public Object BorrarTurno(int id_turno)
     {
       try
@@ -195,6 +195,7 @@ namespace PriHood.Controllers
           join er in db.EstadoReserva on r.IdEstadoReserva equals er.Id
           join a in db.Amenity on t.IdAmenity equals a.Id
           where r.IdResidente == residente.Id && r.Fecha.Date >= DateTime.Now.Date
+          orderby r.Fecha descending
           select new
           {
             reserva = new
@@ -215,6 +216,33 @@ namespace PriHood.Controllers
       catch (Exception err)
       {
         return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    [HttpPut("reservas/{id_reserva}/cancelar")]
+    public Object CancelarReserva(int id_reserva)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+        var reserva = db.Reserva.First(t => t.Id == id_reserva);
+        var estado = db.EstadoReserva.First(e => e.Descripcion == "cancelada");
+
+        if (reserva.IdResidente != residente.Id)
+        {
+          throw new Exception("El usuario no corresponde con la reserva a cancelar");
+        }
+        reserva.IdEstadoReserva = estado.Id;
+
+        db.Reserva.Update(reserva);
+        db.SaveChanges();
+
+        return new { error = false, data = "ok" };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
       }
     }
 

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +28,10 @@ import { TurnosService } from './turnos/turnos.service';
 import { AmenitiesComponent } from './amenities/amenities.component';
 import { AmenitiesService } from './amenities/amenities.service';
 
+import { PublicacionesComponent } from './publicaciones/publicaciones.component';
+import { PublicacionComponent } from './publicacion/publicacion.component';
+import { PublicacionesService } from './publicaciones/publicacion.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
@@ -34,7 +39,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
 import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
-import { ComunicacionComponent } from './comunicacion/comunicacion.component';
+
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 @NgModule({
   imports: [
@@ -44,6 +50,8 @@ import { ComunicacionComponent } from './comunicacion/comunicacion.component';
     Ng2SearchPipeModule,
     QRCodeModule,
     CalendarModule,
+    BrowserAnimationsModule,
+    SimpleNotificationsModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot([
       {
@@ -79,8 +87,12 @@ import { ComunicacionComponent } from './comunicacion/comunicacion.component';
         component: TurnosComponent
       },
       {
-        path: 'comunicacion',
-        component: ComunicacionComponent
+        path: 'publicaciones',
+        component: PublicacionesComponent
+      },
+      {
+        path: 'publicaciones/:publicacion',
+        component: PublicacionComponent
       },
       {
         path: '**',
@@ -101,7 +113,8 @@ import { ComunicacionComponent } from './comunicacion/comunicacion.component';
     AmenitiesComponent,
     TurnosComponent,
     UsuarioComponent,
-    ComunicacionComponent
+    PublicacionesComponent,
+    PublicacionComponent
   ],
   providers: [
     ApiRequestService,
@@ -112,7 +125,8 @@ import { ComunicacionComponent } from './comunicacion/comunicacion.component';
     VisitasService,
     AmenitiesService,
     TurnosService,
-    DashboardService
+    DashboardService,
+    PublicacionesService
   ],
   bootstrap: [AppComponent]
 })

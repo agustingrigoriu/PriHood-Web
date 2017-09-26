@@ -1,0 +1,49 @@
+<section class="content-header clearfix">
+    <div class="pull-right">
+        <a href="#" (click)="borrarPublicacion();false" class="btn btn-danger" ngbTooltip="Borrar publicación"><i class="fa fa-trash"></i></a>
+        <a [routerLink]="['/publicaciones']" class="btn btn-primary">Volver</a>
+    </div>
+    <h1>
+        Publicación: <strong>{{publicacion.titulo}}</strong>
+    </h1>
+</section>
+
+<section class="content animated fadeInUp">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <div class="user-block">
+                <span class="username">{{publicacion.perfil}}</span>
+                <span class="description">{{publicacion.fecha | date: 'dd/MM/yyyy - HH:mm'}}</span>
+            </div>
+        </div>
+
+        <div class="box-body">
+            <p>
+                {{publicacion.texto}}
+            </p>
+            <span class="text-muted">{{comentarios.length}} comentarios</span>
+        </div>
+    </div>
+
+    <div class="box box-widget">
+        <div class="box-footer box-comments" *ngIf="comentarios.length > 0">
+            <div class="box-comment" *ngFor="let comentario of comentarios">
+                <div class="comment-text">
+                    <span class="username">
+                      {{comentario.usuario}}
+                      <span class="text-muted pull-right" title="{{comentario.fecha | date: 'dd/MM/yyyy - HH:mm'}}">
+                        {{getFechaRelativa(comentario.fecha)}}
+                      </span>
+                    </span>
+
+                    {{comentario.comentario}}
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <form #crearComentario (ngSubmit)="onSubmit(comentario, crearComentario)">
+                <input required [(ngModel)]="comentario.texto" name="texto" type="text" class="form-control input-sm" placeholder="Presionar enter para enviar el comentario">
+            </form>
+        </div>
+    </div>
+</section>
