@@ -1,3 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('../node_modules/ng-bootstrap-to-bootstrap-3/dist/ng-bootstrap-to-bootstrap-3.min.css');
+
+.tooltip {
+  opacity: 1;
+}

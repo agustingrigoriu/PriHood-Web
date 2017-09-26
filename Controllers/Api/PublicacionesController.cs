@@ -122,6 +122,7 @@ namespace PriHood.Controllers
           orderby p.Fecha descending
           select new
           {
+            id = c.Id,
             comentario = c.Texto,
             fecha = c.Fecha,
             usuario = u.Email,
@@ -167,6 +168,42 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
+    [HttpDelete("{id_publicacion}/borrar")]
+    public Object BorrarPublicacion(int id_publicacion)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+
+          var publicacion = (
+            from p in db.Publicacion
+            join u in db.Usuario on p.IdPersonal equals u.Id
+            where p.Id == id_publicacion && u.IdBarrio == logueado.IdBarrio
+            select p
+          ).First();
+          var comentarios = (
+            from c in db.Comentario
+            where c.IdPublicacion == id_publicacion
+            select c
+          );
+
+          db.Comentario.RemoveRange(comentarios);
+          db.Publicacion.Remove(publicacion);
+          db.SaveChanges();
+
+          transaction.Commit();
+
+          return new { error = false, data = "ok" };
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "fail" };
+        }
+      }
+    }
 
   }
 }

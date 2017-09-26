@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NotificationsService } from 'angular2-notifications';
+import * as moment from 'moment';
+
 import { PublicacionesService } from './publicacion.service';
 import { Publicacion } from './publicacion.model';
-import * as moment from 'moment';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 moment.locale('es');
 
@@ -18,7 +20,7 @@ export class PublicacionesComponent implements OnInit {
   public publicacion: Publicacion;
   private modalRef: NgbModalRef;
 
-  constructor(public PublicacionesService: PublicacionesService, private modalService: NgbModal) { }
+  constructor(public PublicacionesService: PublicacionesService, private modalService: NgbModal, private notificaciones: NotificationsService) { }
 
   ngOnInit() {
     this.cargarPublicaciones();
@@ -47,7 +49,7 @@ export class PublicacionesComponent implements OnInit {
 
       this.publicacionesAgrupadas = Object.keys(publicacionesAgrupadas).map(key => ({ key, publicaciones: publicacionesAgrupadas[key] }));
     } catch (error) {
-      alert('No se pueden cargar las publicaciones.')
+      this.notificaciones.error('Error', 'No se pueden cargar las publicaciones');
     }
   }
 
