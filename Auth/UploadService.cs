@@ -7,27 +7,22 @@ namespace PriHood.Auth
 {
   public class UploadService
   {
-    public Object UploadFiles(IFormFile file)
+    public Object UploadFile(IFormFile file)
     {
-      try
+      var extension = file.FileName.Split('.');
+      var filename = Guid.NewGuid() + @"." + extension[extension.Length - 1];
+      var fileTransferUtility = new TransferUtility(new AmazonS3Client("AKIAJIMIZBFD7RT4N7BA", "Z1FxzXeynKgOg1GkPmre0JI4xvzVoR1Ew2/PiDkP", Amazon.RegionEndpoint.USWest2));
+      var fileTransferUtilityRequest = new TransferUtilityUploadRequest
       {
-        var fileTransferUtility = new TransferUtility(new AmazonS3Client("AKIAJIMIZBFD7RT4N7BA", "Z1FxzXeynKgOg1GkPmre0JI4xvzVoR1Ew2/PiDkP", Amazon.RegionEndpoint.USWest2));
-        var fileTransferUtilityRequest = new TransferUtilityUploadRequest
-        {
-          BucketName = "prihood",
-          InputStream = file.OpenReadStream(),
-          Key = file.FileName,
-          CannedACL = S3CannedACL.PublicRead
-        };
-        
-        fileTransferUtility.Upload(fileTransferUtilityRequest);
+        BucketName = "prihood",
+        InputStream = file.OpenReadStream(),
+        Key = filename,
+        CannedACL = S3CannedACL.PublicRead
+      };
 
-        return new { error = false, data = "ok" };
-      }
-      catch (Exception e)
-      {
-        return new { error = true, data = e.Message, e.StackTrace };
-      }
+      fileTransferUtility.Upload(fileTransferUtilityRequest);
+
+      return "https://s3-us-west-2.amazonaws.com/prihood/" + filename;
     }
   }
 }
