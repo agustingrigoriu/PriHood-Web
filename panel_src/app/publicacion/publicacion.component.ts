@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 import * as moment from 'moment';
 
 import { PublicacionesService } from '../publicaciones/publicacion.service';
@@ -22,7 +23,7 @@ export class PublicacionComponent implements OnInit {
   public comentarios: Comentario[];
   public comentario: any;
 
-  constructor(public PublicacionesService: PublicacionesService, private route: ActivatedRoute, private notificaciones: NotificationsService, private router: Router) {
+  constructor(public PublicacionesService: PublicacionesService, private route: ActivatedRoute, private notificaciones: NotificationsService, private router: Router, private confirmacion: ConfirmationService) {
     this.publicacion = {};
     this.comentarios = [];
     this.comentario = {};
@@ -83,21 +84,28 @@ export class PublicacionComponent implements OnInit {
   }
 
   async borrarPublicacion() {
-    if (confirm('¿Seguro de borrar la publicación?')) {
-      try {
-        const response = await this.PublicacionesService.borrarPublicacion(this.id_publicacion);
+    try {
+      const response = await this.PublicacionesService.borrarPublicacion(this.id_publicacion);
 
-        if(response.error) {
-          throw 'error';
-        }
-
-        this.notificaciones.success("Éxito", "Se borró correctamente la publicación");
-
-        this.router.navigate(['publicaciones']);
-      } catch (error) {
-        this.notificaciones.error("Error", "No se pudo borrar la publicación");
+      if (response.error) {
+        throw 'error';
       }
+
+      this.notificaciones.success("Éxito", "Se borró correctamente la publicación");
+
+      this.router.navigate(['publicaciones']);
+    } catch (error) {
+      this.notificaciones.error("Error", "No se pudo borrar la publicación");
     }
+  }
+
+  confirmacionEliminar() {
+    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+      .subscribe((ans: any) => {
+        if (ans.resolved) {
+          this.borrarPublicacion();
+        }
+      });
   }
 
   getFechaRelativa(fecha) {
