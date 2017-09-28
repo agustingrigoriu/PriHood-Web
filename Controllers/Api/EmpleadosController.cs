@@ -41,6 +41,7 @@ namespace PriHood.Controllers
           where e.IdBarrio == id_barrio && ((id_empleado.HasValue && e.Id == id_empleado.Value) || !id_empleado.HasValue)
           select new
           {
+            id_empleado = e.Id,
             apellido = p.Apellido,
             nombre = p.Nombre,
             fecha_nacimiento = p.FechaNacimiento,
@@ -141,10 +142,16 @@ namespace PriHood.Controllers
           db.Persona.Update(persona);
           db.SaveChanges();
 
-          var usuario = new Usuario();
+          var usuario = (
+            from u in db.Usuario
+            where u.Id == empleado.IdUsuario
+            select u
+          ).First();
+
           usuario.Id = empleado.IdUsuario;
           usuario.Email = me.email;
-          usuario.Password = auth.getHash(me.password); // hasheo le password
+          if (me.password != null && me.password != "") usuario.Password = auth.getHash(me.password);
+          else usuario.Password = auth.getHash(usuario.Password); // hasheo le password
           usuario.IdPerfil = me.id_perfil.Value;
 
           db.Usuario.Update(usuario);
