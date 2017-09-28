@@ -9,6 +9,7 @@ namespace PriHood.Models
         {
             Amenity = new HashSet<Amenity>();
             Empleado = new HashSet<Empleado>();
+            Expensas = new HashSet<Expensas>();
             Residencia = new HashSet<Residencia>();
             Usuario = new HashSet<Usuario>();
         }
@@ -19,6 +20,7 @@ namespace PriHood.Models
 
         public virtual ICollection<Amenity> Amenity { get; set; }
         public virtual ICollection<Empleado> Empleado { get; set; }
+        public virtual ICollection<Expensas> Expensas { get; set; }
         public virtual ICollection<Residencia> Residencia { get; set; }
         public virtual ICollection<Usuario> Usuario { get; set; }
     }

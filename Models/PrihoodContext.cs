@@ -6,14 +6,14 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
-        public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options) 
+
+        public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options)
         {
         }
 
         public PrihoodContext() : base()
         {
         }
-
         public virtual DbSet<Amenity> Amenity { get; set; }
         public virtual DbSet<Barrio> Barrio { get; set; }
         public virtual DbSet<Comentario> Comentario { get; set; }
@@ -21,6 +21,7 @@ namespace PriHood.Models
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<EstadoReserva> EstadoReserva { get; set; }
         public virtual DbSet<EventoVisita> EventoVisita { get; set; }
+        public virtual DbSet<Expensas> Expensas { get; set; }
         public virtual DbSet<Perfil> Perfil { get; set; }
         public virtual DbSet<Persona> Persona { get; set; }
         public virtual DbSet<Proveedor> Proveedor { get; set; }
@@ -238,6 +239,67 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasColumnType("varchar(45)");
+            });
+
+            modelBuilder.Entity<Expensas>(entity =>
+            {
+                entity.HasIndex(e => e.IdBarrio)
+                    .HasName("fk_Expensas_2_idx");
+
+                entity.HasIndex(e => e.IdResidencia)
+                    .HasName("fk_Expensas_1_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.FechaExpensa)
+                    .HasColumnName("fecha_expensa")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaTransaccion)
+                    .HasColumnName("fecha_transaccion")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.FechaVencimiento)
+                    .HasColumnName("fecha_vencimiento")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdBarrio)
+                    .HasColumnName("id_barrio")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdResidencia)
+                    .HasColumnName("id_residencia")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Monto).HasColumnName("monto");
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Pagado)
+                    .HasColumnName("pagado")
+                    .HasColumnType("tinyint(1)")
+                    .HasDefaultValueSql("0");
+
+                entity.Property(e => e.UrlExpensa)
+                    .IsRequired()
+                    .HasColumnName("url_expensa")
+                    .HasColumnType("varchar(60)");
+
+                entity.HasOne(d => d.IdBarrioNavigation)
+                    .WithMany(p => p.Expensas)
+                    .HasForeignKey(d => d.IdBarrio)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Expensas_2");
+
+                entity.HasOne(d => d.IdResidenciaNavigation)
+                    .WithMany(p => p.Expensas)
+                    .HasForeignKey(d => d.IdResidencia)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Expensas_1");
             });
 
             modelBuilder.Entity<Perfil>(entity =>
