@@ -44,7 +44,7 @@
                     <td>{{empleado.perfil}}</td>
                     <td>{{empleado.email}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="borrarEmpleado(empleado)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(empleado)"><i class="fa fa-trash"></i></a>
                         <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#editarEmpleado" (click)="onSelectedEmp(empleado)"><i class="fa fa-pencil"></i></a>
 
                     </td>

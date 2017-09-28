@@ -1,9 +1,12 @@
+
 import { Component, OnInit } from '@angular/core';
 import { EmpleadosService } from './empleados.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { NgForm } from "@angular/forms/forms";
 import { Empleado } from './empleado.model';
 import { NotificationsService } from 'angular2-notifications';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
+
 
 @Component({
   selector: 'app-empleados',
@@ -12,7 +15,7 @@ import { NotificationsService } from 'angular2-notifications';
 })
 
 export class EmpleadosComponent implements OnInit {
-  constructor(protected EmpleadosService: EmpleadosService, private notificaciones: NotificationsService) { }
+  constructor(protected EmpleadosService: EmpleadosService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
   empleado = {
     nombre: '',
@@ -38,17 +41,14 @@ export class EmpleadosComponent implements OnInit {
   empleadoSeleccionado: Empleado;
 
   borrarEmpleado(empleado: Empleado): void {
-    console.log(empleado.id_empleado);
-    if (confirm('¿Borrar este empleado?')) {
-      this.EmpleadosService.deleteEmpleado(empleado.id_empleado).then(response => {
-        if (response.error) {
-          this.notificaciones.error("Error", "No se pudo borrar el empleado");
-        } else {
-          this.actualizarListado();
-          this.notificaciones.success("Éxito", "Se borró correctamente el empleado");
-        }
-      });
-    }
+    this.EmpleadosService.deleteEmpleado(empleado.id_empleado).then(response => {
+      if (response.error) {
+        this.notificaciones.error("Error", "No se pudo borrar el empleado");
+      } else {
+        this.notificaciones.success("Éxito", "Se borró correctamente el empleado");
+        this.actualizarListado();
+      }
+    });
   }
 
   crearEmpleado(empleado: any, form: NgForm) {
@@ -68,26 +68,33 @@ export class EmpleadosComponent implements OnInit {
   }
 
   modificarEmpleado(empleado: Empleado) {
-    console.log(empleado.id_empleado);
     this.EmpleadosService.updateEmpleado(empleado.id_empleado, empleado).then(response => {
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo modificar el empleado");
       } else {
-        this.actualizarListado();
         this.notificaciones.success("Éxito", "Se modificó correctamente el empleado");
+        this.actualizarListado();
       }
     });
   }
-  
+
   actualizarListado() {
     this.EmpleadosService.getAllEmpleados().then(response => {
       this.empleados = response.data;
-      console.log(this.empleados);
     });
   }
 
   ngOnInit(): void {
     this.actualizarListado();
+  }
+
+  confirmacionEliminar(empleado: Empleado) {
+    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+      .subscribe((ans: any) => {
+        if (ans.resolved) {
+          this.borrarEmpleado(empleado);
+        }
+      });
   }
 
 }
