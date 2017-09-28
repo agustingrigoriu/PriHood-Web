@@ -41,6 +41,7 @@ namespace PriHood.Controllers
           where e.IdBarrio == id_barrio && ((id_empleado.HasValue && e.Id == id_empleado.Value) || !id_empleado.HasValue)
           select new
           {
+            id_empleado = e.Id,
             apellido = p.Apellido,
             nombre = p.Nombre,
             fecha_nacimiento = p.FechaNacimiento,
