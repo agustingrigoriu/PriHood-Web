@@ -167,7 +167,7 @@ namespace PriHood.Controllers
     }
 
     [HttpPost("password")]
-    public Object CambiarPassword([FromBody]ModeloPassword mc)
+    public Object ResetPassword([FromBody]ModeloPassword mc)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
@@ -181,6 +181,37 @@ namespace PriHood.Controllers
           db.Usuario.Update(usuario);
           db.SaveChanges();
           email.SendEmailPwdChanged(usuario.Email, nuevoPassword);
+          transaction.Commit();
+        }
+        catch (Exception e)
+        {
+          transaction.Rollback();
+          return new { error = true, data = e.Message };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
+    [HttpPost("changepassword")]
+    public Object ChangePassword([FromBody]ModeloChangePassword mc)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+
+          var usuario = db.Usuario.FirstOrDefault(u => u.Id == logueado.Id);
+
+          if (usuario == null) return new { error = true, data = "Usuario inexistente" };
+
+          if (usuario.Password != auth.getHash(mc.contraseña_actual)) return new { error = true, data = "Contraseña incorrecta" };
+
+          usuario.Password = auth.getHash(mc.contraseña_nueva);
+          db.Usuario.Update(usuario);
+          db.SaveChanges();
+
           transaction.Commit();
         }
         catch (Exception e)

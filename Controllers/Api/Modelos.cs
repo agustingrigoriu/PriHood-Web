@@ -102,6 +102,12 @@ namespace PriHood.Controllers
     public string email { get; set; }
   }
 
+  public class ModeloChangePassword
+  {
+    public string contraseña_actual { get; set; }
+    public string contraseña_nueva { get; set; }
+  }
+
   public class ModeloExpensas
   {
     public int id { get; set; }
