@@ -104,8 +104,8 @@ namespace PriHood.Controllers
 
   public class ModeloChangePassword
   {
-    public string contraseña_actual { get; set; }
-    public string contraseña_nueva { get; set; }
+    public string password_actual { get; set; }
+    public string password_nueva { get; set; }
   }
 
   public class ModeloExpensas

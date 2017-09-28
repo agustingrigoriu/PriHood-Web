@@ -206,9 +206,9 @@ namespace PriHood.Controllers
 
           if (usuario == null) return new { error = true, data = "Usuario inexistente" };
 
-          if (usuario.Password != auth.getHash(mc.contraseña_actual)) return new { error = true, data = "Contraseña incorrecta" };
+          if (usuario.Password != auth.getHash(mc.password_actual)) return new { error = true, data = "Contraseña incorrecta" };
 
-          usuario.Password = auth.getHash(mc.contraseña_nueva);
+          usuario.Password = auth.getHash(mc.password_nueva);
           db.Usuario.Update(usuario);
           db.SaveChanges();
 
