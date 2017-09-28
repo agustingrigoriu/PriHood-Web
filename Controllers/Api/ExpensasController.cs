@@ -33,7 +33,6 @@ namespace PriHood.Controllers
           var logueado = HttpContext.Session.Authenticated();
           var expensas = new Expensas();
           expensas.IdResidencia = me.id_residencia;
-          expensas.IdBarrio = logueado.IdBarrio.Value;
           expensas.FechaExpensa = me.fecha_expensa;
           expensas.FechaTransaccion = me.fecha_transaccion;
           expensas.FechaVencimiento = me.fecha_vencimiento;
