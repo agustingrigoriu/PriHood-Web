@@ -436,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Expensas` (
   `fecha_expensa` DATETIME NOT NULL,
   `fecha_vencimiento` DATETIME NULL,
   `pagado` boolean NULL DEFAULT 0,
-  `url_expensa` VARCHAR(60) NOT NULL,
+  `url_expensa` VARCHAR(255) NOT NULL,
   `monto` FLOAT NOT NULL,
   `observaciones` TEXT NULL,
   PRIMARY KEY (`id`),
