@@ -32,6 +32,9 @@ import { PublicacionesComponent } from './publicaciones/publicaciones.component'
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { PublicacionesService } from './publicaciones/publicacion.service';
 
+import { ExpensaComponent } from './expensas/expensas.component';
+import { ExpensasService } from './expensas/expensas.service';
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
@@ -41,7 +44,7 @@ import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import {JasperoConfirmationsModule} from '@jaspero/ng2-confirmations';
+import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
 
 @NgModule({
   imports: [
@@ -97,6 +100,10 @@ import {JasperoConfirmationsModule} from '@jaspero/ng2-confirmations';
         component: PublicacionComponent
       },
       {
+        path: 'expensas',
+        component: ExpensaComponent
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }
@@ -116,7 +123,8 @@ import {JasperoConfirmationsModule} from '@jaspero/ng2-confirmations';
     TurnosComponent,
     UsuarioComponent,
     PublicacionesComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    ExpensaComponent
   ],
   providers: [
     ApiRequestService,
@@ -128,7 +136,8 @@ import {JasperoConfirmationsModule} from '@jaspero/ng2-confirmations';
     AmenitiesService,
     TurnosService,
     DashboardService,
-    PublicacionesService
+    PublicacionesService,
+    ExpensasService
   ],
   bootstrap: [AppComponent]
 })

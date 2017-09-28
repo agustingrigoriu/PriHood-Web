@@ -1,0 +1,84 @@
+<section class="content-header">
+    <h1>
+        Expensas
+    </h1>
+</section>
+
+<section class="content animated fadeInUp">
+    <div class="box box-primary not-print">
+        <div class="box-header with-border">
+            <h3 class="box-title">Listado de residencias existentes</h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Alias</th>
+                    <th>Ubicacion</th>
+                    <th>Expensas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!residencias ||residencias.length == 0">
+                    <td colspan="5">
+                        <p class="text-center">No existen residencias para este barrio.</p>
+                    </td>
+                </tr>
+                <tr *ngFor="let residencia of residencias">
+                    <td>{{residencia.nombre}}</td>
+                    <td>{{residencia.ubicacion}}</td>
+                    <td>
+                        <a class="btn btn-xs btn-success" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#cargarExpensas"> Cargar Expensas <i class="fa fa-plus"></i></a>
+                        <a class="btn btn-xs btn-info" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#editarResidencia"> Ver Expensas <i class="fa fa-eye"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="cargarExpensas">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Cargar Expensas</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
+                    <div class="form-group">
+                        <label for="residente">Alias</label>
+                        <input [(ngModel)]="residenciaSeleccionada.nombre" required name="nombre" type="text" class="form-control" id="residente">
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Ubicación</label>
+                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion">
+                    </div>
+                </form>
+                <div class="col-md-12">
+                    <h4>Administrador del Barrio </h4>
+                </div>
+                <div class="form-group">
+                    <label for="monto">Monto</label>
+                    <input name="monto" type="number" class="form-control" id="monto">
+                </div>
+                <div class="form-group">
+                    <label for="observaciones">Observaciones</label>
+                    <input name="observaciones" type="text" class="form-control" id="observaciones">
+                </div>
+                <div class="form-group">
+                    <label for="date">Mes</label>
+                    <input name="date" type="date" class="form-control" id="date">
+                </div>
+                <div class="form-group">
+                    <label for="dateVenc">Fecha de Vencimiento</label>
+                    <input name="dateVenc" type="date" class="form-control" id="dateVenc">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Modificar residencia</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
