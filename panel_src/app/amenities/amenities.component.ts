@@ -3,7 +3,7 @@ import { AmenitiesService } from './amenities.service';
 import { Amenity } from './amenity.model';
 import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
-
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 
 @Component({
     selector: 'app-amenities',
@@ -12,7 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 })
 
 export class AmenitiesComponent implements OnInit {
-    constructor(protected AmenitiesService: AmenitiesService,  private notificaciones: NotificationsService) { }
+    constructor(protected AmenitiesService: AmenitiesService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
     amenities: Amenity[] = [];
 
@@ -33,16 +33,14 @@ export class AmenitiesComponent implements OnInit {
     ];
 
     borrarAmenity(amenity: Amenity): void {
-        if (confirm('¿Borrar este amenity?')) {
-            this.AmenitiesService.deleteAmenity(amenity.id).then(response => {
-                if (response.error) {
-                    this.notificaciones.error("Error", "No se pudo borrar el amenity");
-                } else {
-                    this.actualizarListado();
-                    this.notificaciones.success("Éxito", "Se borró correctamente el amenity");
-                }
-            });
-        }
+        this.AmenitiesService.deleteAmenity(amenity.id).then(response => {
+            if (response.error) {
+                this.notificaciones.error("Error", "No se pudo borrar el amenity");
+            } else {
+                this.actualizarListado();
+                this.notificaciones.success("Éxito", "Se borró correctamente el amenity");
+            }
+        });
     }
 
     crearAmenity(amenity: Amenity, form: NgForm) {
@@ -96,5 +94,14 @@ export class AmenitiesComponent implements OnInit {
 
     ngOnInit(): void {
         this.actualizarListado();
+    }
+
+    confirmacionEliminar(amenity: Amenity) {
+        this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+            .subscribe((ans: any) => {
+                if (ans.resolved) {
+                    this.borrarAmenity(amenity);
+                }
+            });
     }
 }
