@@ -20,8 +20,8 @@ namespace PriHood.Controllers
       auth = a;
     }
 
-    [HttpPost("publicar")]
-    public Object CrearPublicacion([FromBody]Publicacion publicacion)
+    [HttpPost("publicar/{directo?}")]
+    public Object CrearPublicacion([FromBody]Publicacion publicacion, string directo)
     {
       try
       {
@@ -29,7 +29,16 @@ namespace PriHood.Controllers
 
         publicacion.IdPersonal = logueado.Id;
         publicacion.Fecha = DateTime.Now;
-        publicacion.IdResidente = null;
+
+        if (directo == null)
+        {
+          publicacion.IdResidente = null;
+        }
+        else if (directo == "directo")
+        {
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          publicacion.IdResidente = residente.Id;
+        }
 
         db.Publicacion.Add(publicacion);
         db.SaveChanges();
@@ -127,7 +136,7 @@ namespace PriHood.Controllers
             fecha = c.Fecha,
             usuario = u.Email,
             perfil = pe.Descripcion,
-            sent_by_me = logueado.Id == c.IdUsuario 
+            sent_by_me = logueado.Id == c.IdUsuario
           }
         )
         .ToList();
