@@ -429,6 +429,27 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
     ON UPDATE NO ACTION);
 
 
+CREATE TABLE IF NOT EXISTS `Prihood`.`Expensas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_residencia` INT NOT NULL,
+  `fecha_transaccion` DATETIME NOT NULL,
+  `fecha_expensa` DATETIME NOT NULL,
+  `fecha_vencimiento` DATETIME NULL,
+  `pagado` boolean NULL DEFAULT 0,
+  `url_expensa` VARCHAR(60) NOT NULL,
+  `monto` FLOAT NOT NULL,
+  `observaciones` TEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Expensas_1_idx` (`id_residencia` ASC),
+  CONSTRAINT `fk_Expensas_1`
+    FOREIGN KEY (`id_residencia`)
+    REFERENCES `Prihood`.`Residencia` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
 -- Inserción de valores a tabla PERFIL
 
 INSERT INTO Perfil (id, descripcion) VALUES ("1", "Root"), ("2", "Administrador"), ("3", "Residente"), ("4", "Encargado de Seguridad");
