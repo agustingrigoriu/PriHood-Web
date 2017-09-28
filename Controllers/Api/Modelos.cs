@@ -9,6 +9,7 @@ using PriHood.Auth;
 using System.Security.Cryptography;
 using System.Text;
 using FluentEmail.Core;
+using Microsoft.AspNetCore.Http;
 
 namespace PriHood.Controllers
 {
@@ -106,13 +107,11 @@ namespace PriHood.Controllers
         public int id { get; set; }
         public int id_residencia { get; set; }
         public int id_barrio { get; set; }
-        public DateTime fecha_transaccion { get; set; }
         public DateTime fecha_expensa { get; set; }
         public DateTime? fecha_vencimiento { get; set; }
         public float monto { get; set; }
         public bool? pagado { get; set; }
         public string observaciones { get; set; }
-        public string url_expensa { get; set; }
-
+        public IFormFile file { get; set; }
     }
 }
