@@ -11,6 +11,7 @@ using System.Text;
 using FluentEmail.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
+using Microsoft.AspNetCore.Http;
 
 namespace PriHood.Controllers
 {
@@ -18,9 +19,11 @@ namespace PriHood.Controllers
   public class ExpensasController : Controller
   {
     private readonly PrihoodContext db;
-    public ExpensasController(PrihoodContext context)
+    private readonly UploadService uploadService;
+    public ExpensasController(PrihoodContext context, UploadService ul)
     {
       db = context;
+      uploadService = ul;
     }
 
     [HttpPost]
@@ -30,33 +33,35 @@ namespace PriHood.Controllers
       {
         try
         {
+          var url_expensa = this.uploadService.UploadFile(me.file);
           var logueado = HttpContext.Session.Authenticated();
+
           var expensas = new Expensas();
           expensas.IdResidencia = me.id_residencia;
           expensas.FechaExpensa = me.fecha_expensa;
-          expensas.FechaTransaccion = me.fecha_transaccion;
+          expensas.FechaTransaccion = DateTime.Now;
           expensas.FechaVencimiento = me.fecha_vencimiento;
           expensas.Monto = me.monto;
           expensas.Pagado = me.pagado;
           expensas.Observaciones = me.observaciones;
-          expensas.UrlExpensa = me.url_expensa;
+          expensas.UrlExpensa = url_expensa;
           db.Expensas.Add(expensas);
 
           db.SaveChanges();
 
           transaction.Commit();
+
+          return new { error = false, data = expensas };
         }
-        catch (Exception)
+        catch (Exception err)
         {
           transaction.Rollback();
-          return new { error = true, data = "Error" };
+          return new { error = true, data = err.Message };
         }
       }
-
-      return new { error = false, data = "ok" };
     }
 
-    [HttpGet("/residencias")]
+    [HttpGet("residencias")]
     public Object ObtenerExpensas()
     {
       try
@@ -90,7 +95,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("/residencias/{id_residencia}")]
+    [HttpGet("residencias/{id_residencia}")]
     public Object ObtenerExpensasPorResidenciaAdmin(int id_residencia)
     {
       try

@@ -7,7 +7,7 @@ namespace PriHood.Auth
 {
   public class UploadService
   {
-    public Object UploadFile(IFormFile file)
+    public string UploadFile(IFormFile file)
     {
       var extension = file.FileName.Split('.');
       var filename = Guid.NewGuid() + @"." + extension[extension.Length - 1];
