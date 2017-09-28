@@ -20,8 +20,8 @@ namespace PriHood.Controllers
       auth = a;
     }
 
-    [HttpPost("publicar")]
-    public Object CrearPublicacion([FromBody]Publicacion publicacion)
+    [HttpPost("publicar/{directo?}")]
+    public Object CrearPublicacion([FromBody]Publicacion publicacion, string directo)
     {
       try
       {
@@ -29,7 +29,16 @@ namespace PriHood.Controllers
 
         publicacion.IdPersonal = logueado.Id;
         publicacion.Fecha = DateTime.Now;
-        publicacion.IdResidente = null;
+
+        if (directo == null)
+        {
+          publicacion.IdResidente = null;
+        }
+        else if (directo == "directo")
+        {
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          publicacion.IdResidente = residente.Id;
+        }
 
         db.Publicacion.Add(publicacion);
         db.SaveChanges();
@@ -126,7 +135,8 @@ namespace PriHood.Controllers
             comentario = c.Texto,
             fecha = c.Fecha,
             usuario = u.Email,
-            perfil = pe.Descripcion
+            perfil = pe.Descripcion,
+            sent_by_me = logueado.Id == c.IdUsuario
           }
         )
         .ToList();
@@ -205,5 +215,37 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("privadas")]
+    public Object ListarPublicacionesPrivadas()
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+        var publicaciones = (
+          from p in db.Publicacion
+          join u in db.Usuario on p.IdPersonal equals u.Id
+          join pe in db.Perfil on u.IdPerfil equals pe.Id
+          where u.IdBarrio == id_barrio && p.IdResidente == residente.Id
+          orderby p.Fecha descending
+          select new
+          {
+            p.Id,
+            p.Titulo,
+            p.Texto,
+            p.Fecha,
+            perfil = pe.Descripcion
+          }
+        );
+
+        return new { error = false, data = publicaciones };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
   }
 }
