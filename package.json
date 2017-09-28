@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@jaspero/ng2-confirmations": "^0.3.3",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.2",
     "angular2-notifications": "^0.7.7",
     "angular2-qrcode": "^2.0.1",

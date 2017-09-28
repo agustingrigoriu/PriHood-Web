@@ -3,6 +3,7 @@ import { ResidenciasService } from './residencias.service';
 import { Residencia } from './residencia.model';
 import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 
 @Component({
   selector: 'app-residencias',
@@ -11,7 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 })
 
 export class ResidenciaComponent implements OnInit {
-  constructor(protected ResidenciasService: ResidenciasService, private notificaciones: NotificationsService) { }
+  constructor(protected ResidenciasService: ResidenciasService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
   residencias: Residencia[] = [];
   residencia: Residencia = {
@@ -33,16 +34,14 @@ export class ResidenciaComponent implements OnInit {
   }
 
   borrarResidencia(res: Residencia) {
-    if (confirm('¿Borrar esta residencia?')) {
-      this.ResidenciasService.deleteResidencia(res.id).then(response => {
-        if (response.error) {
-          this.notificaciones.error("Error", "No se pudo borrar la residencia");
-        } else {
-          this.notificaciones.success("Éxito", "Se borró correctamente la residencia");
-          this.actualizar();
-        }
-      });
-    }
+    this.ResidenciasService.deleteResidencia(res.id).then(response => {
+      if (response.error) {
+        this.notificaciones.error("Error", "No se pudo borrar la residencia");
+      } else {
+        this.notificaciones.success("Éxito", "Se borró correctamente la residencia");
+        this.actualizar();
+      }
+    });
   }
 
   onSelectedRes(residencia: Residencia) {
@@ -77,4 +76,15 @@ export class ResidenciaComponent implements OnInit {
   ngOnInit(): void {
     this.actualizar();
   }
+
+  confirmacionEliminar(residencia: Residencia) {
+    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+      .subscribe((ans: any) => {
+        if (ans.resolved) {
+          this.borrarResidencia(residencia);
+        }
+      });
+  }
+
+
 }

@@ -5,3 +5,7 @@
 .tooltip {
   opacity: 1;
 }
+
+jaspero-confirmation .primary {
+    background-color: #003777!important;
+}

@@ -64,19 +64,17 @@ export class EmpleadosComponent implements OnInit {
   }
 
   onSelectedEmp(empleado: Empleado) {
-    console.log(empleado.id_empleado);
     this.empleadoSeleccionado = { ...empleado };
   }
 
   modificarEmpleado(empleado: Empleado) {
     console.log(empleado.id_empleado);
-    console.log(empleado.nombre);
     this.EmpleadosService.updateEmpleado(empleado.id_empleado, empleado).then(response => {
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo modificar el empleado");
       } else {
-        this.notificaciones.success("Éxito", "Se modificó correctamente el empleado");
         this.actualizarListado();
+        this.notificaciones.success("Éxito", "Se modificó correctamente el empleado");
       }
     });
   }

@@ -80,6 +80,9 @@
                 <li class="header">Comunicación</li>
                 <li routerLinkActive='active'><a routerLink='/publicaciones'><i class="fa fa-comments" aria-hidden="true"></i> <span>Publicaciones</span></a></li>
                 <li routerLinkActive='active'><a routerLink='/mensajes'><i class="fa fa-comments" aria-hidden="true"></i> <span>Mensajes</span></a></li>
+                <li class="header">Expensas</li>
+                <li routerLinkActive='active'><a routerLink='/expensas'><i class="fa fa-usd" aria-hidden="true"></i> <span>Expensas</span></a></li>
+
             </ul>
 
             <!-- Si es el encargado de seguridad... -->
@@ -98,6 +101,7 @@
     </div>
 
     <simple-notifications></simple-notifications>
+    <jaspero-confirmations></jaspero-confirmations>
 
     <footer class="main-footer">
         <strong>PriHood &copy; {{ year }}</strong>

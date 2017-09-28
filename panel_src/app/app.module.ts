@@ -41,9 +41,11 @@ import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import {JasperoConfirmationsModule} from '@jaspero/ng2-confirmations';
 
 @NgModule({
   imports: [
+    JasperoConfirmationsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

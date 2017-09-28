@@ -35,7 +35,7 @@
                     <td>{{residencia.ubicacion}}</td>
                     <td>{{residencia.codigo}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="borrarResidencia(residencia)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger"  (click)="confirmacionEliminar(residencia)"><i class="fa fa-trash"></i></a>
                         <a class="btn btn-xs btn-info" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#editarResidencia"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>

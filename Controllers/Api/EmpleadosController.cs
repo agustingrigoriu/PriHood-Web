@@ -153,10 +153,10 @@ namespace PriHood.Controllers
 
           transaction.Commit();
         }
-        catch (Exception)
+        catch (Exception err)
         {
           transaction.Rollback();
-          return new { error = true, data = "Error" };
+          return new { error = true, data = "Error", err.Message };
         }
       }
 
