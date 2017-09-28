@@ -6,6 +6,7 @@ import { CalendarComponent } from "ap-angular2-fullcalendar";
 import * as moment from 'moment';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsService } from 'angular2-notifications';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 
 @Component({
   selector: 'app-turnos',
@@ -22,7 +23,8 @@ export class TurnosComponent implements OnInit {
     protected TurnosService: TurnosService,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private notificaciones: NotificationsService
+    private notificaciones: NotificationsService,
+    private confirmacion: ConfirmationService
   ) { }
 
   private sub;
@@ -112,7 +114,7 @@ export class TurnosComponent implements OnInit {
       this.actualizarListado();
       this.notificaciones.success("Éxito", "Se creó correctamente el turno");
     } catch (error) {
-      this.notificaciones.error("Error", "No se pudo crear el turno");  
+      this.notificaciones.error("Error", "No se pudo crear el turno");
     }
   }
 
@@ -138,10 +140,6 @@ export class TurnosComponent implements OnInit {
   }
 
   async borrarTurno(turnoObj) {
-    if (!confirm('¿Seguro de borrar el turno?')) {
-      return;
-    }
-    
     try {
       const response = await this.TurnosService.deleteTurno(turnoObj.id);
 
@@ -175,6 +173,15 @@ export class TurnosComponent implements OnInit {
     });
 
     this.traerDias();
+  }
+
+  confirmacionEliminar(turno: Turno) {
+    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+      .subscribe((ans: any) => {
+        if (ans.resolved) {
+          this.borrarTurno(turno);
+        }
+      });
   }
 
   onCalendarInit() {
