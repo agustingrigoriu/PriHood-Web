@@ -34,7 +34,7 @@
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="borrarBarrio(barrio)"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(barrio)"><i class="fa fa-trash"></i></a>
                         <a class="btn btn-xs btn-info" (click)="onSelectedBar(barrio)" data-toggle="modal" data-target="#editarBarrio"><i class="fa fa-pencil"></i></a>
                     </td>
                 </tr>

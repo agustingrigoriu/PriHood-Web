@@ -3,6 +3,7 @@ import { BarriosService } from './barrios.service';
 import { Barrio } from './barrio.model';
 import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
+import { ConfirmationService } from '@jaspero/ng2-confirmations';
 
 @Component({
   selector: 'app-barrios',
@@ -11,7 +12,7 @@ import { NotificationsService } from 'angular2-notifications';
 })
 
 export class BarriosComponent implements OnInit {
-  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService) { }
+  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private confirmacion:ConfirmationService) { }
 
   usuario = {
     nombre: '',
@@ -38,7 +39,6 @@ export class BarriosComponent implements OnInit {
   barrioSeleccionado: Barrio;
 
   borrarBarrio(barrio: Barrio): void {
-    if (confirm('¿Borrar este barrio?')) {
       this.BarriosService.deleteBarrio(barrio.id).then(response => {
         if (response.error) {
           this.notificaciones.error("Error", "No se pudo borrar el barrio");
@@ -47,7 +47,6 @@ export class BarriosComponent implements OnInit {
           this.notificaciones.success("Éxito", "Se borró correctamente el barrio");
         }
       });
-    }
   }
 
   crearBarrio(barrio: Barrio, usuario: any, form: NgForm) {
@@ -85,5 +84,15 @@ export class BarriosComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualizarListado();
+  }
+
+  
+  confirmacionEliminar(barrio: Barrio) {
+    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+      .subscribe((ans: any) => {
+        if (ans.resolved) {
+          this.borrarBarrio(barrio);
+        }
+      });
   }
 }
