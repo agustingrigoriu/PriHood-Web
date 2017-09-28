@@ -151,7 +151,7 @@ namespace PriHood.Controllers
           usuario.Id = empleado.IdUsuario;
           usuario.Email = me.email;
           if (me.password != null && me.password != "") usuario.Password = auth.getHash(me.password);
-          else usuario.Password = auth.getHash(usuario.Password); // hasheo le password
+          else usuario.Password = auth.getHash(usuario.Password);
           usuario.IdPerfil = me.id_perfil.Value;
 
           db.Usuario.Update(usuario);

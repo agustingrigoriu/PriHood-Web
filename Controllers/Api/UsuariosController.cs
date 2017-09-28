@@ -19,15 +19,17 @@ namespace PriHood.Controllers
   {
     private readonly PrihoodContext db;
     private AuthService auth;
+    private readonly UploadService uploadService;
 
     private EmailService email;
     private IHostingEnvironment _hostingEnvironment;
-    public UsuariosController(PrihoodContext context, AuthService a, EmailService e, IHostingEnvironment environment)
+    public UsuariosController(PrihoodContext context, AuthService a, EmailService e, IHostingEnvironment environment, UploadService ul)
     {
       db = context;
       auth = a;
       email = e;
       _hostingEnvironment = environment;
+      uploadService = ul;
     }
 
     [HttpGet]
@@ -90,6 +92,39 @@ namespace PriHood.Controllers
           residente.IdPersona = id_persona;
           residente.IdUsuario = id_usuario;
           db.Residente.Add(residente);
+
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error" };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
+    [HttpPost("avatar")]
+    public Object AgregarAvatar(ModeloAvatar ma)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var usuario = (
+            from u in db.Usuario
+            where u.Id == ma.id_usuario
+            select u
+          ).FirstOrDefault();
+
+          if (usuario == null) return new { error = true, data = "Error" };
+
+          var url_expensa = this.uploadService.UploadFile(ma.file);
+          usuario.Avatar = url_expensa;
+          db.Usuario.Update(usuario);
 
           db.SaveChanges();
 
