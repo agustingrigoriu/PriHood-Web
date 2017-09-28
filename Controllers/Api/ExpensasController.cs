@@ -57,8 +57,8 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
-    [HttpGet("/residencias}")]
-    public Object ObtenerExpensas(ModeloExpensas me)
+    [HttpGet("/residencias")]
+    public Object ObtenerExpensas()
     {
       try
       {
@@ -92,7 +92,7 @@ namespace PriHood.Controllers
     }
 
     [HttpGet("/residencias/{id_residencia}")]
-    public Object ObtenerExpensasPorResidenciaAdmin(ModeloExpensas me, int id_residencia)
+    public Object ObtenerExpensasPorResidenciaAdmin(int id_residencia)
     {
       try
       {
@@ -127,7 +127,7 @@ namespace PriHood.Controllers
     }
 
     [HttpGet]
-    public Object ObtenerExpensasPorResidencia(ModeloExpensas me)
+    public Object ObtenerExpensasPorResidencia()
     {
       try
       {

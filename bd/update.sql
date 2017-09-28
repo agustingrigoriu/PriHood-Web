@@ -436,7 +436,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Expensas` (
   `fecha_expensa` DATETIME NOT NULL,
   `fecha_vencimiento` DATETIME NULL,
   `pagado` boolean NULL DEFAULT 0,
-  `id_barrio` INT NOT NULL,
   `url_expensa` VARCHAR(60) NOT NULL,
   `monto` FLOAT NOT NULL,
   `observaciones` TEXT NULL,
@@ -445,12 +444,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Expensas` (
   CONSTRAINT `fk_Expensas_1`
     FOREIGN KEY (`id_residencia`)
     REFERENCES `Prihood`.`Residencia` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  INDEX `fk_Expensas_2_idx` (`id_barrio` ASC),
-  CONSTRAINT `fk_Expensas_2`
-    FOREIGN KEY (`id_barrio`)
-    REFERENCES `Prihood`.`Barrio` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
