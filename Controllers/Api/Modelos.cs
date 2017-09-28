@@ -114,10 +114,4 @@ namespace PriHood.Controllers
     public string observaciones { get; set; }
     public IFormFile file { get; set; }
   }
-
-  public class ModeloAvatar
-  {
-    public int id_usuario { get; set; }
-    public IFormFile file { get; set; }
-  }
 }

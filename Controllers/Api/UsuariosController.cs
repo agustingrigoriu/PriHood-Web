@@ -108,22 +108,23 @@ namespace PriHood.Controllers
     }
 
     [HttpPost("avatar")]
-    public Object AgregarAvatar(ModeloAvatar ma)
+    public Object AgregarAvatar(IFormFile avatar)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
         try
         {
+          var logueado = HttpContext.Session.Authenticated();
           var usuario = (
             from u in db.Usuario
-            where u.Id == ma.id_usuario
+            where u.Id == logueado.Id
             select u
           ).FirstOrDefault();
 
           if (usuario == null) return new { error = true, data = "Error" };
 
-          var url_expensa = this.uploadService.UploadFile(ma.file);
-          usuario.Avatar = url_expensa;
+          var url_avatar = this.uploadService.UploadFile(avatar);
+          usuario.Avatar = url_avatar;
           db.Usuario.Update(usuario);
 
           db.SaveChanges();
