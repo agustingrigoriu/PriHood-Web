@@ -19,15 +19,17 @@ namespace PriHood.Controllers
   {
     private readonly PrihoodContext db;
     private AuthService auth;
+    private readonly UploadService uploadService;
 
     private EmailService email;
     private IHostingEnvironment _hostingEnvironment;
-    public UsuariosController(PrihoodContext context, AuthService a, EmailService e, IHostingEnvironment environment)
+    public UsuariosController(PrihoodContext context, AuthService a, EmailService e, IHostingEnvironment environment, UploadService ul)
     {
       db = context;
       auth = a;
       email = e;
       _hostingEnvironment = environment;
+      uploadService = ul;
     }
 
     [HttpGet]
@@ -105,6 +107,40 @@ namespace PriHood.Controllers
       return new { error = false, data = "ok" };
     }
 
+    [HttpPost("avatar")]
+    public Object AgregarAvatar(IFormFile avatar)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var usuario = (
+            from u in db.Usuario
+            where u.Id == logueado.Id
+            select u
+          ).FirstOrDefault();
+
+          if (usuario == null) return new { error = true, data = "Error" };
+
+          var url_avatar = this.uploadService.UploadFile(avatar);
+          usuario.Avatar = url_avatar;
+          db.Usuario.Update(usuario);
+
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error" };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
     [HttpPost("push/token")]
     public Object RegistrarTokenPush([FromBody]ModeloToken mt)
     {
@@ -131,7 +167,7 @@ namespace PriHood.Controllers
     }
 
     [HttpPost("password")]
-    public Object CambiarPassword([FromBody]ModeloPassword mc)
+    public Object ResetPassword([FromBody]ModeloPassword mc)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
@@ -145,6 +181,37 @@ namespace PriHood.Controllers
           db.Usuario.Update(usuario);
           db.SaveChanges();
           email.SendEmailPwdChanged(usuario.Email, nuevoPassword);
+          transaction.Commit();
+        }
+        catch (Exception e)
+        {
+          transaction.Rollback();
+          return new { error = true, data = e.Message };
+        }
+      }
+
+      return new { error = false, data = "ok" };
+    }
+
+    [HttpPost("changepassword")]
+    public Object ChangePassword([FromBody]ModeloChangePassword mc)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+
+          var usuario = db.Usuario.FirstOrDefault(u => u.Id == logueado.Id);
+
+          if (usuario == null) return new { error = true, data = "Usuario inexistente" };
+
+          if (usuario.Password != auth.getHash(mc.contraseña_actual)) return new { error = true, data = "Contraseña incorrecta" };
+
+          usuario.Password = auth.getHash(mc.contraseña_nueva);
+          db.Usuario.Update(usuario);
+          db.SaveChanges();
+
           transaction.Commit();
         }
         catch (Exception e)
