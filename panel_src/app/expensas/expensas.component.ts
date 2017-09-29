@@ -4,6 +4,7 @@ import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
 import { ConfirmationService } from '@jaspero/ng2-confirmations';
 import { Residencia } from '../residencias/residencia.model';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-expensas',

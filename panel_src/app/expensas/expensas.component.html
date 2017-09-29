@@ -5,6 +5,14 @@
 </section>
 
 <section class="content animated fadeInUp">
+    <div class="box box-primary">
+        <div class="box-body">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="search" class="form-control" [(ngModel)]="filtro" placeholder="Buscar..." />
+            </div>
+        </div>
+    </div>
     <div class="box box-primary not-print">
         <div class="box-header with-border">
             <h3 class="box-title">Listado de residencias existentes</h3>
@@ -23,7 +31,7 @@
                         <p class="text-center">No existen residencias para este barrio.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let residencia of residencias">
+                <tr *ngFor="let residencia of residencias  | filter: filtro">
                     <td>{{residencia.nombre}}</td>
                     <td>{{residencia.ubicacion}}</td>
                     <td>
@@ -54,29 +62,38 @@
                         <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion">
                     </div>
                 </form>
-                <div class="col-md-12">
-                    <h4>Administrador del Barrio </h4>
+                <h4>Expensas</h4>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="monto">Monto</label>
+                        <input name="monto" type="number" class="form-control" id="monto">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="monto">Monto</label>
-                    <input name="monto" type="number" class="form-control" id="monto">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones</label>
+                        <input name="observaciones" type="text" class="form-control" id="observaciones">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="observaciones">Observaciones</label>
-                    <input name="observaciones" type="text" class="form-control" id="observaciones">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date">Mes</label>
+                        <input name="date" type="date" class="form-control" id="date">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="date">Mes</label>
-                    <input name="date" type="date" class="form-control" id="date">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="dateVenc">Fecha de Vencimiento</label>
+                        <input name="dateVenc" type="date" class="form-control" id="dateVenc">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="dateVenc">Fecha de Vencimiento</label>
-                    <input name="dateVenc" type="date" class="form-control" id="dateVenc">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="">Pagado</label>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Modificar residencia</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Confirmar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
