@@ -24,6 +24,18 @@ export class ApiRequestService {
   get<T>(api, params?: HttpParams): Promise<Request<T>> {
     return this.http.get<Request<T>>(`${this.BASE_URL}/api/${api}`, { params }).toPromise();
   }
+
+  upload<T>(api, data, file: File, input = 'file'): Promise<Request<T>> {
+    const form = new FormData();
+
+    for (let key in data) {
+      form.append(key, data[key]);
+    }
+
+    form.append(input, file, file.name);
+
+    return this.http.post<Request<T>>(`${this.BASE_URL}/api/${api}`, form).toPromise();
+  }
 }
 
 export interface Request<T> {
