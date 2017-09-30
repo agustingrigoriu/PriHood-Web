@@ -14,10 +14,12 @@ namespace PriHood.Controllers
   {
     private readonly PrihoodContext db;
     private AuthService auth;
-    public PublicacionesController(PrihoodContext context, AuthService a)
+    private PushService pushService;
+    public PublicacionesController(PrihoodContext context, AuthService a, PushService p)
     {
       db = context;
       auth = a;
+      pushService = p;
     }
 
     [HttpPost("publicar/{directo?}")]
@@ -224,13 +226,23 @@ namespace PriHood.Controllers
         try
         {
           var logueado = HttpContext.Session.Authenticated();
+          var publicacion = db.Publicacion.First(p => p.Id == id_publicacion);
 
-          comentario.IdPublicacion = id_publicacion;
+          comentario.IdPublicacion = publicacion.Id;
           comentario.Fecha = DateTime.Now;
           comentario.IdUsuario = logueado.Id;
           db.Comentario.Add(comentario);
 
           db.SaveChanges();
+
+          var empleado = db.Empleado.FirstOrDefault(e => e.IdUsuario == logueado.Id);
+
+          if (publicacion.IdResidente != null && empleado != null)
+          {
+            var residente = db.Residente.First(r => r.Id == publicacion.IdResidente);
+
+            this.pushService.enviarMensaje(residente.IdUsuario, "La administración respondió a tu mensaje sobre \"" + publicacion.Titulo + "\".");
+          }
 
           transaction.Commit();
         }
