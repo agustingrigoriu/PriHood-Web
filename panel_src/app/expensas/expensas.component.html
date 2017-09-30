@@ -36,7 +36,7 @@
                     <td>{{residencia.ubicacion}}</td>
                     <td>
                         <a class="btn btn-xs btn-success" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#cargarExpensas"> Cargar Expensas <i class="fa fa-plus"></i></a>
-                        <a class="btn btn-xs btn-info" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#editarResidencia"> Ver Expensas <i class="fa fa-eye"></i></a>
+                        <a class="btn btn-xs btn-info" [routerLink]="['/expensas', residencia.id]"> Ver Expensas <i class="fa fa-eye"></i></a>
                     </td>
                 </tr>
             </tbody>
@@ -52,7 +52,7 @@
                 <h4 class="modal-title">Cargar Expensas</h4>
             </div>
             <div class="modal-body">
-                <form role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
+                <form data-toggle="validator" role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
                     <div class="form-group">
                         <label for="residente">Alias</label>
                         <input [(ngModel)]="residenciaSeleccionada.nombre" disabled required name="nombre" type="text" class="form-control" id="residente">
@@ -98,12 +98,12 @@
                         <label><input type="checkbox" value="">Pagado</label>
                     </div>
                 </div>
-                </div>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Confirmar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Confirmar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>

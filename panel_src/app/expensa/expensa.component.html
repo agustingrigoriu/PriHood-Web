@@ -1,0 +1,36 @@
+<section class="content-header">
+    <h1>
+        Expensas
+    </h1>
+</section>
+
+<section class="content animated fadeInUp">
+    <div class="box box-primary not-print">
+        <div class="box-header with-border">
+            <h3 class="box-title"> Expensas de la Residencia {{residencia.nombre}}</h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Estado</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!expensas ||expensas.length == 0">
+                    <td colspan="5">
+                        <p class="text-center">No existen expensas para esta residencia.</p>
+                    </td>
+                </tr>
+                <tr *ngFor="let expensas of expensas">
+                    <td>{{expensa.fecha_expensa}}</td>
+                    <td>{{residencia.pagado}}</td>
+                    <td>
+                        <a class="btn btn-xs btn-info"> Ver Detalles <i class="fa fa-eye"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

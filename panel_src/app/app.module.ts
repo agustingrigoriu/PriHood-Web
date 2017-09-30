@@ -32,8 +32,11 @@ import { PublicacionesComponent } from './publicaciones/publicaciones.component'
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { PublicacionesService } from './publicaciones/publicacion.service';
 
-import { ExpensaComponent } from './expensas/expensas.component';
+import { ExpensasComponent } from './expensas/expensas.component';
 import { ExpensasService } from './expensas/expensas.service';
+
+import { ExpensaComponent } from './expensa/expensa.component'
+import { ExpensaService } from './expensa/expensa.service';
 
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
@@ -101,6 +104,10 @@ import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
       },
       {
         path: 'expensas',
+        component: ExpensasComponent
+      },
+      {
+        path: 'expensas/:expensa',
         component: ExpensaComponent
       },
       {
@@ -124,6 +131,7 @@ import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
     UsuarioComponent,
     PublicacionesComponent,
     PublicacionComponent,
+    ExpensasComponent,
     ExpensaComponent
   ],
   providers: [
@@ -137,7 +145,8 @@ import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
     TurnosService,
     DashboardService,
     PublicacionesService,
-    ExpensasService
+    ExpensasService,
+    ExpensaService
   ],
   bootstrap: [AppComponent]
 })

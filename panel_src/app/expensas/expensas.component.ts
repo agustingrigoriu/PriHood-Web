@@ -12,7 +12,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./expensas.component.css']
 })
 
-export class ExpensaComponent implements OnInit {
+export class ExpensasComponent implements OnInit {
     constructor(protected ExpensasService: ExpensasService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
     residencias: Residencia[] = [];
