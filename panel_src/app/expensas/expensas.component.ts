@@ -14,7 +14,7 @@ import { IDatePickerConfig, IMonthCalendarConfig } from 'ng2-date-picker';
     styleUrls: ['./expensas.component.css']
 })
 
-export class ExpensaComponent implements OnInit {
+export class ExpensasComponent implements OnInit {
     constructor(protected ExpensasService: ExpensasService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) {
         this.residencias = [];
         this.expensa = {};

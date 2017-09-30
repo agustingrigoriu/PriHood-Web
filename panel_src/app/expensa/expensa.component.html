@@ -1,4 +1,7 @@
 <section class="content-header">
+    <div class="pull-right">
+        <a [routerLink]="['/expensas']" class="btn btn-primary">Volver</a>
+    </div>
     <h1>
         Expensas
     </h1>
@@ -19,15 +22,18 @@
             </thead>
             <tbody>
                 <tr *ngIf="!expensas ||expensas.length == 0">
-                    <td colspan="5">
+                    <td colspan="3">
                         <p class="text-center">No existen expensas para esta residencia.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let expensas of expensas">
-                    <td>{{expensa.fecha_expensa}}</td>
-                    <td>{{residencia.pagado}}</td>
+                <tr *ngFor="let expensa of expensas">
+                    <td>{{getFormatoMes(expensa.fecha_expensa)}}</td>
                     <td>
-                        <a class="btn btn-xs btn-info"> Ver Detalles <i class="fa fa-eye"></i></a>
+                        <span class="label label-warning" *ngIf="!expensa.pagado">Pendiente</span>
+                        <span class="label label-info" *ngIf="expensa.pagado">Pagado</span>
+                    </td>
+                    <td>
+                        <a href="{{expensa.url_expensa}}" target="_blank" class="btn btn-xs btn-info"> Ver Detalles <i class="fa fa-eye"></i></a>
                     </td>
                 </tr>
             </tbody>

@@ -6,7 +6,8 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 import { Residencia } from '../residencias/residencia.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Expensa } from './expensa.model';
+import { Expensa } from '../expensas/expensa.model';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-expensa',
@@ -26,10 +27,6 @@ export class ExpensaComponent implements OnInit {
     };
     expensas: Expensa[] = [];
 
-    imprimirListado() {
-        window.print();
-    }
-
     async cargarResidencia() {
         try {
             const response = await this.ExpensaService.getResidencia(this.id_residencia);
@@ -48,17 +45,21 @@ export class ExpensaComponent implements OnInit {
         this.sub = this.route.params.subscribe(params => {
             this.id_residencia = +params['expensa'];
             this.cargarResidencia();
+            this.actualizarListado();
         });
-        this.actualizarListado();
     }
 
-    actualizarListado(){
+    actualizarListado() {
         this.ExpensaService.getExpensas(this.id_residencia).then(response => {
-      if (response.error) {
-        alert('No se pudo cargar las expensas.');
-      } else {
-        this.expensas = response.data;
-      }
-    });
+            if (response.error) {
+                alert('No se pudo cargar las expensas.');
+            } else {
+                this.expensas = response.data;
+            }
+        });
+    }
+
+    getFormatoMes(fecha: Date) {
+        return moment(fecha).format('MMMM / YYYY').toUpperCase();
     }
 }
