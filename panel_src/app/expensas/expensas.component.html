@@ -55,11 +55,11 @@
                 <form role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
                     <div class="form-group">
                         <label for="residente">Alias</label>
-                        <input [(ngModel)]="residenciaSeleccionada.nombre" required name="nombre" type="text" class="form-control" id="residente">
+                        <input [(ngModel)]="residenciaSeleccionada.nombre" disabled required name="nombre" type="text" class="form-control" id="residente">
                     </div>
                     <div class="form-group">
                         <label for="direccion">Ubicación</label>
-                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion">
+                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" disabled name="ubicacion" type="text" class="form-control" id="direccion">
                     </div>
                 </form>
                 <h4>Expensas</h4>
@@ -71,31 +71,39 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="observaciones">Observaciones</label>
+                        <label for="texto">Observaciones</label>
                         <input name="observaciones" type="text" class="form-control" id="observaciones">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="date">Mes</label>
+                        <label for="mesExpensa">Mes</label>
                         <input name="date" type="date" class="form-control" id="date">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="dateVenc">Fecha de Vencimiento</label>
+                        <label for="fechaVencimiento">Fecha de Vencimiento</label>
                         <input name="dateVenc" type="date" class="form-control" id="dateVenc">
                     </div>
                 </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" value="">Pagado</label>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="archivo">Archivo</label>
+                        <input name="file" type="file" class="form-control" id="file">
+                    </div>
                 </div>
-            </div>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="">Pagado</label>
+                    </div>
+                </div>
+                </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Confirmar</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Confirmar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
