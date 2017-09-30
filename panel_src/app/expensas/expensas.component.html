@@ -63,47 +63,50 @@
                     </div>
                 </form>
                 <h4>Expensas</h4>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="monto">Monto</label>
-                        <input name="monto" type="number" class="form-control" id="monto">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="monto">Monto</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                <input [(ngModel)]="expensa.monto" placeholder="Monto de expensa" name="monto" type="number" class="form-control" id="monto">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="mesExpensa">Mes</label>
+                            </div>
+                            <dp-date-picker mode='month' theme='dp-material' placeholder="Seleccione un mes" [(ngModel)]="expensa.fecha_expensa" name="fecha_expensa" id="fecha_expensa" [config]="monthPickerConfig"></dp-date-picker>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="fechaVencimiento">Fecha de Vencimiento</label>
+                            </div>
+                            <dp-date-picker class="form-control" theme='dp-material' placeholder="Seleccione una fecha de vencimiento" [(ngModel)]="expensa.fecha_vencimiento" name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig"></dp-date-picker>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input [(ngModel)]="expensa.pagado" type="checkbox" value="si"> Esta expensa está pagada
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="texto">Observaciones</label>
+                            <textarea [(ngModel)]="expensa.observaciones" name="observaciones" rows="5" class="form-control" id="observaciones"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="archivo">Archivo</label>
+                            <input (change)="onChangeFile($event)" name="file" type="file" class="form-control" id="file">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="texto">Observaciones</label>
-                        <input name="observaciones" type="text" class="form-control" id="observaciones">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="mesExpensa">Mes</label>
-                        <input name="date" type="date" class="form-control" id="date">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="fechaVencimiento">Fecha de Vencimiento</label>
-                        <input name="dateVenc" type="date" class="form-control" id="dateVenc">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="archivo">Archivo</label>
-                        <input name="file" type="file" class="form-control" id="file">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="">Pagado</label>
-                    </div>
-                </div>
-                </div>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="modificarResidencia(residenciaSeleccionada)">Confirmar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarExpensa(expensa, file)">Confirmar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>

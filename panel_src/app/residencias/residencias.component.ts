@@ -85,6 +85,4 @@ export class ResidenciaComponent implements OnInit {
         }
       });
   }
-
-
 }

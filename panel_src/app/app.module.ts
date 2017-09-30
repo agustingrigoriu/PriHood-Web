@@ -45,6 +45,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 @NgModule({
   imports: [
@@ -58,6 +59,7 @@ import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
     BrowserAnimationsModule,
     SimpleNotificationsModule.forRoot(),
     NgbModule.forRoot(),
+    DpDatePickerModule,
     RouterModule.forRoot([
       {
         path: 'barrios',
