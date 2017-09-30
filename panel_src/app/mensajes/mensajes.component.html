@@ -31,6 +31,10 @@
             </li>
         </ng-container>
 
+        <li class="time-label" *ngIf="!publicacionesAgrupadas || publicacionesAgrupadas.length == 0">
+            <span class="bg-red">No hay mensajes</span>
+        </li>
+
         <li>
             <i class="fa fa-clock-o bg-gray"></i>
         </li>
