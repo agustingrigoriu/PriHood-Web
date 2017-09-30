@@ -1,0 +1,4 @@
+.timeline > .time-label > span {
+  min-width: 70px;
+  text-align: center;
+}

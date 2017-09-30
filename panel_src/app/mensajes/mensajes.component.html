@@ -1,0 +1,38 @@
+<section class="content-header clearfix">
+    <h1>
+        Mensajes
+    </h1>
+</section>
+
+<section class="content animated fadeInUp">
+    <ul class="timeline">
+        <ng-container *ngFor="let pa of publicacionesAgrupadas">
+            <li class="time-label">
+                <span class="bg-red">{{pa.key}}</span>
+            </li>
+
+            <!-- timeline item -->
+            <li *ngFor="let publicacion of pa.publicaciones">
+                <!-- timeline icon -->
+                <i class="fa fa-envelope bg-blue"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> {{publicacion.fecha | date: 'HH:mm'}}</span>
+
+                    <h3 class="timeline-header"><a [routerLink]="['/mensajes', publicacion.id]">{{publicacion.titulo}}</a></h3>
+
+                    <div class="timeline-body">
+                        {{publicacion.texto.substr(0, 200)}}...
+                    </div>
+
+                    <div class="timeline-footer">
+                        <a class="btn btn-primary btn-xs" [routerLink]="['/mensajes', publicacion.id]">Ver chat</a>
+                    </div>
+                </div>
+            </li>
+        </ng-container>
+
+        <li>
+            <i class="fa fa-clock-o bg-gray"></i>
+        </li>
+    </ul>
+</section>

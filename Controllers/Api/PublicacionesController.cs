@@ -83,18 +83,21 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("listado")]
-    public Object ListarPublicaciones()
+    [HttpGet("{id_publicacion:int}/privada")]
+    public Object GetMensaje(int id_publicacion)
     {
       try
       {
         var logueado = HttpContext.Session.Authenticated();
         var id_barrio = logueado.IdBarrio.Value;
-        var publicaciones = (
+        var publicacion = (
           from p in db.Publicacion
           join u in db.Usuario on p.IdPersonal equals u.Id
           join pe in db.Perfil on u.IdPerfil equals pe.Id
-          where u.IdBarrio == id_barrio && p.IdResidente == null
+          join r in db.Residente on p.IdResidente equals r.Id
+          join ps in db.Persona on r.IdPersona equals ps.Id
+          join re in db.Residencia on r.IdResidencia equals re.Id
+          where u.IdBarrio == id_barrio && p.IdResidente != null && p.Id == id_publicacion
           orderby p.Fecha descending
           select new
           {
@@ -102,11 +105,74 @@ namespace PriHood.Controllers
             p.Titulo,
             p.Texto,
             p.Fecha,
-            perfil = pe.Descripcion
+            perfil = pe.Descripcion,
+            residente = ps,
+            residencia = re
+          }
+        ).First();
+
+        return new { error = false, data = publicacion };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    [HttpGet("listado/{privadas?}")]
+    public Object ListarPublicaciones(string privadas)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+
+        if (privadas == "privadas")
+        {
+          var publicaciones = (
+          from p in db.Publicacion
+          join u in db.Usuario on p.IdPersonal equals u.Id
+          join pe in db.Perfil on u.IdPerfil equals pe.Id
+          join r in db.Residente on p.IdResidente equals r.Id
+          join ps in db.Persona on r.IdPersona equals ps.Id
+          join re in db.Residencia on r.IdResidencia equals re.Id
+          where u.IdBarrio == id_barrio && p.IdResidente != null
+          orderby p.Fecha descending
+          select new
+          {
+            p.Id,
+            p.Titulo,
+            p.Texto,
+            p.Fecha,
+            perfil = pe.Descripcion,
+            residente = ps,
+            residencia = re
           }
         );
 
-        return new { error = false, data = publicaciones };
+          return new { error = false, data = publicaciones };
+        }
+        else
+        {
+          var publicaciones = (
+            from p in db.Publicacion
+            join u in db.Usuario on p.IdPersonal equals u.Id
+            join pe in db.Perfil on u.IdPerfil equals pe.Id
+            where u.IdBarrio == id_barrio && p.IdResidente == null
+            orderby p.Fecha descending
+            select new
+            {
+              p.Id,
+              p.Titulo,
+              p.Texto,
+              p.Fecha,
+              perfil = pe.Descripcion
+            }
+          );
+
+          return new { error = false, data = publicaciones };
+        }
 
       }
       catch (Exception err)

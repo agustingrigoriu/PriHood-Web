@@ -32,6 +32,9 @@ import { PublicacionesComponent } from './publicaciones/publicaciones.component'
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { PublicacionesService } from './publicaciones/publicacion.service';
 
+import { MensajesComponent } from './mensajes/mensajes.component';
+import { MensajeComponent } from './mensaje/mensaje.component';
+
 import { ExpensasComponent } from './expensas/expensas.component';
 import { ExpensasService } from './expensas/expensas.service';
 
@@ -105,6 +108,14 @@ import { DpDatePickerModule } from 'ng2-date-picker';
         component: PublicacionComponent
       },
       {
+        path: 'mensajes',
+        component: MensajesComponent
+      },
+      {
+        path: 'mensajes/:publicacion',
+        component: MensajeComponent
+      },
+      {
         path: 'expensas',
         component: ExpensasComponent
       },
@@ -134,7 +145,9 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     PublicacionesComponent,
     PublicacionComponent,
     ExpensasComponent,
-    ExpensaComponent
+    ExpensaComponent,
+    MensajesComponent,
+    MensajeComponent
   ],
   providers: [
     ApiRequestService,
