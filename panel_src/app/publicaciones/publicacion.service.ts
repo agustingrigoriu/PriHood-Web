@@ -11,8 +11,16 @@ export class PublicacionesService {
     return this.request.get<Publicacion[]>(`publicaciones/listado`);
   }
 
+  getMensajes() {
+    return this.request.get<Publicacion[]>(`publicaciones/listado/privadas`);
+  }
+
   getPublicacion(id: number) {
     return this.request.get<Publicacion>(`publicaciones/${id}`);
+  }
+
+  getMensaje(id: number) {
+    return this.request.get<Publicacion>(`publicaciones/${id}/privada`);
   }
 
   crearPublicacion(publicacion: Publicacion) {
