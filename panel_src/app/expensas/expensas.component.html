@@ -52,7 +52,7 @@
                 <h4 class="modal-title">Cargar Expensas</h4>
             </div>
             <div class="modal-body">
-                <form data-toggle="validator" role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
+                <form data-toggle="validator" role="form" #expForm="ngForm" name="expForm" id="expForm" *ngIf="residenciaSeleccionada">
                     <div class="form-group">
                         <label for="residente">Alias</label>
                         <input [(ngModel)]="residenciaSeleccionada.nombre" disabled required name="nombre" type="text" class="form-control" id="residente">
@@ -104,7 +104,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarExpensa(expensa, file)">Confirmar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="agregarExpensa(expensa, file, expForm)">Confirmar</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

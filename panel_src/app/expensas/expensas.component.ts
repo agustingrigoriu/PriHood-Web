@@ -61,7 +61,7 @@ export class ExpensasComponent implements OnInit {
         this.file = files.item(0);
     }
 
-    async agregarExpensa(expensa: any, file: File) {
+    async agregarExpensa(expensa: any, file: File, form: NgForm) {
         try {
             // @FIXME: HARDCODE!!!
             expensa.fecha_expensa = expensa.fecha_expensa.toISOString();
@@ -75,6 +75,7 @@ export class ExpensasComponent implements OnInit {
 
             this.notificaciones.success('Éxito', 'Se cargó correctamente la expensa.');
             console.log(response);
+            form.reset();
         } catch (error) {
             this.notificaciones.error('Error', 'No se pudo cargar la expensa.');
         }
