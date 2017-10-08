@@ -7,6 +7,9 @@ namespace PriHood.Models
     {
         public Residente()
         {
+            Alertas = new HashSet<Alertas>();
+            AsistenciaEvento = new HashSet<AsistenciaEvento>();
+            Eventos = new HashSet<Eventos>();
             Proveedor = new HashSet<Proveedor>();
             RegistroVotos = new HashSet<RegistroVotos>();
             Reserva = new HashSet<Reserva>();
@@ -20,6 +23,9 @@ namespace PriHood.Models
         public int IdResidencia { get; set; }
         public int IdUsuario { get; set; }
 
+        public virtual ICollection<Alertas> Alertas { get; set; }
+        public virtual ICollection<AsistenciaEvento> AsistenciaEvento { get; set; }
+        public virtual ICollection<Eventos> Eventos { get; set; }
         public virtual ICollection<Proveedor> Proveedor { get; set; }
         public virtual ICollection<RegistroVotos> RegistroVotos { get; set; }
         public virtual ICollection<Reserva> Reserva { get; set; }
