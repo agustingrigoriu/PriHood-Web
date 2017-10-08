@@ -387,6 +387,10 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Reserva` (
     ON UPDATE NO ACTION
     );     
 
+-- -----------------------------------------------------
+-- Módulo Comunicación
+-- -----------------------------------------------------    
+
 CREATE TABLE IF NOT EXISTS `Prihood`.`Publicacion` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `texto` TEXT NOT NULL,
@@ -429,6 +433,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Comentario` (
     ON UPDATE NO ACTION);
 
 
+
+-- -----------------------------------------------------
+-- Módulo Expensas
+-- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `Prihood`.`Expensas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_residencia` INT NOT NULL,
@@ -444,6 +453,94 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Expensas` (
   CONSTRAINT `fk_Expensas_1`
     FOREIGN KEY (`id_residencia`)
     REFERENCES `Prihood`.`Residencia` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Módulo Alertas
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Alerta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Alertas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_residente` INT NOT NULL,
+  `id_tipo_alerta` INT NOT NULL,
+  `descripcion` TEXT NULL,
+  `fecha` DATETIME NOT NULL,
+  `hora` TIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
+  INDEX `fk_Alertas_2_idx` (`id_tipo_alerta` ASC),
+  CONSTRAINT `fk_Alertas_1`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Alertas_2`
+    FOREIGN KEY (`id_tipo_alerta`)
+    REFERENCES `Prihood`.`Tipo_Alerta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Módulo Eventos
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Evento` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_residente` INT NOT NULL,
+  `id_tipo_evento` INT NOT NULL,
+  `descripcion` TEXT NULL,
+  `fecha` DATETIME NOT NULL,
+  `hora_desde` TIME NOT NULL,
+  `duracion` INT NOT NULL,
+  `imagen` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
+  INDEX `fk_Alertas_2_idx` (`id_tipo_evento` ASC),
+  CONSTRAINT `fk_Alertas_1`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Alertas_2`
+    FOREIGN KEY (`id_tipo_evento`)
+    REFERENCES `Prihood`.`Tipo_Evento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Asistencia_Evento` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_residente` INT NOT NULL,
+  `id_evento` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
+  INDEX `fk_Alertas_2_idx` (`id_evento` ASC),
+  CONSTRAINT `fk_Alertas_1`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Alertas_2`
+    FOREIGN KEY (`id_evento`)
+    REFERENCES `Prihood`.`Eventos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
