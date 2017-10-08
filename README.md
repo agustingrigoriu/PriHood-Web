@@ -52,3 +52,9 @@ El comando va a pedir la contraseña de la base de datos.
 
 Si tira error de que no existe el comando `mysql` falta agregar la ruta del bin de mysql al PATH. En Linux y Mac se puede hacer de esta forma:
 ```export PATH=${PATH}:/usr/local/mysql/bin```
+
+## Actualizar modelos desde BD
+
+```
+dotnet ef dbcontext scaffold "server=localhost;database=Prihood;user=root;password=root" "Pomelo.EntityFrameworkCore.MySql" -o Models -f
+```
