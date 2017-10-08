@@ -25,6 +25,20 @@ namespace PriHood.Auth
       var usuario = _db.Usuario.First(u => u.Id == usuario_id);
       enviarMensaje(usuario, message);
     }
+
+    public void enviarMensajeUsuariosBarrio(int id_barrio, string message)
+    {
+      var usuarios = (
+        from u in _db.Usuario
+        where u.IdBarrio == id_barrio
+        select u
+        ).ToList();
+
+      foreach (var usuario in usuarios)
+      {
+        enviarMensaje(usuario, message);
+      }
+    }
     async public void enviarMensaje(Usuario usuario, string message)
     {
       using (var client = new HttpClient())
