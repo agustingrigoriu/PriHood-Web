@@ -511,14 +511,14 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
   `duracion` INT NOT NULL,
   `imagen` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
-  INDEX `fk_Alertas_2_idx` (`id_tipo_evento` ASC),
-  CONSTRAINT `fk_Alertas_1`
+  INDEX `fk_Eventos_1_idx` (`id_residente` ASC),
+  INDEX `fk_Eventos_2_idx` (`id_tipo_evento` ASC),
+  CONSTRAINT `fk_Eventos_1`
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Alertas_2`
+  CONSTRAINT `fk_Eventos_2`
     FOREIGN KEY (`id_tipo_evento`)
     REFERENCES `Prihood`.`Tipo_Evento` (`id`)
     ON DELETE NO ACTION
@@ -531,14 +531,14 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Asistencia_Evento` (
   `id_residente` INT NOT NULL,
   `id_evento` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
-  INDEX `fk_Alertas_2_idx` (`id_evento` ASC),
-  CONSTRAINT `fk_Alertas_1`
+  INDEX `fk_Asistencia_Evento_1_idx` (`id_residente` ASC),
+  INDEX `fk_Asistencia_Evento_2_idx` (`id_evento` ASC),
+  CONSTRAINT `fk_Asistencia_Evento_1`
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Alertas_2`
+  CONSTRAINT `fk_Asistencia_Evento_2`
     FOREIGN KEY (`id_evento`)
     REFERENCES `Prihood`.`Eventos` (`id`)
     ON DELETE NO ACTION
