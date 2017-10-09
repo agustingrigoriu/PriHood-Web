@@ -26,7 +26,7 @@ namespace PriHood.Auth
       enviarMensaje(usuario, message);
     }
 
-    public void enviarMensajeUsuariosBarrio(int id_barrio, string message)
+    public void enviarMensajeUsuariosBarrio(int? id_barrio, string message)
     {
       var usuarios = (
         from u in _db.Usuario
