@@ -546,6 +546,72 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Asistencia_Evento` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Módulo Carpooling
+-- -----------------------------------------------------
+
+CREATE TABLE `Prihood`.`Viaje` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_residente` INT NOT NULL,
+  `auto_modelo` VARCHAR(255) NULL,
+  `auto_patente` VARCHAR(45) NOT NULL,
+  `auto_color` VARCHAR(255) NULL,
+  `auto_asientos` INT NOT NULL,
+  `fecha` DATETIME NULL,
+  `sale_barrio` BIT(1) NOT NULL,
+  `observaciones` VARCHAR(255) NULL,
+  `id_dia_semana` INT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `id_residente_idx` (`id_residente` ASC),
+  INDEX `id_dia_semana_idx` (`id_dia_semana` ASC),
+  CONSTRAINT `fk_residente_viaje`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_dia_viaje`
+    FOREIGN KEY (`id_dia_semana`)
+    REFERENCES `Prihood`.`Dia_Semana` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `Prihood`.`Trayecto` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_viaje` INT NOT NULL,
+  `longitud` DOUBLE NOT NULL,
+  `latitud` DOUBLE NOT NULL,
+  `orden` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_viaje_trayecto_idx` (`id_viaje` ASC),
+  CONSTRAINT `fk_viaje_trayecto`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `Prihood`.`Viaje` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `Prihood`.`SolicitudViaje` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_residente` INT NOT NULL,
+  `id_viaje` INT NOT NULL,
+  `estado` VARCHAR(45) NOT NULL,
+  `fecha` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+  INDEX `fk_residente_solicitudViaje_idx` (`id_residente` ASC),
+  INDEX `fk_viaje_solicitudViaje_idx` (`id_viaje` ASC),
+  CONSTRAINT `fk_residente_solicitudViaje`
+    FOREIGN KEY (`id_residente`)
+    REFERENCES `Prihood`.`Residente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_viaje_solicitudViaje`
+    FOREIGN KEY (`id_viaje`)
+    REFERENCES `Prihood`.`Viaje` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 
 -- Inserción de valores a tabla PERFIL
 
