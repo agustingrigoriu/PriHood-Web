@@ -6,6 +6,10 @@ import { NgForm } from "@angular/forms/forms";
 import { Empleado } from './empleado.model';
 import { NotificationsService } from 'angular2-notifications';
 import { ConfirmationService } from '@jaspero/ng2-confirmations';
+import { Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+
 
 
 @Component({
@@ -15,6 +19,7 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 })
 
 export class EmpleadosComponent implements OnInit {
+  empForm: any;
   constructor(protected EmpleadosService: EmpleadosService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
   empleado = {
@@ -25,6 +30,7 @@ export class EmpleadosComponent implements OnInit {
     telefono: '',
     fecha_nacimiento: '',
     password: '',
+    confirmPassword:'',
     id_perfil: '',
   };
   empleados = [];
@@ -86,6 +92,12 @@ export class EmpleadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualizarListado();
+    this.empForm = new FormGroup({
+      'name': new FormControl(this.empleado.nombre, [
+        Validators.required,
+      ]),
+
+    });
   }
 
   confirmacionEliminar(empleado: Empleado) {
@@ -96,5 +108,4 @@ export class EmpleadosComponent implements OnInit {
         }
       });
   }
-
 }
