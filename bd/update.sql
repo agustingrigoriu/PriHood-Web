@@ -465,6 +465,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Alerta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(255) NOT NULL,
+  `imagen` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -474,7 +475,6 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Alertas` (
   `id_tipo_alerta` INT NOT NULL,
   `descripcion` TEXT NULL,
   `fecha` DATETIME NOT NULL,
-  `hora` TIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
   INDEX `fk_Alertas_2_idx` (`id_tipo_alerta` ASC),
@@ -591,3 +591,7 @@ INSERT INTO  Dia_Semana(id, descripcion) VALUES ("1", "Lunes"), ("2", "Martes"),
 -- Inserción de estados de reserva
 
 INSERT INTO  Estado_Reserva(id, descripcion) VALUES ("1", "creada"), ("2", "cancelada"), ("3", "denegada");
+
+-- Inserción de tipos de alertas
+
+INSERT INTO  Tipo_Alerta(id, descripcion, imagen) VALUES ("1", "Actividad sospechosa", "assets/img/pruebas/alertas/sospechoso.png"), ("2", "Atención Médica", "assets/img/pruebas/alertas/doctor.png");

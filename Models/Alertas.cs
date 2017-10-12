@@ -8,7 +8,6 @@ namespace PriHood.Models
         public int Id { get; set; }
         public string Descripcion { get; set; }
         public DateTime Fecha { get; set; }
-        public TimeSpan Hora { get; set; }
         public int IdResidente { get; set; }
         public int IdTipoAlerta { get; set; }
 

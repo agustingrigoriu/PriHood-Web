@@ -124,5 +124,21 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("alertas")]
+    public Object GetTiposAlertas()
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var tiposAlertas = db.TipoAlerta.ToList();
+
+        return new { error = false, data = tiposAlertas };
+      }
+      catch (System.Exception)
+      {
+        return new { error = true, data = "fail" };
+      }
+    }
+
   }
 }

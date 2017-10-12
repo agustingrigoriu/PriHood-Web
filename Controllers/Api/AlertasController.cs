@@ -33,7 +33,6 @@ namespace PriHood.Controllers
 
         alerta.IdResidente = logueado.Id;
         alerta.Fecha = DateTime.Now;
-        alerta.Hora = DateTime.Now.TimeOfDay;
 
         db.Alertas.Add(alerta);
         db.SaveChanges();
@@ -75,7 +74,6 @@ namespace PriHood.Controllers
         {
           id_alerta = a.Id,
           fecha = a.Fecha,
-          hora = a.Hora,
           descripcion = a.Descripcion,
           tipo_alerta = ta.Descripcion,
           id_tipo_alerta = a.IdTipoAlerta,
