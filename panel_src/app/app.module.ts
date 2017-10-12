@@ -41,6 +41,7 @@ import { ExpensasService } from './expensas/expensas.service';
 import { ExpensaComponent } from './expensa/expensa.component'
 import { ExpensaService } from './expensa/expensa.service';
 
+
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
 import { Ng2SearchPipeModule } from '../modules/filter/ng2-filter.module';
@@ -48,10 +49,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
 import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
+import {UsuariosService} from './usuario/usuario.service'
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { CustomFormsModule } from 'ng2-validation'
 
 @NgModule({
   imports: [
@@ -63,6 +66,7 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     QRCodeModule,
     CalendarModule,
     BrowserAnimationsModule,
+    CustomFormsModule,
     SimpleNotificationsModule.forRoot(),
     NgbModule.forRoot(),
     DpDatePickerModule,
