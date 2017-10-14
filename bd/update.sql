@@ -475,6 +475,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Alertas` (
   `id_tipo_alerta` INT NOT NULL,
   `descripcion` TEXT NULL,
   `fecha` DATETIME NOT NULL,
+  `visto` boolean  NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_Alertas_1_idx` (`id_residente` ASC),
   INDEX `fk_Alertas_2_idx` (`id_tipo_alerta` ASC),
