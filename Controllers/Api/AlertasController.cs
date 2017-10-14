@@ -66,7 +66,7 @@ namespace PriHood.Controllers
         Alertas alerta = db.Alertas.FirstOrDefault(a => a.Id == id_alerta);
         if (alerta == null) return new { error = true, data = "Alerta inexistente" };
 
-        alerta.Visto = 1;
+        alerta.Visto = true;
 
         db.Alertas.Update(alerta);
         db.SaveChanges();
@@ -135,7 +135,7 @@ namespace PriHood.Controllers
         join r in db.Residente on a.IdResidente equals r.Id
         join p in db.Persona on r.IdPersona equals p.Id
         join u in db.Usuario on r.IdUsuario equals u.Id
-        where u.IdBarrio == id_barrio && a.Visto == 0
+        where u.IdBarrio == id_barrio && a.Visto == false
         orderby a.Fecha descending
         select new
         {
