@@ -32,25 +32,54 @@ namespace PriHood.Controllers
         if (!logueado.IdBarrio.HasValue) return new { error = true, data = "Su usuario no puede emitir alertas" };
 
         //Obtengo el residente, lo necesito para recuperar su Id
-        Residente residente = db.Residente.First( r => r.IdUsuario equals logueado.Id);
+        Residente residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
         alerta.IdResidente = residente.Id;
         alerta.Fecha = DateTime.Now;
+
+        db.Alertas.Add(alerta);
+        db.SaveChanges();
+
+        /*        var tipo_alerta = (
+                  from ta in db.TipoAlerta
+                  where ta.Id == alerta.IdTipoAlerta
+                  select ta
+                ).First();
+
+                this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");*/
+
+        return new { error = false, data = alerta };
+      }
+      catch (Exception e)
+      {
+        return new { error = true, data = e.InnerException.Message };
+      }
+    }
+
+    [HttpPost("vista/{id_alerta}")]
+    public Object MarcarAlertaVista(int id_alerta)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+
+        Alertas alerta = db.Alertas.FirstOrDefault(a => a.Id == id_alerta);
+        if (alerta == null) return new { error = true, data = "Alerta inexistente" };
 
 
 
         db.Alertas.Add(alerta);
         db.SaveChanges();
 
-/*        var tipo_alerta = (
-          from ta in db.TipoAlerta
-          where ta.Id == alerta.IdTipoAlerta
-          select ta
-        ).First();
+        /*        var tipo_alerta = (
+                  from ta in db.TipoAlerta
+                  where ta.Id == alerta.IdTipoAlerta
+                  select ta
+                ).First();
 
-        this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");*/
+                this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");*/
 
-        // return new { error = false, data = alerta };
+        return new { error = false, data = alerta };
       }
       catch (Exception e)
       {

@@ -13,6 +13,8 @@ namespace PriHood.Models
             Proveedor = new HashSet<Proveedor>();
             RegistroVotos = new HashSet<RegistroVotos>();
             Reserva = new HashSet<Reserva>();
+            SolicitudViaje = new HashSet<SolicitudViaje>();
+            Viaje = new HashSet<Viaje>();
             Visitante = new HashSet<Visitante>();
             VisitasXresidente = new HashSet<VisitasXresidente>();
         }
@@ -29,6 +31,8 @@ namespace PriHood.Models
         public virtual ICollection<Proveedor> Proveedor { get; set; }
         public virtual ICollection<RegistroVotos> RegistroVotos { get; set; }
         public virtual ICollection<Reserva> Reserva { get; set; }
+        public virtual ICollection<SolicitudViaje> SolicitudViaje { get; set; }
+        public virtual ICollection<Viaje> Viaje { get; set; }
         public virtual ICollection<Visitante> Visitante { get; set; }
         public virtual ICollection<VisitasXresidente> VisitasXresidente { get; set; }
         public virtual Persona IdPersonaNavigation { get; set; }

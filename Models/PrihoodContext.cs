@@ -6,13 +6,6 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
-        public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options)
-        {
-        }
-
-        public PrihoodContext() : base()
-        {
-        }
         public virtual DbSet<Alertas> Alertas { get; set; }
         public virtual DbSet<Amenity> Amenity { get; set; }
         public virtual DbSet<AsistenciaEvento> AsistenciaEvento { get; set; }
@@ -32,17 +25,26 @@ namespace PriHood.Models
         public virtual DbSet<Reserva> Reserva { get; set; }
         public virtual DbSet<Residencia> Residencia { get; set; }
         public virtual DbSet<Residente> Residente { get; set; }
+        public virtual DbSet<SolicitudViaje> SolicitudViaje { get; set; }
         public virtual DbSet<TipoAlerta> TipoAlerta { get; set; }
         public virtual DbSet<TipoAmenity> TipoAmenity { get; set; }
         public virtual DbSet<TipoDocumento> TipoDocumento { get; set; }
         public virtual DbSet<TipoEvento> TipoEvento { get; set; }
         public virtual DbSet<TipoServicio> TipoServicio { get; set; }
         public virtual DbSet<TipoVisita> TipoVisita { get; set; }
+        public virtual DbSet<Trayecto> Trayecto { get; set; }
         public virtual DbSet<Turno> Turno { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Viaje> Viaje { get; set; }
         public virtual DbSet<Visita> Visita { get; set; }
         public virtual DbSet<Visitante> Visitante { get; set; }
         public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -73,6 +75,11 @@ namespace PriHood.Models
                 entity.Property(e => e.IdTipoAlerta)
                     .HasColumnName("id_tipo_alerta")
                     .HasColumnType("int(11)");
+
+                entity.Property(e => e.Visto)
+                    .HasColumnName("visto")
+                    .HasColumnType("tinyint(1)")
+                    .HasDefaultValueSql("0");
 
                 entity.HasOne(d => d.IdResidenteNavigation)
                     .WithMany(p => p.Alertas)
@@ -775,6 +782,48 @@ namespace PriHood.Models
                     .HasConstraintName("fk_Residente_1");
             });
 
+            modelBuilder.Entity<SolicitudViaje>(entity =>
+            {
+                entity.HasIndex(e => e.IdResidente)
+                    .HasName("fk_residente_solicitudViaje_idx");
+
+                entity.HasIndex(e => e.IdViaje)
+                    .HasName("fk_viaje_solicitudViaje_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Estado)
+                    .IsRequired()
+                    .HasColumnName("estado")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdResidente)
+                    .HasColumnName("id_residente")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdViaje)
+                    .HasColumnName("id_viaje")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdResidenteNavigation)
+                    .WithMany(p => p.SolicitudViaje)
+                    .HasForeignKey(d => d.IdResidente)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_residente_solicitudViaje");
+
+                entity.HasOne(d => d.IdViajeNavigation)
+                    .WithMany(p => p.SolicitudViaje)
+                    .HasForeignKey(d => d.IdViaje)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_viaje_solicitudViaje");
+            });
+
             modelBuilder.Entity<TipoAlerta>(entity =>
             {
                 entity.ToTable("Tipo_Alerta");
@@ -865,6 +914,34 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("nombre")
                     .HasColumnType("varchar(45)");
+            });
+
+            modelBuilder.Entity<Trayecto>(entity =>
+            {
+                entity.HasIndex(e => e.IdViaje)
+                    .HasName("fk_viaje_trayecto_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdViaje)
+                    .HasColumnName("id_viaje")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Latitud).HasColumnName("latitud");
+
+                entity.Property(e => e.Longitud).HasColumnName("longitud");
+
+                entity.Property(e => e.Orden)
+                    .HasColumnName("orden")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdViajeNavigation)
+                    .WithMany(p => p.Trayecto)
+                    .HasForeignKey(d => d.IdViaje)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_viaje_trayecto");
             });
 
             modelBuilder.Entity<Turno>(entity =>
@@ -966,6 +1043,67 @@ namespace PriHood.Models
                     .WithMany(p => p.Usuario)
                     .HasForeignKey(d => d.IdPerfil)
                     .HasConstraintName("fk_Usuario_2");
+            });
+
+            modelBuilder.Entity<Viaje>(entity =>
+            {
+                entity.HasIndex(e => e.IdDiaSemana)
+                    .HasName("id_dia_semana_idx");
+
+                entity.HasIndex(e => e.IdResidente)
+                    .HasName("id_residente_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.AutoAsientos)
+                    .HasColumnName("auto_asientos")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.AutoColor)
+                    .HasColumnName("auto_color")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.AutoModelo)
+                    .HasColumnName("auto_modelo")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.AutoPatente)
+                    .IsRequired()
+                    .HasColumnName("auto_patente")
+                    .HasColumnType("varchar(45)");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdDiaSemana)
+                    .HasColumnName("id_dia_semana")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdResidente)
+                    .HasColumnName("id_residente")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Observaciones)
+                    .HasColumnName("observaciones")
+                    .HasColumnType("varchar(255)");
+
+                entity.Property(e => e.SaleBarrio)
+                    .HasColumnName("sale_barrio")
+                    .HasColumnType("bit(1)");
+
+                entity.HasOne(d => d.IdDiaSemanaNavigation)
+                    .WithMany(p => p.Viaje)
+                    .HasForeignKey(d => d.IdDiaSemana)
+                    .HasConstraintName("fk_dia_viaje");
+
+                entity.HasOne(d => d.IdResidenteNavigation)
+                    .WithMany(p => p.Viaje)
+                    .HasForeignKey(d => d.IdResidente)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_residente_viaje");
             });
 
             modelBuilder.Entity<Visita>(entity =>
