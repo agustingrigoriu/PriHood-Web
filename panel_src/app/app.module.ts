@@ -49,7 +49,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarModule } from "ap-angular2-fullcalendar";
 import { AgmCoreModule } from '@agm/core';
 import { UsuarioComponent } from './usuario/usuario.component';
-import {UsuariosService} from './usuario/usuario.service'
+//import {UsuariosService} from './usuario/usuario.service'
 
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';

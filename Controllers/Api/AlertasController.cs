@@ -37,13 +37,13 @@ namespace PriHood.Controllers
         db.Alertas.Add(alerta);
         db.SaveChanges();
 
-        var tipo_alerta = (
+/*        var tipo_alerta = (
           from ta in db.TipoAlerta
           where ta.Id == alerta.IdTipoAlerta
           select ta
         ).First();
 
-        this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");
+        this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");*/
 
         return new { error = false, data = alerta };
       }
