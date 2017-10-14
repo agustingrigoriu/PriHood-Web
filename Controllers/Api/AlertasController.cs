@@ -121,7 +121,7 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpGet("alertasNuevas")]
+    [HttpGet("alertas_nuevas")]
     public Object ListarAlertasNuevas()
     {
       try
