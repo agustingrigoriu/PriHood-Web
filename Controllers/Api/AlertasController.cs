@@ -49,7 +49,7 @@ namespace PriHood.Controllers
       }
       catch (Exception e)
       {
-        return new { error = true, data = e.Message };
+        return new { error = true, data = e.InnerException.Message };
       }
     }
 
