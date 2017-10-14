@@ -32,13 +32,9 @@ namespace PriHood.Controllers
         if (!logueado.IdBarrio.HasValue) return new { error = true, data = "Su usuario no puede emitir alertas" };
 
         //Obtengo el residente, lo necesito para recuperar su Id
-        var residente = (
-          from r in db.Residente
-          join u in db.Usuario on u.Id equals r.IdUsuario
-          select r
-        );
+        Residente residente = db.Residente.First( r => r.IdUsuario equals logueado.Id);
 
-        alerta.IdResidente = r.Id;
+        alerta.IdResidente = residente.Id;
         alerta.Fecha = DateTime.Now;
 
 
