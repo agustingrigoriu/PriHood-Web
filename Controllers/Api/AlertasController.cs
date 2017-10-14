@@ -31,8 +31,17 @@ namespace PriHood.Controllers
 
         if (!logueado.IdBarrio.HasValue) return new { error = true, data = "Su usuario no puede emitir alertas" };
 
-        alerta.IdResidente = logueado.Id;
+        //Obtengo el residente, lo necesito para recuperar su Id
+        var residente = (
+          from r in db.Residente
+          join u in db.Usuario on u.Id equals r.IdUsuario
+          select r
+        );
+
+        alerta.IdResidente = r.Id;
         alerta.Fecha = DateTime.Now;
+
+
 
         db.Alertas.Add(alerta);
         db.SaveChanges();
@@ -45,7 +54,7 @@ namespace PriHood.Controllers
 
         this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");*/
 
-        return new { error = false, data = alerta };
+        // return new { error = false, data = alerta };
       }
       catch (Exception e)
       {
