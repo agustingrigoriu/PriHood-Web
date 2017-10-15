@@ -6,6 +6,13 @@ namespace PriHood.Models
 {
     public partial class PrihoodContext : DbContext
     {
+        public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options)
+        {
+        }
+
+        public PrihoodContext() : base()
+        {
+        }
         public virtual DbSet<Alertas> Alertas { get; set; }
         public virtual DbSet<Amenity> Amenity { get; set; }
         public virtual DbSet<AsistenciaEvento> AsistenciaEvento { get; set; }
@@ -39,12 +46,6 @@ namespace PriHood.Models
         public virtual DbSet<Visita> Visita { get; set; }
         public virtual DbSet<Visitante> Visitante { get; set; }
         public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
