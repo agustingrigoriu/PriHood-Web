@@ -14,8 +14,6 @@ import { DashboardService } from './home.service';
 export class HomeComponent implements OnInit {
   constructor(protected LoginService: LoginService, protected DashboardService: DashboardService) { }
   title = 'Home';
-  lat: number = -31.335335;
-  lng: number = -64.303113;
   mensaje: string;
   headerClass: string = " ";
 
@@ -35,6 +33,8 @@ export class HomeComponent implements OnInit {
   adminDashboard: AdminDashboard = {
     cantidad_residencias: -1,
     cantidad_residentes: -1,
+    latitud: -31.335335,
+    longitud: -64.303113
   }
 
   getUsuario() {

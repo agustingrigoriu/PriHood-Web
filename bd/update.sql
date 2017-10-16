@@ -632,7 +632,7 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Persona(nombre, apellido, id_tipo_documento, nro_documento, telefono_movil, fecha_nacimiento) VALUES ('Agustín ', 'Gregorieu', '1', '38500850', '3515298313', '1994-10-12');
 
-INSERT INTO Barrio(nombre, ubicacion) VALUES("BarrioPrueba","ubicacion prueba");
+INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("BarrioPrueba","ubicacion prueba", -31.429075, -64.189044);
 
 INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
 
