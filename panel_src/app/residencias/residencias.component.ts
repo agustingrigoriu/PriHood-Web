@@ -4,6 +4,9 @@ import { Residencia } from './residencia.model';
 import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
 import { ConfirmationService } from '@jaspero/ng2-confirmations';
+import { Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-residencias',
@@ -12,6 +15,7 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 })
 
 export class ResidenciaComponent implements OnInit {
+  resForm: any;
   constructor(protected ResidenciasService: ResidenciasService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
   residencias: Residencia[] = [];
@@ -75,6 +79,11 @@ export class ResidenciaComponent implements OnInit {
 
   ngOnInit(): void {
     this.actualizar();
+    this.resForm = new FormGroup({
+      'name': new FormControl(this.residencia.nombre, [
+        Validators.required,
+      ]),
+    });
   }
 
   confirmacionEliminar(residencia: Residencia) {
