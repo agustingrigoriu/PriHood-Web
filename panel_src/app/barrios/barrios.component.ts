@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BarriosService } from './barrios.service';
 import { Barrio } from './barrio.model';
 import { NgForm } from "@angular/forms/forms";
@@ -12,7 +13,15 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 })
 
 export class BarriosComponent implements OnInit {
-  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private confirmacion:ConfirmationService) { }
+
+  @ViewChild('crearBarrioModal') crearBarrioModal: TemplateRef<NgbModalRef>;
+  private modalRef: NgbModalRef;
+
+  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private modalService: NgbModal, private confirmacion: ConfirmationService) { }
+
+  markerDraggable: boolean = true;
+  markerClickable: boolean = true;
+  markerLabel: string = "B";
 
   usuario = {
     nombre: '',
@@ -27,7 +36,9 @@ export class BarriosComponent implements OnInit {
   barrios: Barrio[] = [];
   barrio: Barrio = {
     nombre: '',
-    ubicacion: ''
+    ubicacion: '',
+    latitud: -31.335335,
+    longitud: -64.303113
   };
 
   doctipos = [
@@ -38,24 +49,33 @@ export class BarriosComponent implements OnInit {
   ];
   barrioSeleccionado: Barrio;
 
-  borrarBarrio(barrio: Barrio): void {
-      this.BarriosService.deleteBarrio(barrio.id).then(response => {
-        if (response.error) {
-          this.notificaciones.error("Error", "No se pudo borrar el barrio");
-        } else {
-          this.actualizarListado();
-          this.notificaciones.success("Éxito", "Se borró correctamente el barrio");
-        }
-      });
+  dragEnd($event) {
+    this.barrio.latitud = $event.coords.lat;
+    this.barrio.longitud = $event.coords.lng;
   }
 
-  crearBarrio(barrio: Barrio, usuario: any, form: NgForm) {
+  abrirModalCrearBarrio() {
+    this.modalRef = this.modalService.open(this.crearBarrioModal);
+  }
+
+  borrarBarrio(barrio: Barrio): void {
+    this.BarriosService.deleteBarrio(barrio.id).then(response => {
+      if (response.error) {
+        this.notificaciones.error("Error", "No se pudo borrar el barrio");
+      } else {
+        this.actualizarListado();
+        this.notificaciones.success("Éxito", "Se borró correctamente el barrio");
+      }
+    });
+  }
+
+  crearBarrio(barrio: Barrio, usuario: any) {
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo crear el barrio");
       } else {
+        this.modalRef.close();
         this.actualizarListado();
-        form.reset();
         this.notificaciones.success("Éxito", "Se creó correctamente el barrio");
       }
     });
@@ -86,7 +106,7 @@ export class BarriosComponent implements OnInit {
     this.actualizarListado();
   }
 
-  
+
   confirmacionEliminar(barrio: Barrio) {
     this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
       .subscribe((ans: any) => {

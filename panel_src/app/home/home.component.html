@@ -8,7 +8,9 @@
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-home"></i></span>
+                <span class="info-box-icon bg-aqua">
+                    <i class="fa fa-home"></i>
+                </span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Barrios</span>
@@ -24,7 +26,9 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+                <span class="info-box-icon bg-yellow">
+                    <i class="ion ion-ios-people-outline"></i>
+                </span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Residentes</span>
@@ -44,7 +48,9 @@
     <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-home"></i></span>
+                <span class="info-box-icon bg-aqua">
+                    <i class="fa fa-home"></i>
+                </span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Residencias</span>
@@ -60,7 +66,9 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+                <span class="info-box-icon bg-yellow">
+                    <i class="ion ion-ios-people-outline"></i>
+                </span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Residentes</span>
@@ -83,8 +91,8 @@
                     <h3 class="box-title">Ubicación</h3>
                 </div>
                 <div class="box-body">
-                    <agm-map [latitude]="lat" [longitude]="lng">
-                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                    <agm-map [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud">
+                        <agm-marker [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud"></agm-marker>
                     </agm-map>
                 </div>
             </div>
