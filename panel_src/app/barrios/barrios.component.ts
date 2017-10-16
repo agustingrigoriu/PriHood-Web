@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { BarriosService } from './barrios.service';
 import { Barrio } from './barrio.model';
 import { NgForm } from "@angular/forms/forms";
@@ -12,8 +13,15 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 })
 
 export class BarriosComponent implements OnInit {
-  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private confirmacion:ConfirmationService) { }
 
+  @ViewChild('crearBarrio') crearBarrioModal: TemplateRef<NgbModalRef>;
+  private modalRef: NgbModalRef;
+
+  constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private modalService: NgbModal, private confirmacion: ConfirmationService) { }
+
+
+  lat: number = -31.335335;
+  lng: number = -64.303113;
   usuario = {
     nombre: '',
     apellido: '',
@@ -38,15 +46,19 @@ export class BarriosComponent implements OnInit {
   ];
   barrioSeleccionado: Barrio;
 
+  abrirModalCrearBarrio() {
+    this.modalRef = this.modalService.open(this.crearBarrioModal);
+  }
+
   borrarBarrio(barrio: Barrio): void {
-      this.BarriosService.deleteBarrio(barrio.id).then(response => {
-        if (response.error) {
-          this.notificaciones.error("Error", "No se pudo borrar el barrio");
-        } else {
-          this.actualizarListado();
-          this.notificaciones.success("Éxito", "Se borró correctamente el barrio");
-        }
-      });
+    this.BarriosService.deleteBarrio(barrio.id).then(response => {
+      if (response.error) {
+        this.notificaciones.error("Error", "No se pudo borrar el barrio");
+      } else {
+        this.actualizarListado();
+        this.notificaciones.success("Éxito", "Se borró correctamente el barrio");
+      }
+    });
   }
 
   crearBarrio(barrio: Barrio, usuario: any, form: NgForm) {
@@ -86,7 +98,7 @@ export class BarriosComponent implements OnInit {
     this.actualizarListado();
   }
 
-  
+
   confirmacionEliminar(barrio: Barrio) {
     this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
       .subscribe((ans: any) => {

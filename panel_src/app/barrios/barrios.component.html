@@ -10,9 +10,9 @@
             <h3 class="box-title">Listado de barrios</h3>
         </div>
         <div class="box-body">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarBarrio">
-                        <i class="fa fa-plus"></i>
-                      </button>
+            <button type="button" class="btn btn-primary" (click)="abrirModalCrearBarrio()">
+                <i class="fa fa-plus"></i>
+            </button>
         </div>
         <table class="table" id="tablaBarrios">
             <thead>
@@ -34,8 +34,12 @@
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(barrio)"><i class="fa fa-trash"></i></a>
-                        <a class="btn btn-xs btn-info" (click)="onSelectedBar(barrio)" data-toggle="modal" data-target="#editarBarrio"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(barrio)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <a class="btn btn-xs btn-info" (click)="onSelectedBar(barrio)" data-toggle="modal" data-target="#editarBarrio">
+                            <i class="fa fa-pencil"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -43,108 +47,119 @@
     </div>
 </section>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="registrarBarrio">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Registrar Barrio</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form" #barrioForm="ngForm" name="barrioForm" id="barrioForm">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="barrio.nombre" placeholder="Ingrese el nombre del barrio">
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="ubication">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" [(ngModel)]="barrio.ubicacion" placeholder="Ingrese la ubicación del barrio">
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <h4> Administrador del Barrio </h4>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="firstname">Nombre</label>
-                                <input type="text" class="form-control" id="firstname" name="firstName" [(ngModel)]="usuario.nombre" placeholder="Ingrese el nombre">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="lastname">Apellido</label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="usuario.apellido" placeholder="Ingrese el apellido">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="tipodocumento">Tipo de Documento</label>
-                                <select class="form-control" id="tipoDocumento" [(ngModel)]="usuario.id_tipo_documento" name="tipoDocumento">
-                                <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id">{{doctipo.name}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nrodocumento">Documento</label>
-                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="usuario.numero_documento" placeholder="Ingrese el número de documento">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="telefono">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Ingrese el número de teléfono">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="birthday">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="usuario.fecha_nacimiento">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.email" placeholder="Ingrese la dirección de correo electrónico">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="password">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password" placeholder="Ingrese la contraseña">
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario, barrioForm)">Crear barrio</button>
-            </div>
-        </div>
+<ng-template #crearBarrio let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Registrar Barrio</h4>
     </div>
-</div>
+    <div class="modal-body">
+        <form role="form" #barrioForm="ngForm" name="barrioForm" id="barrioForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="barrio.nombre" placeholder="Ingrese el nombre del barrio">
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="ubication">Ubicación</label>
+                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" [(ngModel)]="barrio.ubicacion" placeholder="Ingrese la ubicación del barrio">
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <label>Ubicación</label>
+                    <agm-map [latitude]="lat" [longitude]="lng">
+                        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                    </agm-map>
+                </div>
+
+                <div class="col-md-12">
+                    <h4> Administrador del Barrio </h4>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="firstname">Nombre</label>
+                        <input type="text" class="form-control" id="firstname" name="firstName" [(ngModel)]="usuario.nombre" placeholder="Ingrese el nombre">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="lastname">Apellido</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="usuario.apellido" placeholder="Ingrese el apellido">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tipodocumento">Tipo de Documento</label>
+                        <select class="form-control" id="tipoDocumento" [(ngModel)]="usuario.id_tipo_documento" name="tipoDocumento">
+                            <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id">{{doctipo.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nrodocumento">Documento</label>
+                        <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="usuario.numero_documento" placeholder="Ingrese el número de documento">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Ingrese el número de teléfono">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="birthday">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="usuario.fecha_nacimiento">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.email" placeholder="Ingrese la dirección de correo electrónico">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password" placeholder="Ingrese la contraseña">
+                    </div>
+                </div>
+
+
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario, barrioForm)">Crear barrio</button>
+    </div>
+</ng-template>
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="editarBarrio">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">Modificar Barrio</h4>
             </div>
             <div class="modal-body">
