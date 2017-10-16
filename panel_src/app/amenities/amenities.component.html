@@ -59,14 +59,17 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="amenity.nombre" placeholder="Ingrese el nombre del amenity">
+                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="amenity.nombre" #name="ngModel"  pattern="[a-zA-Z]*" required placeholder="Ingrese el nombre del amenity">
+                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="name.errors?.pattern">Debe ingresar texto</span> 
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="ubication">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" [(ngModel)]="amenity.ubicacion" placeholder="Ingrese la ubicación del amenity">
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion"  [(ngModel)]="amenity.ubicacion" #ubicacion="ngModel"  pattern="[a-zA-Z]*" required placeholder="Ingrese la ubicación del amenity">
+                                <span class="label label-danger" *ngIf="ubicacion.errors?.required">Campo requerido</span>
                             </div>
                         </div>
 
