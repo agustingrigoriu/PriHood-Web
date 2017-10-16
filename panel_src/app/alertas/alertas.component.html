@@ -1,0 +1,23 @@
+<ng-template #modalAlertas let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Alerta: <strong>{{alerta.tipo_alerta}}</strong></h4>
+    </div>
+    <div class="modal-body">
+        <p>
+            <strong>Fecha del incidente:</strong> {{alerta.fecha | date}} <br>
+            <strong>Hora del incidente:</strong> {{alerta.fecha | date: 'HH:mm'}} <br>
+            <strong>Residente:</strong> {{alerta.residente}}
+        </p>
+        <p *ngIf="alerta.descripcion !== ''">
+            <strong>Descripción:</strong> <br> {{alerta.descripcion}}
+        </p>
+    </div>
+    <div class="modal-footer">
+        <div class="pull-left" *ngIf="alertas.length > 1">
+            <strong>Mostrando la {{index + 1}} de {{alertas.length}}.</strong>
+        </div>
+        <button *ngIf="alertas.length > 1" type="button" class="btn btn-default" (click)="anterior()">Anterior</button>
+        <button *ngIf="alertas.length > 1" type="button" class="btn btn-default" (click)="proxima()">Proxima</button>
+        <button type="button" class="btn btn-primary" (click)="visto(alerta)">Marcar alerta como vista</button>
+    </div>
+</ng-template>

@@ -135,7 +135,7 @@ namespace PriHood.Controllers
         join r in db.Residente on a.IdResidente equals r.Id
         join p in db.Persona on r.IdPersona equals p.Id
         join u in db.Usuario on r.IdUsuario equals u.Id
-        where u.IdBarrio == id_barrio && a.Visto == false
+        where u.IdBarrio == id_barrio && !a.Visto
         orderby a.Fecha descending
         select new
         {

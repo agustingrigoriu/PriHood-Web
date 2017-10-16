@@ -41,6 +41,8 @@ import { ExpensasService } from './expensas/expensas.service';
 import { ExpensaComponent } from './expensa/expensa.component'
 import { ExpensaService } from './expensa/expensa.service';
 
+import { AlertasComponent } from './alertas/alertas.component';
+import { AlertasService } from './alertas/alertas.service';
 
 import { ApiRequestService } from '../services/api.request.service';
 import { LoginService } from '../services/login.service';
@@ -151,7 +153,8 @@ import { CustomFormsModule } from 'ng2-validation'
     ExpensasComponent,
     ExpensaComponent,
     MensajesComponent,
-    MensajeComponent
+    MensajeComponent,
+    AlertasComponent
   ],
   providers: [
     ApiRequestService,
@@ -165,7 +168,8 @@ import { CustomFormsModule } from 'ng2-validation'
     DashboardService,
     PublicacionesService,
     ExpensasService,
-    ExpensaService
+    ExpensaService,
+    AlertasService
   ],
   bootstrap: [AppComponent]
 })
