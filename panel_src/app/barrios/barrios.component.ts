@@ -22,6 +22,10 @@ export class BarriosComponent implements OnInit {
 
   lat: number = -31.335335;
   lng: number = -64.303113;
+  markerDraggable: boolean = true;
+  markerClickable: boolean = true;
+  markerLabel: string = "B";
+
   usuario = {
     nombre: '',
     apellido: '',
@@ -45,6 +49,10 @@ export class BarriosComponent implements OnInit {
     { name: 'Otros', id: 4 }
   ];
   barrioSeleccionado: Barrio;
+
+  dragEnd($event) {
+    console.log($event);
+  }
 
   abrirModalCrearBarrio() {
     this.modalRef = this.modalService.open(this.crearBarrioModal);
