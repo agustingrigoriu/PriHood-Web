@@ -19,9 +19,6 @@ export class BarriosComponent implements OnInit {
 
   constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private modalService: NgbModal, private confirmacion: ConfirmationService) { }
 
-
-  lat: number = -31.335335;
-  lng: number = -64.303113;
   markerDraggable: boolean = true;
   markerClickable: boolean = true;
   markerLabel: string = "B";
@@ -39,7 +36,9 @@ export class BarriosComponent implements OnInit {
   barrios: Barrio[] = [];
   barrio: Barrio = {
     nombre: '',
-    ubicacion: ''
+    ubicacion: '',
+    lat: -31.335335,
+    lng: -64.303113
   };
 
   doctipos = [
@@ -51,7 +50,8 @@ export class BarriosComponent implements OnInit {
   barrioSeleccionado: Barrio;
 
   dragEnd($event) {
-    console.log($event);
+    this.barrio.lat = $event.coords.lat;
+    this.barrio.lng = $event.coords.lng;
   }
 
   abrirModalCrearBarrio() {

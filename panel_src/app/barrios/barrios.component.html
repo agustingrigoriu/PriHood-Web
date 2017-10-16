@@ -74,9 +74,9 @@
                 <div class="col-md-12">
 
                     <label>Ubicación</label>
-                    <agm-map [latitude]="lat" [longitude]="lng">
-                        <agm-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="markerDraggable" [markerClickable]="markerClickable" [label]="markerLabel"
-                            (dragEnd)="dragEnd()"></agm-marker>
+                    <agm-map [latitude]="barrio.lat" [longitude]="barrio.lng">
+                        <agm-marker [latitude]="barrio.lat" [longitude]="barrio.lng" [markerDraggable]="markerDraggable" [markerClickable]="markerClickable"
+                            [label]="markerLabel" (dragEnd)="dragEnd($event)"></agm-marker>
                     </agm-map>
                 </div>
 
