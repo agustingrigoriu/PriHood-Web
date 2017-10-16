@@ -73,11 +73,18 @@ export class AlertasComponent implements OnInit, OnDestroy {
         }
     }
 
+    playSound() {
+        const alerta = new Audio('/panel/assets/sound/alerta.mp3');
+        alerta.play();
+    }
+
     mostrarModal() {
         if (!this.modal && this.alertas.length > 0) {
             this.modal = this.NgbModal.open(this.modalAlertas, { keyboard: false, backdrop: 'static' });
             this.index = 0;
             this.alerta = this.alertas[this.index];
+
+            this.playSound();
         }
     }
 
