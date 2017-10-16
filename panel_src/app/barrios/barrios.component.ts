@@ -14,7 +14,7 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 
 export class BarriosComponent implements OnInit {
 
-  @ViewChild('crearBarrio') crearBarrioModal: TemplateRef<NgbModalRef>;
+  @ViewChild('crearBarrioModal') crearBarrioModal: TemplateRef<NgbModalRef>;
   private modalRef: NgbModalRef;
 
   constructor(protected BarriosService: BarriosService, private notificaciones: NotificationsService, private modalService: NgbModal, private confirmacion: ConfirmationService) { }
@@ -37,8 +37,8 @@ export class BarriosComponent implements OnInit {
   barrio: Barrio = {
     nombre: '',
     ubicacion: '',
-    lat: -31.335335,
-    lng: -64.303113
+    latitud: -31.335335,
+    longitud: -64.303113
   };
 
   doctipos = [
@@ -50,8 +50,8 @@ export class BarriosComponent implements OnInit {
   barrioSeleccionado: Barrio;
 
   dragEnd($event) {
-    this.barrio.lat = $event.coords.lat;
-    this.barrio.lng = $event.coords.lng;
+    this.barrio.latitud = $event.coords.lat;
+    this.barrio.longitud = $event.coords.lng;
   }
 
   abrirModalCrearBarrio() {
@@ -69,13 +69,13 @@ export class BarriosComponent implements OnInit {
     });
   }
 
-  crearBarrio(barrio: Barrio, usuario: any, form: NgForm) {
+  crearBarrio(barrio: Barrio, usuario: any) {
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo crear el barrio");
       } else {
+        this.modalRef.close();
         this.actualizarListado();
-        form.reset();
         this.notificaciones.success("Éxito", "Se creó correctamente el barrio");
       }
     });

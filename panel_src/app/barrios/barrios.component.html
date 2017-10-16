@@ -47,7 +47,7 @@
     </div>
 </section>
 
-<ng-template #crearBarrio let-c="close" let-d="dismiss">
+<ng-template #crearBarrioModal let-c="close" let-d="dismiss">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -74,8 +74,8 @@
                 <div class="col-md-12">
 
                     <label>Ubicación</label>
-                    <agm-map [latitude]="barrio.lat" [longitude]="barrio.lng">
-                        <agm-marker [latitude]="barrio.lat" [longitude]="barrio.lng" [markerDraggable]="markerDraggable" [markerClickable]="markerClickable"
+                    <agm-map [latitude]="barrio.latitud" [longitude]="barrio.longitud">
+                        <agm-marker [latitude]="barrio.latitud" [longitude]="barrio.longitud" [markerDraggable]="markerDraggable" [markerClickable]="markerClickable"
                             [label]="markerLabel" (dragEnd)="dragEnd($event)"></agm-marker>
                     </agm-map>
                 </div>
@@ -148,8 +148,8 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario, barrioForm)">Crear barrio</button>
+        <button type="button" class="btn btn-primary" (click)="crearBarrio(barrio, usuario)">Crear barrio</button>
+        <button type="button" class="btn btn-default" (click)="d()">Cerrar</button>
     </div>
 </ng-template>
 
