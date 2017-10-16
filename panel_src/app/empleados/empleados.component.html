@@ -68,63 +68,71 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="firstname">Nombre</label>
-                                <input type="text" class="form-control" id="firstname" name="firstName" #name="ngModel" ngControl="name" [(ngModel)]="empleado.nombre" pattern="[a-zA-Z]*" required placeholder="Ingrese el nombre">
-                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="name.errors?.pattern">Debe ingresar texto</span>
+                                <input type="text" class="form-control" id="firstname" name="firstName" #name="ngModel" ngControl="name" [(ngModel)]="empleado.nombre"
+                                    pattern="[a-zA-Z]*" required placeholder="Ingrese el nombre">
+                                <span class="label label-danger" *ngIf="name.errors?.required && name?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="name.errors?.pattern && name?.touched">Debe ingresar texto</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="lastname">Apellido</label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="empleado.apellido" #apellido="ngModel" digits  pattern="[a-zA-Z]*" required placeholder="Ingrese el apellido">
-                                <span class="label label-danger" *ngIf="apellido.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="apellido.errors?.pattern">Debe ingresar texto</span>
+                                <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="empleado.apellido" #apellido="ngModel"
+                                    digits pattern="[a-zA-Z]*" required placeholder="Ingrese el apellido">
+                                <span class="label label-danger" *ngIf="apellido.errors?.required && apellido?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="apellido.errors?.pattern && apellido?.touched">Debe ingresar texto</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tipodocumento">Tipo de Documento</label>
-                                <select class="form-control" id="tipoDocumento" [(ngModel)]="empleado.id_tipo_documento" name="tipoDocumento" #tipoDoc="ngModel" required>
+                                <select class="form-control" id="tipoDocumento" [(ngModel)]="empleado.id_tipo_documento" name="tipoDocumento" #tipoDoc="ngModel"
+                                    required>
                                 <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id" >{{doctipo.name}}</option>
-                                <span class="label label-danger" *ngIf="tipoDoc.errors?.required">Campo requerido</span>
                             </select>
+                                <span class="label label-danger" *ngIf="tipoDoc.errors?.required && tipoDoc?.touched">Campo requerido</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nrodocumento">Documento</label>
-                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="empleado.numero_documento" placeholder="Ingrese el número de documento" #doc="ngModel" required number > 
-                                <span class="label label-danger" *ngIf="doc.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="doc.errors?.number">Debe ser un numero</span>
+                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="empleado.numero_documento" placeholder="Ingrese el número de documento"
+                                    #doc="ngModel" required number>
+                                <span class="label label-danger" *ngIf="doc.errors?.required&& doc?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="doc.errors?.number &&doc?.touched">Debe ser un numero</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="telefono">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="empleado.telefono" placeholder="Ingrese el número de teléfono" #tel="ngModel" phone="CN"/>
-                                <span class="label label-danger" *ngIf="tel.errors?.phone">Teléfono erroneo</span>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="empleado.telefono" placeholder="Ingrese el número de teléfono"
+                                    #tel="ngModel" phone="CN" />
+                                <span class="label label-danger" *ngIf="tel.errors?.phone && tel?.touched">Teléfono erroneo</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="birthday">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="empleado.fecha_nacimiento" #date="ngModel" minDate="1927-01-01" maxDate="1999-12-31">
-                                <span class="label label-danger" *ngIf="date.errors?.maxDate">Debe ser mayor de edad</span>
-                                <span class="label label-danger" *ngIf="date.errors?.minDate">Verifique el año</span>
+                                <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="empleado.fecha_nacimiento" #date="ngModel"
+                                    required minDate="1927-01-01" maxDate="1999-12-31">
+                                <span class="label label-danger" *ngIf="date.errors?.required && date?.touched"> Campo requerido </span>
+                                <span class="label label-danger" *ngIf="date.errors?.maxDate && date?.touched">Debe ser mayor de edad</span>
+                                <span class="label label-danger" *ngIf="date.errors?.minDate && date?.touched">Verifique el año</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="birthday">Perfil</label>
-                                <select class="form-control" id="perfil" [(ngModel)]="empleado.id_perfil" name="perfil">
+                                <select class="form-control" id="perfil" [(ngModel)]="empleado.id_perfil" name="perfil" #perfil=ngModel required>
                                 <option *ngFor="let perfil of perfiles" [ngValue]="perfil.id">{{perfil.nombre}}</option>
                                  </select>
+                                <span class="label label-danger" *ngIf="perfil.errors?.required&&perfil?.touched">Campo requerido</span>
                             </div>
                         </div>
 
@@ -132,25 +140,27 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" [(ngModel)]="empleado.email" #field="ngModel" email placeholder="Ingrese la dirección de correo electrónico">
-                                <span class="label label-danger" *ngIf="field.errors?.email">Mail inválido</span>
+                                <span class="label label-danger" *ngIf="field.errors?.email && field?.touched">Mail inválido</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="password">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="empleado.password" #pass="ngModel" required minlength="5" placeholder="Ingrese la contraseña">
-                                <span class="label label-danger" *ngIf="pass.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="pass.errors?.minlength">Debe tener al menos 5 caracteres</span>
+                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="empleado.password" #pass="ngModel"
+                                    required minlength="5" placeholder="Ingrese la contraseña">
+                                <span class="label label-danger" *ngIf="pass.errors?.required && pass?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="pass.errors?.minlength && pass?.touched">Debe tener al menos 5 caracteres</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="password">Verifique Contraseña</label>
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="empleado.confirmPassword" #confirmPass="ngModel" required [equalTo]="pass" placeholder="Verifique la contraseña">
-                                <span class="label label-danger" *ngIf="confirmPass.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo">No coinciden contraseñas</span>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="empleado.confirmPassword"
+                                    #confirmPass="ngModel" required [equalTo]="pass" placeholder="Verifique la contraseña">
+                                <span class="label label-danger" *ngIf="confirmPass.errors?.required && confirmPass?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo && confirmPass?.touched">No coinciden contraseñas</span>
                             </div>
                         </div>
 

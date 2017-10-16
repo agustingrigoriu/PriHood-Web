@@ -69,24 +69,32 @@
                             <label for="monto">Monto</label>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                <input [(ngModel)]="expensa.monto" placeholder="Monto de expensa" name="monto" type="number" class="form-control" id="monto">
+                                <input [(ngModel)]="expensa.monto" placeholder="Monto de expensa" name="monto" type="number" class="form-control" id="monto"
+                                    #monto=ngModel required>
+                                <span class="label label-danger" *ngIf="monto.errors?.required&& monto?.touched">Campo requerido</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div>
                                 <label for="mesExpensa">Mes</label>
                             </div>
-                            <dp-date-picker mode='month' theme='dp-material' placeholder="Seleccione un mes" [(ngModel)]="expensa.fecha_expensa" name="fecha_expensa" id="fecha_expensa" [config]="monthPickerConfig"></dp-date-picker>
+                            <dp-date-picker mode='month' theme='dp-material' placeholder="Seleccione un mes" [(ngModel)]="expensa.fecha_expensa" name="fecha_expensa"
+                                id="fecha_expensa" [config]="monthPickerConfig" #fecha_expensa=ngModel required></dp-date-picker>
+                            <span class="label label danger" *ngIf="fecha_expensa.errors?.required && fecha_expensa?.touched">Campo requerido</span>
                         </div>
                         <div class="form-group">
                             <div>
                                 <label for="fechaVencimiento">Fecha de Vencimiento</label>
                             </div>
-                            <dp-date-picker class="form-control" theme='dp-material' placeholder="Seleccione una fecha de vencimiento" [(ngModel)]="expensa.fecha_vencimiento" name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig"></dp-date-picker>
+                            <dp-date-picker class="form-control" theme='dp-material' placeholder="Seleccione una fecha de vencimiento" [(ngModel)]="expensa.fecha_vencimiento"
+                                name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig" #fecha_vencimiento=ngModel
+                                required></dp-date-picker>
+                            <span class="label label danger" *ngIf="fecha_expensa.errors?.required && fecha_expensa?.touched">Campo requerido</span>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input [(ngModel)]="expensa.pagado" type="checkbox" value="si"> Esta expensa está pagada
+                                <input [(ngModel)]="expensa.pagado" type="checkbox" value="si" name="pagada" #pagada=ngModel required> Esta expensa está pagada
+                                <span class="label label danger" *ngIf="pagada.errors?.required && pagada?.touched">Campo requerido</span>
                             </label>
                         </div>
                     </div>
