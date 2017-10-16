@@ -165,6 +165,8 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
+  `latitud` VARCHAR(255)  NULL,
+  `longitud` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
