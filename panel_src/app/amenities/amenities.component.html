@@ -112,14 +112,16 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="amenitySeleccionada.nombre">
+                                <input type="text" class="form-control" id="nombre" name="nombre" #name="ngModel" [(ngModel)]="amenitySeleccionada.nombre" required placeholder="Ingrese nombre">
+                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="ubication">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" [(ngModel)]="amenitySeleccionada.ubicacion">
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" #ubicacion="ngModel"[(ngModel)]="amenitySeleccionada.ubicacion" required placeholder="Ingrese ubicación">
+                                <span class="label label-danger" *ngIf="ubicacion.errors?.required">Campo requerido</span>
                             </div>
                         </div>
 
