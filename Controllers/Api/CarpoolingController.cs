@@ -23,7 +23,7 @@ namespace PriHood.Controllers
 
 
     [HttpPost]
-    public Object RegistrarViaje([FromBody]Viaje viaje)
+    public Object RegistrarViaje([FromBody]Viaje viaje, [FromBody]Trayecto trayecto)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
@@ -32,6 +32,10 @@ namespace PriHood.Controllers
           db.Viaje.Add(viaje);
           db.SaveChanges();
 
+          trayecto.IdViaje = viaje.Id;
+
+          db.Trayecto.Add(trayecto);
+          db.SaveChanges();
           return new { error = false, data = viaje };
         }
         catch (Exception err)
@@ -57,8 +61,25 @@ namespace PriHood.Controllers
           from v in db.Viaje
           join r in db.Residente on v.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
+          join p in db.Persona on r.IdPersona equals p.Id
+          join t in db.Trayecto on v.Id equals t.IdViaje
           where u.IdBarrio == id_barrio
-          select v
+          select new
+          {
+            id_viaje = v.Id,
+            auto_modelo = v.AutoModelo,
+            auto_color = v.AutoColor,
+            auto_asientos = v.AutoAsientos,
+            auto_patente = v.AutoPatente,
+            fecha = v.Fecha,
+            observaciones = v.Observaciones,
+            dia_semana = v.IdDiaSemana,
+            sale_barrio = v.SaleBarrio,
+            id_residente = v.IdResidente,
+            residente = p.Apellido + ", " + p.Nombre,
+            usuario = u.Email,
+            trayecto = t
+          }
         ).ToList();
 
         return new { error = false, data = viajes };
