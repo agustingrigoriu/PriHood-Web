@@ -638,6 +638,8 @@ INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976
 
 INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("prihood@prihood.com","8c6976e5b5410415bde908bd4dee15",2, 1);
 
+INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("residente@prihood.com","8c6976e5b5410415bde908bd4dee15",3, 1);
+
 INSERT INTO Empleado(fecha_inicio_actividad, id_usuario, id_persona, id_barrio) VALUES ('2017-05-2', '2', '1', '1');
 
 
