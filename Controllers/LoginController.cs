@@ -29,22 +29,19 @@ namespace PriHood.Controllers
     [HttpPost]
     public Object Index(LoginModel login)
     {
-      var usuario = _AuthService.Login(login.email ?? "", login.password ?? "");
+      Usuario usuario = _AuthService.Login(login.email ?? "", login.password ?? "");
 
-      if (usuario.IdPerfil == 3)
+      if (usuario.IdPerfil == 3 || usuario == null)
       {
-        ViewData["error"] = "Los residentes no pueden acceder";
+        ViewData["error"] = "Usuario o contraseña inválidos";
         return View();
       }
-
-      if (usuario != null)
+      else
       {
         HttpContext.Session.LogInAccount(usuario);
         return Redirect("/panel");
       }
 
-      ViewData["error"] = "Email o contraseña incorrectos.";
-      return View();
     }
 
     [Route("/Logout")]
