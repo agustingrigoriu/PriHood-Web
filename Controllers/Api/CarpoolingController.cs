@@ -36,10 +36,14 @@ namespace PriHood.Controllers
 
           db.Trayecto.Add(trayecto);
           db.SaveChanges();
+
+          transaction.Commit();
           return new { error = false, data = viaje };
+
         }
         catch (Exception err)
         {
+          transaction.Rollback();
           return new { error = true, data = "Error", message = err.Message };
         }
       }
