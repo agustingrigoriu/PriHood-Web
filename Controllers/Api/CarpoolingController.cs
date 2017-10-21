@@ -136,6 +136,7 @@ namespace PriHood.Controllers
             v.AutoPatente,
             v.Observaciones,
             es.Descripcion,
+            v.Destino,
             trayectos = (
               from tr in db.Trayecto
               where tr.IdViaje == v.Id
