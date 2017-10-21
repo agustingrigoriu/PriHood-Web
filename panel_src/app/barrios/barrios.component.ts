@@ -31,6 +31,7 @@ export class BarriosComponent implements OnInit {
     telefono: '',
     fecha_nacimiento: '',
     password: '',
+    confirmPass:'',
   };
 
   barrios: Barrio[] = [];
