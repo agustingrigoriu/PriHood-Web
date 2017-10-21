@@ -126,4 +126,10 @@ namespace PriHood.Controllers
     public Viaje viaje { get; set; }
     public List<Trayecto> trayectos { get; set; }
   }
+
+  public class ModeloEstadoSolicitud
+  {
+    public string estado_solicitud { get; set; }
+  }
+  
 }

@@ -192,6 +192,34 @@ namespace PriHood.Controllers
       }
     }
 
-  }
+    [HttpPost("ofrecimientos/{id_solicitud_viaje}")]
+    public Object AceptarRechazarSolicitud(int id_solicitud_viaje, [FromBody] ModeloEstadoSolicitud es)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          var estado = db.EstadoSolicitud.First(e => e.Descripcion == es.estado_solicitud);
+          var solicitud = db.SolicitudViaje.First(s => s.Id == id_solicitud_viaje);
 
+          solicitud.IdEstadoSolicitud = estado.Id;
+
+          db.SolicitudViaje.Update(solicitud);
+          db.SaveChanges();
+
+          transaction.Commit();
+          return new { error = false, data = es };
+        }
+        catch (Exception err)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error", message = err.Message };
+        }
+      }
+
+    }
+
+  }
 }
