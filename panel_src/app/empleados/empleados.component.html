@@ -69,13 +69,8 @@
                             <div class="form-group">
                                 <label for="firstname">Nombre</label>
                                 <input type="text" class="form-control" id="firstname" name="firstName" #name="ngModel" ngControl="name" [(ngModel)]="empleado.nombre"
-<<<<<<< HEAD
                                     required placeholder="Ingrese el nombre">
-                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
-=======
-                                     required placeholder="Ingrese el nombre">
                                 <span class="label label-danger" *ngIf="name.errors?.required && name?.touched">Campo requerido</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -83,13 +78,8 @@
                             <div class="form-group">
                                 <label for="lastname">Apellido</label>
                                 <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="empleado.apellido" #apellido="ngModel"
-<<<<<<< HEAD
-                                    required placeholder="Ingrese el apellido">
-                                <span class="label label-danger" *ngIf="apellido.errors?.required">Campo requerido</span>
-=======
-                                    digits  required placeholder="Ingrese el apellido">
+                                    digits required placeholder="Ingrese el apellido">
                                 <span class="label label-danger" *ngIf="apellido.errors?.required && apellido?.touched">Campo requerido</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -109,13 +99,8 @@
                                 <label for="nrodocumento">Documento</label>
                                 <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="empleado.numero_documento" placeholder="Ingrese el número de documento"
                                     #doc="ngModel" required number>
-<<<<<<< HEAD
-                                <span class="label label-danger" *ngIf="doc.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="doc.errors?.number">Debe ser un numero</span>
-=======
                                 <span class="label label-danger" *ngIf="doc.errors?.required&& doc?.touched">Campo requerido</span>
                                 <span class="label label-danger" *ngIf="doc.errors?.number &&doc?.touched">Debe ser un numero</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -124,11 +109,7 @@
                                 <label for="telefono">Teléfono</label>
                                 <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="empleado.telefono" placeholder="Ingrese el número de teléfono"
                                     #tel="ngModel" phone="CN" />
-<<<<<<< HEAD
-                                <span class="label label-danger" *ngIf="tel.errors?.phone">Teléfono erroneo</span>
-=======
                                 <span class="label label-danger" *ngIf="tel.errors?.phone && tel?.touched">Teléfono erroneo</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -136,16 +117,10 @@
                             <div class="form-group">
                                 <label for="birthday">Fecha de Nacimiento</label>
                                 <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="empleado.fecha_nacimiento" #date="ngModel"
-<<<<<<< HEAD
-                                    minDate="1927-01-01" maxDate="1999-12-31">
-                                <span class="label label-danger" *ngIf="date.errors?.maxDate">Debe ser mayor de edad</span>
-                                <span class="label label-danger" *ngIf="date.errors?.minDate">Verifique el año</span>
-=======
                                     required minDate="1927-01-01" maxDate="1999-12-31">
                                 <span class="label label-danger" *ngIf="date.errors?.required && date?.touched"> Campo requerido </span>
                                 <span class="label label-danger" *ngIf="date.errors?.maxDate && date?.touched">Debe ser mayor de edad</span>
                                 <span class="label label-danger" *ngIf="date.errors?.minDate && date?.touched">Verifique el año</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -172,13 +147,8 @@
                                 <label for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" [(ngModel)]="empleado.password" #pass="ngModel"
                                     required minlength="5" placeholder="Ingrese la contraseña">
-<<<<<<< HEAD
-                                <span class="label label-danger" *ngIf="pass.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="pass.errors?.minlength">Debe tener al menos 5 caracteres</span>
-=======
                                 <span class="label label-danger" *ngIf="pass.errors?.required && pass?.touched">Campo requerido</span>
                                 <span class="label label-danger" *ngIf="pass.errors?.minlength && pass?.touched">Debe tener al menos 5 caracteres</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -187,13 +157,8 @@
                                 <label for="password">Verifique Contraseña</label>
                                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="empleado.confirmPassword"
                                     #confirmPass="ngModel" required [equalTo]="pass" placeholder="Verifique la contraseña">
-<<<<<<< HEAD
-                                <span class="label label-danger" *ngIf="confirmPass.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo">No coinciden contraseñas</span>
-=======
                                 <span class="label label-danger" *ngIf="confirmPass.errors?.required && confirmPass?.touched">Campo requerido</span>
                                 <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo && confirmPass?.touched">No coinciden contraseñas</span>
->>>>>>> 35c0008487ca1c22616d45a0e82535034dfbe47a
                             </div>
                         </div>
 
@@ -224,54 +189,59 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="firstname">Nombre</label>
-                                <input type="text" class="form-control" id="firstname" name="firstName" [(ngModel)]="empleadoSeleccionado.nombre">
-                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
+                                <input type="text" class="form-control" id="nombre" name="nombre" #nombre=ngModel [(ngModel)]="empleadoSeleccionado.nombre"
+                                    required>
+                                <span class="label label-danger" *ngIf="nombre.errors?.required && nombre?.touched">Campo requerido</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="lastname">Apellido</label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="empleadoSeleccionado.apellido">
-                                <span class="label label-danger" *ngIf="apellido.errors?.required">Campo requerido</span>
+                                <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="empleadoSeleccionado.apellido" #lastname=ngModel
+                                    required>
+                                <span class="label label-danger" *ngIf="lastname.errors?.required && lastname?.touched">Campo requerido</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tipodocumento">Tipo de Documento</label>
-                                <select class="form-control" id="tipoDocumento" [(ngModel)]="empleadoSeleccionado.id_tipo_documento" name=tipoDocumento>
+                                <select class="form-control" id="tipoDocumento" [(ngModel)]="empleadoSeleccionado.id_tipo_documento" name=tipoDocumento #tipoDoc=ngModel
+                                    required>
                                 <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id" >{{doctipo.name}} </option>
                                 </select>
+                                <span class="label label-danger" *ngIf="tipoDoc.errors?.required && tipoDoc?.touched">Campo requerido</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nrodocumento">Documento</label>
-                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="empleado.numero_documento" placeholder="Ingrese el número de documento"
-                                    #doc="ngModel" required number>
-                                <span class="label label-danger" *ngIf="doc.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="doc.errors?.number">Debe ser un numero</span>
+                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" [(ngModel)]="empleado.numero_documento" #nrodocumento=ngModel
+                                    placeholder="Ingrese el número de documento" #doc="ngModel" required number>
+                                <span class="label label-danger" *ngIf="nrodocumento.errors?.required && nrodocumento?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="nrodocumento.errors?.number && nrodocumento?.touched">Debe ser un numero</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="telefono">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="empleadoSeleccionado.telefono" #tel="ngModel"
-                                    phone="CN" />
-                                <span class="label label-danger" *ngIf="tel.errors?.phone">Teléfono erroneo</span>
+                                <input type="tel" class="form-control" id="telefono" name="telefono" #telefono=ngModel [(ngModel)]="empleadoSeleccionado.telefono"
+                                    #tel="ngModel" phone="CN" />
+                                <span class="label label-danger" *ngIf="telefono.errors?.phone && telefono?.touched">Teléfono erroneo</span>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="birthday">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="empleadoSeleccionado.fecha_nacimiento"
-                                    #date="ngModel" minDate="1927-01-01" maxDate="1999-12-31">
-                                <span class="label label-danger" *ngIf="date.errors?.maxDate">Debe ser mayor de edad</span>
-                                <span class="label label-danger" *ngIf="date.errors?.minDate">Verifique el año</span>
+                                <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="empleado.fecha_nacimiento" #date="ngModel"
+                                    required minDate="1927-01-01" maxDate="1999-12-31">
+                                <span class="label label-danger" *ngIf="date.errors?.required && date?.touched"> Campo requerido </span>
+                                <span class="label label-danger" *ngIf="date.errors?.maxDate && date?.touched">Debe ser mayor de edad</span>
+                                <span class="label label-danger" *ngIf="date.errors?.minDate && date?.touched">Verifique el año</span>
                             </div>
                         </div>
 
@@ -287,7 +257,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="empleadoSeleccionado.email">
+                                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="empleadoSeleccionado.email" #field="ngModel"
+                                    email required>
+                                <span class="label label-danger" *ngIf="field.errors?.email && field?.touched">Mail inválido</span>
                             </div>
                         </div>
 
@@ -295,9 +267,19 @@
                             <div class="form-group">
                                 <label for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" [(ngModel)]="empleadoSeleccionado.password" #pass="ngModel"
-                                    required minlength="5" placeholder="Ingrese la contraseña">
-                                <span class="label label-danger" *ngIf="pass.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="pass.errors?.minlength">Debe tener al menos 5 caracteres</span>
+                                    required minlength="5">
+                                <span class="label label-danger" *ngIf="pass.errors?.required && pass?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="pass.errors?.minlength && pass?.touched">Debe tener al menos 5 caracteres</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password">Verifique Contraseña</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="empleadoSeleccionado.confirmPassword"
+                                    #confirmPass="ngModel" required [equalTo]="pass" placeholder="Verifique la contraseña">
+                                <span class="label label-danger" *ngIf="confirmPass.errors?.required && confirmPass?.touched">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo && confirmPass?.touched">No coinciden contraseñas</span>
                             </div>
                         </div>
 
