@@ -23,22 +23,29 @@ namespace PriHood.Controllers
 
 
     [HttpPost]
-    public Object RegistrarViaje([FromBody]Viaje viaje, [FromBody]Trayecto trayecto)
+    public Object RegistrarViaje([FromBody]ModeloCarpooling mc)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
         try
         {
-          db.Viaje.Add(viaje);
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+
+          mc.viaje.IdResidente = residente.Id;
+          db.Viaje.Add(mc.viaje);
           db.SaveChanges();
 
-          trayecto.IdViaje = viaje.Id;
+          foreach (var trayecto in mc.trayectos)
+          {
+            trayecto.IdViaje = mc.viaje.Id;
 
-          db.Trayecto.Add(trayecto);
+            db.Trayecto.Add(trayecto);
+          }
           db.SaveChanges();
 
           transaction.Commit();
-          return new { error = false, data = viaje };
+          return new { error = false, data = mc.viaje };
 
         }
         catch (Exception err)
@@ -47,7 +54,6 @@ namespace PriHood.Controllers
           return new { error = true, data = "Error", message = err.Message };
         }
       }
-
     }
 
 

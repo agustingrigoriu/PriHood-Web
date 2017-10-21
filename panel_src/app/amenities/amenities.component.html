@@ -59,17 +59,16 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="amenity.nombre" #name="ngModel"  pattern="[a-zA-Z]*" required placeholder="Ingrese el nombre del amenity">
-                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="name.errors?.pattern">Debe ingresar texto</span> 
+                                <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="amenity.nombre" #name=ngModel  required placeholder="Ingrese el nombre del amenity">
+                                <span class="label label-danger" *ngIf="name.errors?.required&&name?.touched">Campo requerido</span>
                             </div>
                         </div>
 
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="ubication">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion"  [(ngModel)]="amenity.ubicacion" #ubicacion="ngModel"  pattern="[a-zA-Z]*" required placeholder="Ingrese la ubicación del amenity">
-                                <span class="label label-danger" *ngIf="ubicacion.errors?.required">Campo requerido</span>
+                                <input type="text" class="form-control" id="ubicacion" name="ubicacion"  [(ngModel)]="amenity.ubicacion" #ubicacion=ngModel required placeholder="Ingrese la ubicación del amenity">
+                                <span class="label label-danger" *ngIf="ubicacion.errors?.required&& ubicacion?.touched">Campo requerido</span>
                             </div>
                         </div>
 
@@ -83,9 +82,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tipoamenity">Tipo Amenity</label>
-                                <select class="form-control" id="tipoAmenity" [(ngModel)]="amenity.idTipoAmenity" name="tipoAmenity">
+                                <select class="form-control" id="tipoAmenity" [(ngModel)]="amenity.idTipoAmenity" name="tipoAmenity" #tipoAmenity=ngModel required>
                                 <option *ngFor="let tipo of tipos" [ngValue]="tipo.id">{{tipo.name}}</option>
                                 </select>
+                            <span class="label label-danger" *ngIf="tipoAmenity.errors?.required&& tipoAmenity?.touched">Campo requerido</span>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" #name="ngModel" [(ngModel)]="amenitySeleccionada.nombre" required placeholder="Ingrese nombre">
-                                <span class="label label-danger" *ngIf="name.errors?.required">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="name.errors?.required&&name?.touched">Campo requerido</span>
                             </div>
                         </div>
 
@@ -121,7 +121,7 @@
                             <div class="form-group">
                                 <label for="ubication">Ubicación</label>
                                 <input type="text" class="form-control" id="ubicacion" name="ubicacion" #ubicacion="ngModel"[(ngModel)]="amenitySeleccionada.ubicacion" required placeholder="Ingrese ubicación">
-                                <span class="label label-danger" *ngIf="ubicacion.errors?.required">Campo requerido</span>
+                                <span class="label label-danger" *ngIf="ubicacion.errors?.required&&ubicacion?.touched">Campo requerido</span>
                             </div>
                         </div>
 
@@ -135,7 +135,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="tipoamenity">Tipo Amenity</label>
-                                <select class="form-control" id="tipoAmenity" [(ngModel)]="amenitySeleccionada.idTipoAmenity" name="tipoAmenity">
+                                <select class="form-control" id="tipoAmenity" [(ngModel)]="amenitySeleccionada.idTipoAmenity" name="tipoAmenity" #tipoAmenity=ngModel required>
                                 <option *ngFor="let tipo of tipos" [ngValue]="tipo.id">{{tipo.name}}</option>
                                 </select>
                             </div>
