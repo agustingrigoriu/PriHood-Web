@@ -58,8 +58,8 @@ namespace PriHood.Controllers
 
 
     //Listo los viajes existentes en el barrio del usuario
-    [HttpGet()]
-    public Object ListarViajes()
+    [HttpGet("viajes/{fecha:DateTime}")]
+    public Object ListarViajes(DateTime fecha)
     {
       try
       {
@@ -72,25 +72,29 @@ namespace PriHood.Controllers
           join r in db.Residente on v.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join p in db.Persona on r.IdPersona equals p.Id
-          join t in db.Trayecto on v.Id equals t.IdViaje
-          where u.IdBarrio == id_barrio
+          where u.IdBarrio == id_barrio && (v.Fecha.HasValue ? v.Fecha.Value.Date == fecha.Date : true)
           select new
           {
-            id_viaje = v.Id,
-            auto_modelo = v.AutoModelo,
-            auto_color = v.AutoColor,
-            auto_asientos = v.AutoAsientos,
-            auto_patente = v.AutoPatente,
-            fecha = v.Fecha,
-            observaciones = v.Observaciones,
-            dia_semana = v.IdDiaSemana,
-            sale_barrio = v.SaleBarrio,
-            id_residente = v.IdResidente,
+            v.Id,
+            v.AutoModelo,
+            v.AutoColor,
+            v.AutoAsientos,
+            v.AutoPatente,
+            v.Fecha,
+            v.Observaciones,
+            v.IdDiaSemana,
+            v.SaleBarrio,
+            v.IdResidente,
+            tipo = v.Fecha.HasValue ? "único" : "recurrente",
             residente = p.Apellido + ", " + p.Nombre,
-            usuario = u.Email,
-            trayecto = t
+            trayectos = (
+              from tr in db.Trayecto
+              where tr.IdViaje == v.Id
+              orderby tr.Orden ascending
+              select tr
+            )
           }
-        ).ToList();
+        );
 
         return new { error = false, data = viajes };
       }
