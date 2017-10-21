@@ -559,6 +559,7 @@ CREATE TABLE `Prihood`.`Viaje` (
   `auto_modelo` VARCHAR(255) NULL,
   `auto_patente` VARCHAR(45) NOT NULL,
   `auto_color` VARCHAR(255) NULL,
+  `destino` VARCHAR(255) NULL,
   `auto_asientos` INT NOT NULL,
   `fecha` DATETIME NULL,
   `hora` TIME NULL,
