@@ -71,7 +71,15 @@ namespace PriHood.Controllers
           select r
         ).Count();
 
-        var data = new { cantidad_residencias = cantidad_residencias, cantidad_residentes = cantidad_residentes };
+        Barrio b = (
+          from ba in db.Barrio
+          where ba.Id == id_barrio
+          select ba
+        ).First();
+
+
+
+        var data = new { cantidad_residencias = cantidad_residencias, cantidad_residentes = cantidad_residentes, latitud = b.Latitud, longitud = b.Longitud };
 
         return new { error = false, data = data };
 

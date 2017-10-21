@@ -4,6 +4,9 @@ import { Amenity } from './amenity.model';
 import { NgForm } from "@angular/forms/forms";
 import { NotificationsService } from 'angular2-notifications';
 import { ConfirmationService } from '@jaspero/ng2-confirmations';
+import { Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-amenities',
@@ -12,6 +15,7 @@ import { ConfirmationService } from '@jaspero/ng2-confirmations';
 })
 
 export class AmenitiesComponent implements OnInit {
+    ameForm: any;
     constructor(protected AmenitiesService: AmenitiesService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
     amenities: Amenity[] = [];
@@ -94,14 +98,20 @@ export class AmenitiesComponent implements OnInit {
 
     ngOnInit(): void {
         this.actualizarListado();
+        this.ameForm = new FormGroup({
+            'name': new FormControl(this.amenity.nombre, [
+                Validators.required,
+            ]),
+
+        });
     }
 
-    confirmacionEliminar(amenity: Amenity) {
-        this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
-            .subscribe((ans: any) => {
-                if (ans.resolved) {
-                    this.borrarAmenity(amenity);
-                }
-            });
-    }
+confirmacionEliminar(amenity: Amenity) {
+    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+        .subscribe((ans: any) => {
+            if (ans.resolved) {
+                this.borrarAmenity(amenity);
+            }
+        });
+}
 }

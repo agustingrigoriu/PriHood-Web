@@ -165,6 +165,8 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Barrio` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(100) NOT NULL,
+  `latitud` DOUBLE  NULL,
+  `longitud` DOUBLE NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC))
 ENGINE = InnoDB;
@@ -630,11 +632,13 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 INSERT INTO Persona(nombre, apellido, id_tipo_documento, nro_documento, telefono_movil, fecha_nacimiento) VALUES ('Agustín ', 'Gregorieu', '1', '38500850', '3515298313', '1994-10-12');
 
-INSERT INTO Barrio(nombre, ubicacion) VALUES("BarrioPrueba","ubicacion prueba");
+INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("BarrioPrueba","ubicacion prueba", -31.429075, -64.189044);
 
 INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
 
 INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("prihood@prihood.com","8c6976e5b5410415bde908bd4dee15",2, 1);
+
+INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("residente@prihood.com","8c6976e5b5410415bde908bd4dee15",3, 1);
 
 INSERT INTO Empleado(fecha_inicio_actividad, id_usuario, id_persona, id_barrio) VALUES ('2017-05-2', '2', '1', '1');
 

@@ -71,11 +71,13 @@
                 <form role="form" #resForm="ngForm" name="resForm" id="resForm" >
                     <div class="form-group">
                         <label for="residente">Alias</label>
-                        <input title= "Se necesita un alias" [(ngModel)]="residencia.nombre" required name="nombre" type="text" class="form-control" id="residente" placeholder="Ingrese el alias de la residencia" required/>
+                        <input title= "Se necesita un alias" [(ngModel)]="residencia.nombre" name="nombre" type="text" class="form-control" id="residente" #nombre="ngModel" required placeholder="Ingrese el alias de la residencia">
+                        <span class="label label-danger" *ngIf="nombre.errors?.required">Campo requerido</span>    
                     </div>
                     <div class="form-group">
                         <label for="direccion">Ubicación</label>
-                        <input [(ngModel)]="residencia.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" placeholder="Ingrese la ubicacion de la residencia">
+                        <input [(ngModel)]="residencia.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" #ubicacion="ngModel" required placeholder="Ingrese la ubicacion de la residencia">
+                        <span class="label label-danger" *ngIf="ubicacion.errors?.required">Campo requerido</span> 
                     </div>
                 </form>
             </div>
@@ -99,11 +101,13 @@
                 <form role="form" #resForm="ngForm" name="resForm" id="resForm" *ngIf="residenciaSeleccionada">
                     <div class="form-group">
                         <label for="residente">Alias</label>
-                        <input [(ngModel)]="residenciaSeleccionada.nombre" required name="nombre" type="text" class="form-control" id="residente">
-                    </div>
+                        <input [(ngModel)]="residenciaSeleccionada.nombre" name="nombre" type="text" class="form-control" id="residente" #nombre="ngModel" required placeholder="Ingrese el alias de la residencia">
+                        <span class="label label-danger" *ngIf="nombre.errors?.required">Campo requerido</span>    
+                   </div>
                     <div class="form-group">
                         <label for="direccion">Ubicación</label>
-                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion">
+                        <input [(ngModel)]="residenciaSeleccionada.ubicacion" name="ubicacion" type="text" class="form-control" id="direccion" #ubicacion="ngModel" required placeholder="Ingrese la ubicacion de la residencia">
+                        <span class="label label-danger" *ngIf="ubicacion.errors?.required">Campo requerido</span> 
                     </div>
                 </form>
             </div>

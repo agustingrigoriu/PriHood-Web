@@ -10,9 +10,9 @@
             <h3 class="box-title">Listado de barrios</h3>
         </div>
         <div class="box-body">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarBarrio">
-                        <i class="fa fa-plus"></i>
-                      </button>
+            <button type="button" class="btn btn-primary" (click)="abrirModalCrearBarrio()">
+                <i class="fa fa-plus"></i>
+            </button>
         </div>
         <table class="table" id="tablaBarrios">
             <thead>
@@ -34,8 +34,12 @@
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(barrio)"><i class="fa fa-trash"></i></a>
-                        <a class="btn btn-xs btn-info" (click)="onSelectedBar(barrio)" data-toggle="modal" data-target="#editarBarrio"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(barrio)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <a class="btn btn-xs btn-info" (click)="onSelectedBar(barrio)" data-toggle="modal" data-target="#editarBarrio">
+                            <i class="fa fa-pencil"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>
@@ -43,146 +47,149 @@
     </div>
 </section>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="registrarBarrio">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Registrar Barrio</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form" #barrioForm="ngForm" name="barrioForm" id="barrioForm">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" #nombre=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="barrio.nombre"
-                                    placeholder="Ingrese el nombre del barrio">
-                                <span class="label label-danger" *ngIf="nombre.errors?.required && nombre?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="nombre.errors?.pattern && nombre?.touched">Debe ingresar texto</span>
-                            </div>
-                        </div>
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="ubication">Ubicación</label>
-                                <input type="text" class="form-control" id="ubicacion" name="ubicacion" [(ngModel)]="barrio.ubicacion" #ubicacion=ngModel
-                                    required placeholder="Ingrese la ubicación del barrio">
-                                <span class="label label-danger" *ngIf="ubicacion.errors?.required && ubicacion?.touched">Campo requerido</span>
-                            </div>
-                        </div>
 
-                        <div class="col-md-12">
-                            <h4> Administrador del Barrio </h4>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="firstname">Nombre</label>
-                                <input type="text" class="form-control" id="firstname" name="firstName" #firstName=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="usuario.nombre"
-                                    placeholder="Ingrese el nombre">
-                                <span class="label label-danger" *ngIf="firstName.errors?.required && firstName?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="firstName.errors?.pattern && firstName?.touched">Debe ingresar texto</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="lastname">Apellido</label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" #lastname=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="usuario.apellido"
-                                    placeholder="Ingrese el apellido">
-                                <span class="label label-danger" *ngIf="lastname.errors?.required && lastname?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="lastname.errors?.pattern && lastname?.touched">Debe ingresar texto</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="tipodocumento">Tipo de Documento</label>
-                                <select class="form-control" id="tipoDocumento" [(ngModel)]="usuario.id_tipo_documento" name="tipoDocumento" #tipoDocumento=ngModel
-                                    required>
-                                <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id">{{doctipo.name}}</option>
-                                </select>
-                                <span class="label label-danger" *ngIf="tipoDocumento.errors?.required && tipoDocumento?.touched">Campo requerido</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nrodocumento">Documento</label>
-                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" #nrodocumento=ngModel required number [(ngModel)]="usuario.numero_documento"
-                                    placeholder="Ingrese el número de documento">
-                                <span class="label label-danger" *ngIf="nrodocumento.errors?.required && nrodocumento?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="nrodocumento.errors?.required && nrodocumento?.touched">Documento inválido</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="telefono">Teléfono</label>
-                                <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Ingrese el número de teléfono"
-                                    #telefono="ngModel" phone="CN">
-                                <span class="label label-danger" *ngIf="telefono.errors?.phone && telefono?.touched">Teléfono inválido</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="birthday">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="usuario.fecha_nacimiento" #birthday="ngModel"
-                                    minDate="1927-01-01" maxDate="1999-12-31">
-                                <span class="label label-danger" *ngIf="birthday.errors?.required && birthday?.touched">Campo requerido </span>
-                                <span class="label label-danger" *ngIf="birthday.errors?.maxDate && birthday?.touched">Debe ser mayor de edad</span>
-                                <span class="label label-danger" *ngIf="birthday.errors?.minDate && birthday?.touched">Verifique el año</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.email" placeholder="Ingrese la dirección de correo electrónico"
-                                    #email=ngModel required email>
-                                <span class="label label-danger" *ngIf="email.errors?.required && email?.touched">Campo requerido </span>
-                                <span class="label label-danger" *ngIf="email.errors?.email && email?.touched">Mail inválido </span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="password">Contraseña</label>
-                                <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password" #password="ngModel"
-                                    required minlength="5" placeholder="Ingrese la contraseña">
-                                <span class="label label-danger" *ngIf="password.errors?.required && password?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="password.errors?.minlength && password?.touched">Debe tener al menos 5 caracteres</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="password">Verifique Contraseña</label>
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="usuario.confirmPass"
-                                    #confirmPass="ngModel" required [equalTo]="password" placeholder="Verifique la contraseña">
-                                <span class="label label-danger" *ngIf="confirmPass.errors?.required && confirmPass?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo && confirmPass?.touched">No coinciden contraseñas</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="crearBarrio(barrio, usuario, barrioForm)">Crear barrio</button>
-            </div>
-        </div>
+<ng-template #crearBarrioModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Registrar Barrio</h4>
     </div>
-</div>
+    <div class="modal-body">
+        <form role="form" #barrioForm="ngForm" name="barrioForm" id="barrioForm">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" #nombre=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="barrio.nombre"
+                            placeholder="Ingrese el nombre del barrio">
+                        <span class="label label-danger" *ngIf="nombre.errors?.required && nombre?.touched">Campo requerido</span>
+                        <span class="label label-danger" *ngIf="nombre.errors?.pattern && nombre?.touched">Debe ingresar texto</span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label>Ubicación</label>
+                    <agm-map [latitude]="barrio.latitud" [longitude]="barrio.longitud">
+                        <agm-marker [latitude]="barrio.latitud" [longitude]="barrio.longitud" [markerDraggable]="markerDraggable" [markerClickable]="markerClickable"
+                            [label]="markerLabel" (dragEnd)="dragEnd($event)"></agm-marker>
+                    </agm-map>
+                </div>
+
+                <div class="col-md-12">
+                    <h4> Administrador del Barrio </h4>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="firstname">Nombre</label>
+                        <input type="text" class="form-control" id="firstname" name="firstName" #firstName=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="usuario.nombre"
+                            placeholder="Ingrese el nombre">
+                        <span class="label label-danger" *ngIf="firstName.errors?.required && firstName?.touched">Campo requerido</span>
+                        <span class="label label-danger" *ngIf="firstName.errors?.pattern && firstName?.touched">Debe ingresar texto</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="lastname">Apellido</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" #lastname=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="usuario.apellido"
+                            placeholder="Ingrese el apellido">
+                        <span class="label label-danger" *ngIf="lastname.errors?.required && lastname?.touched">Campo requerido</span>
+                        <span class="label label-danger" *ngIf="lastname.errors?.pattern && lastname?.touched">Debe ingresar texto</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="tipodocumento">Tipo de Documento</label>
+                        <select class="form-control" id="tipoDocumento" [(ngModel)]="usuario.id_tipo_documento" name="tipoDocumento" #tipoDocumento=ngModel
+                            required>
+                            <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id">{{doctipo.name}}</option>
+                        </select>
+                        <span class="label label-danger" *ngIf="tipoDocumento.errors?.required && tipoDocumento?.touched">Campo requerido</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nrodocumento">Documento</label>
+                        <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" #nrodocumento=ngModel required number [(ngModel)]="usuario.numero_documento"
+                            placeholder="Ingrese el número de documento">
+                        <span class="label label-danger" *ngIf="nrodocumento.errors?.required && nrodocumento?.touched">Campo requerido</span>
+                        <span class="label label-danger" *ngIf="nrodocumento.errors?.required && nrodocumento?.touched">Documento inválido</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono" [(ngModel)]="usuario.telefono" placeholder="Ingrese el número de teléfono"
+                            #telefono="ngModel" phone="CN">
+                        <span class="label label-danger" *ngIf="telefono.errors?.phone && telefono?.touched">Teléfono inválido</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="birthday">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday" [(ngModel)]="usuario.fecha_nacimiento" #birthday="ngModel"
+                            minDate="1927-01-01" maxDate="1999-12-31">
+                        <span class="label label-danger" *ngIf="birthday.errors?.required && birthday?.touched">Campo requerido </span>
+                        <span class="label label-danger" *ngIf="birthday.errors?.maxDate && birthday?.touched">Debe ser mayor de edad</span>
+                        <span class="label label-danger" *ngIf="birthday.errors?.minDate && birthday?.touched">Verifique el año</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="usuario.email" placeholder="Ingrese la dirección de correo electrónico"
+                            #email=ngModel required email>
+                        <span class="label label-danger" *ngIf="email.errors?.required && email?.touched">Campo requerido </span>
+                        <span class="label label-danger" *ngIf="email.errors?.email && email?.touched">Mail inválido </span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="usuario.password" #password="ngModel"
+                            required minlength="5" placeholder="Ingrese la contraseña">
+                        <span class="label label-danger" *ngIf="password.errors?.required && password?.touched">Campo requerido</span>
+                        <span class="label label-danger" *ngIf="password.errors?.minlength && password?.touched">Debe tener al menos 5 caracteres</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="password">Verifique Contraseña</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" [(ngModel)]="usuario.confirmPass"
+                            #confirmPass="ngModel" required [equalTo]="password" placeholder="Verifique la contraseña">
+                        <span class="label label-danger" *ngIf="confirmPass.errors?.required && confirmPass?.touched">Campo requerido</span>
+                        <span class="label label-danger" *ngIf="confirmPass.errors?.equalTo && confirmPass?.touched">No coinciden contraseñas</span>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="crearBarrio(barrio, usuario)">Crear barrio</button>
+        <button type="button" class="btn btn-default" (click)="d()">Cerrar</button>
+    </div>
+</ng-template>
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="editarBarrio">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">Modificar Barrio</h4>
             </div>
             <div class="modal-body">

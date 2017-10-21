@@ -186,6 +186,10 @@ namespace PriHood.Models
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.Latitud).HasColumnName("latitud");
+
+                entity.Property(e => e.Longitud).HasColumnName("longitud");
+
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasColumnName("nombre")
