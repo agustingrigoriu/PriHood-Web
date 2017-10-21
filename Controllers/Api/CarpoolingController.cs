@@ -140,6 +140,7 @@ namespace PriHood.Controllers
             trayectos = (
               from tr in db.Trayecto
               where tr.IdViaje == v.Id
+              orderby tr.Orden ascending
               select tr
             )
           }
