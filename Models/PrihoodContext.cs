@@ -21,6 +21,7 @@ namespace PriHood.Models
         public virtual DbSet<DiaSemana> DiaSemana { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<EstadoReserva> EstadoReserva { get; set; }
+        public virtual DbSet<EstadoSolicitud> EstadoSolicitud { get; set; }
         public virtual DbSet<EventoVisita> EventoVisita { get; set; }
         public virtual DbSet<Eventos> Eventos { get; set; }
         public virtual DbSet<Expensas> Expensas { get; set; }
@@ -319,6 +320,17 @@ namespace PriHood.Models
                     .IsRequired()
                     .HasColumnName("descripcion")
                     .HasColumnType("varchar(45)");
+            });
+
+            modelBuilder.Entity<EstadoSolicitud>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Descripcion)
+                    .HasColumnName("descripcion")
+                    .HasColumnType("varchar(255)");
             });
 
             modelBuilder.Entity<EventoVisita>(entity =>
@@ -789,6 +801,9 @@ namespace PriHood.Models
 
             modelBuilder.Entity<SolicitudViaje>(entity =>
             {
+                entity.HasIndex(e => e.IdEstadoSolicitud)
+                    .HasName("fk_estado_solicitudViaje_idx");
+
                 entity.HasIndex(e => e.IdResidente)
                     .HasName("fk_residente_solicitudViaje_idx");
 
@@ -799,14 +814,13 @@ namespace PriHood.Models
                     .HasColumnName("id")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.Estado)
-                    .IsRequired()
-                    .HasColumnName("estado")
-                    .HasColumnType("varchar(45)");
-
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.IdEstadoSolicitud)
+                    .HasColumnName("id_estado_solicitud")
+                    .HasColumnType("int(11)");
 
                 entity.Property(e => e.IdResidente)
                     .HasColumnName("id_residente")
@@ -815,6 +829,12 @@ namespace PriHood.Models
                 entity.Property(e => e.IdViaje)
                     .HasColumnName("id_viaje")
                     .HasColumnType("int(11)");
+
+                entity.HasOne(d => d.IdEstadoSolicitudNavigation)
+                    .WithMany(p => p.SolicitudViaje)
+                    .HasForeignKey(d => d.IdEstadoSolicitud)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_estado_solicitudViaje");
 
                 entity.HasOne(d => d.IdResidenteNavigation)
                     .WithMany(p => p.SolicitudViaje)
@@ -1082,6 +1102,10 @@ namespace PriHood.Models
                 entity.Property(e => e.Fecha)
                     .HasColumnName("fecha")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.Hora)
+                    .HasColumnName("hora")
+                    .HasColumnType("time");
 
                 entity.Property(e => e.IdDiaSemana)
                     .HasColumnName("id_dia_semana")
