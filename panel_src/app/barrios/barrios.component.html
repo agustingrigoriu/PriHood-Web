@@ -62,10 +62,9 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" #nombre=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="barrio.nombre"
+                        <input type="text" class="form-control" id="nombre" name="nombre" #nombre=ngModel required [(ngModel)]="barrio.nombre"
                             placeholder="Ingrese el nombre del barrio">
                         <span class="label label-danger" *ngIf="nombre.errors?.required && nombre?.touched">Campo requerido</span>
-                        <span class="label label-danger" *ngIf="nombre.errors?.pattern && nombre?.touched">Debe ingresar texto</span>
                     </div>
                 </div>
 
@@ -84,20 +83,18 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="firstname">Nombre</label>
-                        <input type="text" class="form-control" id="firstname" name="firstName" #firstName=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="usuario.nombre"
+                        <input type="text" class="form-control" id="firstname" name="firstName" #firstName=ngModel required [(ngModel)]="usuario.nombre"
                             placeholder="Ingrese el nombre">
                         <span class="label label-danger" *ngIf="firstName.errors?.required && firstName?.touched">Campo requerido</span>
-                        <span class="label label-danger" *ngIf="firstName.errors?.pattern && firstName?.touched">Debe ingresar texto</span>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="lastname">Apellido</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" #lastname=ngModel required pattern="[a-zA-Z]*" [(ngModel)]="usuario.apellido"
+                        <input type="text" class="form-control" id="lastname" name="lastname" #lastname=ngModel required [(ngModel)]="usuario.apellido"
                             placeholder="Ingrese el apellido">
                         <span class="label label-danger" *ngIf="lastname.errors?.required && lastname?.touched">Campo requerido</span>
-                        <span class="label label-danger" *ngIf="lastname.errors?.pattern && lastname?.touched">Debe ingresar texto</span>
                     </div>
                 </div>
 

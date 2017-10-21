@@ -55,7 +55,7 @@
 </section>
 
 <div class="modal fade" tabindex="-1" role="dialog" id="registrarEmpleado">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -69,9 +69,8 @@
                             <div class="form-group">
                                 <label for="firstname">Nombre</label>
                                 <input type="text" class="form-control" id="firstname" name="firstName" #name="ngModel" ngControl="name" [(ngModel)]="empleado.nombre"
-                                    pattern="[a-zA-Z]*" required placeholder="Ingrese el nombre">
+                                     required placeholder="Ingrese el nombre">
                                 <span class="label label-danger" *ngIf="name.errors?.required && name?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="name.errors?.pattern && name?.touched">Debe ingresar texto</span>
                             </div>
                         </div>
 
@@ -79,9 +78,8 @@
                             <div class="form-group">
                                 <label for="lastname">Apellido</label>
                                 <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="empleado.apellido" #apellido="ngModel"
-                                    digits pattern="[a-zA-Z]*" required placeholder="Ingrese el apellido">
+                                    digits  required placeholder="Ingrese el apellido">
                                 <span class="label label-danger" *ngIf="apellido.errors?.required && apellido?.touched">Campo requerido</span>
-                                <span class="label label-danger" *ngIf="apellido.errors?.pattern && apellido?.touched">Debe ingresar texto</span>
                             </div>
                         </div>
 
@@ -175,6 +173,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" tabindex="-1" role="dialog" id="editarEmpleado">
     <div class="modal-dialog" role="document">
