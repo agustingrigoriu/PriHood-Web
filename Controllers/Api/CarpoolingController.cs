@@ -154,6 +154,44 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("ofrecimientos")]
+    public Object ListarMisOfrecimientos()
+    {
+      try
+      {
+
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+
+        var ofrecimientos = (
+          from s in db.SolicitudViaje
+          join r in db.Residente on s.IdResidente equals r.Id
+          join p in db.Persona on r.IdPersona equals p.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          join v in db.Viaje on s.IdViaje equals v.Id
+          join ds in db.DiaSemana on v.IdDiaSemana equals ds.Id
+          join es in db.EstadoSolicitud on s.IdEstadoSolicitud equals es.Id
+          where v.IdResidente == logueado.Id
+          select new
+          {
+            u.Avatar,
+            p.Nombre,
+            p.Apellido,
+            v.IdDiaSemana,
+            v.Fecha,
+            v.Hora,
+            es.Descripcion
+          }
+        );
+
+        return new { error = false, data = ofrecimientos };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
+      }
+    }
+
   }
 
 }
