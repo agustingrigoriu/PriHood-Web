@@ -87,9 +87,9 @@
                                 <label for="fechaVencimiento">Fecha de Vencimiento</label>
                             </div>
                             <dp-date-picker class="form-control" theme='dp-material' placeholder="Seleccione una fecha de vencimiento" [(ngModel)]="expensa.fecha_vencimiento"
-                                name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig" #fecha_vencimiento=ngModel
+                                name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig" #name="ngModel"
                                 required></dp-date-picker>
-                            <span class="label label danger" *ngIf="fecha_expensa.errors?.required && fecha_expensa?.touched">Campo requerido</span>
+                            <span class="label label danger" *ngIf="name.errors?.required && name?.touched">Campo requerido</span>
                         </div>
                         <div class="checkbox">
                             <label>
