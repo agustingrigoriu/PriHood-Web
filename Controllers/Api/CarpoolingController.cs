@@ -100,6 +100,58 @@ namespace PriHood.Controllers
       }
     }
 
+    //Recordar agregar atributo de DESTINO en Viajes para mostrar en las solicitudes
+    [HttpGet("solicitudes")]
+    public Object ListarMisSolicitudes()
+    {
+      try
+      {
+
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+
+        var solicitudes = (
+          from s in db.SolicitudViaje
+          join v in db.Viaje on s.IdViaje equals v.Id
+          join r in db.Residente on v.IdResidente equals r.Id
+          join p in db.Persona on r.IdPersona equals p.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          join b in db.Barrio on id_barrio equals b.Id
+          join ds in db.DiaSemana on v.IdDiaSemana equals ds.Id
+          join es in db.EstadoSolicitud on s.IdEstadoSolicitud equals es.Id
+          where s.IdResidente == logueado.Id
+          select new
+          {
+            u.Avatar,
+            p.Nombre,
+            p.Apellido,
+            v.SaleBarrio,
+            nombreBarrio = b.Nombre,
+            v.IdDiaSemana,
+            v.Fecha,
+            v.Hora,
+            v.AutoAsientos,
+            v.AutoColor,
+            v.AutoModelo,
+            v.AutoPatente,
+            v.Observaciones,
+            es.Descripcion,
+            trayectos = (
+              from tr in db.Trayecto
+              where tr.IdViaje == v.Id
+              select tr
+            )
+          }
+        );
+
+        return new { error = false, data = solicitudes };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
+      }
+    }
+
   }
 
 }
