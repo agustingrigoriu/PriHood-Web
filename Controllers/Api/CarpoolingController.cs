@@ -15,10 +15,13 @@ namespace PriHood.Controllers
 
     private readonly PrihoodContext db;
     private AuthService auth;
-    public CarpoolingController(PrihoodContext context, AuthService a)
+
+    private PushService push;
+    public CarpoolingController(PrihoodContext context, AuthService a, PushService p)
     {
       db = context;
       auth = a;
+      push = p;
     }
 
 
@@ -72,6 +75,7 @@ namespace PriHood.Controllers
           join r in db.Residente on v.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join p in db.Persona on r.IdPersona equals p.Id
+          join b in db.Barrio on id_barrio equals b.Id
           where u.IdBarrio == id_barrio && (v.Fecha.HasValue ? v.Fecha.Value.Date == fecha.Date : true)
           select new
           {
@@ -84,6 +88,7 @@ namespace PriHood.Controllers
             v.Observaciones,
             v.IdDiaSemana,
             v.SaleBarrio,
+            nombreBarrio = b.Nombre,
             v.IdResidente,
             tipo = v.Fecha.HasValue ? "único" : "recurrente",
             residente = p.Apellido + ", " + p.Nombre,
@@ -210,6 +215,58 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpPost("solicitar_viaje/{id_viaje}")]
+    public Object SolicitarViaje(int id_viaje)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          var estado = db.EstadoSolicitud.First(e => e.Descripcion == "Pendiente");
+
+          var datos = (
+            from v in db.Viaje
+            join r in db.Residente on v.IdResidente equals r.Id
+            where v.Id == id_viaje
+            select new
+            {
+              viaje = v,
+              residente = r
+            }
+          ).First();
+
+          if (datos.viaje.AutoAsientos <= 0)
+          {
+            throw new Exception("No hay asientos disponibles.");
+          }
+
+          var solicitud = new SolicitudViaje
+          {
+            Fecha = DateTime.Now,
+            IdEstadoSolicitud = estado.Id,
+            IdResidente = residente.Id,
+            IdViaje = datos.viaje.Id
+          };
+
+          db.SolicitudViaje.Add(solicitud);
+          db.SaveChanges();
+
+          transaction.Commit();
+
+          this.push.enviarMensaje(datos.residente.IdUsuario, "Un residente quiere unirse a tu viaje.");
+
+          return new { error = false, data = solicitud };
+        }
+        catch (Exception err)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error", message = err.Message };
+        }
+      }
+    }
+
     [HttpPost("ofrecimientos/{id_solicitud_viaje}")]
     public Object AceptarRechazarSolicitud(int id_solicitud_viaje, [FromBody] ModeloEstadoSolicitud es)
     {
@@ -218,9 +275,24 @@ namespace PriHood.Controllers
         try
         {
           var logueado = HttpContext.Session.Authenticated();
+
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
           var estado = db.EstadoSolicitud.First(e => e.Descripcion == es.estado_solicitud);
           var solicitud = db.SolicitudViaje.First(s => s.Id == id_solicitud_viaje);
+          var viaje = db.Viaje.First(v => v.Id == solicitud.IdViaje && v.IdResidente == residente.Id);
+
+          if (es.estado_solicitud == "Aceptada")
+          {
+            if (viaje.AutoAsientos <= 0)
+            {
+              throw new Exception("No hay asientos disponibles.");
+            }
+
+            viaje.AutoAsientos--;
+
+            db.Viaje.Update(viaje);
+            db.SaveChanges();
+          }
 
           solicitud.IdEstadoSolicitud = estado.Id;
 
@@ -228,6 +300,9 @@ namespace PriHood.Controllers
           db.SaveChanges();
 
           transaction.Commit();
+
+          this.push.enviarMensaje(residente.IdUsuario, "Se aceptó tu solicitud de viaje.");
+
           return new { error = false, data = es };
         }
         catch (Exception err)
@@ -236,7 +311,6 @@ namespace PriHood.Controllers
           return new { error = true, data = "Error", message = err.Message };
         }
       }
-
     }
 
   }
