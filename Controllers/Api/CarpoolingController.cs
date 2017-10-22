@@ -59,7 +59,6 @@ namespace PriHood.Controllers
       }
     }
 
-
     //Listo los viajes existentes en el barrio del usuario
     [HttpGet("viajes/{fecha:DateTime}")]
     public Object ListarViajes(DateTime fecha)
@@ -90,6 +89,7 @@ namespace PriHood.Controllers
             v.SaleBarrio,
             nombreBarrio = b.Nombre,
             v.IdResidente,
+            v.Destino,
             tipo = v.Fecha.HasValue ? "único" : "recurrente",
             residente = p.Apellido + ", " + p.Nombre,
             trayectos = (
@@ -115,37 +115,37 @@ namespace PriHood.Controllers
     {
       try
       {
-
         var logueado = HttpContext.Session.Authenticated();
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
         var id_barrio = logueado.IdBarrio.Value;
 
         var solicitudes = (
           from s in db.SolicitudViaje
           join v in db.Viaje on s.IdViaje equals v.Id
           join r in db.Residente on v.IdResidente equals r.Id
-          join p in db.Persona on r.IdPersona equals p.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
+          join p in db.Persona on r.IdPersona equals p.Id
           join b in db.Barrio on id_barrio equals b.Id
-          join ds in db.DiaSemana on v.IdDiaSemana equals ds.Id
           join es in db.EstadoSolicitud on s.IdEstadoSolicitud equals es.Id
-          where s.IdResidente == logueado.Id
+          where s.IdResidente == residente.Id && (v.Fecha.HasValue ? v.Fecha.Value.Date >= DateTime.Now.Date : true)
           select new
           {
-            u.Avatar,
-            p.Nombre,
-            p.Apellido,
+            v.Id,
+            v.AutoModelo,
+            v.AutoColor,
+            v.AutoAsientos,
+            v.AutoPatente,
+            v.Fecha,
+            v.Observaciones,
+            v.IdDiaSemana,
             v.SaleBarrio,
             nombreBarrio = b.Nombre,
-            v.IdDiaSemana,
-            v.Fecha,
-            v.Hora,
-            v.AutoAsientos,
-            v.AutoColor,
-            v.AutoModelo,
-            v.AutoPatente,
-            v.Observaciones,
-            es.Descripcion,
+            v.IdResidente,
             v.Destino,
+            estado = es.Descripcion,
+            id_estado = es.Id,
+            tipo = v.Fecha.HasValue ? "único" : "recurrente",
+            residente = p.Apellido + ", " + p.Nombre,
             trayectos = (
               from tr in db.Trayecto
               where tr.IdViaje == v.Id
@@ -202,7 +202,8 @@ namespace PriHood.Controllers
         var agrupados = (
           from o in ofrecimientos
           group o by o.estado into grupo
-          select new {
+          select new
+          {
             estado = grupo.Key,
             grupo
           }
