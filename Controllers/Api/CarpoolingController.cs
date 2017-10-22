@@ -15,10 +15,13 @@ namespace PriHood.Controllers
 
     private readonly PrihoodContext db;
     private AuthService auth;
-    public CarpoolingController(PrihoodContext context, AuthService a)
+
+    private PushService push;
+    public CarpoolingController(PrihoodContext context, AuthService a, PushService p)
     {
       db = context;
       auth = a;
+      push = p;
     }
 
 
@@ -193,6 +196,58 @@ namespace PriHood.Controllers
       catch (Exception err)
       {
         return new { error = true, data = err.Message };
+      }
+    }
+
+    [HttpPost("solicitar_viaje/{id_viaje}")]
+    public Object SolicitarViaje(int id_viaje)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+          var estado = db.EstadoSolicitud.First(e => e.Descripcion == "Pendiente");
+
+          var datos = (
+            from v in db.Viaje
+            join r in db.Residente on v.IdResidente equals r.Id
+            where v.Id == id_viaje
+            select new
+            {
+              viaje = v,
+              residente = r
+            }
+          ).First();
+
+          if (datos.viaje.AutoAsientos <= 0)
+          {
+            throw new Exception("No hay asientos disponibles.");
+          }
+
+          var solicitud = new SolicitudViaje
+          {
+            Fecha = DateTime.Now,
+            IdEstadoSolicitud = estado.Id,
+            IdResidente = residente.Id,
+            IdViaje = datos.viaje.Id
+          };
+
+          db.SolicitudViaje.Add(solicitud);
+          db.SaveChanges();
+
+          transaction.Commit();
+
+          this.push.enviarMensaje(datos.residente.IdUsuario, "Un residente quiere unirse a tu viaje.");
+
+          return new { error = false, data = solicitud };
+        }
+        catch (Exception err)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error", message = err.Message };
+        }
       }
     }
 
