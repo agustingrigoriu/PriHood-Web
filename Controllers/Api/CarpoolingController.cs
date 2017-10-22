@@ -166,16 +166,17 @@ namespace PriHood.Controllers
 
         var logueado = HttpContext.Session.Authenticated();
         var id_barrio = logueado.IdBarrio.Value;
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
         var ofrecimientos = (
           from s in db.SolicitudViaje
           join r in db.Residente on s.IdResidente equals r.Id
           join p in db.Persona on r.IdPersona equals p.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
+          join b in db.Barrio on id_barrio equals b.Id
           join v in db.Viaje on s.IdViaje equals v.Id
-          join ds in db.DiaSemana on v.IdDiaSemana equals ds.Id
           join es in db.EstadoSolicitud on s.IdEstadoSolicitud equals es.Id
-          where v.IdResidente == logueado.Id
+          where v.IdResidente == residente.Id
           select new
           {
             u.Avatar,
@@ -184,11 +185,24 @@ namespace PriHood.Controllers
             v.IdDiaSemana,
             v.Fecha,
             v.Hora,
-            es.Descripcion
+            v.SaleBarrio,
+            v.Destino,
+            nombreBarrio = b.Nombre,
+            id_estado = es.Id,
+            estado = es.Descripcion
           }
         );
 
-        return new { error = false, data = ofrecimientos };
+        var agrupados = (
+          from o in ofrecimientos
+          group o by o.estado into grupo
+          select new {
+            estado = grupo.Key,
+            grupo
+          }
+        );
+
+        return new { error = false, data = agrupados };
       }
       catch (Exception err)
       {
