@@ -261,9 +261,24 @@ namespace PriHood.Controllers
         try
         {
           var logueado = HttpContext.Session.Authenticated();
+
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
           var estado = db.EstadoSolicitud.First(e => e.Descripcion == es.estado_solicitud);
           var solicitud = db.SolicitudViaje.First(s => s.Id == id_solicitud_viaje);
+          var viaje = db.Viaje.First(v => v.Id == solicitud.IdViaje && v.IdResidente == residente.Id);
+
+          if (es.estado_solicitud == "Aceptada")
+          {
+            if (viaje.AutoAsientos <= 0)
+            {
+              throw new Exception("No hay asientos disponibles.");
+            }
+
+            viaje.AutoAsientos--;
+
+            db.Viaje.Update(viaje);
+            db.SaveChanges();
+          }
 
           solicitud.IdEstadoSolicitud = estado.Id;
 
@@ -271,6 +286,9 @@ namespace PriHood.Controllers
           db.SaveChanges();
 
           transaction.Commit();
+
+          this.push.enviarMensaje(residente.IdUsuario, "Se aceptó tu solicitud de viaje.");
+
           return new { error = false, data = es };
         }
         catch (Exception err)
@@ -279,7 +297,6 @@ namespace PriHood.Controllers
           return new { error = true, data = "Error", message = err.Message };
         }
       }
-
     }
 
   }
