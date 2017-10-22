@@ -75,6 +75,7 @@ namespace PriHood.Controllers
           join r in db.Residente on v.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join p in db.Persona on r.IdPersona equals p.Id
+          join b in db.Barrio on id_barrio equals b.Id
           where u.IdBarrio == id_barrio && (v.Fecha.HasValue ? v.Fecha.Value.Date == fecha.Date : true)
           select new
           {
@@ -87,6 +88,7 @@ namespace PriHood.Controllers
             v.Observaciones,
             v.IdDiaSemana,
             v.SaleBarrio,
+            nombreBarrio = b.Nombre,
             v.IdResidente,
             tipo = v.Fecha.HasValue ? "único" : "recurrente",
             residente = p.Apellido + ", " + p.Nombre,
