@@ -184,6 +184,7 @@ namespace PriHood.Controllers
           where v.IdResidente == residente.Id
           select new
           {
+            s.Id,
             u.Avatar,
             p.Nombre,
             p.Apellido,
