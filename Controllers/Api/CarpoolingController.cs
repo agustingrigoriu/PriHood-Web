@@ -315,5 +315,26 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("barrio")]
+    public Object InfoBarrio()
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var barrio = (
+          from b in db.Barrio
+          where b.Id == id_barrio
+          select b
+        ).First();
+        
+        return new { error = false, data = barrio };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
+      }
+    }
+
   }
 }
