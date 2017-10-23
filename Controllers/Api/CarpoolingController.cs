@@ -109,6 +109,75 @@ namespace PriHood.Controllers
       }
     }
 
+    //Listo los viajes existentes en el barrio del usuario
+    [HttpGet("viajes/{fecha:DateTime}/{lat},{lng}")]
+    public Object ListarViajesGeo(DateTime fecha, double lat, double lng)
+    {
+      try
+      {
+
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+
+        var viajesPosibles = (
+          from t in db.Trayecto
+          let distance = (
+              6371 *
+              Math.Acos(
+                  Math.Cos(DegreeToRadian(lat)) *
+                  Math.Cos(DegreeToRadian(t.Latitud)) *
+                  Math.Cos(
+                      DegreeToRadian(t.Longitud) - DegreeToRadian(lng)
+                  ) +
+                  Math.Sin(DegreeToRadian(lat)) *
+                  Math.Sin(DegreeToRadian(t.Latitud))
+              )
+          )
+          where distance < 0.5
+          group t by t.IdViaje into grupo
+          select grupo.Key
+        ).ToList();
+
+        var viajes = (
+          from v in db.Viaje
+          join r in db.Residente on v.IdResidente equals r.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          join p in db.Persona on r.IdPersona equals p.Id
+          join b in db.Barrio on id_barrio equals b.Id
+          where u.IdBarrio == id_barrio && (v.Fecha.HasValue ? v.Fecha.Value.Date == fecha.Date : true) && viajesPosibles.Contains(v.Id)
+          select new
+          {
+            v.Id,
+            v.AutoModelo,
+            v.AutoColor,
+            v.AutoAsientos,
+            v.AutoPatente,
+            v.Fecha,
+            v.Observaciones,
+            v.IdDiaSemana,
+            v.SaleBarrio,
+            nombreBarrio = b.Nombre,
+            v.IdResidente,
+            v.Destino,
+            tipo = v.Fecha.HasValue ? "único" : "recurrente",
+            residente = p.Apellido + ", " + p.Nombre,
+            trayectos = (
+              from tr in db.Trayecto
+              where tr.IdViaje == v.Id
+              orderby tr.Orden ascending
+              select tr
+            )
+          }
+        );
+
+        return new { error = false, data = viajes };
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = err.Message };
+      }
+    }
+
     //Recordar agregar atributo de DESTINO en Viajes para mostrar en las solicitudes
     [HttpGet("solicitudes")]
     public Object ListarMisSolicitudes()
@@ -327,7 +396,7 @@ namespace PriHood.Controllers
           where b.Id == id_barrio
           select b
         ).First();
-        
+
         return new { error = false, data = barrio };
       }
       catch (Exception err)
@@ -336,5 +405,9 @@ namespace PriHood.Controllers
       }
     }
 
+    private double DegreeToRadian(double angle)
+    {
+      return Math.PI * angle / 180.0;
+    }
   }
 }
