@@ -27,15 +27,15 @@ export class HomeComponent implements OnInit {
   };
 
   rootDashboard: RootDashboard = {
-    cantidad_barrios: -1
-  }
+    cantidad_barrios: 0
+  };
 
   adminDashboard: AdminDashboard = {
-    cantidad_residencias: -1,
-    cantidad_residentes: -1,
+    cantidad_residencias: 0,
+    cantidad_residentes: 0,
     latitud: -31.335335,
     longitud: -64.303113
-  }
+  };
 
   getUsuario() {
     this.LoginService.getUserLogin().then(response => {

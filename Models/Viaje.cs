@@ -16,7 +16,9 @@ namespace PriHood.Models
         public string AutoColor { get; set; }
         public string AutoModelo { get; set; }
         public string AutoPatente { get; set; }
+        public string Destino { get; set; }
         public DateTime? Fecha { get; set; }
+        public TimeSpan? Hora { get; set; }
         public int? IdDiaSemana { get; set; }
         public int IdResidente { get; set; }
         public string Observaciones { get; set; }

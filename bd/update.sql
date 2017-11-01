@@ -559,8 +559,10 @@ CREATE TABLE `Prihood`.`Viaje` (
   `auto_modelo` VARCHAR(255) NULL,
   `auto_patente` VARCHAR(45) NOT NULL,
   `auto_color` VARCHAR(255) NULL,
+  `destino` VARCHAR(255) NULL,
   `auto_asientos` INT NOT NULL,
   `fecha` DATETIME NULL,
+  `hora` TIME NULL,
   `sale_barrio` BIT(1) NOT NULL,
   `observaciones` VARCHAR(255) NULL,
   `id_dia_semana` INT NULL,
@@ -594,16 +596,23 @@ CREATE TABLE `Prihood`.`Trayecto` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+CREATE TABLE `Prihood`.`EstadoSolicitud` (
+  `id` INT NOT NULL,
+  `descripcion` VARCHAR(255) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+
 CREATE TABLE `Prihood`.`SolicitudViaje` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_residente` INT NOT NULL,
   `id_viaje` INT NOT NULL,
-  `estado` VARCHAR(45) NOT NULL,
+  `id_estado_solicitud` INT NOT NULL,
   `fecha` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
   INDEX `fk_residente_solicitudViaje_idx` (`id_residente` ASC),
   INDEX `fk_viaje_solicitudViaje_idx` (`id_viaje` ASC),
+  INDEX `fk_estado_solicitudViaje_idx` (`id_estado_solicitud` ASC),
   CONSTRAINT `fk_residente_solicitudViaje`
     FOREIGN KEY (`id_residente`)
     REFERENCES `Prihood`.`Residente` (`id`)
@@ -613,8 +622,13 @@ CREATE TABLE `Prihood`.`SolicitudViaje` (
     FOREIGN KEY (`id_viaje`)
     REFERENCES `Prihood`.`Viaje` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
-
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_estado_solicitudViaje`
+    FOREIGN KEY (`id_estado_solicitud`)
+    REFERENCES `Prihood`.`EstadoSolicitud` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+  );
 
 -- Inserción de valores a tabla PERFIL
 
@@ -666,3 +680,7 @@ INSERT INTO  Estado_Reserva(id, descripcion) VALUES ("1", "creada"), ("2", "canc
 -- Inserción de tipos de alertas
 
 INSERT INTO  Tipo_Alerta(id, descripcion, imagen) VALUES ("1", "Actividad sospechosa", "assets/img/pruebas/alertas/sospechoso.png"), ("2", "Atención Médica", "assets/img/pruebas/alertas/doctor.png");
+
+-- Inserción de estados de solicitud
+
+INSERT INTO EstadoSolicitud(id, descripcion) VALUES ('1', 'Pendiente'),('2', 'Aceptada'),('3', 'Rechazada');
