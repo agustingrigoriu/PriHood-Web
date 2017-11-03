@@ -50,6 +50,7 @@ namespace PriHood.Controllers
     public string email { get; set; }
     public string password { get; set; }
     public int? id_perfil { get; set; }
+    public IFormFile avatar {get; set;}
   }
 
   public class ModeloVisitante
