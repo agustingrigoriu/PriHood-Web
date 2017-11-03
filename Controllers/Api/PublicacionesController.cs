@@ -196,7 +196,7 @@ namespace PriHood.Controllers
           join u in db.Usuario on c.IdUsuario equals u.Id
           join pe in db.Perfil on u.IdPerfil equals pe.Id
           where c.IdPublicacion == id_publicacion
-          orderby c.Fecha descending
+          orderby c.Fecha ascending
           select new
           {
             id = c.Id,
