@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   title = "Home";
   mensaje: string;
   headerClass: string = " ";
- 
+
   usuario: Usuario = {
     email: "",
     idPerfil: -1,
@@ -57,14 +57,16 @@ export class HomeComponent implements OnInit {
   drawVisitsGraph() {
     var currentDate = new Date();
     for (var index = 0; index < 11; index++) {
-     var previous_date =  currentDate.getDate() - index;
-     this.barChartLabels.push(previous_date.toString());
+      var previous_date = currentDate.getDate() - index;
+      console.log(previous_date);
+      this.barChartLabels.push(previous_date.toString());
     }
+    console.log(this.barChartLabels);
 
-     let clone = JSON.parse(JSON.stringify(this.barChartData));
-     clone[0].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-     clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-     this.barChartData = clone;
+    let clone = JSON.parse(JSON.stringify(this.barChartData));
+    clone[0].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
+    clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
+    this.barChartData = clone;
   }
 
   getUsuario() {
@@ -81,7 +83,7 @@ export class HomeComponent implements OnInit {
 
         if (this.usuario.idPerfil === 2) {
           this.getAdminDashboard();
-          this.drawVisitsGraph()
+          this.drawVisitsGraph();
         }
       }
     });
