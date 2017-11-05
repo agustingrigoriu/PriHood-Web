@@ -65,8 +65,8 @@ namespace PriHood.Controllers
       }
     }
 
-    [HttpDelete("{id_evento")]
-    public Object BorrarTurno(int id_evento)
+    [HttpDelete("{id_evento}")]
+    public Object BorrarEvento(int id_evento)
     {
       try
       {
@@ -76,25 +76,6 @@ namespace PriHood.Controllers
         db.SaveChanges();
 
         return new { error = false, data = "ok" };
-      }
-      catch (Exception err)
-      {
-        return new { error = true, data = err.Message };
-      }
-    }
-
-    [HttpGet("{id_amenity:int}")]
-    public Object ListarEventosPorFecha(int id_amenity)
-    {
-      try
-      {
-        var turnos = (
-          from d in db.Turno
-          where d.IdAmenity == id_amenity
-          select d
-        ).ToList();
-
-        return new { error = false, data = turnos };
       }
       catch (Exception err)
       {
