@@ -35,12 +35,17 @@
         <button type="button" class="close" data-dismiss="modal">
           ×
         </button>
-        <h4 class="modal-title">Satya Login</h4>
+        <h4 class="modal-title">Reestablecimiento de contraseña</h4>
       </div>
       <div class="modal-body">
         <form>
+          <p>
+            A continuación ingrese su nombre de usuario o su dirección de correo electrónico y presione "Aceptar", automáticamente se
+            enviará un mail a su casilla de correo con la nueva contraseña. Es recomendable que una vez que haya iniciado
+            sesión la modifique.
+          </p>
           <div class="form-group">
-            <input class="form-control" type="text" placeholder="Login Username" id="inputUserName" />
+            <input class="form-control" type="text" placeholder="Ingrese su nombre de usuario o su correo electrónico" id="email" />
           </div>
           <div class="form-group">
             <input class="form-control" placeholder="Login Password" type="password" id="inputPassword" />
@@ -48,9 +53,9 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" id="btnAccept" class="btn btn-primary button button4">Sign</button>
+        <button type="submit" id="btnAccept" class="btn btn-primary button button4">Aceptar</button>
         <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-          Hide
+          Cerrar
         </button>
       </div>
     </div>
@@ -71,13 +76,13 @@
       var email = $('#email').val();
 
       if (email != '') {
-      // $.ajax({
-      //   url: '',
-      //   type: "POST",
-      //   data: email
-      // });
-      $("#changePwdModal").modal('hide');
-      window.alert("Mail enviado con éxito, revise su bandeja de entrada");
+        // $.ajax({
+        //   url: '',
+        //   type: "POST",
+        //   data: email
+        // });
+        $("#changePwdModal").modal('hide');
+        window.alert("Mail enviado con éxito, revise su bandeja de entrada");
       }
       else window.alert('El campo está vacío, ingrese su usuario/email');
     });
