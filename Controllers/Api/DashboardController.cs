@@ -71,15 +71,34 @@ namespace PriHood.Controllers
           select r
         ).Count();
 
+        var visitas_frecuentes_ultimos_10dias = (
+          from v in db.Visita
+          join vi in db.Visitante on v.IdVisitante equals vi.Id
+          join r in db.Residente on vi.IdResidente equals r.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
+          where v.Fecha > DateTime.Now.AddDays(10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente"
+          group v.Fecha by v.Id into c
+          select new { fecha = c.Key, cantidad_visitas = c.Count() });
+
+        var visitas_actuales_ultimos_10dias = (
+          from v in db.Visita
+          join vi in db.Visitante on v.IdVisitante equals vi.Id
+          join r in db.Residente on vi.IdResidente equals r.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
+          where v.Fecha > DateTime.Now.AddDays(10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual"
+          group v.Fecha by v.Id into c
+          select new { fecha = c.Key, cantidad_visitas = c.Count() });
+
+
         Barrio b = (
-          from ba in db.Barrio
-          where ba.Id == id_barrio
-          select ba
-        ).First();
+         from ba in db.Barrio
+         where ba.Id == id_barrio
+         select ba
+       ).First();
 
-
-
-        var data = new { cantidad_residencias = cantidad_residencias, cantidad_residentes = cantidad_residentes, latitud = b.Latitud, longitud = b.Longitud };
+        var data = new { cantidad_residencias = cantidad_residencias, cantidad_residentes = cantidad_residentes, latitud = b.Latitud, longitud = b.Longitud, visitas_frecuentes = visitas_frecuentes_ultimos_10dias, visitas_actuales = visitas_actuales_ultimos_10dias };
 
         return new { error = false, data = data };
 

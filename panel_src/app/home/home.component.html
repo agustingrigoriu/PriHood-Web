@@ -46,7 +46,7 @@
 <section class="content animated fadeInUp" *ngIf="usuario.idPerfil === 2">
     <!-- Info boxes -->
     <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-6 col-xs-6">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua">
                     <i class="fa fa-home"></i>
@@ -64,7 +64,7 @@
         <!-- fix for small devices only -->
         <div class="clearfix visible-sm-block"></div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-6 col-xs-6">
             <div class="info-box">
                 <span class="info-box-icon bg-yellow">
                     <i class="ion ion-ios-people-outline"></i>
@@ -79,12 +79,14 @@
             <!-- /.info-box -->
         </div>
         <!-- /.col -->
+
+        <!-- /.col -->
     </div>
     <!-- /.row -->
 
 
     <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-12 col-xs-6">
             <div class="box box-info">
                 <div class="box-header">
                     <i class="fa fa-map"></i>
@@ -95,6 +97,12 @@
                         <agm-marker [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud"></agm-marker>
                     </agm-map>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-6">
+            <div class="box box-info">
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                    [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
             </div>
         </div>
     </div>
