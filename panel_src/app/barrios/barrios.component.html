@@ -6,6 +6,9 @@
 
 <section class="content animated fadeInUp">
     <div class="box box-primary">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <div class="box-header with-border">
             <h3 class="box-title">Listado de barrios</h3>
         </div>
@@ -50,6 +53,9 @@
 
 
 <ng-template #crearBarrioModal let-c="close" let-d="dismiss">
+        <div class="overlay" *ngIf="cargando">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
     <div class="modal-header">
         <button type="button" class="close" (click)="d()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -190,6 +196,9 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="editarBarrio">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+                <div class="overlay" *ngIf="cargando">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
