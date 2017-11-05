@@ -19,6 +19,7 @@ export class AmenitiesComponent implements OnInit {
     constructor(protected AmenitiesService: AmenitiesService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
     amenities: Amenity[] = [];
+    cargando: boolean;
 
     amenity: Amenity = {
         nombre: '',
@@ -37,7 +38,9 @@ export class AmenitiesComponent implements OnInit {
     ];
 
     borrarAmenity(amenity: Amenity): void {
+        this.cargando = true;
         this.AmenitiesService.deleteAmenity(amenity.id).then(response => {
+            this.cargando = false;
             if (response.error) {
                 this.notificaciones.error("Error", "No se pudo borrar el amenity");
             } else {
@@ -48,7 +51,9 @@ export class AmenitiesComponent implements OnInit {
     }
 
     crearAmenity(amenity: Amenity, form: NgForm) {
+        this.cargando = true;
         this.AmenitiesService.crearAmenity(amenity).then(response => {
+            this.cargando = false;
             if (response.error) {
                 this.notificaciones.error("Error", "No se pudo crear el amenity");
             } else {
@@ -64,7 +69,7 @@ export class AmenitiesComponent implements OnInit {
     }
 
     modificarAmenity(amenity: Amenity) {
-        console.log(amenity);
+        this.cargando = true;
         const amenityUpdate: Amenity = {
             descripcion: amenity.descripcion,
             idTipoAmenity: amenity.idTipoAmenity,
@@ -72,6 +77,7 @@ export class AmenitiesComponent implements OnInit {
             nombre: amenity.nombre
         };
         this.AmenitiesService.updateAmenity(amenity.id, amenityUpdate).then(response => {
+            this.cargando = false;
             if (response.error) {
                 this.notificaciones.error("Error", "No se pudo modificar rl amenity");
             } else {
@@ -91,8 +97,10 @@ export class AmenitiesComponent implements OnInit {
     }
 
     actualizarListado() {
+        this.cargando = true;
         this.AmenitiesService.getAllAmenities().then(response => {
             this.amenities = response.data;
+            this.cargando = false;
         });
     }
 
@@ -106,12 +114,12 @@ export class AmenitiesComponent implements OnInit {
         });
     }
 
-confirmacionEliminar(amenity: Amenity) {
-    this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
-        .subscribe((ans: any) => {
-            if (ans.resolved) {
-                this.borrarAmenity(amenity);
-            }
-        });
-}
+    confirmacionEliminar(amenity: Amenity) {
+        this.confirmacion.create('Confirmación', '¿Está seguro qué desea borrar?', { showCloseButton: true, confirmText: "SI", declineText: "NO" })
+            .subscribe((ans: any) => {
+                if (ans.resolved) {
+                    this.borrarAmenity(amenity);
+                }
+            });
+    }
 }

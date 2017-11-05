@@ -6,13 +6,16 @@
 
 <section class="content animated fadeInUp">
     <div class="box box-primary">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <div class="box-header with-border">
             <h3 class="box-title">Listado de Empleados</h3>
         </div>
         <div class="box-body">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#registrarEmpleado">
-                        <i class="fa fa-plus"></i>
-                      </button>
+                <i class="fa fa-plus"></i>
+            </button>
         </div>
         <table class="table">
             <thead>
@@ -44,8 +47,12 @@
                     <td>{{empleado.perfil}}</td>
                     <td>{{empleado.email}}</td>
                     <td>
-                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(empleado)"><i class="fa fa-trash"></i></a>
-                        <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#editarEmpleado" (click)="onSelectedEmp(empleado)"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-xs btn-danger" (click)="confirmacionEliminar(empleado)">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                        <a class="btn btn-xs btn-info" data-toggle="modal" data-target="#editarEmpleado" (click)="onSelectedEmp(empleado)">
+                            <i class="fa fa-pencil"></i>
+                        </a>
 
                     </td>
                 </tr>
@@ -57,8 +64,13 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="registrarEmpleado">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <div class="overlay" *ngIf="cargando">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">Registrar Empleado</h4>
             </div>
             <div class="modal-body">
@@ -88,8 +100,8 @@
                                 <label for="tipodocumento">Tipo de Documento</label>
                                 <select class="form-control" id="tipoDocumento" [(ngModel)]="empleado.id_tipo_documento" name="tipoDocumento" #tipoDoc="ngModel"
                                     required>
-                                <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id" >{{doctipo.name}}</option>
-                            </select>
+                                    <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id">{{doctipo.name}}</option>
+                                </select>
                                 <span class="label label-danger" *ngIf="tipoDoc.errors?.required && tipoDoc?.touched">Campo requerido</span>
                             </div>
                         </div>
@@ -128,8 +140,8 @@
                             <div class="form-group">
                                 <label for="birthday">Perfil</label>
                                 <select class="form-control" id="perfil" [(ngModel)]="empleado.id_perfil" name="perfil" #perfil=ngModel required>
-                                <option *ngFor="let perfil of perfiles" [ngValue]="perfil.id">{{perfil.nombre}}</option>
-                                 </select>
+                                    <option *ngFor="let perfil of perfiles" [ngValue]="perfil.id">{{perfil.nombre}}</option>
+                                </select>
                                 <span class="label label-danger" *ngIf="perfil.errors?.required&&perfil?.touched">Campo requerido</span>
                             </div>
                         </div>
@@ -178,8 +190,13 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="editarEmpleado">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+            <div class="overlay" *ngIf="cargando">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">Editar Empleado</h4>
             </div>
             <div class="modal-body">
@@ -209,7 +226,7 @@
                                 <label for="tipodocumento">Tipo de Documento</label>
                                 <select class="form-control" id="tipoDocumento" [(ngModel)]="empleadoSeleccionado.id_tipo_documento" name=tipoDocumento #tipoDoc=ngModel
                                     required>
-                                <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id" >{{doctipo.name}} </option>
+                                    <option *ngFor="let doctipo of doctipos" [ngValue]="doctipo.id">{{doctipo.name}} </option>
                                 </select>
                                 <span class="label label-danger" *ngIf="tipoDoc.errors?.required && tipoDoc?.touched">Campo requerido</span>
                             </div>
@@ -249,8 +266,8 @@
                             <div class="form-group">
                                 <label for="birthday">Perfil</label>
                                 <select class="form-control" id="perfil" [(ngModel)]="empleadoSeleccionado.id_perfil" name="perfil">
-                                <option *ngFor="let perfil of perfiles" [ngValue]="perfil.id">{{perfil.nombre}}</option>
-                                 </select>
+                                    <option *ngFor="let perfil of perfiles" [ngValue]="perfil.id">{{perfil.nombre}}</option>
+                                </select>
                             </div>
                         </div>
 

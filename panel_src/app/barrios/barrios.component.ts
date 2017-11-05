@@ -22,6 +22,7 @@ export class BarriosComponent implements OnInit {
   markerDraggable: boolean = true;
   markerClickable: boolean = true;
   markerLabel: string = "B";
+  cargando: boolean = false;
 
   usuario = {
     nombre: '',
@@ -31,7 +32,7 @@ export class BarriosComponent implements OnInit {
     telefono: '',
     fecha_nacimiento: '',
     password: '',
-    confirmPass:'',
+    confirmPass: '',
   };
 
   barrios: Barrio[] = [];
@@ -71,7 +72,9 @@ export class BarriosComponent implements OnInit {
   }
 
   crearBarrio(barrio: Barrio, usuario: any) {
+    this.cargando=true;
     this.BarriosService.crearBarrio(barrio, usuario).then(response => {
+      this.cargando=false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo crear el barrio");
       } else {
@@ -87,7 +90,9 @@ export class BarriosComponent implements OnInit {
   }
 
   modificarBarrio(barrio: Barrio) {
+    this.cargando=true;
     this.BarriosService.updateBarrio(barrio.id, barrio).then(response => {
+      this.cargando=false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo modificar el barrio");
       } else {
@@ -98,8 +103,10 @@ export class BarriosComponent implements OnInit {
   }
 
   actualizarListado() {
+    this.cargando=true;
     this.BarriosService.getAllBarrios().then(response => {
       this.barrios = response.data;
+      this.cargando=false;
     });
   }
 
