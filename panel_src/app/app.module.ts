@@ -58,6 +58,7 @@ import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { CustomFormsModule } from 'ng2-validation'
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     SimpleNotificationsModule.forRoot(),
     NgbModule.forRoot(),
     DpDatePickerModule,
+    NgxPaginationModule,
     RouterModule.forRoot([
       {
         path: 'barrios',

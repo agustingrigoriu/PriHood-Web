@@ -24,6 +24,7 @@ export class ResidenciaComponent implements OnInit {
     ubicacion: ''
   };
   residenciaSeleccionada: Residencia;
+  p: number = 1;
 
   agregarResidencia(residencia: Residencia, form: NgForm) {
     this.ResidenciasService.crearResidencia(residencia).then(response => {
