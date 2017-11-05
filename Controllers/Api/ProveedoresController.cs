@@ -53,12 +53,7 @@ namespace PriHood.Controllers
             rating = pr.CantidadVotos > 0 ? pr.RatingTotal / pr.CantidadVotos : 0,
             avatar = pr.Avatar
           }
-        ).ToList();
-
-        if (id_tipo_servicio.HasValue)
-        {
-          return new { error = false, data = proveedores.First() };
-        }
+        );
 
         return new { error = false, data = proveedores };
       }
