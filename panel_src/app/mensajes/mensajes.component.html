@@ -6,6 +6,9 @@
 
 <section class="content animated fadeInUp">
     <ul class="timeline">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <ng-container *ngFor="let pa of publicacionesAgrupadas">
             <li class="time-label">
                 <span class="bg-red">{{pa.key}}</span>
@@ -16,9 +19,12 @@
                 <!-- timeline icon -->
                 <i class="fa fa-envelope bg-blue"></i>
                 <div class="timeline-item">
-                    <span class="time"><i class="fa fa-clock-o"></i> {{publicacion.fecha | date: 'HH:mm'}}</span>
+                    <span class="time">
+                        <i class="fa fa-clock-o"></i> {{publicacion.fecha | date: 'HH:mm'}}</span>
 
-                    <h3 class="timeline-header"><a [routerLink]="['/mensajes', publicacion.id]">{{publicacion.titulo}}</a></h3>
+                    <h3 class="timeline-header">
+                        <a [routerLink]="['/mensajes', publicacion.id]">{{publicacion.titulo}}</a>
+                    </h3>
 
                     <div class="timeline-body">
                         {{publicacion.texto.substr(0, 200)}}...

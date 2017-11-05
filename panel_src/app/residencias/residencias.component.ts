@@ -19,14 +19,18 @@ export class ResidenciaComponent implements OnInit {
   constructor(protected ResidenciasService: ResidenciasService, private notificaciones: NotificationsService, private confirmacion: ConfirmationService) { }
 
   residencias: Residencia[] = [];
+  cargando: boolean;
   residencia: Residencia = {
     nombre: '',
     ubicacion: ''
   };
   residenciaSeleccionada: Residencia;
+  p: number = 1;
 
   agregarResidencia(residencia: Residencia, form: NgForm) {
+    this.cargando = true;
     this.ResidenciasService.crearResidencia(residencia).then(response => {
+      this.cargando = false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo crear la residencia");
       } else {
@@ -38,7 +42,9 @@ export class ResidenciaComponent implements OnInit {
   }
 
   borrarResidencia(res: Residencia) {
+    this.cargando = true;
     this.ResidenciasService.deleteResidencia(res.id).then(response => {
+      this.cargando = false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo borrar la residencia");
       } else {
@@ -53,7 +59,9 @@ export class ResidenciaComponent implements OnInit {
   }
 
   modificarResidencia(residencia: Residencia) {
+    this.cargando = true;
     this.ResidenciasService.updateResidencia(residencia.id, residencia).then(response => {
+      this.cargando = false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo modificar la residencia");
       } else {
@@ -64,11 +72,13 @@ export class ResidenciaComponent implements OnInit {
   }
 
   actualizar() {
+    this.cargando = true;
     this.ResidenciasService.getAllResidencias().then(response => {
       if (response.error) {
         alert('No se pudo cargar las residencias.');
       } else {
         this.residencias = response.data;
+        this.cargando = false;
       }
     });
   }

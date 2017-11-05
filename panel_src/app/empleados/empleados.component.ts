@@ -30,7 +30,7 @@ export class EmpleadosComponent implements OnInit {
     telefono: '',
     fecha_nacimiento: '',
     password: '',
-    confirmPassword:'',
+    confirmPassword: '',
     id_perfil: '',
   };
   empleados = [];
@@ -45,9 +45,13 @@ export class EmpleadosComponent implements OnInit {
     { nombre: 'Encargado de Seguridad', id: 4 }
   ];
   empleadoSeleccionado: Empleado;
+  cargando: boolean;
+  p: number = 1;
 
   borrarEmpleado(empleado: Empleado): void {
+    this.cargando = true;
     this.EmpleadosService.deleteEmpleado(empleado.id_empleado).then(response => {
+      this.cargando = false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo borrar el empleado");
       } else {
@@ -58,7 +62,9 @@ export class EmpleadosComponent implements OnInit {
   }
 
   crearEmpleado(empleado: any, form: NgForm) {
+    this.cargando = true;
     this.EmpleadosService.crearEmpleado(empleado).then(response => {
+      this.cargando = false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo crear el empleado");
       } else {
@@ -74,7 +80,9 @@ export class EmpleadosComponent implements OnInit {
   }
 
   modificarEmpleado(empleado: Empleado) {
+    this.cargando = true;
     this.EmpleadosService.updateEmpleado(empleado.id_empleado, empleado).then(response => {
+      this.cargando = false;
       if (response.error) {
         this.notificaciones.error("Error", "No se pudo modificar el empleado");
       } else {
@@ -85,7 +93,9 @@ export class EmpleadosComponent implements OnInit {
   }
 
   actualizarListado() {
+    this.cargando = true;
     this.EmpleadosService.getAllEmpleados().then(response => {
+      this.cargando = false;
       this.empleados = response.data;
     });
   }

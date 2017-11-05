@@ -50,7 +50,7 @@ namespace PriHood.Controllers
     public string email { get; set; }
     public string password { get; set; }
     public int? id_perfil { get; set; }
-    public IFormFile avatar {get; set;}
+    public string avatar {get; set;}
   }
 
   public class ModeloVisitante
@@ -96,6 +96,17 @@ namespace PriHood.Controllers
     public TimeSpan? HoraDesde { get; set; }
     public int? IdDiaSemana { get; set; }
     public string Nombre { get; set; }
+  }
+
+  public class ModeloEventosUpdate
+  {
+    public string Descripcion { get; set; }
+    public int? Duracion { get; set; }
+    public DateTime? Fecha { get; set; }
+    public TimeSpan? HoraDesde { get; set; }
+    public int? IdResidente { get; set; }
+    public int? IdTipoEvento { get; set; }
+    public string Imagen { get; set; }
   }
 
   public class ModeloPassword

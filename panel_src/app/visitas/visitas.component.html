@@ -1,14 +1,20 @@
 <section class="content-header">
     <h1>
-        Visitas al día de hoy (<em>{{fecha_actual | date | lowercase}}</em>)
+        Visitas al día de hoy (
+        <em>{{fecha_actual | date | lowercase}}</em>)
     </h1>
 </section>
 
 <section class="content animated fadeInUp">
     <div class="box box-primary">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <div class="box-body">
             <div class="input-group input-group-lg">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </span>
                 <input type="search" class="form-control" [(ngModel)]="filtro" placeholder="Buscar..." />
             </div>
         </div>
@@ -33,7 +39,7 @@
                         <p class="text-center">No existen visitas.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let visita of visitas | filter: filtro">
+                <tr *ngFor="let visita of visitas | filter: filtro | paginate: { itemsPerPage: 15, currentPage: p }">
                     <td>
                         Avatar
                     </td>
@@ -50,23 +56,28 @@
                     <td>{{visita.patente}}</td>
                     <td>{{visita.estado}}</td>
                     <td *ngIf="visita.tipo_visita == 'Frecuente'">
-                        <a class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)" (click)="open(marcarestado)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
-                        <a class="btn btn-xs btn-info" (click)="marcarEgreso(visita)" (click)="open(marcarestado)"><i class="fa fa-sign-out"></i> Marcar egreso</a>
+                        <a class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)" (click)="open(marcarestado)">
+                            <i class="fa fa-sign-in"></i> Marcar ingreso</a>
+                        <a class="btn btn-xs btn-info" (click)="marcarEgreso(visita)" (click)="open(marcarestado)">
+                            <i class="fa fa-sign-out"></i> Marcar egreso</a>
                     </td>
                     <td *ngIf="visita.tipo_visita != 'Frecuente'">
-                        <a *ngIf="visita.estado == 'esperando'" class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)"><i class="fa fa-sign-in"></i> Marcar ingreso</a>
-                        <a *ngIf="visita.estado == 'ingreso'" class="btn btn-xs btn-info" (click)="marcarEgreso(visita)"><i class="fa fa-sign-out"></i> Marcar egreso</a>
+                        <a *ngIf="visita.estado == 'esperando'" class="btn btn-xs btn-primary" (click)="marcarIngreso(visita)">
+                            <i class="fa fa-sign-in"></i> Marcar ingreso</a>
+                        <a *ngIf="visita.estado == 'ingreso'" class="btn btn-xs btn-info" (click)="marcarEgreso(visita)">
+                            <i class="fa fa-sign-out"></i> Marcar egreso</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <pagination-controls autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
     </div>
 </section>
 <ng-template #marcarestado let-c="close" let-d="dismiss">
     <div [ngClass]="headerClass" class="modal-header modal-content panel-warning">
         <h4 class="modal-title">Notificación</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-             <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
