@@ -16,7 +16,7 @@ namespace PriHood.Auth
     private PrihoodContext _db;
     private readonly RequestDelegate _next;
 
-    private string[] noProtegidos = new string[] { "/api/login", "/api/token", "/api/usuarios/residente", "/api/usuarios/password", "/api/residencias/codigo" };
+    private string[] noProtegidos = new string[] { "/api/login", "/api/token", "/api/usuarios/residente", "/api/usuarios/password", "/api/residencias/codigo", "/api/fotos/cargar" };
 
     public ApiMiddleware(RequestDelegate next, PrihoodContext db, AuthService auth)
     {
