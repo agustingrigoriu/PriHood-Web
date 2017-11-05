@@ -24,7 +24,7 @@ export class ExpensasComponent implements OnInit {
     residenciaSeleccionada: Residencia;
     expensa: Expensa;
     file: File;
-
+    p: number = 1;
     datePickerConfig: IDatePickerConfig = {
         format: 'DD/MM/YYYY',
         locale: 'es',
