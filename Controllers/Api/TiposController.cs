@@ -84,6 +84,22 @@ namespace PriHood.Controllers
       }
     }
 
+    [HttpGet("eventos")]
+    public Object GetTipoEvento()
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var tiposEventos = db.TipoEvento.ToList();
+
+        return new { error = false, data = tiposEventos };
+      }
+      catch (System.Exception)
+      {
+        return new { error = true, data = "fail" };
+      }
+    }
+
     [HttpGet("amenities")]
     public Object GetTiposAmenities()
     {
