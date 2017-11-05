@@ -6,6 +6,9 @@
 
 <section class="content animated fadeInUp">
     <div class="box box-primary not-print">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <div class="box-header with-border">
             <h3 class="box-title">Listado de residencias</h3>
         </div>
@@ -75,6 +78,9 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="registrarResidencia">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <div class="overlay" *ngIf="cargando">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -109,6 +115,9 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="editarResidencia">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <div class="overlay" *ngIf="cargando">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

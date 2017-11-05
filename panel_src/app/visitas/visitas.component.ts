@@ -16,15 +16,20 @@ export class VisitasComponent implements OnInit {
     fecha_actual = new Date();
     mensaje: string;
     headerClass = " "
+    cargando: boolean;
 
     actualizarListado() {
+        this.cargando = true;
         this.VisitasService.getAllVisitas().then(response => {
             this.visitas = response.error ? [] : response.data;
+            this.cargando = false;
         });
     }
 
     marcarIngreso(visita: Visita) {
+        this.cargando = true;
         this.VisitasService.marcarIngreso(visita.id).then(response => {
+            this.cargando = false;
             if (response.error) {
                 alert('No se pudo marcar la visita como ingresada.');
                 this.mensaje = "No se pudo marcar la visita como ingresada";
@@ -37,7 +42,9 @@ export class VisitasComponent implements OnInit {
     }
 
     marcarEgreso(visita: Visita) {
+        this.cargando = true;
         this.VisitasService.marcarEgreso(visita.id).then(response => {
+            this.cargando = false;
             if (response.error) {
                 alert('No se pudo marcar la visita como egresada.');
                 this.mensaje = "No se pudo marcar la visita como egresada";
