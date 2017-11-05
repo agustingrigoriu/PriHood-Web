@@ -20,6 +20,7 @@ export class AmenitiesComponent implements OnInit {
 
     amenities: Amenity[] = [];
     cargando: boolean;
+    p: number = 1;
 
     amenity: Amenity = {
         nombre: '',
