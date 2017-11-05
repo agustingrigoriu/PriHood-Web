@@ -8,7 +8,9 @@
     <div class="box box-primary">
         <div class="box-body">
             <div class="input-group input-group-lg">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <span class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </span>
                 <input type="search" class="form-control" [(ngModel)]="filtro" placeholder="Buscar..." />
             </div>
         </div>
@@ -31,16 +33,22 @@
                         <p class="text-center">No existen residencias para este barrio.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let residencia of residencias  | filter: filtro">
+                <tr *ngFor="let residencia of residencias  | filter: filtro | paginate: { itemsPerPage: 15, currentPage: p }">
                     <td>{{residencia.nombre}}</td>
                     <td>{{residencia.ubicacion}}</td>
                     <td>
-                        <a class="btn btn-xs btn-success" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#cargarExpensas"> Cargar Expensas <i class="fa fa-plus"></i></a>
-                        <a class="btn btn-xs btn-info" [routerLink]="['/expensas', residencia.id]"> Ver Expensas <i class="fa fa-eye"></i></a>
+                        <a class="btn btn-xs btn-success" (click)="onSelectedRes(residencia)" data-toggle="modal" data-target="#cargarExpensas">
+                            Cargar Expensas
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <a class="btn btn-xs btn-info" [routerLink]="['/expensas', residencia.id]"> Ver Expensas
+                            <i class="fa fa-eye"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <pagination-controls autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
     </div>
 </section>
 
@@ -48,7 +56,9 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title">Cargar Expensas</h4>
             </div>
             <div class="modal-body">
@@ -68,7 +78,9 @@
                         <div class="form-group">
                             <label for="monto">Monto</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                <span class="input-group-addon">
+                                    <i class="fa fa-dollar"></i>
+                                </span>
                                 <input [(ngModel)]="expensa.monto" placeholder="Monto de expensa" name="monto" type="number" class="form-control" id="monto"
                                     #monto=ngModel required>
                                 <span class="label label-danger" *ngIf="monto.errors?.required&& monto?.touched">Campo requerido</span>
@@ -87,8 +99,7 @@
                                 <label for="fechaVencimiento">Fecha de Vencimiento</label>
                             </div>
                             <dp-date-picker class="form-control" theme='dp-material' placeholder="Seleccione una fecha de vencimiento" [(ngModel)]="expensa.fecha_vencimiento"
-                                name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig" #name="ngModel"
-                                required></dp-date-picker>
+                                name="fecha_vencimiento" id="fecha_vencimiento" [config]="datePickerConfig" #name="ngModel" required></dp-date-picker>
                             <span class="label label danger" *ngIf="name.errors?.required && name?.touched">Campo requerido</span>
                         </div>
                         <div class="checkbox">

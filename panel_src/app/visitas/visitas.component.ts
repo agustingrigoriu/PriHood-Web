@@ -17,6 +17,7 @@ export class VisitasComponent implements OnInit {
     mensaje: string;
     headerClass = " "
     cargando: boolean;
+    p: number = 1;
 
     actualizarListado() {
         this.cargando = true;
