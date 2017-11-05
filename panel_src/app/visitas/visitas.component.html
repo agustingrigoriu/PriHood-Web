@@ -39,7 +39,7 @@
                         <p class="text-center">No existen visitas.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let visita of visitas | filter: filtro">
+                <tr *ngFor="let visita of visitas | filter: filtro | paginate: { itemsPerPage: 15, currentPage: p }">
                     <td>
                         Avatar
                     </td>
@@ -70,6 +70,7 @@
                 </tr>
             </tbody>
         </table>
+        <pagination-controls autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
     </div>
 </section>
 <ng-template #marcarestado let-c="close" let-d="dismiss">
