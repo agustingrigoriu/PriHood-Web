@@ -22,7 +22,7 @@
     </div>
   </form>
 
-  <div style="text-align:center; margin-top:5px;">
+  <div style="text-align:center; margin-top:5px; cursor:pointer;">
     <a id="btnChangePwd">Olvidé mi contraseña</a>
     <br>
   </div>
@@ -48,7 +48,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary button button4">Sign</button>
+        <button type="submit" id="btnAccept" class="btn btn-primary button button4">Sign</button>
         <button type="button" id="btnHideModal" class="btn btn-primary button button4">
           Hide
         </button>
@@ -62,5 +62,25 @@
     $("#btnChangePwd").click(function () {
       $("#changePwdModal").modal('show');
     });
+
+    $("#btnHideModal").click(function () {
+      $("#changePwdModal").modal('hide');
+    });
+
+    $("#btnAccept").click(function () {
+      var email = $('#email').val();
+
+      if (email != '') {
+      // $.ajax({
+      //   url: '',
+      //   type: "POST",
+      //   data: email
+      // });
+      $("#changePwdModal").modal('hide');
+      window.alert("Mail enviado con éxito, revise su bandeja de entrada");
+      }
+      else window.alert('El campo está vacío, ingrese su usuario/email');
+    });
+
   });  
 </script>
