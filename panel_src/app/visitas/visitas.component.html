@@ -73,9 +73,6 @@
     </div>
 </section>
 <ng-template #marcarestado let-c="close" let-d="dismiss">
-    <div class="overlay" *ngIf="cargando">
-        <i class="fa fa-refresh fa-spin"></i>
-    </div>
     <div [ngClass]="headerClass" class="modal-header modal-content panel-warning">
         <h4 class="modal-title">Notificación</h4>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
