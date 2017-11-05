@@ -60,7 +60,6 @@ namespace PriHood.Controllers
       {
         try
         {
-          var url_avatar = this.uploadService.UploadFile(mres.avatar);
           var persona = new Persona();
           persona.Apellido = mres.apellido;
           persona.Nombre = mres.nombre;
@@ -82,8 +81,8 @@ namespace PriHood.Controllers
           usuario.Password = auth.getHash(mres.password); // hasheo le password
           usuario.IdPerfil = perfil.Id; //Tengo q buscar el correspondiente a Residente, no manejarme por ID
           usuario.IdBarrio = residencia.IdBarrio;
-          if (url_avatar != string.Empty) usuario.Avatar = url_avatar;
-          //Acá podríamos devolver una foto por defecto si la url está vacía!!!
+          usuario.Avatar = mres.avatar;
+          
           db.Usuario.Add(usuario);
 
           db.SaveChanges();
