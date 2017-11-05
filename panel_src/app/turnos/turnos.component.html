@@ -1,5 +1,7 @@
 <section class="content-header clearfix">
-    <button type="button" class="btn btn-primary pull-right" (click)="abrirModalTurno()"><i class="fa fa-plus"></i></button>
+    <button type="button" class="btn btn-primary pull-right" (click)="abrirModalTurno()">
+        <i class="fa fa-plus"></i>
+    </button>
     <h1>
         Turnos para el amenity
     </h1>
@@ -7,11 +9,15 @@
 
 <section class="content animated fadeInUp">
     <div class="box box-default" *ngIf="!turnos || turnos.length === 0">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <div class="box-header with-border">
             <h3 class="box-title">Tip!</h3>
         </div>
         <div class="box-body">
-            <p>Estos serán todos los posibles turnos que los residentes pueden reservar a través de la aplicación. <a href='#' (click)="abrirModalTurno(); false">Crear un turno</a> o arrastra en el calendario para definir el horario.</p>
+            <p>Estos serán todos los posibles turnos que los residentes pueden reservar a través de la aplicación.
+                <a href='#' (click)="abrirModalTurno(); false">Crear un turno</a> o arrastra en el calendario para definir el horario.</p>
         </div>
     </div>
 
@@ -22,6 +28,9 @@
 
 <ng-template #crearTurnoModal let-c="close" let-d="dismiss">
     <div class="modal-header">
+        <div class="overlay" *ngIf="cargando">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
         <h4 class="modal-title">Agregar turno</h4>
     </div>
     <div class="modal-body">
@@ -37,7 +46,7 @@
             <div class="form-group">
                 <label for="direccion">Dia de la semana</label>
                 <select class="form-control" [(ngModel)]="turno.dia" name="dia">
-                  <option *ngFor="let dia of dias" [ngValue]="dia.id">{{dia.descripcion}}</option>
+                    <option *ngFor="let dia of dias" [ngValue]="dia.id">{{dia.descripcion}}</option>
                 </select>
             </div>
             <div class="row">
@@ -63,6 +72,9 @@
 </ng-template>
 
 <ng-template #actualizarTurnoModal let-c="close" let-d="dismiss">
+    <div class="overlay" *ngIf="cargando">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
     <div class="modal-header">
         <h4 class="modal-title">Actualizar turno</h4>
     </div>
@@ -79,7 +91,7 @@
             <div class="form-group">
                 <label for="direccion">Dia de la semana</label>
                 <select class="form-control" [(ngModel)]="turno.dia" name="dia">
-                  <option *ngFor="let dia of dias" [ngValue]="dia.id">{{dia.descripcion}}</option>
+                    <option *ngFor="let dia of dias" [ngValue]="dia.id">{{dia.descripcion}}</option>
                 </select>
             </div>
             <div class="row">

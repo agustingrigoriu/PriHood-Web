@@ -35,6 +35,8 @@ export class TurnosComponent implements OnInit {
   public turnos = [];
   public dias = [];
   public turno = {};
+  cargando: boolean;
+
 
   async traerDias() {
     const response = await this.TurnosService.getAllDias();
@@ -43,6 +45,7 @@ export class TurnosComponent implements OnInit {
   }
 
   async actualizarListado() {
+    this.cargando = true;
     const { data: turnos } = await this.TurnosService.getAllTurnos(this.amenity);
 
     this.myCalendar.fullCalendar('removeEvents');
@@ -52,6 +55,7 @@ export class TurnosComponent implements OnInit {
     }
 
     this.turnos = turnos;
+    this.cargando = false;
   }
 
   buildEvent(turno: Turno) {
@@ -80,6 +84,7 @@ export class TurnosComponent implements OnInit {
   }
 
   async eventChange({ start, end, id }: { id: number, start: moment.Moment, end: moment.Moment }, delta: moment.Duration, revertFunc: Function) {
+    this.cargando = true;
     const turno: Turno = {
       duracion: end.diff(start) / 1000 / 60,
       horaDesde: start.format('HH:mm'),
@@ -95,9 +100,11 @@ export class TurnosComponent implements OnInit {
       revertFunc();
       this.notificaciones.error("Error", "No se pudo modificar el turno");
     }
+    this.cargando = false;
   }
 
   async crearTurno(turnoObj) {
+    this.cargando = true;
     const duracion = moment(turnoObj.hasta, 'HH:mm').diff(moment(turnoObj.desde, 'HH:mm')) / 1000 / 60;
     const turno: Turno = {
       nombre: turnoObj.nombre,
@@ -116,9 +123,11 @@ export class TurnosComponent implements OnInit {
     } catch (error) {
       this.notificaciones.error("Error", "No se pudo crear el turno");
     }
+    this.cargando = false;
   }
 
   async actualizarTurno(turnoObj) {
+    this.cargando = true;
     const duracion = moment(turnoObj.hasta, 'HH:mm').diff(moment(turnoObj.desde, 'HH:mm')) / 1000 / 60;
     const turno: Turno = {
       nombre: turnoObj.nombre,
@@ -137,6 +146,7 @@ export class TurnosComponent implements OnInit {
     } catch (error) {
       this.notificaciones.error("Error", "No se pudo modificar el turno");
     }
+    this.cargando = false;
   }
 
   async borrarTurno(turnoObj) {

@@ -15,7 +15,7 @@ moment.locale('es');
 })
 export class MensajesComponent implements OnInit {
   public publicacionesAgrupadas: any = [];
-
+  cargando: boolean;
   constructor(public PublicacionesService: PublicacionesService, private modalService: NgbModal, private notificaciones: NotificationsService) { }
 
   ngOnInit() {
@@ -23,12 +23,14 @@ export class MensajesComponent implements OnInit {
   }
 
   async cargarPublicaciones() {
+    this.cargando=true;
     try {
       const response = await this.PublicacionesService.getMensajes();
 
       if (response.error) {
         throw 'error';
       }
+      this.cargando=false;
 
       const publicacionesAgrupadas = response.data.reduce<any>((obj, publicacion) => {
         const fecha = this.getFormatDate(publicacion.fecha);

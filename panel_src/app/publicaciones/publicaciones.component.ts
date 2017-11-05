@@ -19,6 +19,7 @@ export class PublicacionesComponent implements OnInit {
   public publicacionesAgrupadas: any = [];
   public publicacion: Publicacion;
   private modalRef: NgbModalRef;
+  cargando: boolean;
 
   constructor(public PublicacionesService: PublicacionesService, private modalService: NgbModal, private notificaciones: NotificationsService) { }
 
@@ -27,9 +28,10 @@ export class PublicacionesComponent implements OnInit {
   }
 
   async cargarPublicaciones() {
+    this.cargando = true;
     try {
       const response = await this.PublicacionesService.getPublicaciones();
-
+      this.cargando = false;
       if (response.error) {
         throw 'error';
       }
@@ -63,10 +65,12 @@ export class PublicacionesComponent implements OnInit {
   }
 
   async registrarPublicacion(publicacion) {
+    this.cargando = true;
     const response = await this.PublicacionesService.crearPublicacion(publicacion);
 
     this.modalRef.close();
     this.cargarPublicaciones();
+    this.cargando = false;
   }
 
   getFormatDate(date) {
