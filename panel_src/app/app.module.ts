@@ -57,6 +57,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { JasperoConfirmationsModule } from '@jaspero/ng2-confirmations';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { CustomFormsModule } from 'ng2-validation'
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import { CustomFormsModule } from 'ng2-validation'
     CalendarModule,
     BrowserAnimationsModule,
     CustomFormsModule,
+    ChartsModule,
     SimpleNotificationsModule.forRoot(),
     NgbModule.forRoot(),
     DpDatePickerModule,
