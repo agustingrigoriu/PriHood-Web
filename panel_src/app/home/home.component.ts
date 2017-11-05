@@ -36,8 +36,8 @@ export class HomeComponent implements OnInit {
     cantidad_residentes: 0,
     latitud: -31.335335,
     longitud: -64.303113,
-    visitas_frecuentes: ["", 0],
-    visitas_actuales: ["", 0]
+    visitas_frecuentes: [0],
+    visitas_actuales: [0]
   };
 
   //Gráfico
@@ -54,8 +54,8 @@ export class HomeComponent implements OnInit {
     { data: [], label: "Visitas Actuales" }
   ];
 
-  drawVisitsGraph(frecuentes: any, actuales: any) {
-    frecuentes.forEach(frecuente => {
+  drawVisitsGraph() {
+    this.adminDashboard.visitas_frecuentes.forEach(frecuente => {
       this.barChartLabels.push(frecuente.fecha);
     });
 
