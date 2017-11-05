@@ -26,10 +26,7 @@ namespace PriHood.Auth
       this._db = db;
     }
 
-    public Usuario Login(string email, string password)
-    {
-      return _db.Usuario.Where(u => u.Email == email && u.Password == getHash(password)).FirstOrDefault();
-    }
+    public Usuario Login(string email, string password) => _db.Usuario.Where(u => u.Email == email && u.Password == getHash(password)).FirstOrDefault();
 
     public Usuario Register(Usuario usuario)
     {
