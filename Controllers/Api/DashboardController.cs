@@ -79,7 +79,7 @@ namespace PriHood.Controllers
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
           where v.Fecha > DateTime.Now.AddDays(10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente"
           group v.Fecha by v.Id into c
-          select new { fecha = c.Key, cantidad_visitas = c.Count() });
+          select new int[]{ c.Count() }).ToArray();
 
         var visitas_actuales_ultimos_10dias = (
           from v in db.Visita
@@ -89,7 +89,7 @@ namespace PriHood.Controllers
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
           where v.Fecha > DateTime.Now.AddDays(10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual"
           group v.Fecha by v.Id into c
-          select new { fecha = c.Key, cantidad_visitas = c.Count() });
+          select new int[]{ c.Count() }).ToArray();
 
 
         Barrio b = (
