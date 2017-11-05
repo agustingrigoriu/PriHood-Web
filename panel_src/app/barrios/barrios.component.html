@@ -32,7 +32,7 @@
                         <p class="text-center">No existen barrios.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let barrio of barrios ">
+                <tr *ngFor="let barrio of barrios| paginate: { itemsPerPage: 1, currentPage: p }" >
                     <td>{{barrio.id}}</td>
                     <td>{{barrio.nombre}}</td>
                     <td>{{barrio.ubicacion}}</td>
@@ -47,6 +47,7 @@
                 </tr>
             </tbody>
         </table>
+        <pagination-controls autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
     </div>
 </section>
 

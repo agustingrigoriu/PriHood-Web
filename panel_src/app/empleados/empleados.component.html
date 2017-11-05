@@ -37,7 +37,7 @@
                         <p class="text-center">No existen empleados.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let empleado of empleados">
+                <tr *ngFor="let empleado of empleados | paginate: {itemsPerPage: 15, currentPage: p }">
                     <td>{{empleado.nombre}}</td>
                     <td>{{empleado.apellido}}</td>
                     <td>{{empleado.fecha_nacimiento | date}}</td>
@@ -58,6 +58,7 @@
                 </tr>
             </tbody>
         </table>
+        <pagination-controls  autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
     </div>
 </section>
 
