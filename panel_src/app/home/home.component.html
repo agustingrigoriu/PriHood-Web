@@ -88,12 +88,20 @@
     <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-6">
             <div class="box box-info">
+                    <div class="box-header">
+                            <i class="fa fa-pie-chart"></i>
+                            <h3 class="box-title">Porcentajes de Reservas por Tipo de Amenities</h3>
+                        </div>
                 <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
                     (chartClick)="chartClicked($event)"></canvas>
             </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-6">
             <div class="box box-info">
+                    <div class="box-header">
+                            <i class="fa fa-bar-chart"></i>
+                            <h3 class="box-title">Cantidad de Visitas de los Últimos 10 Días</h3>
+                        </div>
                 <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
                     [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
             </div>
