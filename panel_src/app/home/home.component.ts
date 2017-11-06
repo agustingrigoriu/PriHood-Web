@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
 
   //bar Chart Visitas (Frecuentes y Actuales)
   public barChartOptions: any = {
+
     scaleShowVerticalLines: false,
     responsive: true
   };
@@ -50,38 +51,42 @@ export class HomeComponent implements OnInit {
 
   public barChartLabels: string[] = [];
   public barChartData: any[] = [
-    { data: [], label: "Visitas Frecuentes" },
-    { data: [], label: "Visitas Actuales" }
+    { data: [2], label: "Visitas Frecuentes" },
+    { data: [2], label: "Visitas Actuales" }
   ];
 
-  drawVisitsGraph() {
-    var currentDate = new Date();
-    for (var index = 0; index < 11; index++) {
-      var previous_date = currentDate.getDate() - index;
-      console.log(previous_date);
-      this.barChartLabels.push(previous_date.toString());
-    }
-    console.log(this.barChartLabels);
+  // drawVisitsGraph() {
+  //   var currentDate = new Date();
+  //   for (var index = 0; index < 11; index++) {
+  //     var previous_date = currentDate.getDate() - index;
+  //     console.log(previous_date);
+  //     this.barChartLabels.push(previous_date.toString());
+  //   }
+  //   console.log(this.barChartLabels);
 
-    let clone = JSON.parse(JSON.stringify(this.barChartData));
-    clone[0].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-    clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-    this.barChartData = clone;
+  //   let clone = JSON.parse(JSON.stringify(this.barChartData));
+  //   clone[0].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
+  //   clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
+  //   this.barChartData = clone;
+  // }
+
+  // Gráfico de torta para tipos amenities más reservados
+  public pieChartLabels: string[] = [
+    "Salón",
+    "Canchas de Tenis",
+    "Canchas de Fútbol"
+  ];
+  public pieChartData: number[] = [300, 500, 100];
+  public pieChartType: string = "pie";
+
+  // events
+  public chartClicked(e: any): void {
+    console.log(e);
   }
 
-    // Gráfico de torta para tipos amenities más reservados
-    public pieChartLabels:string[] = ['Salón', 'Canchas de Tenis', 'Canchas de Fútbol'];
-    public pieChartData:number[] = [300, 500, 100];
-    public pieChartType:string = 'pie';
-   
-    // events
-    public chartClicked(e:any):void {
-      console.log(e);
-    }
-   
-    public chartHovered(e:any):void {
-      console.log(e);
-    }
+  public chartHovered(e: any): void {
+    console.log(e);
+  }
 
   getUsuario() {
     this.LoginService.getUserLogin().then(response => {
@@ -97,7 +102,7 @@ export class HomeComponent implements OnInit {
 
         if (this.usuario.idPerfil === 2) {
           this.getAdminDashboard();
-          this.drawVisitsGraph();
+          // this.drawVisitsGraph();
         }
       }
     });
