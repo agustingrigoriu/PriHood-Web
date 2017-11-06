@@ -35,7 +35,7 @@
                         <p class="text-center">No existen residencias para este barrio.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let residencia of residencias | paginate: { itemsPerPage: 15, currentPage: p }">
+                <tr *ngFor="let residencia of residencias | paginate: { id:'foo', itemsPerPage: 15, currentPage: p }">
                     <td>{{residencia.nombre}}</td>
                     <td>{{residencia.ubicacion}}</td>
                     <td>{{residencia.codigo}}</td>

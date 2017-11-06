@@ -33,9 +33,10 @@ namespace PriHood.Controllers
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
           var visitante = new Visitante();
 
+
           visitante.Apellido = mv.apellido;
           visitante.Avatar = mv.avatar;
-          visitante.FechaVisita = mv.fecha_visita;
+          visitante.FechaVisita = mv.id_tipo_visita == 1 ? null : mv.fecha_visita;
           visitante.IdTipoDocumento = mv.id_tipo_documento;
           visitante.IdTipoVisita = mv.id_tipo_visita;
           visitante.Nombre = mv.nombre;

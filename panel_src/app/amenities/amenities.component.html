@@ -33,7 +33,7 @@
                         <p class="text-center">No existen amenities.</p>
                     </td>
                 </tr>
-                <tr *ngFor="let amenity of amenities">
+                <tr *ngFor="let amenity of amenities| paginate: { itemsPerPage: 15, currentPage: p }">
                     <td>{{amenity.nombre}}</td>
                     <td>{{amenity.descripcion}}</td>
                     <td>{{amenity.ubicacion}}</td>
@@ -53,6 +53,7 @@
                 </tr>
             </tbody>
         </table>
+        <pagination-controls autoHide="true" previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="p = $event"></pagination-controls>
     </div>
 </section>
 
