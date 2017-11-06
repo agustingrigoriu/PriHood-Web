@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     visitas_actuales: [0]
   };
 
-  //Gráfico
+  //bar Chart Visitas (Frecuentes y Actuales)
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
@@ -68,6 +68,20 @@ export class HomeComponent implements OnInit {
     clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
     this.barChartData = clone;
   }
+
+    // Gráfico de torta para tipos amenities más reservados
+    public pieChartLabels:string[] = ['Salón', 'Canchas de Tenis', 'Canchas de Fútbol'];
+    public pieChartData:number[] = [300, 500, 100];
+    public pieChartType:string = 'pie';
+   
+    // events
+    public chartClicked(e:any):void {
+      console.log(e);
+    }
+   
+    public chartHovered(e:any):void {
+      console.log(e);
+    }
 
   getUsuario() {
     this.LoginService.getUserLogin().then(response => {
