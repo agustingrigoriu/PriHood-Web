@@ -13,6 +13,15 @@ INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("Los Perales","N
 INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("El Tipal","Silent Hill", -31.429075, -64.189044);
 INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("Las Delicias","Racoon City", -31.429075, -64.189044);
 
+-- Residencias
+
+INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 1','Manzana 1 Lote 1','4f9824',1);
+INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 2','Manzana 1 Lote 2','6ccb53',1);
+INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 3','Manzana 1 Lote 3','db9682',1);
+INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 4','Manzana 2 Lote 1','8ad5b5',1);
+INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 5','Manzana 2 Lote 2','1fdae1',1);
+INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 6','Manzana 2 Lote 3','e43178',1);
+
 -- Usuarios
 INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
 INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("lmgabrielac@gmail.com","8c6976e5b5410415bde908bd4dee15",2, 1);
