@@ -4,20 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace PriHood.Models
 {
-        public partial class PrihoodContext : DbContext
-        {
-            public PrihoodContext(DbContextOptions<PrihoodContext> options) : base(options)
-        {
-        }
-
-        public PrihoodContext() : base()
-        {
-        }
+    public partial class PrihoodContext : DbContext
+    {
         public virtual DbSet<Alertas> Alertas { get; set; }
         public virtual DbSet<Amenity> Amenity { get; set; }
         public virtual DbSet<AsistenciaEvento> AsistenciaEvento { get; set; }
         public virtual DbSet<Barrio> Barrio { get; set; }
         public virtual DbSet<Comentario> Comentario { get; set; }
+        public virtual DbSet<ComentariosEvento> ComentariosEvento { get; set; }
         public virtual DbSet<DiaSemana> DiaSemana { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
         public virtual DbSet<EstadoReserva> EstadoReserva { get; set; }
@@ -48,7 +42,13 @@ namespace PriHood.Models
         public virtual DbSet<Visitante> Visitante { get; set; }
         public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
 
-            protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseMySql(@"server=localhost;database=Prihood;user=root;password=root");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Alertas>(entity =>
             {
@@ -242,6 +242,50 @@ namespace PriHood.Models
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_Comentario_2");
+            });
+
+            modelBuilder.Entity<ComentariosEvento>(entity =>
+            {
+                entity.ToTable("Comentarios_Evento");
+
+                entity.HasIndex(e => e.IdEvento)
+                    .HasName("fk_Comentarios_Evento_1_idx");
+
+                entity.HasIndex(e => e.IdUsuario)
+                    .HasName("fk_Comentarios_Evento_2_idx");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Fecha)
+                    .HasColumnName("fecha")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.IdEvento)
+                    .HasColumnName("id_evento")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.IdUsuario)
+                    .HasColumnName("id_usuario")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Texto)
+                    .IsRequired()
+                    .HasColumnName("texto")
+                    .HasColumnType("text");
+
+                entity.HasOne(d => d.IdEventoNavigation)
+                    .WithMany(p => p.ComentariosEvento)
+                    .HasForeignKey(d => d.IdEvento)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Comentarios_Evento_1");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.ComentariosEvento)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_Comentarios_Evento_2");
             });
 
             modelBuilder.Entity<DiaSemana>(entity =>

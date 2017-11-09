@@ -530,6 +530,27 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE TABLE IF NOT EXISTS `Prihood`.`Comentarios_Evento` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `texto` TEXT NOT NULL,
+  `id_usuario` INT NOT NULL,
+  `id_evento` INT NOT NULL,
+  `fecha` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Comentarios_Evento_1_idx` (`id_evento` ASC),
+  INDEX `fk_Comentarios_Evento_2_idx` (`id_usuario` ASC),
+  CONSTRAINT `fk_Comentarios_Evento_1`
+    FOREIGN KEY (`id_evento`)
+    REFERENCES `Prihood`.`Eventos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Comentarios_Evento_2`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `Prihood`.`Usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
 CREATE TABLE IF NOT EXISTS `Prihood`.`Asistencia_Evento` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_residente` INT NOT NULL,

@@ -8,6 +8,7 @@ namespace PriHood.Models
         public Eventos()
         {
             AsistenciaEvento = new HashSet<AsistenciaEvento>();
+            ComentariosEvento = new HashSet<ComentariosEvento>();
         }
 
         public int Id { get; set; }
@@ -20,6 +21,7 @@ namespace PriHood.Models
         public string Imagen { get; set; }
 
         public virtual ICollection<AsistenciaEvento> AsistenciaEvento { get; set; }
+        public virtual ICollection<ComentariosEvento> ComentariosEvento { get; set; }
         public virtual Residente IdResidenteNavigation { get; set; }
         public virtual TipoEvento IdTipoEventoNavigation { get; set; }
     }
