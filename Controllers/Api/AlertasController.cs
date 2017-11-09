@@ -53,7 +53,7 @@ namespace PriHood.Controllers
         var empleados_barrio = (
           from u in db.Usuario
           join p in db.Perfil on u.IdPerfil equals p.Id
-          where p.Descripcion == "Administrador" || p.Descripcion == "Encargado de Seguridad"
+          where (p.Descripcion == "Administrador" || p.Descripcion == "Encargado de Seguridad") && u.IdBarrio == logueado.IdBarrio
           select u.Email
         ).ToList();
 
