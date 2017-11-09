@@ -62,6 +62,9 @@ namespace PriHood.Controllers
         var codigo = guid.ToString().Substring(0, 6);
         var logueado = HttpContext.Session.Authenticated();
 
+        var residencia = db.Residencia.FirstOrDefault(r => r.Nombre == re.Nombre && r.IdBarrio == logueado.IdBarrio);
+        if (residencia != null) return new { error = true, data = "Error", message = "Ya existe una residencia con ese nombre en el barrio"};
+
         re.Codigo = codigo;
         re.IdBarrio = logueado.IdBarrio.Value;
 
