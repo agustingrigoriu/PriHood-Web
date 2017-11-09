@@ -6,6 +6,7 @@ using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
 using MimeKit.Utils;
+using System.Collections.Generic;
 
 namespace PriHood.Auth
 {
@@ -51,13 +52,58 @@ namespace PriHood.Auth
       puede hacerlo luego de haber ingresado al sistema con su nombre de usuario y  
       la nueva contraseña. 
       </p> 
-      <p style=""text-align:left;""><a href=""http://prihood.com/Login"" style=""background-color: #003777;color: white;padding: 14px 25px;text-align: center; text-decoration: none;display: inline-block;"">Inicie Sesión</a></p> 
+      <p style=""text-align:left;""><a href=""www.prihood.com/Login"" style=""background-color: #003777;color: white;padding: 14px 25px;text-align: center; text-decoration: none;display: inline-block;"">Inicie Sesión</a></p> 
       <p> Cordialmente,<br><span style=""color:#222222;""><i>El equipo de PriHood</i></span> 
       </body> 
       </html>", msg);
 
 
 
+
+      // Now we just need to set the message body and we're done
+      message.Body = builder.ToMessageBody();
+
+      SendEmail(message);
+    }
+
+    public void SendEmailAlert(string tipo_alerta, string descripcion, string residente, List<string> emails_empleados)
+    {
+      var message = new MimeMessage();
+      message.From.Add(new MailboxAddress("PriHood", "no-reply@prihood.com"));
+
+      foreach (var email in emails_empleados)
+      {
+        message.To.Add(new MailboxAddress(email));
+      }
+      message.Subject = "Prihood - ALERTA de " + tipo_alerta;
+
+      var builder = new BodyBuilder();
+
+      // Set the plain-text version of the message text
+      builder.TextBody = $@"Estimado Usuario, 
+
+           El residente {residente} ha generado una alerta de tipo {tipo_alerta}
+
+           Descripción: 
+
+           {descripcion}
+
+           Por favor, comuníquese con las autoridades apropiadas y verifique el sistema para marcar la alerta como leída
+
+           Cordialmente,
+
+           El equipo de PriHood
+          ";
+
+      // Set the html version of the message text
+      builder.HtmlBody = $@"<!DOCTYPE html><html><head><meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /></head>
+      <body style=""font-family: sans-serif;""><p style=""text-align:left;""></p>
+      <b>Estimado Usuario,</b><p>El residente <b style=""color: red;"" >{residente}</b> ha generado una alerta de tipo <b style=""color: red;"" >{tipo_alerta}</b></p> 
+      <p>Por favor, comuníquese con las autoridades apropiadas y verifique el sistema para marcar la alerta como leída</p> 
+      <p style=""text-align:left;""><a href=""www.prihood.com/Login"" style=""background-color: red;color: white;padding: 14px 25px;text-align: center; text-decoration: none;display: inline-block;"">Acceda al sistema</a></p> 
+      <p>Cordialmente,<br><span style=""color:#222222;""><i>El equipo de PriHood</i></span> 
+      </body> 
+      </html>";
 
       // Now we just need to set the message body and we're done
       message.Body = builder.ToMessageBody();

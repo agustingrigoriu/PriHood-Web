@@ -15,11 +15,13 @@ namespace PriHood.Controllers
     private readonly PrihoodContext db;
     private AuthService auth;
     private PushService pushService;
-    public AlertasController(PrihoodContext context, AuthService a, PushService p)
+    private EmailService emailService;
+    public AlertasController(PrihoodContext context, AuthService a, PushService p, EmailService e)
     {
       db = context;
       auth = a;
       pushService = p;
+      emailService = e;
     }
 
     [HttpPost]
@@ -40,13 +42,31 @@ namespace PriHood.Controllers
         db.Alertas.Add(alerta);
         db.SaveChanges();
 
-        /*        var tipo_alerta = (
+
+        //Envío de mail a encargados de seguridad y administradores
+        var tipo_alerta = (
                   from ta in db.TipoAlerta
                   where ta.Id == alerta.IdTipoAlerta
                   select ta
-                ).First();
+         ).First();
 
-                this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");*/
+        var empleados_barrio = (
+          from u in db.Usuario
+          join p in db.Perfil on u.IdPerfil equals p.Id
+          where p.Descripcion == "Administrador" || p.Descripcion == "Encargado de Seguridad"
+          select u.Email
+        ).ToList();
+
+        var persona_residente = (
+          from p in db.Persona 
+          join r in db.Residente on p.Id equals r.IdPersona
+          where r.Id == alerta.IdResidente
+          select p
+        ).First();
+
+        emailService.SendEmailAlert(tipo_alerta.Descripcion,alerta.Descripcion,persona_residente.Apellido + ", "+ persona_residente.Nombre,empleados_barrio);
+
+        // this.pushService.enviarMensajeUsuariosBarrio(logueado.IdBarrio, "Alerta de \"" + tipo_alerta.Descripcion + "\".");
 
         return new { error = false, data = alerta };
       }
