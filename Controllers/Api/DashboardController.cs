@@ -71,25 +71,52 @@ namespace PriHood.Controllers
           select r
         ).Count();
 
-        var visitas_frecuentes_ultimos_10dias = (
+        var visitasFrecuentesDataBar = (
           from v in db.Visita
           join vi in db.Visitante on v.IdVisitante equals vi.Id
           join r in db.Residente on vi.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
           where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente"
+          orderby v.Fecha descending
           group v.Fecha by v.Id into c
-          select new int[]{ c.Count() }).ToArray();
+          select new
+          {
+            labels = c.Select(key => new[] { c.Key }).ToArray(),
+            count = c.Select(count => new[] { c.Count() }).ToArray()
+          }
+          ).ToArray();
 
-        var visitas_actuales_ultimos_10dias = (
+        var visitasActualDataBar = (
           from v in db.Visita
           join vi in db.Visitante on v.IdVisitante equals vi.Id
           join r in db.Residente on vi.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
           where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual"
+          orderby v.Fecha descending
           group v.Fecha by v.Id into c
-          select new int[]{ c.Count() }).ToArray();
+          select new
+          {
+            labels = c.Select(key => new[] { c.Key }).ToArray(),
+            count = c.Select(count => new[] { c.Count() }).ToArray()
+          }
+          ).First();
+
+
+        var amenitiesDataPie = (
+          from r in db.Reserva
+          join t in db.Turno on r.IdTurno equals t.Id
+          join a in db.Amenity on t.IdAmenity equals a.Id
+          join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
+          where a.IdBarrio == id_barrio && r.Fecha > DateTime.Now.AddDays(-365)
+          group ta.Descripcion by r.Id into c
+          select new
+          {
+            labels = c.Select(key => new[] { c.Key }).ToArray(),
+            count = c.Select(count => new[] { c.Count() }).ToArray()
+          }
+        ).First();
 
 
         Barrio b = (
@@ -98,7 +125,16 @@ namespace PriHood.Controllers
          select ba
        ).First();
 
-        var data = new { cantidad_residencias = cantidad_residencias, cantidad_residentes = cantidad_residentes, latitud = b.Latitud, longitud = b.Longitud, visitas_frecuentes = visitas_frecuentes_ultimos_10dias, visitas_actuales = visitas_actuales_ultimos_10dias };
+        var data = new
+        {
+          cantidad_residencias = cantidad_residencias,
+          cantidad_residentes = cantidad_residentes,
+          latitud = b.Latitud,
+          longitud = b.Longitud,
+          visitasFrecuentesDataBar = visitasFrecuentesDataBar,
+          visitasActualDataBar = visitasActualDataBar,
+          amenitiesDataPie = amenitiesDataPie
+        };
 
         return new { error = false, data = data };
 
