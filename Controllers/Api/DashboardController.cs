@@ -85,7 +85,7 @@ namespace PriHood.Controllers
             labels = c.Select(key => new[] { c.Key }).ToArray(),
             count = c.Select(count => new[] { c.Count() }).ToArray()
           }
-          ).ToArray();
+          ).FirstOrDefault();
 
         var visitasActualDataBar = (
           from v in db.Visita
@@ -101,7 +101,7 @@ namespace PriHood.Controllers
             labels = c.Select(key => new[] { c.Key }).ToArray(),
             count = c.Select(count => new[] { c.Count() }).ToArray()
           }
-          ).First();
+          ).FirstOrDefault();
 
 
         var amenitiesDataPie = (
@@ -116,7 +116,7 @@ namespace PriHood.Controllers
             labels = c.Select(key => new[] { c.Key }).ToArray(),
             count = c.Select(count => new[] { c.Count() }).ToArray()
           }
-        ).First();
+        ).FirstOrDefault();
 
 
         Barrio b = (

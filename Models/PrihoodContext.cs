@@ -13,6 +13,7 @@ namespace PriHood.Models
     public PrihoodContext() : base()
     {
     }
+
     public virtual DbSet<Alertas> Alertas { get; set; }
     public virtual DbSet<Amenity> Amenity { get; set; }
     public virtual DbSet<AsistenciaEvento> AsistenciaEvento { get; set; }
@@ -48,7 +49,6 @@ namespace PriHood.Models
     public virtual DbSet<Visita> Visita { get; set; }
     public virtual DbSet<Visitante> Visitante { get; set; }
     public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Alertas>(entity =>
