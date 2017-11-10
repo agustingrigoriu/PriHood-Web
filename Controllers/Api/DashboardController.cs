@@ -82,10 +82,10 @@ namespace PriHood.Controllers
           group v.Fecha by v.Id into c
           select new
           {
-            labels = c.Select(key => new[] { c.Key }).ToArray(),
-            count = c.Select(count => new[] { c.Count() }).ToArray()
+            labels = c.Select(key => new[] { c.Key.ToString() }),
+            count = c.Select(count => new[] { c.Count() })
           }
-          ).FirstOrDefault();
+          );
 
         var visitasActualDataBar = (
           from v in db.Visita
@@ -98,10 +98,10 @@ namespace PriHood.Controllers
           group v.Fecha by v.Id into c
           select new
           {
-            labels = c.Select(key => new[] { c.Key }).ToArray(),
-            count = c.Select(count => new[] { c.Count() }).ToArray()
+            labels = c.Select(key => new[] { c.Key.ToString() }),
+            count = c.Select(count => new[] { c.Count() })
           }
-          ).FirstOrDefault();
+          );
 
 
         var amenitiesDataPie = (
@@ -113,10 +113,10 @@ namespace PriHood.Controllers
           group ta.Descripcion by r.Id into c
           select new
           {
-            labels = c.Select(key => new[] { c.Key }).ToArray(),
-            count = c.Select(count => new[] { c.Count() }).ToArray()
+            labels = c.Select(key => new[] { c.Key.ToString() }),
+            count = c.Select(count => new[] { c.Count() })
           }
-        ).FirstOrDefault();
+        );
 
 
         Barrio b = (
