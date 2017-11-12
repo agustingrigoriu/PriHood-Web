@@ -77,13 +77,14 @@ namespace PriHood.Controllers
           join r in db.Residente on vi.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente"
-          orderby v.Fecha descending
-          group v.Fecha by v.Id into c
+          join ee in db.EventoVisita on v.IdEvento equals ee.Id
+          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente" && ee.Nombre == "Ingreso"
+          orderby v.Fecha.Date descending
+          group v by v.Fecha.Date into c
           select new
           {
-            labels = c.Select(key => new[] { c.Key.ToString() }),
-            count = c.Select(count => new[] { c.Count() })
+            label = c.Key.Date,
+            count = c.Count()
           }
           );
 
@@ -93,13 +94,14 @@ namespace PriHood.Controllers
           join r in db.Residente on vi.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual"
+          join ee in db.EventoVisita on v.IdEvento equals ee.Id
+          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual" && ee.Nombre == "Ingreso"
           orderby v.Fecha descending
-          group v.Fecha by v.Id into c
+          group v by v.Fecha.Date into c
           select new
           {
-            labels = c.Select(key => new[] { c.Key.ToString() }),
-            count = c.Select(count => new[] { c.Count() })
+            label = c.Key.Date,
+            count = c.Count()
           }
           );
 
