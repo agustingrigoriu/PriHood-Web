@@ -50,7 +50,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="submit" id="btnAccept" class="btn btn-primary button button4">Aceptar</button>
+        <button type="submit" id="btnAccept" class="btn btn-primary button button4">Aceptar <i id="pwdSpinner" class="fa fa-refresh fa-spin" style="display:none;"></i></button>
         <button type="button" id="btnHideModal" class="btn btn-primary button button4">
           Cerrar
         </button>
@@ -73,25 +73,35 @@
       var email = $('#email').val();
       var data = {};
       data.email = email;
-      console.log(data);
+      
 
       if (email != '') {
+        $("#pwdSpinner").show();
         $.ajax({
           url: 'http://localhost:5000/api/usuarios/password',
           type: 'POST',
           contentType: 'application/json; charset=utf-8',
           data: JSON.stringify(data),
           success: function () {
-            window.alert("Mail enviado con éxito, revise su bandeja de entrada");
+            $("#changePwdModal").modal('hide');
+            $("#pwdSpinner").hide();
+            BootstrapDialog.show({
+              title: 'Cambio de Contraseña',
+              message: 'Mensaje enviado con éxito, verifique su bandeja de entrada',
+              type: BootstrapDialog.TYPE_SUCCESS
+            });
           },
           error: function (XMLHttpRequest, textStatus, errorThrown) {
-            window.alert("Error: " + errorThrown);
+            $("#pwdSpinner").hide();
+            BootstrapDialog.show({
+              title: 'Cambio de Contraseña',
+              message: errorThrown,
+              type: BootstrapDialog.TYPE_DANGER
+            });
           }
         });
-        $("#changePwdModal").modal('hide');
-
       }
-      else window.alert('El campo está vacío, ingrese su usuario/email');
+      else BootstrapDialog.alert('El campo está vacío, ingrese su usuario/email');
     });
 
   });  
