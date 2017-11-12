@@ -36,8 +36,9 @@ export class HomeComponent implements OnInit {
     cantidad_residentes: 0,
     latitud: -31.335335,
     longitud: -64.303113,
-    visitas_frecuentes: [0],
-    visitas_actuales: [0]
+    visitasFrecuentesDataBar: [],
+    visitasActualDataBar: [],
+    amenitiesDataPie: []
   };
 
   //bar Chart Visitas (Frecuentes y Actuales)
@@ -126,6 +127,7 @@ export class HomeComponent implements OnInit {
         this.headerClass = "alert-danger";
       } else {
         this.adminDashboard = response.data;
+        console.log(this.adminDashboard);
       }
     });
   }
