@@ -83,7 +83,7 @@ namespace PriHood.Controllers
           group v by v.Fecha.Date into c
           select new
           {
-            label = c.Key.Date,
+            label = c.Key.Date.ToString("dd/MM/yyyy"),
             count = c.Count()
           }
           );
@@ -100,7 +100,7 @@ namespace PriHood.Controllers
           group v by v.Fecha.Date into c
           select new
           {
-            label = c.Key.Date,
+            label = c.Key.Date.ToString("dd/MM/yyyy"),
             count = c.Count()
           }
           );
@@ -111,12 +111,12 @@ namespace PriHood.Controllers
           join t in db.Turno on r.IdTurno equals t.Id
           join a in db.Amenity on t.IdAmenity equals a.Id
           join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
-          where a.IdBarrio == id_barrio && r.Fecha > DateTime.Now.AddDays(-365)
-          group ta.Descripcion by r.Id into c
+          where a.IdBarrio == id_barrio && r.Fecha > DateTime.Now.AddDays(-30)
+          group r by ta.Descripcion into c
           select new
           {
-            labels = c.Select(key => new[] { c.Key.ToString() }),
-            count = c.Select(count => new[] { c.Count() })
+            label = c.Key,
+            count = c.Count()
           }
         );
 
