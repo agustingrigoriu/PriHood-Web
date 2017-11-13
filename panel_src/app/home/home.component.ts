@@ -59,10 +59,16 @@ export class HomeComponent implements OnInit {
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType: string = "pie";
+  public pieChartColors: any[] = [{ backgroundColor: ["#b8436d", "#00d9f9", "#a4c73c", "#a4add3", '#511730', '#8e443d', '#e0d68a'] }];
 
   drawVisitsGraphBar() {
 
     let clone_data = JSON.parse(JSON.stringify(this.barChartData));
+    this.barChartLabels.length = 0;
+    var labels = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.label);
+    for (let i = labels.length - 1; i >= 0; i--) {
+      this.barChartLabels.push(labels[i]);
+    }
     let clone_labels = JSON.parse(JSON.stringify(this.barChartLabels));
     clone_labels = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.label)
     clone_data[0].data = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.count);
@@ -75,12 +81,16 @@ export class HomeComponent implements OnInit {
 
   drawAmenitiesPie() {
     let clone_data = JSON.parse(JSON.stringify(this.pieChartData));
+    this.pieChartLabels.length = 0;
+    var labels = this.adminDashboard.amenitiesDataPie.map(a => a.label);
+    for (let i = labels.length - 1; i >= 0; i--) {
+      this.pieChartLabels.push(labels[i]);
+    }
     let clone_labels = JSON.parse(JSON.stringify(this.pieChartLabels));
     clone_data = this.adminDashboard.amenitiesDataPie.map(a => a.count);
-    clone_labels = this.adminDashboard.amenitiesDataPie.map(a => a.label);
     this.pieChartData = clone_data;
-    this.pieChartLabels = clone_labels;
-    console.log(this.pieChartLabels);
+
+ 
 
   }
 

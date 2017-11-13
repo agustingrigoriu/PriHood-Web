@@ -90,9 +90,9 @@
             <div class="box box-info">
                     <div class="box-header">
                             <i class="fa fa-pie-chart"></i>
-                            <h3 class="box-title">Reservas por Tipo de Amenities</h3>
+                            <h3 class="box-title">Reservas por Tipo de Amenities (último mes)</h3>
                         </div>
-                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" (chartHover)="chartHovered($event)"
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" (chartHover)="chartHovered($event)"
                     (chartClick)="chartClicked($event)"></canvas>
             </div>
         </div>
@@ -100,7 +100,7 @@
             <div class="box box-info">
                     <div class="box-header">
                             <i class="fa fa-bar-chart"></i>
-                            <h3 class="box-title">Cantidad de Visitas de los Últimos 10 Días</h3>
+                            <h3 class="box-title">Cantidad de Visitas (últimos 10 Días)</h3>
                         </div>
                 <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
                     [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
