@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   adminDashboard: AdminDashboard = {
     cantidad_residencias: 0,
     cantidad_residentes: 0,
+    cantidad_amenities: 0,
     latitud: -31.335335,
     longitud: -64.303113,
     visitasFrecuentesDataBar: [],

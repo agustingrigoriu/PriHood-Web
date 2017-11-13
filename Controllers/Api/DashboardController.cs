@@ -71,6 +71,12 @@ namespace PriHood.Controllers
           select r
         ).Count();
 
+        var cantidad_amenities = (
+          from a in db.Amenity
+          where a.IdBarrio == id_barrio
+          select a
+        ).Count();
+
         var visitasFrecuentesDataBar = (
           from v in db.Visita
           join vi in db.Visitante on v.IdVisitante equals vi.Id
@@ -135,7 +141,8 @@ namespace PriHood.Controllers
           longitud = b.Longitud,
           visitasFrecuentesDataBar = visitasFrecuentesDataBar,
           visitasActualDataBar = visitasActualDataBar,
-          amenitiesDataPie = amenitiesDataPie
+          amenitiesDataPie = amenitiesDataPie,
+          cantidad_amenities = cantidad_amenities
         };
 
         return new { error = false, data = data };
