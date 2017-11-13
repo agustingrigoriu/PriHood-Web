@@ -12,4 +12,5 @@ export interface AdminDashboard {
   visitasFrecuentesDataBar: any[];
   visitasActualDataBar: any[];
   amenitiesDataPie: any[];
+  recaudacionReservasLine: any[];
 }

@@ -128,6 +128,19 @@
     </div>
 
     <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-info">
+                <div class="box-header">
+                    <i class="fa fa-line-chart"></i>
+                    <h3 class="box-title">Recaudaciones de Amenities por mes (en $)</h3>
+                </div>
+                <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                    [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-6">
             <div class="box box-info">
                 <div class="box-header">

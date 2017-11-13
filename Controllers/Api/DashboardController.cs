@@ -111,6 +111,19 @@ namespace PriHood.Controllers
           }
           );
 
+        var recaudacionReservasLine = (
+        from r in db.Reserva
+        join t in db.Turno on r.IdTurno equals t.Id
+        join a in db.Amenity on t.IdAmenity equals a.Id
+        where a.IdBarrio == id_barrio && r.Fecha.Year == DateTime.Now.Year
+        group r.Costo by r.Fecha.Month into c
+        select new
+        {
+          label = c.Key,
+          sum = c.Sum()
+        }
+        );
+
 
         var amenitiesDataPie = (
           from r in db.Reserva
@@ -142,7 +155,8 @@ namespace PriHood.Controllers
           visitasFrecuentesDataBar = visitasFrecuentesDataBar,
           visitasActualDataBar = visitasActualDataBar,
           amenitiesDataPie = amenitiesDataPie,
-          cantidad_amenities = cantidad_amenities
+          cantidad_amenities = cantidad_amenities,
+          recaudacionReservasLine = recaudacionReservasLine
         };
 
         return new { error = false, data = data };
