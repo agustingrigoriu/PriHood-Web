@@ -69,7 +69,8 @@ export class HomeComponent implements OnInit {
   ];
   public lineChartLabels:Array<any> = [];
   public lineChartOptions:any = {
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: true
   };
   public lineChartColors:Array<any> = [
     { // grey
