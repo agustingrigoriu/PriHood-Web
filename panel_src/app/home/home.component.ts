@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
 
   //bar Chart Visitas (Frecuentes y Actuales)
   public barChartOptions: any = {
-
     scaleShowVerticalLines: false,
     responsive: true
   };
@@ -56,29 +55,34 @@ export class HomeComponent implements OnInit {
     { data: [2], label: "Visitas Actuales" }
   ];
 
-  // drawVisitsGraph() {
-  //   var currentDate = new Date();
-  //   for (var index = 0; index < 11; index++) {
-  //     var previous_date = currentDate.getDate() - index;
-  //     console.log(previous_date);
-  //     this.barChartLabels.push(previous_date.toString());
-  //   }
-  //   console.log(this.barChartLabels);
-
-  //   let clone = JSON.parse(JSON.stringify(this.barChartData));
-  //   clone[0].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-  //   clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-  //   this.barChartData = clone;
-  // }
-
   // Gráfico de torta para tipos amenities más reservados
-  public pieChartLabels: string[] = [
-    "Salón",
-    "Canchas de Tenis",
-    "Canchas de Fútbol"
-  ];
-  public pieChartData: number[] = [300, 500, 100];
+  public pieChartLabels: string[] = [];
+  public pieChartData: number[] = [];
   public pieChartType: string = "pie";
+
+  drawVisitsGraphBar() {
+
+    let clone_data = JSON.parse(JSON.stringify(this.barChartData));
+    let clone_labels = JSON.parse(JSON.stringify(this.barChartLabels));
+    clone_labels = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.label)
+    clone_data[0].data = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.count);
+    clone_data[1].data = this.adminDashboard.visitasActualDataBar.map(a => a.count);
+    this.barChartData = clone_data;
+    this.barChartLabels = clone_labels;
+    console.log(this.barChartLabels);
+
+  }
+
+  drawAmenitiesPie() {
+    let clone_data = JSON.parse(JSON.stringify(this.pieChartData));
+    let clone_labels = JSON.parse(JSON.stringify(this.pieChartLabels));
+    clone_data = this.adminDashboard.amenitiesDataPie.map(a => a.count);
+    clone_labels = this.adminDashboard.amenitiesDataPie.map(a => a.label);
+    this.pieChartData = clone_data;
+    this.pieChartLabels = clone_labels;
+    console.log(this.pieChartLabels);
+
+  }
 
   // events
   public chartClicked(e: any): void {
@@ -103,7 +107,6 @@ export class HomeComponent implements OnInit {
 
         if (this.usuario.idPerfil === 2) {
           this.getAdminDashboard();
-          // this.drawVisitsGraph();
         }
       }
     });
@@ -127,7 +130,8 @@ export class HomeComponent implements OnInit {
         this.headerClass = "alert-danger";
       } else {
         this.adminDashboard = response.data;
-        console.log(this.adminDashboard);
+        this.drawAmenitiesPie();
+        this.drawVisitsGraphBar();
       }
     });
   }
