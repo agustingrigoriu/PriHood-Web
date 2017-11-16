@@ -49,7 +49,7 @@ namespace PriHood.Controllers
         var evento = db.Eventos.First(e => e.Id == id_evento);
 
         evento.Descripcion = eventoNuevo.Descripcion != null ? eventoNuevo.Descripcion : evento.Descripcion;
-        evento.Duracion = eventoNuevo.Duracion.HasValue ? eventoNuevo.Duracion.Value : evento.Duracion;
+        evento.HoraHasta = eventoNuevo.HoraHasta.HasValue ? eventoNuevo.HoraHasta.Value : evento.HoraHasta;
         evento.HoraDesde = eventoNuevo.HoraDesde.HasValue ? eventoNuevo.HoraDesde.Value : evento.HoraDesde;
         evento.Fecha = eventoNuevo.Fecha.HasValue ? eventoNuevo.Fecha.Value : evento.Fecha;
         evento.IdResidente = eventoNuevo.IdResidente.HasValue ? eventoNuevo.IdResidente.Value : evento.IdResidente;
@@ -103,7 +103,7 @@ namespace PriHood.Controllers
           {
             id_evento = e.Id,
             descripcion = e.Descripcion,
-            duracion = e.Duracion,
+            hora_hasta = e.HoraHasta,
             fecha = e.Fecha,
             hora_desde = e.HoraDesde,
             id_tipo_evento = e.IdTipoEvento,
