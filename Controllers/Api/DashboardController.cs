@@ -71,25 +71,73 @@ namespace PriHood.Controllers
           select r
         ).Count();
 
-        var visitas_frecuentes_ultimos_10dias = (
-          from v in db.Visita
-          join vi in db.Visitante on v.IdVisitante equals vi.Id
-          join r in db.Residente on vi.IdResidente equals r.Id
-          join u in db.Usuario on r.IdUsuario equals u.Id
-          join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente"
-          group v.Fecha by v.Id into c
-          select new int[]{ c.Count() }).ToArray();
+        var cantidad_amenities = (
+          from a in db.Amenity
+          where a.IdBarrio == id_barrio
+          select a
+        ).Count();
 
-        var visitas_actuales_ultimos_10dias = (
+        var visitasFrecuentesDataBar = (
           from v in db.Visita
           join vi in db.Visitante on v.IdVisitante equals vi.Id
           join r in db.Residente on vi.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual"
-          group v.Fecha by v.Id into c
-          select new int[]{ c.Count() }).ToArray();
+          join ee in db.EventoVisita on v.IdEvento equals ee.Id
+          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente" && ee.Nombre == "Ingreso"
+          orderby v.Fecha.Date descending
+          group v by v.Fecha.Date into c
+          select new
+          {
+            label = c.Key.Date.ToString("dd/MM/yyyy"),
+            count = c.Count()
+          }
+          );
+
+        var visitasActualDataBar = (
+          from v in db.Visita
+          join vi in db.Visitante on v.IdVisitante equals vi.Id
+          join r in db.Residente on vi.IdResidente equals r.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
+          join ee in db.EventoVisita on v.IdEvento equals ee.Id
+          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual" && ee.Nombre == "Ingreso"
+          orderby v.Fecha descending
+          group v by v.Fecha.Date into c
+          select new
+          {
+            label = c.Key.Date.ToString("dd/MM/yyyy"),
+            count = c.Count()
+          }
+          );
+
+        var recaudacionReservasLine = (
+        from r in db.Reserva
+        join t in db.Turno on r.IdTurno equals t.Id
+        join a in db.Amenity on t.IdAmenity equals a.Id
+        where a.IdBarrio == id_barrio && r.Fecha.Year == DateTime.Now.Year
+        group r.Costo by r.Fecha.Month into c
+        select new
+        {
+          label = c.Key,
+          sum = c.Sum()
+        }
+        );
+
+
+        var amenitiesDataPie = (
+          from r in db.Reserva
+          join t in db.Turno on r.IdTurno equals t.Id
+          join a in db.Amenity on t.IdAmenity equals a.Id
+          join ta in db.TipoAmenity on a.IdTipoAmenity equals ta.Id
+          where a.IdBarrio == id_barrio && r.Fecha > DateTime.Now.AddDays(-30)
+          group r by ta.Descripcion into c
+          select new
+          {
+            label = c.Key,
+            count = c.Count()
+          }
+        );
 
 
         Barrio b = (
@@ -98,7 +146,18 @@ namespace PriHood.Controllers
          select ba
        ).First();
 
-        var data = new { cantidad_residencias = cantidad_residencias, cantidad_residentes = cantidad_residentes, latitud = b.Latitud, longitud = b.Longitud, visitas_frecuentes = visitas_frecuentes_ultimos_10dias, visitas_actuales = visitas_actuales_ultimos_10dias };
+        var data = new
+        {
+          cantidad_residencias = cantidad_residencias,
+          cantidad_residentes = cantidad_residentes,
+          latitud = b.Latitud,
+          longitud = b.Longitud,
+          visitasFrecuentesDataBar = visitasFrecuentesDataBar,
+          visitasActualDataBar = visitasActualDataBar,
+          amenitiesDataPie = amenitiesDataPie,
+          cantidad_amenities = cantidad_amenities,
+          recaudacionReservasLine = recaudacionReservasLine
+        };
 
         return new { error = false, data = data };
 

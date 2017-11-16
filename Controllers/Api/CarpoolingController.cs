@@ -32,6 +32,10 @@ namespace PriHood.Controllers
       {
         try
         {
+
+          //Controlo que la fecha del viaje sea mayor o igual a la del día de hoy, de no ser así se devuelve error.
+          if (mc.viaje.Fecha < DateTime.Now) return new { error = true, data="Error", message= "No se pueden generar viajes en fechas anteriores a la de hoy"};
+
           var logueado = HttpContext.Session.Authenticated();
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
@@ -197,6 +201,7 @@ namespace PriHood.Controllers
           join b in db.Barrio on id_barrio equals b.Id
           join es in db.EstadoSolicitud on s.IdEstadoSolicitud equals es.Id
           where s.IdResidente == residente.Id && (v.Fecha.HasValue ? v.Fecha.Value.Date >= DateTime.Now.Date : true)
+          orderby s.Fecha descending
           select new
           {
             v.Id,
@@ -251,6 +256,7 @@ namespace PriHood.Controllers
           join v in db.Viaje on s.IdViaje equals v.Id
           join es in db.EstadoSolicitud on s.IdEstadoSolicitud equals es.Id
           where v.IdResidente == residente.Id
+          orderby s.Fecha descending
           select new
           {
             s.Id,

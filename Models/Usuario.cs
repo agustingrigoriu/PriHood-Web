@@ -8,6 +8,7 @@ namespace PriHood.Models
         public Usuario()
         {
             Comentario = new HashSet<Comentario>();
+            ComentariosEvento = new HashSet<ComentariosEvento>();
             Empleado = new HashSet<Empleado>();
             PublicacionIdPersonalNavigation = new HashSet<Publicacion>();
             PublicacionIdResidenteNavigation = new HashSet<Publicacion>();
@@ -23,6 +24,7 @@ namespace PriHood.Models
         public string Token { get; set; }
 
         public virtual ICollection<Comentario> Comentario { get; set; }
+        public virtual ICollection<ComentariosEvento> ComentariosEvento { get; set; }
         public virtual ICollection<Empleado> Empleado { get; set; }
         public virtual ICollection<Publicacion> PublicacionIdPersonalNavigation { get; set; }
         public virtual ICollection<Publicacion> PublicacionIdResidenteNavigation { get; set; }

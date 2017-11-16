@@ -17,9 +17,11 @@ namespace PriHood.Controllers
   public class EventosController : Controller
   {
     private readonly PrihoodContext db;
-    public EventosController(PrihoodContext context)
+    private PushService pushService;
+    public EventosController(PrihoodContext context, PushService ps)
     {
       db = context;
+      pushService = ps;
     }
 
     [HttpPost]
@@ -201,6 +203,79 @@ namespace PriHood.Controllers
       {
         return new { error = true, data = err.Message };
       }
+    }
+
+    [HttpGet("comentarios/{id_evento}")]
+    public Object ListarComentarios(int id_evento)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var comentarios = (
+          from c in db.ComentariosEvento
+          join e in db.Eventos on c.IdEvento equals e.Id
+          join r in db.Residente on e.IdResidente equals r.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          where u.IdBarrio == id_barrio
+          orderby c.Fecha ascending
+          select new
+          {
+            id = c.Id,
+            comentario = c.Texto,
+            fecha = c.Fecha,
+            usuario = u.Email
+          }
+        )
+        .ToList();
+
+        return new { error = false, data = comentarios };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    [HttpPost("{id_evento}/comentar")]
+    public Object RegistrarComentario(int id_evento, [FromBody]ComentariosEvento comentario)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var evento = db.Eventos.First(e => e.Id == id_evento);
+
+          comentario.IdEvento = evento.Id;
+          comentario.Fecha = DateTime.Now;
+          comentario.IdUsuario = logueado.Id;
+          db.ComentariosEvento.Add(comentario);
+
+          db.SaveChanges();
+
+
+          //obtengo id de usuario del residente que creó el evento y le notifico del comentario
+          var id_usuario_residente = ( 
+            from u in db.Usuario 
+            join r in db.Residente on u.Id equals r.IdUsuario
+            where r.Id == evento.IdResidente
+            select u.Id
+          ).First();
+
+          this.pushService.enviarMensaje(id_usuario_residente, "Se ha realizado un comentario en su evento \"" + evento.IdTipoEvento + "\".");
+
+          transaction.Commit();
+        }
+        catch (Exception)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error" };
+        }
+      }
+
+      return new { error = false, data = "ok" };
     }
 
   }

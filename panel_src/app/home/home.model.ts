@@ -6,8 +6,11 @@ export interface RootDashboard {
 export interface AdminDashboard {
   cantidad_residencias: number;
   cantidad_residentes: number;
+  cantidad_amenities: number;
   latitud: number;
   longitud: number;
-  visitas_frecuentes: [number];
-  visitas_actuales : [number];
+  visitasFrecuentesDataBar: any[];
+  visitasActualDataBar: any[];
+  amenitiesDataPie: any[];
+  recaudacionReservasLine: any[];
 }
