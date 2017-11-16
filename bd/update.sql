@@ -501,7 +501,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Evento` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(255) NOT NULL,
-  `imagen` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -512,7 +511,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
   `descripcion` TEXT NULL,
   `fecha` DATETIME NOT NULL,
   `hora_desde` TIME NOT NULL,
-  `duracion` INT NOT NULL,
+  `hora_hasta` TIME NULL,
   `imagen` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Eventos_1_idx` (`id_residente` ASC),

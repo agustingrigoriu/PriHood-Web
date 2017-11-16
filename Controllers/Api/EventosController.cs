@@ -49,7 +49,6 @@ namespace PriHood.Controllers
         var evento = db.Eventos.First(e => e.Id == id_evento);
 
         evento.Descripcion = eventoNuevo.Descripcion != null ? eventoNuevo.Descripcion : evento.Descripcion;
-        evento.Imagen = eventoNuevo.Imagen != null ? eventoNuevo.Imagen : evento.Imagen;
         evento.Duracion = eventoNuevo.Duracion.HasValue ? eventoNuevo.Duracion.Value : evento.Duracion;
         evento.HoraDesde = eventoNuevo.HoraDesde.HasValue ? eventoNuevo.HoraDesde.Value : evento.HoraDesde;
         evento.Fecha = eventoNuevo.Fecha.HasValue ? eventoNuevo.Fecha.Value : evento.Fecha;
@@ -86,8 +85,8 @@ namespace PriHood.Controllers
     }
 
 
-    [HttpGet("{fecha:DateTime}")]
-    public Object ListarEventosPorFecha(DateTime fecha)
+    [HttpGet]
+    public Object ListarProximosEventos()
     {
       try
       {
@@ -99,7 +98,7 @@ namespace PriHood.Controllers
           join u in db.Usuario on r.IdUsuario equals u.Id
           join p in db.Persona on r.IdPersona equals p.Id
           join te in db.TipoEvento on e.IdTipoEvento equals te.Id
-          where u.IdBarrio == id_barrio && e.Fecha.Date == fecha.Date
+          where u.IdBarrio == id_barrio && e.Fecha.Date >= DateTime.Now.Date
           select new
           {
             id_evento = e.Id,
@@ -107,7 +106,6 @@ namespace PriHood.Controllers
             duracion = e.Duracion,
             fecha = e.Fecha,
             hora_desde = e.HoraDesde,
-            imagen = e.Imagen,
             id_tipo_evento = e.IdTipoEvento,
             tipo_evento = te.Descripcion,
             id_residente = e.IdResidente,

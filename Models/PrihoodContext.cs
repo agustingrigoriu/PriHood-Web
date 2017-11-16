@@ -49,6 +49,7 @@ namespace PriHood.Models
     public virtual DbSet<Visita> Visita { get; set; }
     public virtual DbSet<Visitante> Visitante { get; set; }
     public virtual DbSet<VisitasXresidente> VisitasXresidente { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Alertas>(entity =>
@@ -406,16 +407,16 @@ namespace PriHood.Models
                   .HasColumnName("descripcion")
                   .HasColumnType("text");
 
-        entity.Property(e => e.Duracion)
-                  .HasColumnName("duracion")
-                  .HasColumnType("int(11)");
-
         entity.Property(e => e.Fecha)
                   .HasColumnName("fecha")
                   .HasColumnType("datetime");
 
         entity.Property(e => e.HoraDesde)
                   .HasColumnName("hora_desde")
+                  .HasColumnType("time");
+
+        entity.Property(e => e.HoraHasta)
+                  .HasColumnName("hora_hasta")
                   .HasColumnType("time");
 
         entity.Property(e => e.IdResidente)
@@ -957,11 +958,6 @@ namespace PriHood.Models
         entity.Property(e => e.Descripcion)
                   .IsRequired()
                   .HasColumnName("descripcion")
-                  .HasColumnType("varchar(255)");
-
-        entity.Property(e => e.Imagen)
-                  .IsRequired()
-                  .HasColumnName("imagen")
                   .HasColumnType("varchar(255)");
       });
 
