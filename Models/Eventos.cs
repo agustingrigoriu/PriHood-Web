@@ -19,6 +19,7 @@ namespace PriHood.Models
         public int IdResidente { get; set; }
         public int IdTipoEvento { get; set; }
         public string Imagen { get; set; }
+        public string Titulo { get; set; }
 
         public virtual ICollection<AsistenciaEvento> AsistenciaEvento { get; set; }
         public virtual ICollection<ComentariosEvento> ComentariosEvento { get; set; }

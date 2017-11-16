@@ -508,6 +508,7 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_residente` INT NOT NULL,
   `id_tipo_evento` INT NOT NULL,
+  `titulo` VARCHAR(255) NOT NULL,
   `descripcion` TEXT NULL,
   `fecha` DATETIME NOT NULL,
   `hora_desde` TIME NOT NULL,
