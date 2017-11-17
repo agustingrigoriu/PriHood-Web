@@ -25,20 +25,39 @@ namespace PriHood.Controllers
     }
 
     [HttpPost]
-    public Object CrearEvento([FromBody]Eventos evento)
+    public Object CrearEvento([FromBody]Eventos ev)
     {
-      try
+      using (var transaction = db.Database.BeginTransaction())
       {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
-        db.Eventos.Add(evento);
-        db.SaveChanges();
+          var evento = new Eventos();
+          evento.Titulo = ev.Titulo;
+          evento.Descripcion = ev.Descripcion;
+          evento.Fecha = ev.Fecha;
+          evento.HoraDesde = ev.HoraDesde;
+          evento.HoraHasta = ev.HoraHasta;
+          evento.Imagen = ev.Imagen;
+          evento.IdTipoEvento = ev.IdTipoEvento;
+          evento.IdResidente = residente.Id;
 
-        return new { error = false, data = evento };
+          db.Eventos.Add(evento);
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch (Exception err)
+        {
+          transaction.Rollback();
+          return new { error = true, data = err.InnerException.Message };
+        }
       }
-      catch (Exception err)
-      {
-        return new { error = true, data = err.Message };
-      }
+
+      return new { error = false, data = "ok" };
+
     }
 
     [HttpPut("{id_evento}")]
@@ -108,6 +127,7 @@ namespace PriHood.Controllers
             hora_hasta = e.HoraHasta,
             fecha = e.Fecha,
             hora_desde = e.HoraDesde,
+            imagen = e.Imagen,
             id_tipo_evento = e.IdTipoEvento,
             tipo_evento = te.Descripcion,
             id_residente = e.IdResidente,
@@ -134,12 +154,15 @@ namespace PriHood.Controllers
           from a in db.AsistenciaEvento
           join r in db.Residente on a.IdResidente equals r.Id
           join p in db.Persona on r.IdPersona equals p.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
           where a.IdEvento == id_evento
           select new
           {
             id_evento = a.IdEvento,
             id_residente = r.Id,
-            residente = p.Apellido + ", " + p.Nombre
+            apellido = p.Apellido ,
+            nombre = p.Nombre, 
+            avatar = u.Avatar
           }
         ).ToList();
 
@@ -222,7 +245,7 @@ namespace PriHood.Controllers
           select new
           {
             id = c.Id,
-            comentario = c.Texto,
+            texto = c.Texto,
             fecha = c.Fecha,
             usuario = u.Email
           }
@@ -257,8 +280,8 @@ namespace PriHood.Controllers
 
 
           //obtengo id de usuario del residente que creó el evento y le notifico del comentario
-          var id_usuario_residente = ( 
-            from u in db.Usuario 
+          var id_usuario_residente = (
+            from u in db.Usuario
             join r in db.Residente on u.Id equals r.IdUsuario
             where r.Id == evento.IdResidente
             select u.Id
@@ -268,10 +291,10 @@ namespace PriHood.Controllers
 
           transaction.Commit();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
           transaction.Rollback();
-          return new { error = true, data = "Error" };
+          return new { error = true, data = "Error", errorMsg = ex.InnerException.Message };
         }
       }
 
