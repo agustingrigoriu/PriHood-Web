@@ -5,8 +5,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-visitas',
-    templateUrl: '/visitas.component.html',
-    styleUrls: ['/visitas.component.css']
+    templateUrl: './visitas.component.html',
+    styleUrls: ['./visitas.component.css']
 })
 
 export class VisitasComponent implements OnInit {
