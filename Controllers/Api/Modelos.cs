@@ -50,7 +50,7 @@ namespace PriHood.Controllers
     public string email { get; set; }
     public string password { get; set; }
     public int? id_perfil { get; set; }
-    public string avatar {get; set;}
+    public string avatar { get; set; }
   }
 
   public class ModeloVisitante
@@ -144,5 +144,16 @@ namespace PriHood.Controllers
   {
     public string estado_solicitud { get; set; }
   }
-  
+
+  public class ModeloEvento
+  {
+    public string descripcion { get; set; }
+    public DateTime fecha { get; set; }
+    public TimeSpan hora_desde { get; set; }
+    public TimeSpan? hora_hasta { get; set; }
+    public int id_tipo_evento { get; set; }
+    public string imagen { get; set; }
+    public string titulo { get; set; }
+  }
+
 }

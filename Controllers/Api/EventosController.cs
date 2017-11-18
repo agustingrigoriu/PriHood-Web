@@ -25,7 +25,7 @@ namespace PriHood.Controllers
     }
 
     [HttpPost]
-    public Object CrearEvento([FromBody]Eventos ev)
+    public Object CrearEvento([FromBody]ModeloEvento md)
     {
       using (var transaction = db.Database.BeginTransaction())
       {
@@ -35,13 +35,13 @@ namespace PriHood.Controllers
           var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
           var evento = new Eventos();
-          evento.Titulo = ev.Titulo;
-          evento.Descripcion = ev.Descripcion;
-          evento.Fecha = ev.Fecha;
-          evento.HoraDesde = ev.HoraDesde;
-          evento.HoraHasta = ev.HoraHasta;
-          evento.Imagen = ev.Imagen;
-          evento.IdTipoEvento = ev.IdTipoEvento;
+          evento.Titulo = md.titulo;
+          evento.Descripcion = md.descripcion;
+          evento.Fecha = md.fecha;
+          evento.HoraDesde = md.hora_desde;
+          evento.HoraHasta = md.hora_hasta;
+          evento.Imagen = md.imagen;
+          evento.IdTipoEvento = md.id_tipo_evento;
           evento.IdResidente = residente.Id;
 
           db.Eventos.Add(evento);
@@ -112,12 +112,17 @@ namespace PriHood.Controllers
       {
         var logueado = HttpContext.Session.Authenticated();
         var id_barrio = logueado.IdBarrio.Value;
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+
         var eventos = (
           from e in db.Eventos
           join r in db.Residente on e.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join p in db.Persona on r.IdPersona equals p.Id
           join te in db.TipoEvento on e.IdTipoEvento equals te.Id
+          let asistentes = (from ae in db.AsistenciaEvento
+                            where ae.IdEvento == e.Id
+                            select ae).ToList()
           where u.IdBarrio == id_barrio && e.Fecha.Date >= DateTime.Now.Date
           select new
           {
@@ -131,7 +136,9 @@ namespace PriHood.Controllers
             id_tipo_evento = e.IdTipoEvento,
             tipo_evento = te.Descripcion,
             id_residente = e.IdResidente,
-            residente = p.Apellido + ", " + p.Nombre
+            residente = p.Apellido + ", " + p.Nombre,
+            asiste = asistentes.Exists(ae => ae.IdResidente == residente.Id),
+            cantidad_asistentes = asistentes.Count
           }
         ).ToList();
 
@@ -160,8 +167,8 @@ namespace PriHood.Controllers
           {
             id_evento = a.IdEvento,
             id_residente = r.Id,
-            apellido = p.Apellido ,
-            nombre = p.Nombre, 
+            apellido = p.Apellido,
+            nombre = p.Nombre,
             avatar = u.Avatar
           }
         ).ToList();
@@ -187,7 +194,14 @@ namespace PriHood.Controllers
           select r
         ).First();
 
-        AsistenciaEvento asistencia = new AsistenciaEvento();
+        var asiste = db.AsistenciaEvento.FirstOrDefault(ae => ae.IdResidente == residente.Id && ae.IdEvento == id_evento);
+
+        if (asiste != null)
+        {
+          throw new Exception("El residente ya esta asistiendo a este evento.");
+        }
+
+        var asistencia = new AsistenciaEvento();
         asistencia.IdEvento = id_evento;
         asistencia.IdResidente = residente.Id;
         db.AsistenciaEvento.Add(asistencia);
@@ -213,10 +227,8 @@ namespace PriHood.Controllers
           where u.Id == logueado.Id
           select r
         ).First();
+        var asistencia = db.AsistenciaEvento.First(ae => ae.IdResidente == residente.Id && ae.IdEvento == id_evento);
 
-        AsistenciaEvento asistencia = new AsistenciaEvento();
-        asistencia.IdEvento = id_evento;
-        asistencia.IdResidente = residente.Id;
         db.AsistenciaEvento.Remove(asistencia);
         db.SaveChanges();
 
