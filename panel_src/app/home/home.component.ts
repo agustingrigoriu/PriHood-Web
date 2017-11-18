@@ -143,11 +143,25 @@ export class HomeComponent implements OnInit {
   }
 
   // events
-  public chartClicked(e: any): void {
+  public pieChartClicked(e: any): void {
     console.log(e);
   }
 
-  public chartHovered(e: any): void {
+  public pieChartHovered(e: any): void {
+    console.log(e);
+  }
+  public barChartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public barChartHovered(e: any): void {
+    console.log(e);
+  }
+  public lineChartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public lineChartHovered(e: any): void {
     console.log(e);
   }
 
@@ -188,9 +202,10 @@ export class HomeComponent implements OnInit {
         this.headerClass = "alert-danger";
       } else {
         this.adminDashboard = response.data;
-        this.drawAmenitiesPie();
-        this.drawVisitsGraphBar();
-        this.drawAmenitiesLine();
+        console.log(this.adminDashboard);
+        if (this.adminDashboard.amenitiesDataPie.length > 0) this.drawAmenitiesPie();
+        if (this.adminDashboard.visitasFrecuentesDataBar.length > 0 &&  this.adminDashboard.visitasActualDataBar.length > 0) this.drawVisitsGraphBar();
+        if (this.adminDashboard.recaudacionReservasLine.length > 0) this.drawAmenitiesLine();
       }
     });
   }
