@@ -106,22 +106,37 @@
         <div class="row">
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="box box-info">
-                    <div class="box-header">
+                    <div class="box-header with-border">
                         <i class="fa fa-pie-chart"></i>
                         <h3 class="box-title">Reservas por Tipo de Amenities (último mes)</h3>
                     </div>
-                    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" (chartHover)="pieChartHovered($event)"
-                        (chartClick)="pieChartClicked($event)"></canvas>
+                    <div class="box-body">
+                        <div *ngIf="noHayDatosAmenitiesPie()">
+                            <p>No hay datos para realizar el gráfico</p>
+                        </div>
+                        <div *ngIf="!noHayDatosAmenitiesPie()">
+                            <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" (chartHover)="pieChartHovered($event)"
+                                (chartClick)="pieChartClicked($event)"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="box box-info">
-                    <div class="box-header">
+                    <div class="box-header with-border">
                         <i class="fa fa-bar-chart"></i>
                         <h3 class="box-title">Cantidad de Visitas (últimos 10 Días)</h3>
                     </div>
-                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-                        [chartType]="barChartType" (chartHover)="barChartHovered($event)" (chartClick)="barChartClicked($event)"></canvas>
+
+                    <div class="box-body">
+                        <div *ngIf="noHayDatosVisitsGraphBar()">
+                            <p>No hay datos para realizar el gráfico</p>
+                        </div>
+                        <div *ngIf="!noHayDatosVisitsGraphBar()">
+                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                                [chartType]="barChartType" (chartHover)="barChartHovered($event)" (chartClick)="barChartClicked($event)"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,18 +146,26 @@
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div style="display:block;">
                     <div class="box box-info">
-                        <div class="box-header">
+                        <div class="box-header with-border">
                             <i class="fa fa-line-chart"></i>
                             <h3 class="box-title">Recaudaciones de Amenities por mes (en $)</h3>
                         </div>
-                        <canvas baseChart height="160" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
-                            [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="lineChartHovered($event)" (chartClick)="lineChartClicked($event)"></canvas>
+                        <div class="box-body">
+                            <div *ngIf="noHayDatosAmenitiesLine()">
+                                <p>No hay datos para realizar el gráfico</p>
+                            </div>
+                            <div *ngIf="!noHayDatosAmenitiesLine()">
+                                <canvas baseChart height="160" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                                    [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="lineChartHovered($event)"
+                                    (chartClick)="lineChartClicked($event)"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="box box-info">
-                    <div class="box-header">
+                    <div class="box-header with-border">
                         <i class="fa fa-map"></i>
                         <h3 class="box-title">Ubicación</h3>
                     </div>

@@ -61,48 +61,75 @@ export class HomeComponent implements OnInit {
   public pieChartLabels: string[] = [];
   public pieChartData: number[] = [];
   public pieChartType: string = "pie";
-  public pieChartColors: any[] = [{ backgroundColor: ["#b8436d", "#00d9f9", "#a4c73c", "#a4add3", '#511730', '#8e443d', '#e0d68a'] }];
+  public pieChartColors: any[] = [
+    {
+      backgroundColor: [
+        "#b8436d",
+        "#00d9f9",
+        "#a4c73c",
+        "#a4add3",
+        "#511730",
+        "#8e443d",
+        "#e0d68a"
+      ]
+    }
+  ];
 
   // Line chart para recaudaciones de amenities por mes
-  public lineChartData:Array<any> = [
-    {data: [], label: 'Recaudaciones'},
-  ];
-  public lineChartLabels:Array<any> = [];
-  public lineChartOptions:any = {
+  public lineChartData: Array<any> = [{ data: [], label: "Recaudaciones" }];
+  public lineChartLabels: Array<any> = [];
+  public lineChartOptions: any = {
     responsive: true,
     maintainAspectRatio: true
   };
-  public lineChartColors:Array<any> = [
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+  public lineChartColors: Array<any> = [
+    {
+      // grey
+      backgroundColor: "rgba(148,159,177,0.2)",
+      borderColor: "rgba(148,159,177,1)",
+      pointBackgroundColor: "rgba(148,159,177,1)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(148,159,177,0.8)"
     },
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    {
+      // dark grey
+      backgroundColor: "rgba(77,83,96,0.2)",
+      borderColor: "rgba(77,83,96,1)",
+      pointBackgroundColor: "rgba(77,83,96,1)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(77,83,96,1)"
     },
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    {
+      // grey
+      backgroundColor: "rgba(148,159,177,0.2)",
+      borderColor: "rgba(148,159,177,1)",
+      pointBackgroundColor: "rgba(148,159,177,1)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(148,159,177,0.8)"
     }
   ];
-  public lineChartLegend:boolean = true;
-  public lineChartType:string = 'line';
+  public lineChartLegend: boolean = true;
+  public lineChartType: string = "line";
+
+  noHayDatosVisitsGraphBar() {
+    return (
+      this.adminDashboard.visitasFrecuentesDataBar.length === 0 &&
+      this.adminDashboard.visitasActualDataBar.length === 0
+    );
+  }
+
+  noHayDatosAmenitiesPie() {
+    return this.adminDashboard.amenitiesDataPie.length === 0;
+  }
+
+  noHayDatosAmenitiesLine() {
+    return this.adminDashboard.recaudacionReservasLine.length === 0;
+  }
 
   drawVisitsGraphBar() {
-
     let clone_data = JSON.parse(JSON.stringify(this.barChartData));
     this.barChartLabels.length = 0;
     var labels = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.label);
@@ -110,13 +137,18 @@ export class HomeComponent implements OnInit {
       this.barChartLabels.push(labels[i]);
     }
     let clone_labels = JSON.parse(JSON.stringify(this.barChartLabels));
-    clone_labels = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.label)
-    clone_data[0].data = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.count);
-    clone_data[1].data = this.adminDashboard.visitasActualDataBar.map(a => a.count);
+    clone_labels = this.adminDashboard.visitasFrecuentesDataBar.map(
+      a => a.label
+    );
+    clone_data[0].data = this.adminDashboard.visitasFrecuentesDataBar.map(
+      a => a.count
+    );
+    clone_data[1].data = this.adminDashboard.visitasActualDataBar.map(
+      a => a.count
+    );
     this.barChartData = clone_data;
     this.barChartLabels = clone_labels;
     console.log(this.barChartLabels);
-
   }
 
   drawAmenitiesPie() {
@@ -128,7 +160,6 @@ export class HomeComponent implements OnInit {
     }
     clone_data = this.adminDashboard.amenitiesDataPie.map(a => a.count);
     this.pieChartData = clone_data;
-
   }
 
   drawAmenitiesLine() {
@@ -203,9 +234,15 @@ export class HomeComponent implements OnInit {
       } else {
         this.adminDashboard = response.data;
         console.log(this.adminDashboard);
-        if (this.adminDashboard.amenitiesDataPie.length > 0) this.drawAmenitiesPie();
-        if (this.adminDashboard.visitasFrecuentesDataBar.length > 0 &&  this.adminDashboard.visitasActualDataBar.length > 0) this.drawVisitsGraphBar();
-        if (this.adminDashboard.recaudacionReservasLine.length > 0) this.drawAmenitiesLine();
+        if (this.adminDashboard.amenitiesDataPie.length > 0)
+          this.drawAmenitiesPie();
+        if (
+          this.adminDashboard.visitasFrecuentesDataBar.length > 0 &&
+          this.adminDashboard.visitasActualDataBar.length > 0
+        )
+          this.drawVisitsGraphBar();
+        if (this.adminDashboard.recaudacionReservasLine.length > 0)
+          this.drawAmenitiesLine();
       }
     });
   }
