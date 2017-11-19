@@ -70,3 +70,18 @@ INSERT INTO `Reserva` (`id`,`fecha`,`observaciones`,`costo`,`id_turno`,`id_resid
 INSERT INTO `Reserva` (`id`,`fecha`,`observaciones`,`costo`,`id_turno`,`id_residente`,`id_estado_reserva`) VALUES (6,'2017-08-05 16:57:55','',150,2,2,1);
 INSERT INTO `Reserva` (`id`,`fecha`,`observaciones`,`costo`,`id_turno`,`id_residente`,`id_estado_reserva`) VALUES (7,'2017-08-06 16:57:55','',150,3,1,1);
 INSERT INTO `Reserva` (`id`,`fecha`,`observaciones`,`costo`,`id_turno`,`id_residente`,`id_estado_reserva`) VALUES (8,'2017-08-12 16:57:55','',150,4,3,1);
+
+-- Visitantes Frecuentes
+INSERT INTO `Visitante` (`id`,`id_tipo_visita`,`id_residente`,`nombre`,`apellido`,`id_tipo_documento`,`numero_documento`,`patente`,`observaciones`,`fecha_visita`,`avatar`,`estado`) VALUES (3,1,2,'Leia ','Skywalker',1,'20874493','DST345','Auto color negro, BMW',NULL,'https://s3-us-west-2.amazonaws.com/prihood/37c16a28-593f-448f-80f2-04e98470ef01.jpg','esperando');
+INSERT INTO `Visitante` (`id`,`id_tipo_visita`,`id_residente`,`nombre`,`apellido`,`id_tipo_documento`,`numero_documento`,`patente`,`observaciones`,`fecha_visita`,`avatar`,`estado`) VALUES (5,1,2,'Han','Solo',1,'17363661','HSD241','Gol Trend color marrón',NULL,'https://s3-us-west-2.amazonaws.com/prihood/7d379d2a-0e7d-408b-a7c1-c4acba785c4c.jpg','esperando');
+INSERT INTO `Visitante` (`id`,`id_tipo_visita`,`id_residente`,`nombre`,`apellido`,`id_tipo_documento`,`numero_documento`,`patente`,`observaciones`,`fecha_visita`,`avatar`,`estado`) VALUES (6,1,2,'Luke','Skywalker',1,'38500850','LKS357','Fiat 600 color verde ',NULL,'https://s3-us-west-2.amazonaws.com/prihood/492c912f-6ffb-4e64-af48-f1c32d8ac288.jpg','esperando');
+
+-- Visitas
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (1,1,'2017-11-20 17:43:25',3);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (2,1,'2017-11-20 17:43:25',5);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (3,1,'2017-11-21 17:43:25',5);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (4,1,'2017-11-22 17:43:25',6);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (5,1,'2017-11-22 17:43:25',3);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (6,1,'2017-11-22 17:43:25',5);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (7,1,'2017-11-23 17:43:25',5);
+INSERT INTO `Visita` (`id`,`id_evento`,`fecha`,`id_visitante`) VALUES (8,1,'2017-11-23 17:43:25',6);
