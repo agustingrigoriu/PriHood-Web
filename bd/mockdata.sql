@@ -46,6 +46,21 @@ INSERT INTO `Comentario` VALUES (1,'Se extenderá hasta las 16 hs',2,1,'2017-11-
 -- Amenities
 INSERT INTO `Amenity` VALUES (1,'Salón ','Manzana 6 Lote 5','Salón preparado para fiestas, capacidad de 100 personas, posee asador.',NULL,4,1),(2,'Cancha A','Manzana 7','Cancha de tenis de polvo de ladrillo',NULL,1,1),(3,'Cancha B','Manzana 7','Cancha de tenis de cemento',NULL,1,1),(4,'Cancha A','Manzana 8','Cancha de fútbol 8',NULL,2,1),(5,'Pileta','Manzana 8','Pileta',NULL,5,1);
 
+
+-- Turnos
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (1,'Turno Mañana 1','09:00:00',60,150,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (2,'Turno Mañana 2','10:00:00',60,150,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (3,'Turno Mañana 3','11:00:00',60,150,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (4,'Turno Tarde 1','15:00:00',60,160,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (5,'Turno Tarde 2','16:00:00',60,160,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (6,'Turno Tarde 3','17:00:00',60,160,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (7,'Turno Tarde 4','18:00:00',60,160,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (8,'Turno Tarde 5','19:00:00',60,160,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (9,'Turno Noche 1','20:00:00',60,180,2,1);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (11,'Fiestas Noche','20:30:00',180,500,1,5);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (12,'Fiestas tarde','14:00:00',270,800,1,6);
+INSERT INTO `Turno` (`id`,`nombre`,`hora_desde`,`duracion`,`costo`,`id_amenity`,`id_dia_semana`) VALUES (13,'Fiestas Noche 2','20:00:00',210,900,1,6);
+
 -- Reservas
 INSERT INTO `Reserva` (`id`,`fecha`,`observaciones`,`costo`,`id_turno`,`id_residente`,`id_estado_reserva`) VALUES (1,'2017-11-20 16:57:55','',150,1,2,1);
 INSERT INTO `Reserva` (`id`,`fecha`,`observaciones`,`costo`,`id_turno`,`id_residente`,`id_estado_reserva`) VALUES (2,'2017-10-20 16:57:55','',150,1,1,1);
