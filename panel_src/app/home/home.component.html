@@ -3,154 +3,154 @@
         Dashboard
     </h1>
 </section>
-<section class="content animated fadeInUp" *ngIf="usuario.idPerfil === 1">
-    <!-- Info boxes -->
-    <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua">
-                    <i class="fa fa-home"></i>
-                </span>
+<section class="content animated fadeInUp">
+    <div *ngIf="usuario.idPerfil === 1">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua">
+                        <i class="fa fa-home"></i>
+                    </span>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Barrios</span>
-                    <span class="info-box-number">{{rootDashboard.cantidad_barrios}}</span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Barrios</span>
+                        <span class="info-box-number">{{rootDashboard.cantidad_barrios}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box-content -->
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <!-- fix for small devices only -->
-        <div class="clearfix visible-sm-block"></div>
-        <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-yellow">
-                    <i class="ion ion-ios-people-outline"></i>
-                </span>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow">
+                        <i class="ion ion-ios-people-outline"></i>
+                    </span>
 
-                <div class="info-box-content">
-                    <span class="info-box-text">Residentes</span>
-                    <span class="info-box-number">{{rootDashboard.cantidad_residentes}}</span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Residentes</span>
+                        <span class="info-box-number">{{rootDashboard.cantidad_residentes}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
                 </div>
-                <!-- /.info-box-content -->
+                <!-- /.info-box -->
             </div>
-            <!-- /.info-box -->
-        </div>
 
 
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-</section>
-<!-- Main content -->
-<section class="content animated fadeInUp" *ngIf="usuario.idPerfil === 2">
-    <!-- Info boxes -->
-    <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua">
-                    <i class="fa fa-home"></i>
-                </span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Residencias</span>
-                    <span class="info-box-number">{{adminDashboard.cantidad_residencias}}</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-        <!-- fix for small devices only -->
-        <div class="clearfix visible-sm-block"></div>
-        <!-- /.col -->
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-yellow">
-                    <i class="ion ion-ios-people-outline"></i>
-                </span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Residentes</span>
-                    <span class="info-box-number">{{adminDashboard.cantidad_residentes}}</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-
-        <div class="clearfix visible-sm-block"></div>
-
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-green">
-                    <i class="ion ion-ios-tennisball-outline"></i>
-                </span>
-
-                <div class="info-box-content">
-                    <span class="info-box-text">Amenities</span>
-                    <span class="info-box-number">{{adminDashboard.cantidad_amenities}}</span>
-                </div>
-                <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-        </div>
-        <!-- /.col -->
-
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-
-
-    <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="box box-info">
-                <div class="box-header">
-                    <i class="fa fa-pie-chart"></i>
-                    <h3 class="box-title">Reservas por Tipo de Amenities (último mes)</h3>
-                </div>
-                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" (chartHover)="chartHovered($event)"
-                    (chartClick)="chartClicked($event)"></canvas>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="box box-info">
-                <div class="box-header">
-                    <i class="fa fa-bar-chart"></i>
-                    <h3 class="box-title">Cantidad de Visitas (últimos 10 Días)</h3>
-                </div>
-                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
-                    [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
-            </div>
+            <!-- /.col -->
         </div>
     </div>
 
+    <div *ngIf="usuario.idPerfil === 2">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua">
+                        <i class="fa fa-home"></i>
+                    </span>
 
-    <div class="row">
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div style="display:block;">
+                    <div class="info-box-content">
+                        <span class="info-box-text">Residencias</span>
+                        <span class="info-box-number">{{adminDashboard.cantidad_residencias}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow">
+                        <i class="ion ion-ios-people-outline"></i>
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Residentes</span>
+                        <span class="info-box-number">{{adminDashboard.cantidad_residentes}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green">
+                        <i class="ion ion-ios-tennisball-outline"></i>
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Amenities</span>
+                        <span class="info-box-number">{{adminDashboard.cantidad_amenities}}</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="box box-info">
                     <div class="box-header">
-                        <i class="fa fa-line-chart"></i>
-                        <h3 class="box-title">Recaudaciones de Amenities por mes (en $)</h3>
+                        <i class="fa fa-pie-chart"></i>
+                        <h3 class="box-title">Reservas por Tipo de Amenities (último mes)</h3>
                     </div>
-                    <canvas baseChart height="160" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
-                        [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [colors]="pieChartColors" (chartHover)="pieChartHovered($event)"
+                        (chartClick)="pieChartClicked($event)"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart"></i>
+                        <h3 class="box-title">Cantidad de Visitas (últimos 10 Días)</h3>
+                    </div>
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
+                        [chartType]="barChartType" (chartHover)="barChartHovered($event)" (chartClick)="barChartClicked($event)"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            <div class="box box-info">
-                <div class="box-header">
-                    <i class="fa fa-map"></i>
-                    <h3 class="box-title">Ubicación</h3>
+
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div style="display:block;">
+                    <div class="box box-info">
+                        <div class="box-header">
+                            <i class="fa fa-line-chart"></i>
+                            <h3 class="box-title">Recaudaciones de Amenities por mes (en $)</h3>
+                        </div>
+                        <canvas baseChart height="160" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors"
+                            [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="lineChartHovered($event)" (chartClick)="lineChartClicked($event)"></canvas>
+                    </div>
                 </div>
-                <div class="box-body">
-                    <agm-map [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud">
-                        <agm-marker [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud"></agm-marker>
-                    </agm-map>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <i class="fa fa-map"></i>
+                        <h3 class="box-title">Ubicación</h3>
+                    </div>
+                    <div class="box-body">
+                        <agm-map [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud">
+                            <agm-marker [latitude]="adminDashboard.latitud" [longitude]="adminDashboard.longitud"></agm-marker>
+                        </agm-map>
+                    </div>
                 </div>
             </div>
         </div>
