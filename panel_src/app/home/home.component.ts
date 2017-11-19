@@ -148,7 +148,6 @@ export class HomeComponent implements OnInit {
     );
     this.barChartData = clone_data;
     this.barChartLabels = clone_labels;
-    console.log(this.barChartLabels);
   }
 
   drawAmenitiesPie() {
@@ -170,7 +169,7 @@ export class HomeComponent implements OnInit {
       this.lineChartLabels.push(labels[i]);
     }
     clone_data[0] = this.adminDashboard.recaudacionReservasLine.map(a => a.sum);
-    this.lineChartData[0].data = clone_data;
+    this.lineChartData[0].data = clone_data[0];
   }
 
   // events
