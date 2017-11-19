@@ -37,8 +37,7 @@ export class HomeComponent implements OnInit {
     cantidad_amenities: 0,
     latitud: -31.335335,
     longitud: -64.303113,
-    visitasFrecuentesDataBar: [],
-    visitasActualDataBar: [],
+    visitasDataBar: [],
     amenitiesDataPie: [],
     recaudacionReservasLine: []
   };
@@ -52,10 +51,7 @@ export class HomeComponent implements OnInit {
   public barChartLegend: boolean = true;
 
   public barChartLabels: string[] = [];
-  public barChartData: any[] = [
-    { data: [2], label: "Visitas Frecuentes" },
-    { data: [2], label: "Visitas Actuales" }
-  ];
+  public barChartData: any[] = [{ data: [0], label: "Visitas" }];
 
   // Gráfico de torta para tipos amenities más reservados
   public pieChartLabels: string[] = [];
@@ -115,10 +111,7 @@ export class HomeComponent implements OnInit {
   public lineChartType: string = "line";
 
   noHayDatosVisitsGraphBar() {
-    return (
-      this.adminDashboard.visitasFrecuentesDataBar.length === 0 &&
-      this.adminDashboard.visitasActualDataBar.length === 0
-    );
+    return this.adminDashboard.visitasDataBar.length === 0;
   }
 
   noHayDatosAmenitiesPie() {
@@ -132,22 +125,13 @@ export class HomeComponent implements OnInit {
   drawVisitsGraphBar() {
     let clone_data = JSON.parse(JSON.stringify(this.barChartData));
     this.barChartLabels.length = 0;
-    var labels = this.adminDashboard.visitasFrecuentesDataBar.map(a => a.label);
+    var labels = this.adminDashboard.visitasDataBar.map(a => a.label);
     for (let i = labels.length - 1; i >= 0; i--) {
       this.barChartLabels.push(labels[i]);
     }
-    let clone_labels = JSON.parse(JSON.stringify(this.barChartLabels));
-    clone_labels = this.adminDashboard.visitasFrecuentesDataBar.map(
-      a => a.label
-    );
-    clone_data[0].data = this.adminDashboard.visitasFrecuentesDataBar.map(
-      a => a.count
-    );
-    clone_data[1].data = this.adminDashboard.visitasActualDataBar.map(
-      a => a.count
-    );
-    this.barChartData = clone_data;
-    this.barChartLabels = clone_labels;
+    clone_data[0].data = this.adminDashboard.visitasDataBar.map(a => a.count);
+    this.barChartData[0] = clone_data[0];
+
   }
 
   drawAmenitiesPie() {
@@ -235,10 +219,7 @@ export class HomeComponent implements OnInit {
         console.log(this.adminDashboard);
         if (this.adminDashboard.amenitiesDataPie.length > 0)
           this.drawAmenitiesPie();
-        if (
-          this.adminDashboard.visitasFrecuentesDataBar.length > 0 &&
-          this.adminDashboard.visitasActualDataBar.length > 0
-        )
+        if (this.adminDashboard.visitasDataBar.length > 0)
           this.drawVisitsGraphBar();
         if (this.adminDashboard.recaudacionReservasLine.length > 0)
           this.drawAmenitiesLine();

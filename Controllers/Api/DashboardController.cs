@@ -77,14 +77,14 @@ namespace PriHood.Controllers
           select a
         ).Count();
 
-        var visitasFrecuentesDataBar = (
+        var visitasDataBar = (
           from v in db.Visita
           join vi in db.Visitante on v.IdVisitante equals vi.Id
           join r in db.Residente on vi.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
           join ee in db.EventoVisita on v.IdEvento equals ee.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Frecuente" && ee.Nombre == "Ingreso"
+          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && ee.Nombre == "Ingreso"
           orderby v.Fecha.Date descending
           group v by v.Fecha.Date into c
           select new
@@ -94,22 +94,22 @@ namespace PriHood.Controllers
           }
           );
 
-        var visitasActualDataBar = (
-          from v in db.Visita
-          join vi in db.Visitante on v.IdVisitante equals vi.Id
-          join r in db.Residente on vi.IdResidente equals r.Id
-          join u in db.Usuario on r.IdUsuario equals u.Id
-          join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
-          join ee in db.EventoVisita on v.IdEvento equals ee.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual" && ee.Nombre == "Ingreso"
-          orderby v.Fecha descending
-          group v by v.Fecha.Date into c
-          select new
-          {
-            label = c.Key.Date.ToString("dd/MM/yyyy"),
-            count = c.Count()
-          }
-          );
+        // var visitasActualDataBar = (
+        //   from v in db.Visita
+        //   join vi in db.Visitante on v.IdVisitante equals vi.Id
+        //   join r in db.Residente on vi.IdResidente equals r.Id
+        //   join u in db.Usuario on r.IdUsuario equals u.Id
+        //   join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
+        //   join ee in db.EventoVisita on v.IdEvento equals ee.Id
+        //   where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && tv.Nombre == "Actual" && ee.Nombre == "Ingreso"
+        //   orderby v.Fecha descending
+        //   group v by v.Fecha.Date into c
+        //   select new
+        //   {
+        //     label = c.Key.Date.ToString("dd/MM/yyyy"),
+        //     count = c.Count()
+        //   }
+        //   );
 
         var recaudacionReservasLine = (
         from r in db.Reserva
@@ -152,8 +152,7 @@ namespace PriHood.Controllers
           cantidad_residentes = cantidad_residentes,
           latitud = b.Latitud,
           longitud = b.Longitud,
-          visitasFrecuentesDataBar = visitasFrecuentesDataBar,
-          visitasActualDataBar = visitasActualDataBar,
+          visitasDataBar = visitasDataBar,
           amenitiesDataPie = amenitiesDataPie,
           cantidad_amenities = cantidad_amenities,
           recaudacionReservasLine = recaudacionReservasLine

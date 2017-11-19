@@ -9,8 +9,7 @@ export interface AdminDashboard {
   cantidad_amenities: number;
   latitud: number;
   longitud: number;
-  visitasFrecuentesDataBar: any[];
-  visitasActualDataBar: any[];
+  visitasDataBar: any[];
   amenitiesDataPie: any[];
   recaudacionReservasLine: any[];
 }
