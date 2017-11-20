@@ -84,7 +84,7 @@ namespace PriHood.Controllers
           join u in db.Usuario on r.IdUsuario equals u.Id
           join tv in db.TipoVisita on vi.IdTipoVisita equals tv.Id
           join ee in db.EventoVisita on v.IdEvento equals ee.Id
-          where v.Fecha > DateTime.Now.AddDays(-10) && u.IdBarrio == id_barrio && ee.Nombre == "Ingreso"
+          where v.Fecha.Date > DateTime.Now.Date.AddDays(-10) && u.IdBarrio == id_barrio && ee.Nombre == "Ingreso"
           orderby v.Fecha.Date descending
           group v by v.Fecha.Date into c
           select new
