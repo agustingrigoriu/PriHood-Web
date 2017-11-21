@@ -41,7 +41,7 @@
                 </tr>
                 <tr *ngFor="let visita of visitas | filter: filtro | paginate: { itemsPerPage: 15, currentPage: p }">
                     <td>
-                        Avatar
+                        <img src="{{visita.avatar}}" class="img-circle" alt="Avatar" height="60px">
                     </td>
                     <td>
                         <div>
