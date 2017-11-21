@@ -45,7 +45,10 @@ export class HomeComponent implements OnInit {
   //bar Chart Visitas (Frecuentes y Actuales)
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{id: 'y-axis-1', type: 'linear', position: 'left', ticks: {min: 0}}]
+    }
   };
   public barChartType: string = "bar";
   public barChartLegend: boolean = true;
