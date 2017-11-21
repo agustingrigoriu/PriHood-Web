@@ -19,7 +19,8 @@ export class AppComponent implements OnInit {
     nombre: '',
     apellido: '',
     perfil: '',
-    barrio: ''
+    barrio: '',
+    avatar: ''
   };
 
   public options = {

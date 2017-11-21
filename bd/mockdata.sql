@@ -21,12 +21,12 @@ INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residenci
 INSERT INTO Residencia (nombre, ubicacion, codigo, id_barrio) VALUES ('Residencia 6','Manzana 2 Lote 3','e43178',1);
 
 -- Usuarios
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("lmgabrielac@gmail.com","8c6976e5b5410415bde908bd4dee15",2, 1);
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("elianabelen.valdivia@gmail.com","8c6976e5b5410415bde908bd4dee15",4, 1);
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("madrazolucas@gmail.com","8c6976e5b5410415bde908bd4dee15",3, 1);
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("pato12p@gmail.com","8c6976e5b5410415bde908bd4dee15",3, 1);
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("agustin.gregorieu@gmail.com","8c6976e5b5410415bde908bd4dee15",3, 1);
+INSERT INTO Usuario(email, password, id_perfil, avatar) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1, "https://s3-us-west-2.amazonaws.com/prihood/root.jpg");
+INSERT INTO Usuario(email, password, id_perfil, id_barrio, avatar) VALUES("lmgabrielac@gmail.com","8c6976e5b5410415bde908bd4dee15",2, 1, "https://s3.us-west-2.amazonaws.com/prihood/471391_4798362610780_1250457058_o.jpg");
+INSERT INTO Usuario(email, password, id_perfil, id_barrio, avatar) VALUES("elianabelen.valdivia@gmail.com","8c6976e5b5410415bde908bd4dee15",4, 1, "https://s3-us-west-2.amazonaws.com/prihood/03e7ff21-f121-4c67-92fc-e6028032422a.png");
+INSERT INTO Usuario(email, password, id_perfil, id_barrio, avatar) VALUES("madrazolucas@gmail.com","8c6976e5b5410415bde908bd4dee15",3, 1, "https://s3.us-west-2.amazonaws.com/prihood/67afbb1f-3e9f-42c7-b8b7-f24b94f487cf.png");
+INSERT INTO Usuario(email, password, id_perfil, id_barrio, avatar) VALUES("pato12p@gmail.com","8c6976e5b5410415bde908bd4dee15",3, 1, "https://s3.us-west-2.amazonaws.com/prihood/55cc7bef-a9fc-490b-ae63-3c349039c2dc.png");
+INSERT INTO Usuario(email, password, id_perfil, id_barrio, avatar) VALUES("agustin.gregorieu@gmail.com","8c6976e5b5410415bde908bd4dee15",3, 1, "https://s3-us-west-2.amazonaws.com/prihood/064770fb-1068-42c2-8453-207f84672540.png");
 
 -- Empleados (Administrador y Encargado de Seguridad)
 INSERT INTO Empleado(fecha_inicio_actividad, id_usuario, id_persona, id_barrio) VALUES ('2017-05-2', 2, 5, 1);
