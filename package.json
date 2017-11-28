@@ -8,6 +8,7 @@
     "start:web": "dotnet watch run ",
     "start": "npm-run-all -p start:*",
     "update-db": "mysql -u root -p Prihood < bd/update.sql",
+    "update-db-data": "mysql -u root -p Prihood < bd/mockdata.sql",
     "docker:clean": "rm -rf app.zip out",
     "docker:restore": "dotnet restore",
     "docker:publish": "dotnet publish --output ./out/ --configuration Release",

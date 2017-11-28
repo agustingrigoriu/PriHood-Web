@@ -703,6 +703,10 @@ INSERT INTO  Estado_Reserva(id, descripcion) VALUES ("1", "creada"), ("2", "canc
 
 INSERT INTO  Tipo_Alerta(id, descripcion, imagen) VALUES ("1", "Actividad sospechosa", "assets/img/pruebas/alertas/sospechoso.png"), ("2", "Atención Médica", "assets/img/pruebas/alertas/doctor.png");
 
+-- Inserción de tipos de eventos
+
+INSERT INTO  Tipo_Evento(descripcion) VALUES ("Recreativo"), ("Actividad física"), ("Donaciones"), ("Cultural"), ("Torneos"), ("Otros");
+
 -- Inserción de estados de solicitud
 
 INSERT INTO EstadoSolicitud(id, descripcion) VALUES ('1', 'Pendiente'),('2', 'Aceptada'),('3', 'Rechazada');
