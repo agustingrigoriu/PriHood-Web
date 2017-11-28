@@ -1,0 +1,9 @@
+.DS_Store
+obj
+bin
+node_modules
+npm-debug.log
+npm-debug.log.*
+*.orig
+out
+app.zip

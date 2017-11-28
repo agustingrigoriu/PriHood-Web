@@ -12,3 +12,5 @@ wwwroot/web/css/site.min.css
 npm-debug.log
 npm-debug.log.*
 *.orig
+out
+app.zip
