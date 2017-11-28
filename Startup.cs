@@ -33,6 +33,8 @@ namespace PriHood
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      Console.Write(Configuration.GetConnectionString("PrihoodDatabase"));
+
       services.AddCors();
 
       // Add framework services.
@@ -46,7 +48,7 @@ namespace PriHood
       {
         options.CookieHttpOnly = true;
       });
-      services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(@"server=localhost;database=Prihood;user=root;password=root"));
+      services.AddDbContext<Models.PrihoodContext>(options => options.UseMySql(Configuration.GetConnectionString("PrihoodDatabase")));
       services.AddSingleton<AuthService>();
       services.AddSingleton<PushService>();
       services.AddSingleton<EmailService>();
@@ -65,7 +67,7 @@ namespace PriHood
       }
       else
       {
-        app.UseExceptionHandler("/Home/Error");
+        app.UseExceptionHandler("/");
       }
 
       app.UseCors(builder => builder
