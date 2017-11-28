@@ -501,7 +501,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `Prihood`.`Tipo_Evento` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(255) NOT NULL,
-  `imagen` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -509,10 +508,11 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_residente` INT NOT NULL,
   `id_tipo_evento` INT NOT NULL,
+  `titulo` VARCHAR(255) NOT NULL,
   `descripcion` TEXT NULL,
   `fecha` DATETIME NOT NULL,
   `hora_desde` TIME NOT NULL,
-  `duracion` INT NOT NULL,
+  `hora_hasta` TIME NULL,
   `imagen` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_Eventos_1_idx` (`id_residente` ASC),
@@ -529,6 +529,27 @@ CREATE TABLE IF NOT EXISTS `Prihood`.`Eventos` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `Prihood`.`Comentarios_Evento` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `texto` TEXT NOT NULL,
+  `id_usuario` INT NOT NULL,
+  `id_evento` INT NOT NULL,
+  `fecha` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_Comentarios_Evento_1_idx` (`id_evento` ASC),
+  INDEX `fk_Comentarios_Evento_2_idx` (`id_usuario` ASC),
+  CONSTRAINT `fk_Comentarios_Evento_1`
+    FOREIGN KEY (`id_evento`)
+    REFERENCES `Prihood`.`Eventos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Comentarios_Evento_2`
+    FOREIGN KEY (`id_usuario`)
+    REFERENCES `Prihood`.`Usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 
 CREATE TABLE IF NOT EXISTS `Prihood`.`Asistencia_Evento` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -645,17 +666,17 @@ INSERT INTO  Tipo_Documento(descripcion) VALUES ("Documento Único"), ("Libreta 
 
 -- Inserción de usuarios por defecto de prueba
 
-INSERT INTO Persona(nombre, apellido, id_tipo_documento, nro_documento, telefono_movil, fecha_nacimiento) VALUES ('Agustín ', 'Gregorieu', '1', '38500850', '3515298313', '1994-10-12');
+-- INSERT INTO Persona(nombre, apellido, id_tipo_documento, nro_documento, telefono_movil, fecha_nacimiento) VALUES ('Agustín ', 'Gregorieu', '1', '38500850', '3515298313', '1994-10-12');
 
-INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("BarrioPrueba","ubicacion prueba", -31.429075, -64.189044);
+-- INSERT INTO Barrio(nombre, ubicacion, latitud, longitud) VALUES("BarrioPrueba","ubicacion prueba", -31.429075, -64.189044);
 
-INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
+-- INSERT INTO Usuario(email, password, id_perfil) VALUES("admin@admin.com","8c6976e5b5410415bde908bd4dee15", 1);
 
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("prihood@prihood.com","8c6976e5b5410415bde908bd4dee15",2, 1);
+-- INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("prihood@prihood.com","8c6976e5b5410415bde908bd4dee15",2, 1);
 
-INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("residente@prihood.com","8c6976e5b5410415bde908bd4dee15",3, 1);
+-- INSERT INTO Usuario(email, password, id_perfil, id_barrio) VALUES("residente@prihood.com","8c6976e5b5410415bde908bd4dee15",3, 1);
 
-INSERT INTO Empleado(fecha_inicio_actividad, id_usuario, id_persona, id_barrio) VALUES ('2017-05-2', '2', '1', '1');
+-- INSERT INTO Empleado(fecha_inicio_actividad, id_usuario, id_persona, id_barrio) VALUES ('2017-05-2', '2', '1', '1');
 
 
 -- Inserción de tipos de visita

@@ -34,39 +34,152 @@ export class HomeComponent implements OnInit {
   adminDashboard: AdminDashboard = {
     cantidad_residencias: 0,
     cantidad_residentes: 0,
+    cantidad_amenities: 0,
     latitud: -31.335335,
     longitud: -64.303113,
-    visitas_frecuentes: [0],
-    visitas_actuales: [0]
+    visitasDataBar: [],
+    amenitiesDataPie: [],
+    recaudacionReservasLine: []
   };
 
-  //Gráfico
+  //bar Chart Visitas (Frecuentes y Actuales)
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{id: 'y-axis-1', type: 'linear', position: 'left', ticks: {min: 0}}]
+    }
   };
   public barChartType: string = "bar";
   public barChartLegend: boolean = true;
 
   public barChartLabels: string[] = [];
-  public barChartData: any[] = [
-    { data: [], label: "Visitas Frecuentes" },
-    { data: [], label: "Visitas Actuales" }
+  public barChartData: any[] = [{ data: [0], label: "Visitas" }];
+
+  // Gráfico de torta para tipos amenities más reservados
+  public pieChartLabels: string[] = [];
+  public pieChartData: number[] = [];
+  public pieChartType: string = "pie";
+  public pieChartColors: any[] = [
+    {
+      backgroundColor: [
+        "#b8436d",
+        "#00d9f9",
+        "#a4c73c",
+        "#a4add3",
+        "#511730",
+        "#8e443d",
+        "#e0d68a"
+      ]
+    }
   ];
 
-  drawVisitsGraph() {
-    var currentDate = new Date();
-    for (var index = 0; index < 11; index++) {
-      var previous_date = currentDate.getDate() - index;
-      console.log(previous_date);
-      this.barChartLabels.push(previous_date.toString());
+  // Line chart para recaudaciones de amenities por mes
+  public lineChartData: Array<any> = [{ data: [], label: "Recaudaciones" }];
+  public lineChartLabels: Array<any> = [];
+  public lineChartOptions: any = {
+    responsive: true,
+    maintainAspectRatio: true
+  };
+  public lineChartColors: Array<any> = [
+    {
+      // grey
+      backgroundColor: "rgba(148,159,177,0.2)",
+      borderColor: "rgba(148,159,177,1)",
+      pointBackgroundColor: "rgba(148,159,177,1)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(148,159,177,0.8)"
+    },
+    {
+      // dark grey
+      backgroundColor: "rgba(77,83,96,0.2)",
+      borderColor: "rgba(77,83,96,1)",
+      pointBackgroundColor: "rgba(77,83,96,1)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(77,83,96,1)"
+    },
+    {
+      // grey
+      backgroundColor: "rgba(148,159,177,0.2)",
+      borderColor: "rgba(148,159,177,1)",
+      pointBackgroundColor: "rgba(148,159,177,1)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(148,159,177,0.8)"
     }
-    console.log(this.barChartLabels);
+  ];
+  public lineChartLegend: boolean = true;
+  public lineChartType: string = "line";
 
-    let clone = JSON.parse(JSON.stringify(this.barChartData));
-    clone[0].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-    clone[1].data = [2, 5, 5, 4, 4, 5, 4, 8, 11, 12, 4];
-    this.barChartData = clone;
+  noHayDatosVisitsGraphBar() {
+    return this.adminDashboard.visitasDataBar.length === 0;
+  }
+
+  noHayDatosAmenitiesPie() {
+    return this.adminDashboard.amenitiesDataPie.length === 0;
+  }
+
+  noHayDatosAmenitiesLine() {
+    return this.adminDashboard.recaudacionReservasLine.length === 0;
+  }
+
+  drawVisitsGraphBar() {
+    let clone_data = JSON.parse(JSON.stringify(this.barChartData));
+    this.barChartLabels.length = 0;
+    var labels = this.adminDashboard.visitasDataBar.map(a => a.label);
+    for (let i = labels.length - 1; i >= 0; i--) {
+      this.barChartLabels.push(labels[i]);
+    }
+    clone_data[0].data = this.adminDashboard.visitasDataBar.map(a => a.count);
+    this.barChartData[0] = clone_data[0];
+
+  }
+
+  drawAmenitiesPie() {
+    let clone_data = JSON.parse(JSON.stringify(this.pieChartData));
+    this.pieChartLabels.length = 0;
+    var labels = this.adminDashboard.amenitiesDataPie.map(a => a.label);
+    for (let i = labels.length - 1; i >= 0; i--) {
+      this.pieChartLabels.push(labels[i]);
+    }
+    clone_data = this.adminDashboard.amenitiesDataPie.map(a => a.count);
+    this.pieChartData = clone_data;
+  }
+
+  drawAmenitiesLine() {
+    let clone_data = JSON.parse(JSON.stringify(this.lineChartData));
+    this.lineChartLabels.length = 0;
+    var labels = this.adminDashboard.recaudacionReservasLine.map(a => a.label);
+    for (let i = labels.length - 1; i >= 0; i--) {
+      this.lineChartLabels.push(labels[i]);
+    }
+    clone_data[0] = this.adminDashboard.recaudacionReservasLine.map(a => a.sum);
+    this.lineChartData[0].data = clone_data[0];
+  }
+
+  // events
+  public pieChartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public pieChartHovered(e: any): void {
+    console.log(e);
+  }
+  public barChartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public barChartHovered(e: any): void {
+    console.log(e);
+  }
+  public lineChartClicked(e: any): void {
+    console.log(e);
+  }
+
+  public lineChartHovered(e: any): void {
+    console.log(e);
   }
 
   getUsuario() {
@@ -83,7 +196,6 @@ export class HomeComponent implements OnInit {
 
         if (this.usuario.idPerfil === 2) {
           this.getAdminDashboard();
-          this.drawVisitsGraph();
         }
       }
     });
@@ -107,6 +219,13 @@ export class HomeComponent implements OnInit {
         this.headerClass = "alert-danger";
       } else {
         this.adminDashboard = response.data;
+        console.log(this.adminDashboard);
+        if (this.adminDashboard.amenitiesDataPie.length > 0)
+          this.drawAmenitiesPie();
+        if (this.adminDashboard.visitasDataBar.length > 0)
+          this.drawVisitsGraphBar();
+        if (this.adminDashboard.recaudacionReservasLine.length > 0)
+          this.drawAmenitiesLine();
       }
     });
   }

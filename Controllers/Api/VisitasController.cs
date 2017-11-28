@@ -125,7 +125,7 @@ namespace PriHood.Controllers
 
 
     [HttpGet]
-    public Object ListarVisitantes()
+    public Object ListarVisitantesHoy()
     {
       try
       {
@@ -141,6 +141,46 @@ namespace PriHood.Controllers
           join us in db.Usuario on rs.IdUsuario equals us.Id
 
           where ((vs.FechaVisita.HasValue && vs.FechaVisita.Value.Date == hoy) || tv.Nombre == "Frecuente") && us.IdBarrio == logueado.IdBarrio
+
+          select new
+          {
+            avatar = vs.Avatar,
+            apellido = vs.Apellido,
+            nombre = vs.Nombre,
+            id = vs.Id,
+            numero_documento = vs.NumeroDocumento,
+            observaciones = vs.Observaciones,
+            patente = vs.Patente,
+            tipo_visita = tv.Nombre,
+            tipo_documento = td.Descripcion,
+            estado = vs.Estado
+          }
+        ).ToList();
+
+        return new { error = false, data = visitas };
+      }
+      catch (Exception)
+      {
+        return new { error = true, data = "fail" };
+      }
+    }
+
+    [HttpGet("{fecha}")]
+    public Object ListarVisitantesFiltro(DateTime fecha)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+
+        var visitas = (
+          from vs in db.Visitante
+
+          join tv in db.TipoVisita on vs.IdTipoVisita equals tv.Id
+          join td in db.TipoDocumento on vs.IdTipoDocumento equals td.Id
+          join rs in db.Residente on vs.IdResidente equals rs.Id
+          join us in db.Usuario on rs.IdUsuario equals us.Id
+
+          where ((vs.FechaVisita.HasValue && vs.FechaVisita.Value.Date == fecha) || tv.Nombre == "Frecuente") && us.IdBarrio == logueado.IdBarrio
 
           select new
           {

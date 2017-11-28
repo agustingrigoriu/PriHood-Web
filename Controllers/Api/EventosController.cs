@@ -17,26 +17,47 @@ namespace PriHood.Controllers
   public class EventosController : Controller
   {
     private readonly PrihoodContext db;
-    public EventosController(PrihoodContext context)
+    private PushService pushService;
+    public EventosController(PrihoodContext context, PushService ps)
     {
       db = context;
+      pushService = ps;
     }
 
     [HttpPost]
-    public Object CrearEvento([FromBody]Eventos evento)
+    public Object CrearEvento([FromBody]ModeloEvento md)
     {
-      try
+      using (var transaction = db.Database.BeginTransaction())
       {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
 
-        db.Eventos.Add(evento);
-        db.SaveChanges();
+          var evento = new Eventos();
+          evento.Titulo = md.titulo;
+          evento.Descripcion = md.descripcion;
+          evento.Fecha = md.fecha;
+          evento.HoraDesde = md.hora_desde;
+          evento.HoraHasta = md.hora_hasta;
+          evento.Imagen = md.imagen;
+          evento.IdTipoEvento = md.id_tipo_evento;
+          evento.IdResidente = residente.Id;
 
-        return new { error = false, data = evento };
+          db.Eventos.Add(evento);
+          db.SaveChanges();
+
+          transaction.Commit();
+        }
+        catch (Exception err)
+        {
+          transaction.Rollback();
+          return new { error = true, data = err.InnerException.Message };
+        }
       }
-      catch (Exception err)
-      {
-        return new { error = true, data = err.Message };
-      }
+
+      return new { error = false, data = "ok" };
+
     }
 
     [HttpPut("{id_evento}")]
@@ -46,9 +67,9 @@ namespace PriHood.Controllers
       {
         var evento = db.Eventos.First(e => e.Id == id_evento);
 
+        evento.Titulo = eventoNuevo.Titulo != null ? eventoNuevo.Titulo : evento.Titulo;
         evento.Descripcion = eventoNuevo.Descripcion != null ? eventoNuevo.Descripcion : evento.Descripcion;
-        evento.Imagen = eventoNuevo.Imagen != null ? eventoNuevo.Imagen : evento.Imagen;
-        evento.Duracion = eventoNuevo.Duracion.HasValue ? eventoNuevo.Duracion.Value : evento.Duracion;
+        evento.HoraHasta = eventoNuevo.HoraHasta.HasValue ? eventoNuevo.HoraHasta.Value : evento.HoraHasta;
         evento.HoraDesde = eventoNuevo.HoraDesde.HasValue ? eventoNuevo.HoraDesde.Value : evento.HoraDesde;
         evento.Fecha = eventoNuevo.Fecha.HasValue ? eventoNuevo.Fecha.Value : evento.Fecha;
         evento.IdResidente = eventoNuevo.IdResidente.HasValue ? eventoNuevo.IdResidente.Value : evento.IdResidente;
@@ -84,32 +105,40 @@ namespace PriHood.Controllers
     }
 
 
-    [HttpGet("{fecha:DateTime}")]
-    public Object ListarEventosPorFecha(DateTime fecha)
+    [HttpGet]
+    public Object ListarProximosEventos()
     {
       try
       {
         var logueado = HttpContext.Session.Authenticated();
         var id_barrio = logueado.IdBarrio.Value;
+        var residente = db.Residente.First(r => r.IdUsuario == logueado.Id);
+
         var eventos = (
           from e in db.Eventos
           join r in db.Residente on e.IdResidente equals r.Id
           join u in db.Usuario on r.IdUsuario equals u.Id
           join p in db.Persona on r.IdPersona equals p.Id
           join te in db.TipoEvento on e.IdTipoEvento equals te.Id
-          where u.IdBarrio == id_barrio && e.Fecha.Date == fecha.Date
+          let asistentes = (from ae in db.AsistenciaEvento
+                            where ae.IdEvento == e.Id
+                            select ae).ToList()
+          where u.IdBarrio == id_barrio && e.Fecha.Date >= DateTime.Now.Date
           select new
           {
             id_evento = e.Id,
             descripcion = e.Descripcion,
-            duracion = e.Duracion,
+            titulo = e.Titulo,
+            hora_hasta = e.HoraHasta,
             fecha = e.Fecha,
             hora_desde = e.HoraDesde,
             imagen = e.Imagen,
             id_tipo_evento = e.IdTipoEvento,
             tipo_evento = te.Descripcion,
             id_residente = e.IdResidente,
-            residente = p.Apellido + ", " + p.Nombre
+            residente = p.Apellido + ", " + p.Nombre,
+            asiste = asistentes.Exists(ae => ae.IdResidente == residente.Id),
+            cantidad_asistentes = asistentes.Count
           }
         ).ToList();
 
@@ -132,12 +161,15 @@ namespace PriHood.Controllers
           from a in db.AsistenciaEvento
           join r in db.Residente on a.IdResidente equals r.Id
           join p in db.Persona on r.IdPersona equals p.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
           where a.IdEvento == id_evento
           select new
           {
             id_evento = a.IdEvento,
             id_residente = r.Id,
-            residente = p.Apellido + ", " + p.Nombre
+            apellido = p.Apellido,
+            nombre = p.Nombre,
+            avatar = u.Avatar
           }
         ).ToList();
 
@@ -162,7 +194,14 @@ namespace PriHood.Controllers
           select r
         ).First();
 
-        AsistenciaEvento asistencia = new AsistenciaEvento();
+        var asiste = db.AsistenciaEvento.FirstOrDefault(ae => ae.IdResidente == residente.Id && ae.IdEvento == id_evento);
+
+        if (asiste != null)
+        {
+          throw new Exception("El residente ya esta asistiendo a este evento.");
+        }
+
+        var asistencia = new AsistenciaEvento();
         asistencia.IdEvento = id_evento;
         asistencia.IdResidente = residente.Id;
         db.AsistenciaEvento.Add(asistencia);
@@ -188,10 +227,8 @@ namespace PriHood.Controllers
           where u.Id == logueado.Id
           select r
         ).First();
+        var asistencia = db.AsistenciaEvento.First(ae => ae.IdResidente == residente.Id && ae.IdEvento == id_evento);
 
-        AsistenciaEvento asistencia = new AsistenciaEvento();
-        asistencia.IdEvento = id_evento;
-        asistencia.IdResidente = residente.Id;
         db.AsistenciaEvento.Remove(asistencia);
         db.SaveChanges();
 
@@ -201,6 +238,79 @@ namespace PriHood.Controllers
       {
         return new { error = true, data = err.Message };
       }
+    }
+
+    [HttpGet("comentarios/{id_evento}")]
+    public Object ListarComentarios(int id_evento)
+    {
+      try
+      {
+        var logueado = HttpContext.Session.Authenticated();
+        var id_barrio = logueado.IdBarrio.Value;
+        var comentarios = (
+          from c in db.ComentariosEvento
+          join e in db.Eventos on c.IdEvento equals e.Id
+          join r in db.Residente on e.IdResidente equals r.Id
+          join u in db.Usuario on r.IdUsuario equals u.Id
+          where u.IdBarrio == id_barrio
+          orderby c.Fecha ascending
+          select new
+          {
+            id = c.Id,
+            texto = c.Texto,
+            fecha = c.Fecha,
+            usuario = u.Email
+          }
+        )
+        .ToList();
+
+        return new { error = false, data = comentarios };
+
+      }
+      catch (Exception err)
+      {
+        return new { error = true, data = "fail", message = err.Message };
+      }
+    }
+
+    [HttpPost("{id_evento}/comentar")]
+    public Object RegistrarComentario(int id_evento, [FromBody]ComentariosEvento comentario)
+    {
+      using (var transaction = db.Database.BeginTransaction())
+      {
+        try
+        {
+          var logueado = HttpContext.Session.Authenticated();
+          var evento = db.Eventos.First(e => e.Id == id_evento);
+
+          comentario.IdEvento = evento.Id;
+          comentario.Fecha = DateTime.Now;
+          comentario.IdUsuario = logueado.Id;
+          db.ComentariosEvento.Add(comentario);
+
+          db.SaveChanges();
+
+
+          //obtengo id de usuario del residente que creó el evento y le notifico del comentario
+          var id_usuario_residente = (
+            from u in db.Usuario
+            join r in db.Residente on u.Id equals r.IdUsuario
+            where r.Id == evento.IdResidente
+            select u.Id
+          ).First();
+
+          this.pushService.enviarMensaje(id_usuario_residente, "Se ha realizado un comentario en su evento \"" + evento.IdTipoEvento + "\".");
+
+          transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+          transaction.Rollback();
+          return new { error = true, data = "Error", errorMsg = ex.InnerException.Message };
+        }
+      }
+
+      return new { error = false, data = "ok" };
     }
 
   }
